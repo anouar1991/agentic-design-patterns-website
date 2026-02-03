@@ -274,7 +274,7 @@
       "name": "Navigation + Cards checkpoint: polished entry experience verified end-to-end",
       "intent": "Verify that the visual foundation, navigation, and cards work together as a cohesive entry experience",
       "description": "Checkpoint verifying that theme, navigation, and chapter cards create a premium first impression when a user arrives at the platform.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-210",
         "T-220"
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-250",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240"],
+    "recommendedNextStepId": "T-260",
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }

@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { layoutIds } from '../config/motion';
+
 import EnhancedCodeBlock from '../components/EnhancedCodeBlock';
 import {
   ArrowLeft,
@@ -193,13 +193,12 @@ function ChapterContent() {
             className="max-w-4xl"
           >
             <div className="flex items-center gap-4 mb-4">
-              <motion.div
-                layoutId={layoutIds.chapterIcon(chapter.number)}
+              <div
                 className="w-14 h-14 rounded-2xl flex items-center justify-center"
                 style={{ backgroundColor: `${chapter.color}20` }}
               >
                 <Icon className="w-7 h-7" style={{ color: chapter.color }} />
-              </motion.div>
+              </div>
               <div>
                 <div className="flex items-center gap-3 mb-1">
                   <span

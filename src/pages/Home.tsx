@@ -381,15 +381,14 @@ export default function Home() {
                     )}
 
                     {/* Icon */}
-                    <motion.div
-                      layoutId={layoutIds.chapterIcon(chapter.num)}
+                    <div
                       className={`w-10 h-10 rounded-lg mx-auto mb-2 flex items-center justify-center transition-transform group-hover:scale-110 ${
                         completed ? 'ring-2 ring-emerald-500/30' : ''
                       }`}
                       style={{ backgroundColor: `${chapter.color}20` }}
                     >
                       <Icon className="w-5 h-5" style={{ color: chapter.color }} />
-                    </motion.div>
+                    </div>
 
                     {/* Chapter number */}
                     <div className={`text-xs font-medium mb-1 ${

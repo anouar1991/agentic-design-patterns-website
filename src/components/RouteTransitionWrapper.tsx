@@ -1,56 +1,45 @@
 /**
  * Route Transition Wrapper
  *
- * Orchestrates page transitions with AnimatePresence, providing smooth
- * enter/exit animations for route changes. This component wraps the
- * Outlet and manages the animation lifecycle.
- *
- * Features:
- * - Scale + opacity + y-offset transition for depth effect
- * - Signals transition state to ambient background
- * - Centralized transition handling (pages don't need their own keys)
+ * Wraps route content and scrolls to top on route changes.
+ * Uses a lightweight CSS fade instead of framer-motion AnimatePresence
+ * to avoid the opacity:0 stuck state that occurs with mode="wait"
+ * and complex child motion components.
  */
 import { Outlet, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
 import { useMotion } from '../contexts/MotionContext';
-import { pageVariants } from '../config/motion';
 
 export default function RouteTransitionWrapper() {
   const location = useLocation();
   const { setRouteTransitioning } = useMotion();
+  const [isVisible, setIsVisible] = useState(true);
+  const prevPathRef = useRef(location.pathname);
+
+  useEffect(() => {
+    // On route change, briefly fade out then fade in
+    if (prevPathRef.current !== location.pathname) {
+      prevPathRef.current = location.pathname;
+      setRouteTransitioning(true);
+      setIsVisible(false);
+
+      // Scroll to top and fade in after a brief delay
+      const timer = setTimeout(() => {
+        window.scrollTo(0, 0);
+        setIsVisible(true);
+        setRouteTransitioning(false);
+      }, 150);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location.pathname, setRouteTransitioning]);
 
   return (
-    <AnimatePresence
-      mode="wait"
-      onExitComplete={() => {
-        // Signal that transition is complete
-        setRouteTransitioning(false);
-        // Scroll to top after exit animation completes
-        window.scrollTo(0, 0);
-      }}
+    <div
+      className="min-h-[calc(100vh-4rem)] transition-opacity duration-300 ease-out"
+      style={{ opacity: isVisible ? 1 : 0 }}
     >
-      <motion.div
-        key={location.pathname}
-        variants={pageVariants}
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        onAnimationStart={(definition) => {
-          // Signal transition start when entering or exiting
-          if (definition === 'initial' || definition === 'exit') {
-            setRouteTransitioning(true);
-          }
-        }}
-        onAnimationComplete={(definition) => {
-          // Signal transition complete after enter animation
-          if (definition === 'enter') {
-            setRouteTransitioning(false);
-          }
-        }}
-        className="min-h-[calc(100vh-4rem)]"
-      >
-        <Outlet />
-      </motion.div>
-    </AnimatePresence>
+      <Outlet />
+    </div>
   );
 }

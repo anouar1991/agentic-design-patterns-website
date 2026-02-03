@@ -216,8 +216,13 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-240] Click ripple uses `onAnimationEnd` callback to clean up the ripple element — avoids accumulating DOM nodes from repeated clicks
 - [T-240] Detail panel content sections use staggered Framer Motion delays (0.1s increments) for a cascading reveal effect — each section animates independently
 
+- [T-250] Framer Motion `AnimatePresence mode="wait"` with complex child `motion.div` components causes the enter animation to get stuck at `opacity: 0` — replaced with lightweight CSS `transition-opacity` in `RouteTransitionWrapper`
+- [T-250] `layoutId` across route boundaries (e.g. chapter icon on Home → Chapter page) conflicts with `AnimatePresence` exit/enter — removed all cross-route `layoutId` props from Home.tsx, Chapters.tsx, Chapter.tsx
+- [T-250] CSS-based route transitions (useState + setTimeout 150ms + `transition-opacity duration-300`) are more reliable than framer-motion `AnimatePresence` for wrapping `<Outlet />` — avoids stuck animation states entirely
+- [T-250] `useRef` for `prevPathRef` prevents unnecessary effect triggers when `location` object changes but pathname stays the same
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems
 - Notebook paths in `website_data.json` reference `/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/` (different from actual path)
-- The `RouteTransitionWrapper` handles page transitions - changes to routing need to account for this
+- The `RouteTransitionWrapper` uses CSS opacity transitions (not framer-motion) for route changes — do NOT reintroduce `AnimatePresence` around `<Outlet />`

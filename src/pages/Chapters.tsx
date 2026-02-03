@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { layoutIds } from '../config/motion';
+
 import {
   BookOpen,
   ChevronRight,
@@ -191,13 +191,12 @@ export default function Chapters() {
                         className="chapter-card group block glass rounded-2xl p-6 h-full hover:border-dark-600/70 shimmer-hover"
                       >
                         <div className="flex items-start justify-between mb-4">
-                          <motion.div
-                            layoutId={layoutIds.chapterIcon(chapter.num)}
+                          <div
                             className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
                             style={{ backgroundColor: `${chapter.color}20` }}
                           >
                             <Icon className="w-6 h-6" style={{ color: chapter.color }} />
-                          </motion.div>
+                          </div>
                           <span
                             className="px-3 py-1 rounded-full text-xs font-medium"
                             style={{
