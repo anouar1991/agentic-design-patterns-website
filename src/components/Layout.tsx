@@ -84,7 +84,7 @@ export default function Layout() {
                       relative px-4 py-2 rounded-lg flex items-center gap-2
                       transition-all duration-200
                       ${isActive
-                        ? 'text-white'
+                        ? 'text-dark-50'
                         : 'text-dark-400 hover:text-dark-200 hover:bg-dark-800/50'
                       }
                     `}
@@ -171,7 +171,7 @@ export default function Layout() {
                 href="https://github.com/sarwarbeing-ai/Agentic_Design_Patterns"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors text-dark-300 hover:text-white"
+                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors text-dark-300 hover:text-dark-50"
               >
                 <Github className="w-4 h-4" />
                 <span className="text-sm">{t('nav.github')}</span>
@@ -265,8 +265,8 @@ export default function Layout() {
                         className={`
                           flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
                           ${isActive
-                            ? 'bg-gradient-to-r from-primary-500/10 to-accent-500/10 text-white border border-primary-500/20'
-                            : 'text-dark-400 hover:bg-dark-800 hover:text-white'
+                            ? 'bg-gradient-to-r from-primary-500/10 to-accent-500/10 text-dark-50 border border-primary-500/20'
+                            : 'text-dark-400 hover:bg-dark-800 hover:text-dark-50'
                           }
                         `}
                       >
@@ -302,7 +302,7 @@ export default function Layout() {
                   href="https://github.com/sarwarbeing-ai/Agentic_Design_Patterns"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-dark-400 hover:bg-dark-800 hover:text-white transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-dark-400 hover:bg-dark-800 hover:text-dark-50 transition-colors"
                 >
                   <Github className="w-5 h-5" />
                   {t('nav.viewOnGithub')}
@@ -322,7 +322,7 @@ export default function Layout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-dark-800/40 bg-dark-950/80">
+      <footer className="border-t border-dark-700/40 bg-dark-950/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -332,7 +332,7 @@ export default function Layout() {
               <div>
                 <p className="text-sm text-dark-300">
                   {t('footer.basedOn')}{' '}
-                  <span className="text-white font-medium">
+                  <span className="text-dark-50 font-medium">
                     "{t('footer.bookTitle')}"
                   </span>{' '}
                   {t('footer.byAuthor')}
@@ -348,7 +348,7 @@ export default function Layout() {
                 href="https://www.amazon.com/Agentic-Design-Patterns-Hands-Intelligent/dp/3032014018/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
+                className="hover:text-dark-50 transition-colors"
               >
                 {t('footer.getBook')}
               </a>
@@ -356,7 +356,7 @@ export default function Layout() {
                 href="https://github.com/sarwarbeing-ai/Agentic_Design_Patterns"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
+                className="hover:text-dark-50 transition-colors"
               >
                 {t('footer.sourceCode')}
               </a>

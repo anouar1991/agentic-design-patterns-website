@@ -19,7 +19,7 @@ export default function LearningObjectives({ objectives, chapterColor }: Learnin
       transition={{ duration: 0.4 }}
       className="glass rounded-xl p-6"
     >
-      <h3 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
+      <h3 className="flex items-center gap-2 text-lg font-semibold text-dark-50 mb-4">
         <Target className="w-5 h-5 text-primary-400" />
         Learning Objectives
       </h3>

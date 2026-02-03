@@ -152,14 +152,14 @@ export default function Home() {
             >
               <Sparkles className="w-4 h-4 text-primary-400" />
               <span className="text-dark-300">{t('footer.basedOn')}</span>
-              <span className="text-white font-medium">Antonio Gulli</span>
+              <span className="text-dark-50 font-medium">Antonio Gulli</span>
             </motion.div>
 
             {/* Title */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold">
               <span className="gradient-text">{t('home.heroTitle')}</span>
               <br />
-              <span className="text-white">{t('home.heroHighlight')}</span>
+              <span className="text-dark-50">{t('home.heroHighlight')}</span>
             </h1>
 
             {/* Subtitle */}
@@ -178,7 +178,7 @@ export default function Home() {
               </Link>
               <Link
                 to="/learning-path"
-                className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-dark-800/80 border border-dark-700/60 text-white font-medium hover:bg-dark-700/80 hover:border-dark-600 hover:scale-[1.02] active:scale-[0.98]"
+                className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-dark-800/80 border border-dark-700/60 text-dark-50 font-medium hover:bg-dark-700/80 hover:border-dark-600 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Map className="w-5 h-5" />
                 {t('home.exploreChapters')}
@@ -216,7 +216,7 @@ export default function Home() {
                   >
                     <div className="flex items-center justify-center gap-2 mb-2">
                       <Icon className="w-5 h-5 text-primary-400" />
-                      <span className="text-3xl font-bold text-white">{stat.value}</span>
+                      <span className="text-3xl font-bold text-dark-50">{stat.value}</span>
                     </div>
                     <span className="text-sm text-dark-400">{stat.label}</span>
                   </div>
@@ -238,7 +238,7 @@ export default function Home() {
                       <Award className="w-5 h-5 text-emerald-500" />
                     </div>
                     <div>
-                      <div className="text-white font-medium">{t('home.yourProgress')}</div>
+                      <div className="text-dark-50 font-medium">{t('home.yourProgress')}</div>
                       <div className="text-sm text-dark-400">
                         {t('home.chaptersCompleted', { count: completedChapters.length })}
                       </div>
@@ -280,7 +280,7 @@ export default function Home() {
       <section className="py-20 border-t border-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-dark-50 mb-4">
               {t('home.learnInteractive')}{' '}
               <span className="gradient-text">{t('home.interactiveWay')}</span>
             </h2>
@@ -306,7 +306,7 @@ export default function Home() {
                   >
                     <Icon className="w-6 h-6" style={{ color: feature.color }} />
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="text-lg font-semibold text-dark-50 mb-2">
                     {feature.title}
                   </h3>
                   <p className="text-sm text-dark-400">{feature.description}</p>
@@ -321,7 +321,7 @@ export default function Home() {
       <section className="py-20 border-t border-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-bold text-dark-50 mb-4">
               {t('home.essentialPatterns')}
             </h2>
             <p className="text-dark-400 max-w-2xl mx-auto">
@@ -398,7 +398,7 @@ export default function Home() {
                     </div>
 
                     {/* Title */}
-                    <div className="text-sm font-medium text-white truncate">
+                    <div className="text-sm font-medium text-dark-50 truncate">
                       {chapter.title}
                     </div>
 
@@ -443,7 +443,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="text-3xl font-bold text-dark-50 mb-4">
                 {t('home.structuredPath')}
               </h2>
               <p className="text-dark-400 mb-8">
@@ -472,7 +472,7 @@ export default function Home() {
                       {phase.phase}
                     </div>
                     <div>
-                      <div className="font-semibold text-white">{phase.name}</div>
+                      <div className="font-semibold text-dark-50">{phase.name}</div>
                       <div className="text-sm text-dark-400">
                         Chapters {phase.chapters}
                       </div>
@@ -483,7 +483,7 @@ export default function Home() {
 
               <Link
                 to="/learning-path"
-                className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-xl bg-dark-800 border border-dark-700 text-white font-medium hover:bg-dark-700 transition-colors"
+                className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-xl bg-dark-800 border border-dark-700 text-dark-50 font-medium hover:bg-dark-700 transition-colors"
               >
                 <Map className="w-5 h-5" />
                 {t('home.explorePath')}
@@ -533,7 +533,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 2.0 }}
           >
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-bold text-dark-50 mb-4">
               {t('home.ctaTitle')}
             </h2>
             <p className="text-dark-400 mb-8 max-w-2xl mx-auto">

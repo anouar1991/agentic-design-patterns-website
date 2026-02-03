@@ -66,7 +66,7 @@ export default function Introduction() {
             <span className="text-dark-300">{t('introduction.badge')}</span>
           </div>
 
-          <h1 className="text-4xl font-bold text-white mb-4">
+          <h1 className="text-4xl font-bold text-dark-50 mb-4">
             {t('introduction.title')}
           </h1>
 
@@ -83,7 +83,7 @@ export default function Introduction() {
           className="mb-16"
         >
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-dark-50 mb-6 flex items-center gap-3">
               <Brain className="w-7 h-7 text-primary-400" />
               {t('introduction.whatIsAgent')}
             </h2>
@@ -93,7 +93,7 @@ export default function Introduction() {
 
               <div className="grid md:grid-cols-2 gap-6 my-8">
                 <div className="bg-dark-800/50 rounded-xl p-6">
-                  <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+                  <h3 className="text-dark-50 font-semibold mb-3 flex items-center gap-2">
                     <MessageSquare className="w-5 h-5 text-blue-400" />
                     {t('introduction.simpleLLM')}
                   </h3>
@@ -108,7 +108,7 @@ export default function Introduction() {
                 </div>
 
                 <div className="bg-dark-800/50 rounded-xl p-6 border border-primary-500/30">
-                  <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+                  <h3 className="text-dark-50 font-semibold mb-3 flex items-center gap-2">
                     <Cpu className="w-5 h-5 text-primary-400" />
                     {t('introduction.aiAgent')}
                   </h3>
@@ -138,7 +138,7 @@ export default function Introduction() {
           className="mb-16"
         >
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-dark-50 mb-6 flex items-center gap-3">
               <BookOpen className="w-7 h-7 text-accent-400" />
               {t('introduction.keyTerms')}
             </h2>
@@ -156,7 +156,7 @@ export default function Introduction() {
                     <item.icon className="w-5 h-5 text-primary-400" />
                   </div>
                   <div>
-                    <h3 className="text-white font-semibold">{t(`introduction.terms.${item.key}.term`)}</h3>
+                    <h3 className="text-dark-50 font-semibold">{t(`introduction.terms.${item.key}.term`)}</h3>
                     <p className="text-dark-400 text-sm mt-1">{t(`introduction.terms.${item.key}.definition`)}</p>
                   </div>
                 </motion.div>
@@ -173,7 +173,7 @@ export default function Introduction() {
           className="mb-16"
         >
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-dark-50 mb-6 flex items-center gap-3">
               <Code className="w-7 h-7 text-green-400" />
               {t('introduction.frameworksTitle')}
             </h2>
@@ -189,7 +189,7 @@ export default function Introduction() {
                   className={`p-4 bg-dark-800/50 rounded-xl ${isRTL ? 'border-r-4' : 'border-l-4'}`}
                   style={{ borderColor: framework.color }}
                 >
-                  <h3 className="text-white font-semibold">{t(`introduction.frameworks.${framework.key}.name`)}</h3>
+                  <h3 className="text-dark-50 font-semibold">{t(`introduction.frameworks.${framework.key}.name`)}</h3>
                   <p className="text-dark-400 text-sm mt-1">{t(`introduction.frameworks.${framework.key}.description`)}</p>
                 </div>
               ))}
@@ -205,14 +205,14 @@ export default function Introduction() {
           className="mb-16"
         >
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-dark-50 mb-6 flex items-center gap-3">
               <Terminal className="w-7 h-7 text-amber-400" />
               {t('introduction.prerequisites')}
             </h2>
 
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+                <h3 className="text-dark-50 font-semibold mb-3 flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-400" />
                   {t('introduction.whatYouShouldKnow')}
                 </h3>
@@ -224,7 +224,7 @@ export default function Introduction() {
               </div>
 
               <div>
-                <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+                <h3 className="text-dark-50 font-semibold mb-3 flex items-center gap-2">
                   <AlertCircle className="w-5 h-5 text-amber-400" />
                   {t('introduction.whatYoullNeed')}
                 </h3>
@@ -246,7 +246,7 @@ export default function Introduction() {
           className="mb-16"
         >
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-dark-50 mb-6 flex items-center gap-3">
               <Zap className="w-7 h-7 text-yellow-400" />
               {t('introduction.quickStart')}
             </h2>
@@ -259,7 +259,7 @@ export default function Introduction() {
               {/* Step 1: Install */}
               <div className="bg-dark-800/80 rounded-xl p-4">
                 <div className="flex items-center gap-2 text-sm text-dark-400 mb-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-500 text-white flex items-center justify-center text-xs font-bold">1</span>
+                  <span className="w-6 h-6 rounded-full bg-primary-500 text-dark-50 flex items-center justify-center text-xs font-bold">1</span>
                   {t('introduction.step1')}
                 </div>
                 <pre className="bg-dark-900 rounded-lg p-4 overflow-x-auto">
@@ -270,7 +270,7 @@ export default function Introduction() {
               {/* Step 2: Set API Key */}
               <div className="bg-dark-800/80 rounded-xl p-4">
                 <div className="flex items-center gap-2 text-sm text-dark-400 mb-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-500 text-white flex items-center justify-center text-xs font-bold">2</span>
+                  <span className="w-6 h-6 rounded-full bg-primary-500 text-dark-50 flex items-center justify-center text-xs font-bold">2</span>
                   {t('introduction.step2')}{' '}
                   <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-primary-400 hover:underline">
                     platform.openai.com
@@ -284,7 +284,7 @@ export default function Introduction() {
               {/* Step 3: Run Code */}
               <div className="bg-dark-800/80 rounded-xl p-4">
                 <div className="flex items-center gap-2 text-sm text-dark-400 mb-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-500 text-white flex items-center justify-center text-xs font-bold">3</span>
+                  <span className="w-6 h-6 rounded-full bg-primary-500 text-dark-50 flex items-center justify-center text-xs font-bold">3</span>
                   {t('introduction.step3')}
                 </div>
                 <pre className="bg-dark-900 rounded-lg p-4 overflow-x-auto text-sm">
@@ -310,7 +310,7 @@ print(result["text"])`}</code>
               {/* Step 4: Run */}
               <div className="bg-dark-800/80 rounded-xl p-4">
                 <div className="flex items-center gap-2 text-sm text-dark-400 mb-2">
-                  <span className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-xs font-bold">4</span>
+                  <span className="w-6 h-6 rounded-full bg-green-500 text-dark-50 flex items-center justify-center text-xs font-bold">4</span>
                   {t('introduction.step4')}
                 </div>
                 <pre className="bg-dark-900 rounded-lg p-4 overflow-x-auto">
@@ -333,7 +333,7 @@ print(result["text"])`}</code>
           className="mb-16"
         >
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-6">
+            <h2 className="text-2xl font-bold text-dark-50 mb-6">
               {t('introduction.whyPatterns')}
             </h2>
 
@@ -365,7 +365,7 @@ print(result["text"])`}</code>
           className="text-center"
         >
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="text-2xl font-bold text-dark-50 mb-4">
               {t('introduction.readyToStart')}
             </h2>
             <p className="text-dark-400 mb-6">
@@ -381,7 +381,7 @@ print(result["text"])`}</code>
               </Link>
               <Link
                 to="/learning-path"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-dark-800 border border-dark-700 text-white font-semibold hover:bg-dark-700 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-dark-800 border border-dark-700 text-dark-50 font-semibold hover:bg-dark-700 transition-colors"
               >
                 {t('introduction.viewLearningPath')}
               </Link>

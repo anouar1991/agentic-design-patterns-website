@@ -67,7 +67,7 @@ function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
     <div className="absolute bottom-4 right-4 z-10 flex flex-col gap-1">
       <button
         onClick={handleZoomIn}
-        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-white transition-colors"
+        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-dark-50 transition-colors"
         title="Zoom in"
       >
         <ZoomIn className="w-4 h-4" />
@@ -77,7 +77,7 @@ function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
       </div>
       <button
         onClick={handleZoomOut}
-        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-white transition-colors"
+        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-dark-50 transition-colors"
         title="Zoom out"
       >
         <ZoomOut className="w-4 h-4" />
@@ -85,7 +85,7 @@ function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
       <div className="h-px bg-dark-700 my-1" />
       <button
         onClick={handleFitView}
-        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-white transition-colors"
+        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-dark-50 transition-colors"
         title="Fit to view"
         style={{ color: chapterColor }}
       >
@@ -227,7 +227,7 @@ function InteractiveDiagramInner({
         {/* Header */}
         <div className="p-4 border-b border-dark-700 flex items-center justify-between bg-dark-900/50 backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <h3 className="font-semibold text-white flex items-center gap-2">
+            <h3 className="font-semibold text-dark-50 flex items-center gap-2">
               <Play className="w-4 h-4 text-primary-400" />
               {title}
             </h3>
@@ -241,7 +241,7 @@ function InteractiveDiagramInner({
             {/* Full-screen toggle */}
             <button
               onClick={toggleFullScreen}
-              className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-dark-700 transition-colors"
+              className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-700 transition-colors"
               title={isFullScreen ? 'Exit full screen (Esc)' : 'Full screen'}
             >
               {isFullScreen ? (

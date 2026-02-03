@@ -13,15 +13,14 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 const STORAGE_KEY = 'theme-mode'
 
-function getAutoTheme(): ResolvedTheme {
-  const hour = new Date().getHours()
-  // Light theme from 6 AM to 6 PM
-  return hour >= 6 && hour < 18 ? 'light' : 'dark'
+function getSystemTheme(): ResolvedTheme {
+  if (typeof window === 'undefined') return 'dark'
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 function resolveTheme(mode: ThemeMode): ResolvedTheme {
   if (mode === 'auto') {
-    return getAutoTheme()
+    return getSystemTheme()
   }
   return mode
 }
@@ -43,20 +42,25 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme(resolveTheme(mode))
   }, [mode])
 
-  // Update auto theme every minute
+  // Listen for system preference changes in auto mode
   useEffect(() => {
     if (mode !== 'auto') return
 
-    const interval = setInterval(() => {
-      setTheme(getAutoTheme())
-    }, 60000) // Check every minute
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handler = (e: MediaQueryListEvent) => {
+      setTheme(e.matches ? 'dark' : 'light')
+    }
 
-    return () => clearInterval(interval)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
   }, [mode])
 
-  // Apply theme to document
+  // Apply theme to document with smooth transition
   useEffect(() => {
     const root = document.documentElement
+
+    // Add transition class for smooth color change
+    root.classList.add('theme-transition')
 
     if (theme === 'light') {
       root.classList.add('light')
@@ -65,6 +69,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       root.classList.add('dark')
       root.classList.remove('light')
     }
+
+    // Remove transition class after animation completes
+    const timeout = setTimeout(() => {
+      root.classList.remove('theme-transition')
+    }, 350)
+
+    return () => clearTimeout(timeout)
   }, [theme])
 
   const setMode = (newMode: ThemeMode) => {

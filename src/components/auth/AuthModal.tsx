@@ -71,7 +71,7 @@ export function AuthModal({ isOpen, onClose, initialView = 'login' }: AuthModalP
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-dark-700">
-              <h2 className="text-xl font-semibold text-white">
+              <h2 className="text-xl font-semibold text-dark-50">
                 {view === 'login'
                   ? t('auth.welcomeBack', 'Welcome back')
                   : t('auth.createAccountTitle', 'Create your account')}

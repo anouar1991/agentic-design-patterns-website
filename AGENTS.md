@@ -120,7 +120,7 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - **Data-driven**: Content lives in `chapters.ts`, components are generic renderers
 - **Context pattern**: Feature contexts wrap the entire app in `App.tsx`
 - **CSS**: Tailwind utility-first + custom CSS classes in `index.css` (glass, glow, gradient-text)
-- **Light/dark mode**: `html.light` class toggle with manual `light:` prefix classes in CSS
+- **Light/dark mode**: `html.light` class toggle with CSS custom property inversion (dark-* tokens) + explicit `html.light` overrides for special effects; `text-dark-50` for adaptive text
 - **RTL support**: `html[dir="rtl"]` and `html.rtl` selectors in CSS
 
 ## Lessons Learned
@@ -240,8 +240,15 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-330] Refs (`quizScoresRef`, `lastVisitedRef`) used in `markChapterComplete`/`toggleChapterComplete` callbacks to avoid stale closures when building the full progress object for localStorage save
 - [T-330] Chapters.tsx had no progress integration — added `useProgress()` with completion badges (matching Home.tsx pattern), phase progress bars, and quiz score indicators per card
 
+- [T-340] CSS custom property inversion is the key pattern for dark-first codebases: redefining `--color-dark-*` in `html.light` inverts the semantic scale so `bg-dark-900` automatically becomes light in light mode — no per-component className changes needed for 90% of cases
+- [T-340] `text-white` doesn't adapt to theme since it's a standard Tailwind color — replaced with `text-dark-50` (which inverts via token override) in 150+ locations; kept `text-white` only on gradient/solid-colored backgrounds where white is always correct
+- [T-340] Smooth theme transition uses a temporary `theme-transition` CSS class with `!important` transitions on `*` and `*::before/after` — removed after 350ms to avoid interfering with normal element transitions
+- [T-340] `prefers-color-scheme` media query replaces the previous time-of-day auto theme — uses `matchMedia.addEventListener('change')` for live system preference tracking
+- [T-340] Code blocks (`<pre>`) stay dark in light mode (hardcoded `#1e293b` background) — this is intentional for readability; inline `<code>` gets light styling
+- [T-340] Glass effect, glow effects, scrollbar, node tooltip, React Flow controls all need explicit `html.light` CSS overrides since they use hardcoded rgba values
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
-- Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems
+- Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
 - Notebook paths in `website_data.json` reference `/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/` (different from actual path)
 - The `RouteTransitionWrapper` uses CSS opacity transitions (not framer-motion) for route changes — do NOT reintroduce `AnimatePresence` around `<Outlet />`

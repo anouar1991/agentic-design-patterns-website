@@ -126,7 +126,7 @@ export default function InteractiveTutorial({
               {sectionIndex + 1}
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-semibold text-dark-50">
                 {section.title}
               </h3>
               {section.description && (
@@ -172,7 +172,7 @@ export default function InteractiveTutorial({
                           key={pIndex}
                           dangerouslySetInnerHTML={{
                             __html: paragraph
-                              .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
+                              .replace(/\*\*(.*?)\*\*/g, '<strong class="text-dark-50 font-semibold">$1</strong>')
                               .replace(/`([^`]+)`/g, `<code class="px-1.5 py-0.5 rounded bg-dark-700 text-sm font-mono" style="color: ${chapterColor}">$1</code>`)
                           }}
                         />

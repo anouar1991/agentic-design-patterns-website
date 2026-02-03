@@ -97,7 +97,7 @@ export default function EnhancedCodeBlock({
       <div className="px-4 py-3 border-b border-dark-700/60 flex items-center justify-between">
         <div className="flex items-center gap-3 min-w-0">
           {title && (
-            <h3 className="font-semibold text-white flex items-center gap-2 truncate">
+            <h3 className="font-semibold text-dark-50 flex items-center gap-2 truncate">
               <FileCode className="w-4 h-4 flex-shrink-0" style={{ color: chapterColor }} />
               <span className="truncate">{title}</span>
             </h3>
@@ -197,7 +197,7 @@ export default function EnhancedCodeBlock({
       {explanation && (
         <div className="px-4 py-3 bg-dark-800/50 border-t border-dark-700/60">
           <p className="text-sm text-dark-300 leading-relaxed">
-            <span className="font-medium text-white">Explanation: </span>
+            <span className="font-medium text-dark-50">Explanation: </span>
             {explanation}
           </p>
         </div>

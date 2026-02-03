@@ -30,7 +30,7 @@ export default function Playground() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl font-bold text-white mb-4"
+            className="text-4xl font-bold text-dark-50 mb-4"
           >
             {t('playground.title')}
           </motion.h1>
@@ -56,7 +56,7 @@ export default function Playground() {
             <Sparkles className="w-10 h-10 text-primary-400" />
           </div>
 
-          <h2 className="text-2xl font-bold text-white mb-4">
+          <h2 className="text-2xl font-bold text-dark-50 mb-4">
             {t('playground.comingSoon')}
           </h2>
 
@@ -71,7 +71,7 @@ export default function Playground() {
               return (
                 <div key={index} className="p-4 rounded-xl bg-dark-800/50">
                   <Icon className="w-6 h-6 text-primary-400 mx-auto mb-2" />
-                  <div className="text-sm font-medium text-white mb-1">
+                  <div className="text-sm font-medium text-dark-50 mb-1">
                     {t(`playground.features.${feature.key}.title`)}
                   </div>
                   <div className="text-xs text-dark-400">
@@ -85,7 +85,7 @@ export default function Playground() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/chapters"
-              className="px-6 py-3 rounded-xl bg-dark-800 border border-dark-700 text-white font-medium hover:bg-dark-700 transition-colors"
+              className="px-6 py-3 rounded-xl bg-dark-800 border border-dark-700 text-dark-50 font-medium hover:bg-dark-700 transition-colors"
             >
               {t('playground.browseChapters')}
             </Link>
@@ -107,7 +107,7 @@ export default function Playground() {
           transition={{ delay: 0.4 }}
           className="mt-12"
         >
-          <h3 className="text-lg font-semibold text-white mb-4 text-center">
+          <h3 className="text-lg font-semibold text-dark-50 mb-4 text-center">
             {t('playground.meantime')}
           </h3>
           <div className="glass rounded-xl p-6">

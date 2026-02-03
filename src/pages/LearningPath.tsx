@@ -123,7 +123,7 @@ export default function LearningPath() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl font-bold text-white mb-4"
+            className="text-4xl font-bold text-dark-50 mb-4"
           >
             {t('learningPath.title')}
           </motion.h1>
@@ -146,7 +146,7 @@ export default function LearningPath() {
           >
             <div className="flex items-center justify-between text-sm mb-2">
               <span className="text-dark-400">{t('learningPath.overallProgress')}</span>
-              <span className="text-white font-medium">{completionPercentage}%</span>
+              <span className="text-dark-50 font-medium">{completionPercentage}%</span>
             </div>
             <div className="h-3 bg-dark-700 rounded-full overflow-hidden">
               <motion.div
@@ -184,7 +184,7 @@ export default function LearningPath() {
                     style={{ backgroundColor: phase.color }}
                     onClick={() => setExpandedPhase(isExpanded ? null : phase.phase)}
                   >
-                    <Icon className="w-8 h-8 text-white" />
+                    <Icon className="w-8 h-8 text-dark-50" />
                   </div>
 
                   {/* Content card */}
@@ -210,7 +210,7 @@ export default function LearningPath() {
                           >
                             {t('learningPath.phase')} {phase.phase}
                           </span>
-                          <h3 className="text-xl font-bold text-white mb-2">
+                          <h3 className="text-xl font-bold text-dark-50 mb-2">
                             {t(`phases.${phase.phase}.name`)}
                           </h3>
                           <p className="text-dark-400">{t(`phases.${phase.phase}.description`)}</p>
@@ -220,7 +220,7 @@ export default function LearningPath() {
                             const progress = getPhaseProgress(phase.chapters);
                             return (
                               <>
-                                <div className="text-2xl font-bold text-white">
+                                <div className="text-2xl font-bold text-dark-50">
                                   {progress.completed}/{phase.chapters.length}
                                 </div>
                                 <div className="text-xs text-dark-400">{t('learningPath.completed')}</div>
@@ -266,7 +266,7 @@ export default function LearningPath() {
                                 >
                                   <div
                                     className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
-                                      completed ? 'text-emerald-400' : 'text-white'
+                                      completed ? 'text-emerald-400' : 'text-dark-50'
                                     }`}
                                     style={{ backgroundColor: completed ? 'rgba(16, 185, 129, 0.2)' : phase.color }}
                                   >
@@ -275,7 +275,7 @@ export default function LearningPath() {
                                   <span className={`transition-colors ${
                                     completed
                                       ? 'text-emerald-300 group-hover:text-emerald-200'
-                                      : 'text-dark-200 group-hover:text-white'
+                                      : 'text-dark-200 group-hover:text-dark-50'
                                   }`}>
                                     {t(`chapterTitles.${chapterNum}`)}
                                   </span>
@@ -283,13 +283,13 @@ export default function LearningPath() {
                                     <ArrowLeft className={`w-4 h-4 ${isRTL ? 'mr-auto' : 'ml-auto'} transition-colors ${
                                       completed
                                         ? 'text-emerald-500 group-hover:text-emerald-400'
-                                        : 'text-dark-500 group-hover:text-white'
+                                        : 'text-dark-500 group-hover:text-dark-50'
                                     }`} />
                                   ) : (
                                     <ArrowRight className={`w-4 h-4 ml-auto transition-colors ${
                                       completed
                                         ? 'text-emerald-500 group-hover:text-emerald-400'
-                                        : 'text-dark-500 group-hover:text-white'
+                                        : 'text-dark-500 group-hover:text-dark-50'
                                     }`} />
                                   )}
                                 </Link>
@@ -331,10 +331,10 @@ export default function LearningPath() {
             className={`relative ${isRTL ? 'pr-20' : 'pl-20'} pt-8`}
           >
             <div className={`absolute ${isRTL ? 'right-0' : 'left-0'} w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br from-primary-500 to-accent-500`}>
-              <Trophy className="w-8 h-8 text-white" />
+              <Trophy className="w-8 h-8 text-dark-50" />
             </div>
             <div className="glass rounded-2xl p-6">
-              <h3 className="text-xl font-bold text-white mb-2">
+              <h3 className="text-xl font-bold text-dark-50 mb-2">
                 {t('learningPath.congratulations')}
               </h3>
               <p className="text-dark-400 mb-4">
@@ -359,7 +359,7 @@ export default function LearningPath() {
           className="mt-16 text-center"
         >
           <div className="glass rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className="text-2xl font-bold text-dark-50 mb-4">
               {t('learningPath.readyToBegin')}
             </h3>
             <p className="text-dark-400 mb-6">

@@ -75,9 +75,9 @@ const iconMap: Record<string, React.ElementType> = {
 // Section progress indicator component
 function SectionIndicator({ number, title, isActive }: { number: number; title: string; isActive?: boolean }) {
   return (
-    <div className={`flex items-center gap-3 mb-2 ${isActive ? 'text-white' : 'text-dark-400'}`}>
+    <div className={`flex items-center gap-3 mb-2 ${isActive ? 'text-dark-50' : 'text-dark-400'}`}>
       <div className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold ${
-        isActive ? 'bg-primary-500 text-white' : 'bg-dark-700'
+        isActive ? 'bg-primary-500 text-dark-50' : 'bg-dark-700'
       }`}>
         {number}
       </div>
@@ -135,7 +135,7 @@ function ChapterContent() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">{t('chapter.chapterNotFound')}</h1>
+          <h1 className="text-2xl font-bold text-dark-50 mb-4">{t('chapter.chapterNotFound')}</h1>
           <Link to="/chapters" className="text-primary-400 hover:text-primary-300">
             {t('chapter.backToChapters')}
           </Link>
@@ -234,7 +234,7 @@ function ChapterContent() {
               </div>
             </div>
 
-            <h1 className="text-4xl font-bold text-white mb-4">
+            <h1 className="text-4xl font-bold text-dark-50 mb-4">
               {chapter.title}
             </h1>
 
@@ -260,7 +260,7 @@ function ChapterContent() {
                 {chapter.narrativeIntro.split('\n\n').map((paragraph, i) => (
                   <p key={i} dangerouslySetInnerHTML={{
                     __html: paragraph
-                      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+                      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-dark-50">$1</strong>')
                   }} />
                 ))}
               </div>
@@ -283,7 +283,7 @@ function ChapterContent() {
               >
                 <SectionIndicator number={1} title={t('chapter.sections.keyConcepts')} isActive />
                 <div className="glass rounded-xl p-6">
-                  <h3 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
+                  <h3 className="flex items-center gap-2 text-lg font-semibold text-dark-50 mb-4">
                     <BookOpen className="w-5 h-5 text-primary-400" />
                     {t('chapter.whatYoullLearn')}
                   </h3>
@@ -319,7 +319,7 @@ function ChapterContent() {
                       transition={{ duration: 0.4, delay: 0.4 }}
                       className="mb-6"
                     >
-                      <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
+                      <h2 className="text-2xl font-bold text-dark-50 flex items-center gap-3 mb-2">
                         <Code className="w-6 h-6" style={{ color: chapter.color }} />
                         {t('chapter.handsonTutorial')}
                       </h2>
@@ -343,7 +343,7 @@ function ChapterContent() {
                         transition={{ duration: 0.4, delay: 0.5 }}
                         className="mb-6"
                       >
-                        <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
+                        <h2 className="text-2xl font-bold text-dark-50 flex items-center gap-3 mb-2">
                           <FileCode className="w-6 h-6" style={{ color: chapter.color }} />
                           {t('chapter.codeExamplesTitle')}
                         </h2>
@@ -384,7 +384,7 @@ function ChapterContent() {
                     transition={{ duration: 0.4, delay: 0.4 }}
                     className="mb-6"
                   >
-                    <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
+                    <h2 className="text-2xl font-bold text-dark-50 flex items-center gap-3 mb-2">
                       <Code className="w-6 h-6" style={{ color: chapter.color }} />
                       {t('chapter.codeExamplesTitle')}
                     </h2>
@@ -430,7 +430,7 @@ function ChapterContent() {
                 ) : (
                   <div className="glass rounded-2xl overflow-hidden">
                     <div className="p-4 border-b border-dark-700">
-                      <h3 className="font-semibold text-white flex items-center gap-2">
+                      <h3 className="font-semibold text-dark-50 flex items-center gap-2">
                         <Layers className="w-4 h-4 text-primary-400" />
                         {t('chapter.patternFlow')}
                       </h3>
@@ -476,7 +476,7 @@ function ChapterContent() {
               transition={{ duration: 0.4, delay: 0.7 }}
               className="mb-8"
             >
-              <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-4">
+              <h2 className="text-2xl font-bold text-dark-50 flex items-center gap-3 mb-4">
                 <Target className="w-6 h-6" style={{ color: chapter.color }} />
                 {t('chapter.testYourKnowledge')}
               </h2>
@@ -519,7 +519,7 @@ function ChapterContent() {
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all ${
                   isCompleted
                     ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 ring-1 ring-emerald-500/30'
-                    : 'bg-dark-700 text-dark-300 hover:bg-dark-600 hover:text-white'
+                    : 'bg-dark-700 text-dark-300 hover:bg-dark-600 hover:text-dark-50'
                 }`}
               >
                 {isCompleted ? (
@@ -556,13 +556,13 @@ function ChapterContent() {
                   className="group flex items-center gap-3 px-5 py-3 rounded-xl bg-dark-800 border border-dark-700 hover:bg-dark-700 transition-colors"
                 >
                   {isRTL ? (
-                    <ArrowRight className="w-5 h-5 text-dark-400 group-hover:text-white transition-colors" />
+                    <ArrowRight className="w-5 h-5 text-dark-400 group-hover:text-dark-50 transition-colors" />
                   ) : (
-                    <ArrowLeft className="w-5 h-5 text-dark-400 group-hover:text-white transition-colors" />
+                    <ArrowLeft className="w-5 h-5 text-dark-400 group-hover:text-dark-50 transition-colors" />
                   )}
                   <div>
                     <div className="text-xs text-dark-400">{t('chapter.previous')}</div>
-                    <div className="text-white font-medium">
+                    <div className="text-dark-50 font-medium">
                       {t('chaptersPage.ch')} {chapter.prevChapter}
                     </div>
                   </div>
@@ -574,7 +574,7 @@ function ChapterContent() {
             <div className="justify-self-center">
               <Link
                 to="/chapters"
-                className="px-5 py-3 rounded-xl bg-dark-800 border border-dark-700 hover:bg-dark-700 transition-colors text-dark-300 hover:text-white inline-flex items-center gap-2"
+                className="px-5 py-3 rounded-xl bg-dark-800 border border-dark-700 hover:bg-dark-700 transition-colors text-dark-300 hover:text-dark-50 inline-flex items-center gap-2"
               >
                 <Layers className="w-4 h-4" />
                 {t('chapter.allChapters')}
@@ -594,7 +594,7 @@ function ChapterContent() {
                 >
                   <div className={`${isRTL ? 'text-left' : 'text-right'}`}>
                     <div className="text-xs text-dark-400">{t('chapter.next')}</div>
-                    <div className="text-white font-medium">
+                    <div className="text-dark-50 font-medium">
                       {t('chaptersPage.ch')} {chapter.nextChapter}
                     </div>
                   </div>

@@ -79,7 +79,7 @@ export default function CodeTermModal({
                       {term.type}
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold text-white font-mono truncate">
+                  <h2 className="text-xl font-bold text-dark-50 font-mono truncate">
                     {term.name}
                   </h2>
                   <p className="text-sm text-dark-400 mt-1">
@@ -88,7 +88,7 @@ export default function CodeTermModal({
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-dark-800 transition-colors flex-shrink-0"
+                  className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-800 transition-colors flex-shrink-0"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -131,7 +131,7 @@ export default function CodeTermModal({
               {/* Parameters */}
               {term.parameters && term.parameters.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-dark-50 mb-3 flex items-center gap-2">
                     <ArrowRight className="w-4 h-4" style={{ color: chapterColor }} />
                     Parameters
                   </h3>
@@ -166,7 +166,7 @@ export default function CodeTermModal({
               {/* Returns */}
               {term.returns && (
                 <div>
-                  <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-dark-50 mb-2 flex items-center gap-2">
                     <ArrowRight className="w-4 h-4" style={{ color: chapterColor }} />
                     Returns
                   </h3>
@@ -184,7 +184,7 @@ export default function CodeTermModal({
               {/* Example */}
               {term.example && (
                 <div>
-                  <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-dark-50 mb-2 flex items-center gap-2">
                     <BookOpen className="w-4 h-4" style={{ color: chapterColor }} />
                     Example
                   </h3>
@@ -209,7 +209,7 @@ export default function CodeTermModal({
               {/* Tips */}
               {term.tips && term.tips.length > 0 && (
                 <div className="glass rounded-xl p-4 border-l-4" style={{ borderLeftColor: chapterColor }}>
-                  <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-dark-50 mb-3 flex items-center gap-2">
                     <Lightbulb className="w-4 h-4" style={{ color: chapterColor }} />
                     Pro Tips
                   </h3>

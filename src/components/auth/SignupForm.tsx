@@ -59,7 +59,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-white mb-2">
+        <h3 className="text-lg font-semibold text-dark-50 mb-2">
           {t('auth.checkEmail', 'Check your email')}
         </h3>
         <p className="text-dark-400">
@@ -88,7 +88,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 border border-dark-600 rounded-lg bg-dark-800 text-white placeholder-dark-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2.5 border border-dark-600 rounded-lg bg-dark-800 text-dark-50 placeholder-dark-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder={t('auth.displayNamePlaceholder', 'Your name')}
           />
         </div>
@@ -106,7 +106,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full pl-10 pr-4 py-2.5 border border-dark-600 rounded-lg bg-dark-800 text-white placeholder-dark-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2.5 border border-dark-600 rounded-lg bg-dark-800 text-dark-50 placeholder-dark-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="you@example.com"
           />
         </div>
@@ -125,7 +125,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="w-full pl-10 pr-12 py-2.5 border border-dark-600 rounded-lg bg-dark-800 text-white placeholder-dark-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-12 py-2.5 border border-dark-600 rounded-lg bg-dark-800 text-dark-50 placeholder-dark-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="••••••••"
           />
           <button
@@ -150,7 +150,7 @@ export function SignupForm({ onSuccess, onSwitchToLogin }: SignupFormProps) {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            className="w-full pl-10 pr-4 py-2.5 border border-dark-600 rounded-lg bg-dark-800 text-white placeholder-dark-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2.5 border border-dark-600 rounded-lg bg-dark-800 text-dark-50 placeholder-dark-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="••••••••"
           />
         </div>

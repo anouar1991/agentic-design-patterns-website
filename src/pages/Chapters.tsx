@@ -141,7 +141,7 @@ export default function Chapters() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl font-extrabold text-white mb-4"
+            className="text-4xl sm:text-5xl font-extrabold text-dark-50 mb-4"
           >
             {t('chaptersPage.title')}
           </motion.h1>
@@ -177,7 +177,7 @@ export default function Chapters() {
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h2 className="text-2xl font-bold text-white">{t(`parts.${part.id}.name`)}</h2>
+                        <h2 className="text-2xl font-bold text-dark-50">{t(`parts.${part.id}.name`)}</h2>
                         {phaseProgress.completed > 0 && (
                           <span className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">
                             {phaseProgress.completed}/{phaseProgress.total} completed
@@ -229,7 +229,7 @@ export default function Chapters() {
                             transition={{ type: 'spring', stiffness: 400, damping: 15 }}
                             className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30 z-10"
                           >
-                            <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                            <CheckCircle2 className="w-3.5 h-3.5 text-dark-50" />
                           </motion.div>
                         )}
 
@@ -253,7 +253,7 @@ export default function Chapters() {
                           </span>
                         </div>
 
-                        <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors">
+                        <h3 className="text-lg font-semibold text-dark-50 mb-2 group-hover:text-primary-400 transition-colors">
                           {t(`chapterTitles.${chapter.num}`)}
                         </h3>
 

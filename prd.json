@@ -454,7 +454,7 @@
       "name": "Dark mode toggle: clean dark theme with smooth transition and preference persistence",
       "intent": "Modern learning platforms offer dark mode - reduces eye strain for long study sessions",
       "description": "Add a dark mode toggle with smooth CSS transition, persisted preference in localStorage, and system preference detection. Ensure all components (code blocks, diagrams, cards, modals) look great in dark mode.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-200"
       ],
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-340",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250", "T-260", "T-320", "T-330"],
+    "recommendedNextStepId": "T-300",
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250", "T-260", "T-320", "T-330", "T-340"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }

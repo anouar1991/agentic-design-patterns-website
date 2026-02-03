@@ -148,7 +148,7 @@ function OrderingQuestion({
             }}
           >
             <span
-              className="flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold text-white shrink-0"
+              className="flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold text-dark-50 shrink-0"
               style={{ backgroundColor: `${chapterColor}60` }}
             >
               {idx + 1}
@@ -403,7 +403,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
 
       {/* Header */}
       <div className="p-4 border-b border-dark-700 flex items-center justify-between">
-        <h3 className="font-semibold text-white flex items-center gap-2">
+        <h3 className="font-semibold text-dark-50 flex items-center gap-2">
           <HelpCircle className="w-5 h-5 text-primary-400" />
           {quiz.title}
         </h3>
@@ -437,7 +437,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
               >
                 <HelpCircle className="w-8 h-8" style={{ color: chapterColor }} />
               </div>
-              <h4 className="text-xl font-semibold text-white mb-2">
+              <h4 className="text-xl font-semibold text-dark-50 mb-2">
                 Ready to Test Your Knowledge?
               </h4>
               <p className="text-dark-400 mb-6 max-w-md mx-auto">
@@ -445,11 +445,11 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
               </p>
               <div className="flex justify-center gap-4 mb-6">
                 <div className="glass rounded-lg px-4 py-2">
-                  <span className="text-2xl font-bold text-white">{totalQuestions}</span>
+                  <span className="text-2xl font-bold text-dark-50">{totalQuestions}</span>
                   <span className="text-dark-400 text-sm ml-1">questions</span>
                 </div>
                 <div className="glass rounded-lg px-4 py-2">
-                  <span className="text-2xl font-bold text-white">{quiz.passingScore}%</span>
+                  <span className="text-2xl font-bold text-dark-50">{quiz.passingScore}%</span>
                   <span className="text-dark-400 text-sm ml-1">to pass</span>
                 </div>
               </div>
@@ -471,7 +471,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                       <Trophy className="w-4 h-4 text-amber-400" />
                       <span>Best Score</span>
                     </div>
-                    <span className="text-white font-medium">
+                    <span className="text-dark-50 font-medium">
                       {formatQuizScore(bestScore.score, bestScore.total_questions)}
                     </span>
                   </div>
@@ -481,7 +481,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                         <Clock className="w-4 h-4" />
                         <span>Attempts</span>
                       </div>
-                      <span className="text-white font-medium">{attemptCount}</span>
+                      <span className="text-dark-50 font-medium">{attemptCount}</span>
                     </div>
                   )}
                 </div>
@@ -489,7 +489,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
 
               <button
                 onClick={startQuiz}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all hover:opacity-90 hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-dark-50 font-medium transition-all hover:opacity-90 hover:scale-105 active:scale-95"
                 style={{ backgroundColor: chapterColor }}
               >
                 {attemptCount > 0 ? 'Retake Quiz' : 'Start Quiz'}
@@ -537,7 +537,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
 
               <QuestionTypeBadge type={currentQType} />
 
-              <h4 className="text-lg font-semibold text-white mb-4">
+              <h4 className="text-lg font-semibold text-dark-50 mb-4">
                 {currentQuestion.question}
               </h4>
 
@@ -680,7 +680,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                   <div className="flex items-start gap-3">
                     <Lightbulb className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-medium text-white">Explanation:</span>
+                      <span className="font-medium text-dark-50">Explanation:</span>
                       <p className="text-dark-300 mt-1">{currentQuestion.explanation}</p>
                     </div>
                   </div>
@@ -689,7 +689,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
 
               <button
                 onClick={nextQuestion}
-                className="w-full py-3 rounded-xl font-medium text-white transition-all hover:opacity-90 active:scale-[0.98]"
+                className="w-full py-3 rounded-xl font-medium text-dark-50 transition-all hover:opacity-90 active:scale-[0.98]"
                 style={{ backgroundColor: chapterColor }}
               >
                 {currentQuestionIndex < totalQuestions - 1 ? 'Next Question' : 'See Results'}
@@ -724,7 +724,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                 )}
               </motion.div>
 
-              <h4 className="text-2xl font-bold text-white mb-2">
+              <h4 className="text-2xl font-bold text-dark-50 mb-2">
                 {passed ? 'Congratulations!' : 'Keep Learning!'}
               </h4>
 
@@ -749,7 +749,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
               {/* Score card with per-question breakdown */}
               <div className="glass rounded-xl p-6 mb-6 max-w-sm mx-auto">
                 <motion.div
-                  className="text-4xl font-bold text-white mb-1"
+                  className="text-4xl font-bold text-dark-50 mb-1"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
@@ -810,7 +810,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
 
               <button
                 onClick={resetQuiz}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-dark-700 text-white font-medium hover:bg-dark-600 transition-all hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-dark-700 text-dark-50 font-medium hover:bg-dark-600 transition-all hover:scale-105 active:scale-95"
               >
                 <RotateCcw className="w-5 h-5" />
                 {passed ? 'Retake Quiz' : 'Try Again'}

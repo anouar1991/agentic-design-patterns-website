@@ -98,12 +98,41 @@ body {
   background-attachment: fixed;
 }
 
+/* Smooth theme transition */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+              box-shadow 0.3s ease, fill 0.3s ease, stroke 0.3s ease !important;
+  transition-delay: 0s !important;
+}
+
 /* Light theme */
 html.light body {
   @apply bg-gray-50 text-gray-900;
   background-image:
     radial-gradient(ellipse 80% 80% at 50% -20%, rgba(13, 150, 230, 0.07), transparent),
     radial-gradient(ellipse 60% 60% at 100% 100%, rgba(171, 92, 247, 0.04), transparent);
+}
+
+/* ============================================
+   Light Mode: Override dark-* token colors
+   This allows dark-* classes to render correctly in light mode
+   without needing to add light: variants to every component.
+   ============================================ */
+html.light {
+  --color-dark-50: #0f172a;
+  --color-dark-100: #1e293b;
+  --color-dark-200: #334155;
+  --color-dark-300: #475569;
+  --color-dark-400: #64748b;
+  --color-dark-500: #94a3b8;
+  --color-dark-600: #cbd5e1;
+  --color-dark-700: #e2e8f0;
+  --color-dark-800: #f1f5f9;
+  --color-dark-900: #f8fafc;
+  --color-dark-950: #ffffff;
 }
 
 /* ============================================
@@ -158,6 +187,158 @@ html.light .light\:text-primary-600 { color: rgb(2 132 199); }
 html.light .light\:border-gray-200 { border-color: rgb(229 231 235); }
 html.light .light\:hover\:bg-gray-50:hover { background-color: rgb(249 250 251); }
 html.light .light\:hover\:bg-gray-100:hover { background-color: rgb(243 244 246); }
+
+/* ============================================
+   Light Mode: Override special effect classes
+   ============================================ */
+
+/* Glass effect in light mode */
+html.light .glass {
+  background-color: rgba(255, 255, 255, 0.75);
+  border-color: rgba(226, 232, 240, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+html.light .glass-elevated {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(226, 232, 240, 0.5);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.08),
+              0 0 0 1px rgba(0, 0, 0, 0.03) inset;
+}
+
+/* Selection in light mode */
+html.light ::selection {
+  background-color: rgba(171, 92, 247, 0.2);
+  color: inherit;
+}
+
+/* Code blocks in light mode */
+html.light pre {
+  background-color: #1e293b;
+  border-color: rgba(51, 65, 85, 0.3);
+}
+
+html.light :not(pre) > code {
+  background-color: rgba(241, 245, 249, 0.9);
+  color: var(--color-primary-600);
+  border-color: rgba(226, 232, 240, 0.5);
+}
+
+/* Scrollbar in light mode */
+html.light ::-webkit-scrollbar-track {
+  background-color: rgba(241, 245, 249, 0.5);
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.5);
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.7);
+}
+
+html.light * {
+  scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+}
+
+/* Glow effects - subtler in light mode */
+html.light .glow-primary {
+  box-shadow: 0 0 15px rgba(13, 150, 230, 0.12), 0 0 45px rgba(13, 150, 230, 0.04);
+}
+
+html.light .glow-accent {
+  box-shadow: 0 0 15px rgba(171, 92, 247, 0.12), 0 0 45px rgba(171, 92, 247, 0.04);
+}
+
+/* Chapter card hover in light mode */
+html.light .chapter-card:hover {
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12),
+              0 0 0 1px rgba(0, 0, 0, 0.04),
+              0 0 20px -5px var(--card-glow);
+}
+
+/* Gradient text in light mode - use darker gradient stops */
+html.light .gradient-text {
+  background-image: linear-gradient(to right, var(--color-primary-600), var(--color-accent-600), var(--color-primary-600));
+}
+
+/* Text gradient subtle in light mode */
+html.light .text-gradient-subtle {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Divider gradient in light mode */
+html.light .divider-gradient {
+  background: linear-gradient(90deg, transparent, #e2e8f0 30%, #cbd5e1 50%, #e2e8f0 70%, transparent);
+}
+
+/* Node tooltip in light mode */
+html.light .node-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(226, 232, 240, 0.8);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12);
+}
+
+html.light .node-tooltip::after {
+  border-top-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Pattern backgrounds in light mode */
+html.light .pattern-grid {
+  background-image:
+    linear-gradient(rgba(100, 116, 139, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 116, 139, 0.06) 1px, transparent 1px);
+}
+
+html.light .pattern-dots {
+  background-image: radial-gradient(rgba(100, 116, 139, 0.2) 1px, transparent 1px);
+}
+
+/* Diagram fullscreen in light mode */
+html.light .diagram-fullscreen {
+  background: #f8fafc;
+}
+
+/* React Flow controls in light mode */
+html.light .react-flow__controls {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-color: #e2e8f0;
+}
+
+html.light .react-flow__controls-button {
+  background-color: white;
+  border-color: #e2e8f0;
+  color: #334155;
+}
+
+html.light .react-flow__controls-button:hover {
+  background-color: #f1f5f9;
+}
+
+html.light .react-flow__minimap {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-color: #e2e8f0;
+}
+
+/* Footer in light mode */
+html.light footer {
+  background-color: rgba(248, 250, 252, 0.9);
+  border-color: #e2e8f0;
+}
+
+/* Preserve white text in elements that always need it (gradient backgrounds, colored buttons) */
+html.light .gradient-text {
+  -webkit-text-fill-color: transparent; /* gradient text override */
+}
+
+/* Ambient background subtle in light mode */
+html.light .ambient-bg {
+  opacity: 0.3;
+}
 
 /* Custom scrollbar - thinner, subtler */
 ::-webkit-scrollbar {

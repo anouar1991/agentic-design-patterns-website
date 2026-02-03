@@ -134,14 +134,14 @@ export default function Profile() {
               )}
               {stats.streak >= 3 && (
                 <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center">
-                  <Flame className="w-5 h-5 text-white" />
+                  <Flame className="w-5 h-5 text-dark-50" />
                 </div>
               )}
             </div>
 
             {/* User Info */}
             <div className="text-center md:text-left flex-1">
-              <h1 className="text-2xl font-bold text-white mb-2">{displayName}</h1>
+              <h1 className="text-2xl font-bold text-dark-50 mb-2">{displayName}</h1>
               <p className="text-dark-400 mb-3">{user?.email}</p>
               <div className="flex flex-wrap justify-center md:justify-start gap-3">
                 {countryCode && (
@@ -160,14 +160,14 @@ export default function Profile() {
             {/* Quick Stats */}
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-3 rounded-lg bg-dark-800">
-                <div className="text-2xl font-bold text-white">{stats.streak}</div>
+                <div className="text-2xl font-bold text-dark-50">{stats.streak}</div>
                 <div className="text-xs text-dark-400 flex items-center justify-center gap-1">
                   <Flame className="w-3 h-3 text-amber-500" />
                   Day Streak
                 </div>
               </div>
               <div className="text-center p-3 rounded-lg bg-dark-800">
-                <div className="text-2xl font-bold text-white">{stats.quizStats.passedAttempts}</div>
+                <div className="text-2xl font-bold text-dark-50">{stats.quizStats.passedAttempts}</div>
                 <div className="text-xs text-dark-400 flex items-center justify-center gap-1">
                   <CheckCircle2 className="w-3 h-3 text-emerald-500" />
                   Quizzes Passed
@@ -194,26 +194,26 @@ export default function Profile() {
           transition={{ delay: 0.1 }}
           className="glass rounded-2xl p-6 mb-8"
         >
-          <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-dark-50 mb-4 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-primary-400" />
             Learning Progress
           </h2>
 
           <div className="grid md:grid-cols-4 gap-4 mb-6">
             <div className="bg-dark-800 rounded-lg p-4">
-              <div className="text-3xl font-bold text-white">{stats.chaptersCompleted}</div>
+              <div className="text-3xl font-bold text-dark-50">{stats.chaptersCompleted}</div>
               <div className="text-sm text-dark-400">Chapters Completed</div>
             </div>
             <div className="bg-dark-800 rounded-lg p-4">
-              <div className="text-3xl font-bold text-white">{stats.quizStats.totalAttempts}</div>
+              <div className="text-3xl font-bold text-dark-50">{stats.quizStats.totalAttempts}</div>
               <div className="text-sm text-dark-400">Quiz Attempts</div>
             </div>
             <div className="bg-dark-800 rounded-lg p-4">
-              <div className="text-3xl font-bold text-white">{stats.quizStats.averageScore}%</div>
+              <div className="text-3xl font-bold text-dark-50">{stats.quizStats.averageScore}%</div>
               <div className="text-sm text-dark-400">Average Quiz Score</div>
             </div>
             <div className="bg-dark-800 rounded-lg p-4">
-              <div className="text-3xl font-bold text-white">{stats.quizStats.perfectScores}</div>
+              <div className="text-3xl font-bold text-dark-50">{stats.quizStats.perfectScores}</div>
               <div className="text-sm text-dark-400">Perfect Scores</div>
             </div>
           </div>
@@ -245,7 +245,7 @@ export default function Profile() {
           transition={{ delay: 0.2 }}
           className="glass rounded-2xl p-6 mb-8"
         >
-          <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-dark-50 mb-4 flex items-center gap-2">
             <Award className="w-5 h-5 text-amber-400" />
             Achievements
           </h2>
@@ -277,13 +277,13 @@ export default function Profile() {
                       style={{ color: earned ? config.color : '#6b7280' }}
                     />
                   </div>
-                  <div className={`text-sm font-medium ${earned ? 'text-white' : 'text-dark-500'}`}>
+                  <div className={`text-sm font-medium ${earned ? 'text-dark-50' : 'text-dark-500'}`}>
                     {config.title}
                   </div>
                   <div className="text-xs text-dark-500 mt-1">{config.description}</div>
                   {earned && (
                     <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
-                      <CheckCircle2 className="w-3 h-3 text-white" />
+                      <CheckCircle2 className="w-3 h-3 text-dark-50" />
                     </div>
                   )}
                 </motion.div>
@@ -300,7 +300,7 @@ export default function Profile() {
             transition={{ delay: 0.3 }}
             className="glass rounded-2xl p-6"
           >
-            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-dark-50 mb-4 flex items-center gap-2">
               <Calendar className="w-5 h-5 text-blue-400" />
               Recent Activity
             </h2>
@@ -321,7 +321,7 @@ export default function Profile() {
                     <div>
                       <Link
                         to={`/chapter/${activity.chapter_id}`}
-                        className="text-white hover:text-primary-400 transition-colors"
+                        className="text-dark-50 hover:text-primary-400 transition-colors"
                       >
                         Chapter {activity.chapter_id} Completed
                       </Link>
@@ -352,7 +352,7 @@ export default function Profile() {
             className="text-center py-12"
           >
             <BookOpen className="w-16 h-16 text-dark-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Start Your Journey</h3>
+            <h3 className="text-xl font-semibold text-dark-50 mb-2">Start Your Journey</h3>
             <p className="text-dark-400 mb-6">
               Complete chapters and quizzes to earn achievements and track your progress.
             </p>

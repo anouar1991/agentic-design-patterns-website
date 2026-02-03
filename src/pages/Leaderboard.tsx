@@ -21,21 +21,21 @@ function RankBadge({ rank }: { rank: number }) {
   if (rank === 1) {
     return (
       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-lg shadow-yellow-500/30">
-        <Crown className="w-4 h-4 text-white" />
+        <Crown className="w-4 h-4 text-dark-50" />
       </div>
     )
   }
   if (rank === 2) {
     return (
       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center shadow-lg shadow-gray-400/30">
-        <Medal className="w-4 h-4 text-white" />
+        <Medal className="w-4 h-4 text-dark-50" />
       </div>
     )
   }
   if (rank === 3) {
     return (
       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center shadow-lg shadow-amber-600/30">
-        <Medal className="w-4 h-4 text-white" />
+        <Medal className="w-4 h-4 text-dark-50" />
       </div>
     )
   }
@@ -85,7 +85,7 @@ function LeaderboardRow({
       {/* User info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="font-medium text-white truncate">
+          <span className="font-medium text-dark-50 truncate">
             {displayName}
           </span>
           {flag && <span className="text-lg">{flag}</span>}
@@ -151,7 +151,7 @@ export default function Leaderboard() {
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center py-16 bg-dark-800/50 rounded-2xl">
           <AlertCircle className="w-16 h-16 mx-auto mb-4 text-amber-500" />
-          <h2 className="text-2xl font-bold text-white mb-2">
+          <h2 className="text-2xl font-bold text-dark-50 mb-2">
             {t('leaderboard.notConfigured', 'Leaderboard Not Available')}
           </h2>
           <p className="text-dark-400 max-w-md mx-auto">
@@ -159,7 +159,7 @@ export default function Leaderboard() {
           </p>
           <Link
             to="/learning-path"
-            className="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 mt-6 px-4 py-2 bg-blue-600 text-dark-50 rounded-lg hover:bg-blue-700 transition-colors"
           >
             {t('leaderboard.viewProgress', 'View your progress')}
           </Link>
@@ -176,7 +176,7 @@ export default function Leaderboard() {
           <Trophy className="w-4 h-4" />
           {t('leaderboard.badge', 'Top Learners')}
         </div>
-        <h1 className="text-4xl font-bold text-white mb-2">
+        <h1 className="text-4xl font-bold text-dark-50 mb-2">
           {t('leaderboard.title', 'Leaderboard')}
         </h1>
         <p className="text-dark-400 max-w-lg mx-auto">
@@ -246,7 +246,7 @@ export default function Leaderboard() {
       {!loading && entries.length === 0 && (
         <div className="text-center py-16 bg-dark-800/50 rounded-2xl">
           <UserCircle className="w-16 h-16 mx-auto mb-4 text-dark-400" />
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <h3 className="text-xl font-semibold text-dark-50 mb-2">
             {t('leaderboard.noEntries', 'No learners yet')}
           </h3>
           <p className="text-dark-400">

@@ -169,7 +169,7 @@ export default function ChapterCelebration({
                 </div>
 
                 {/* Text content */}
-                <h2 className="text-2xl font-bold text-white mb-2">
+                <h2 className="text-2xl font-bold text-dark-50 mb-2">
                   Chapter Complete!
                 </h2>
                 <p className="text-dark-300 mb-4">
@@ -190,7 +190,7 @@ export default function ChapterCelebration({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleDismiss}
-                  className="mt-6 px-6 py-2 rounded-lg font-medium text-white transition-colors"
+                  className="mt-6 px-6 py-2 rounded-lg font-medium text-dark-50 transition-colors"
                   style={{ backgroundColor: chapterColor }}
                 >
                   Continue

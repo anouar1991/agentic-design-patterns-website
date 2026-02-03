@@ -98,7 +98,7 @@ export default function NodeDetailPanel() {
                     <Sparkles className="w-5 h-5" style={{ color }} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">{data.label}</h3>
+                    <h3 className="text-lg font-semibold text-dark-50">{data.label}</h3>
                     <span
                       className="text-xs px-2 py-0.5 rounded-full"
                       style={{ backgroundColor: `${color}20`, color }}
@@ -109,7 +109,7 @@ export default function NodeDetailPanel() {
                 </div>
                 <button
                   onClick={closeDetailPanel}
-                  className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-dark-800 transition-colors"
+                  className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-800 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -152,7 +152,7 @@ export default function NodeDetailPanel() {
                   className="glass rounded-xl p-4 border-l-4"
                   style={{ borderLeftColor: color }}
                 >
-                  <h4 className="text-sm font-medium text-white mb-2 flex items-center gap-2">
+                  <h4 className="text-sm font-medium text-dark-50 mb-2 flex items-center gap-2">
                     <Lightbulb className="w-4 h-4" style={{ color }} />
                     How it works
                   </h4>
@@ -171,7 +171,7 @@ export default function NodeDetailPanel() {
                   onClick={handleViewCode}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-white font-medium transition-colors"
+                  className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-dark-50 font-medium transition-colors"
                   style={{ backgroundColor: `${color}20`, borderColor: color }}
                 >
                   <span className="flex items-center gap-2">
@@ -205,7 +205,7 @@ export default function NodeDetailPanel() {
                           transition={{ delay: 0.35 + i * 0.05, duration: 0.25 }}
                           className="glass rounded-lg p-3 hover:bg-dark-700/50 transition-colors cursor-pointer"
                         >
-                          <div className="text-sm font-medium text-white">
+                          <div className="text-sm font-medium text-dark-50">
                             {concept.name}
                           </div>
                           <div className="text-xs text-dark-400 mt-0.5">

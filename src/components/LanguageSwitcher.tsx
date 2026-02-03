@@ -15,7 +15,7 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
     return (
       <button
         onClick={toggleLanguage}
-        className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors text-dark-300 hover:text-white"
+        className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors text-dark-300 hover:text-dark-50"
         title={isEnglish ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية'}
       >
         <Languages className="w-5 h-5" />
@@ -26,7 +26,7 @@ export default function LanguageSwitcher({ compact = false }: LanguageSwitcherPr
   return (
     <button
       onClick={toggleLanguage}
-      className="relative flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-all text-dark-300 hover:text-white overflow-hidden"
+      className="relative flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-all text-dark-300 hover:text-dark-50 overflow-hidden"
       title={isEnglish ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية'}
     >
       <Languages className="w-4 h-4" />

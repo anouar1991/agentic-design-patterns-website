@@ -62,7 +62,7 @@ export default function ConceptTooltip({
                         New
                       </span>
                     )}
-                    <h4 className="font-semibold text-white">{concept.name}</h4>
+                    <h4 className="font-semibold text-dark-50">{concept.name}</h4>
                   </div>
                   <BookOpen className="w-4 h-4 text-dark-400" />
                 </div>
@@ -73,7 +73,7 @@ export default function ConceptTooltip({
                 {isFirst ? (
                   // Full explanation on first appearance
                   <div className="text-sm text-dark-200 space-y-2">
-                    <p className="font-medium text-white">
+                    <p className="font-medium text-dark-50">
                       {concept.shortDescription}
                     </p>
                     <div className="whitespace-pre-line text-dark-300 text-xs leading-relaxed">

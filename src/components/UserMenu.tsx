@@ -108,7 +108,7 @@ export function UserMenu() {
           >
             {/* User info header */}
             <div className="px-4 py-3 border-b border-dark-700">
-              <p className="text-sm font-medium text-white truncate">
+              <p className="text-sm font-medium text-dark-50 truncate">
                 {displayName}
               </p>
               <p className="text-xs text-dark-400 truncate">
