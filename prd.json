@@ -585,7 +585,7 @@
       "name": "Chapter transition animations: smooth page transitions between chapters and sections",
       "intent": "Smooth transitions between pages make the platform feel app-like and premium",
       "description": "Add page transition animations when navigating between chapters and sections. Content should fade/slide in, maintain scroll position context, and feel smooth and intentional.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-210"
       ],
@@ -825,7 +825,8 @@
       "T-330",
       "T-340",
       "T-300",
-      "T-310"
+      "T-310",
+      "T-420"
     ],
     "startedAt": "2026-02-03T20:30:00Z"
   }

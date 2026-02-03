@@ -252,6 +252,12 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-300] `highlightTerms` in tutorial steps must reference existing IDs in `codeTerms.ts` — always add new code terms before referencing them in tutorials, or the highlighting silently fails
 - [T-300] Chapters 20-21 appeared sparse in initial audit but had adequate tutorial content (4 sections, 10+ steps) — verify actual step quality before expanding
 
+- [T-420] `useNavigationType()` from react-router-dom returns `'POP'` for browser back/forward, `'PUSH'` for programmatic navigation, `'REPLACE'` for redirects — used to determine slide direction
+- [T-420] Module-scoped `Map<string, number>` for scroll positions avoids React re-renders; persists across component lifecycle without `useRef` or state
+- [T-420] CSS `willChange: 'opacity, transform'` promotes element to compositor layer during animation, but MUST be reset to `'auto'` when idle to free GPU memory
+- [T-420] Exit animation uses `cubic-bezier(0.4, 0, 1, 1)` (accelerate-out) while enter uses `cubic-bezier(0, 0, 0.2, 1)` (decelerate-in) — this asymmetry creates natural-feeling motion where exit feels quick and enter feels smooth
+- [T-420] `reducedMotion` from MotionContext skips all transform/timing to 0ms — respects OS-level `prefers-reduced-motion` setting
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
