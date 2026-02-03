@@ -138,6 +138,52 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-110] Console errors from React about casing and unrecognized tags trace to Lucide icon dynamic rendering patterns
 - [T-110] Vite dev server starts on port 5173; `npx vite` works from the project directory
 
+- [T-120] Light mode has severe contrast issues - the custom CSS light theme doesn't properly adjust text colors for light backgrounds
+- [T-120] 22 specific UX gaps identified across 4 categories: 3 CRITICAL, 6 HIGH, 7 MEDIUM, 4 LOW
+- [T-120] Dark mode is the default and looks polished; light mode needs significant work
+- [T-120] All 21 chapters have complete content (tutorials, quizzes, diagrams) - enhancement focus should be on interactivity and polish, not content creation
+- [T-120] Leaderboard/Playground require backend (Supabase) - need graceful degradation for standalone use
+
+## UX Gaps Audit (T-120)
+
+### VISUAL - Contrast & Readability Issues
+1. **[CRITICAL] Light mode: hero headline barely visible** - "Agentic Design Patterns" title has very low contrast (light gray/purple on light gradient background). Location: Homepage hero section. Repro: Switch to Light mode → observe headline.
+2. **[CRITICAL] Light mode: stat labels invisible** - The "Chapters", "Code Examples", "Frameworks", "Pages" labels under the stat numbers are nearly invisible in light mode. Location: Homepage stats section.
+3. **[CRITICAL] Light mode: feature card descriptions invisible** - The description text under "Interactive Diagrams", "Real Code Examples", etc. is unreadable (light text on gray cards). Location: Homepage features section.
+4. **[HIGH] Light mode: "21 Essential Patterns" heading low contrast** - Section heading barely readable in light mode. Location: Homepage patterns section.
+5. **[HIGH] Light mode: chapter mini-card badges ("Ch 1", "Ch 2") hard to read** - Badge text has insufficient contrast against the card background in light mode. Location: Homepage patterns grid.
+6. **[MEDIUM] Light mode: nav links barely visible** - "Learning Path", "Playground", "Leaderboard" text in header navigation is very low contrast in light mode. Location: Header nav bar.
+7. **[LOW] Progress tracker shows "20" boxes but there are 21 chapters** - The visual progress tracker grid on homepage shows 20 numbered boxes (1-20), missing chapter 21. Location: Homepage "Structured Learning Path" section.
+
+### INTERACTIVE - Missing/Broken Interactions
+8. **[HIGH] No hover effects on chapter listing cards** - Cards on `/chapters` page lack visible hover state transitions (scale, shadow, glow). Location: `/chapters` page cards.
+9. **[HIGH] No entrance animations on chapter cards** - Cards on `/chapters` appear instantly with no staggered entrance animation. Location: `/chapters` page.
+10. **[MEDIUM] Diagram "Pattern Flow" container can be empty/small** - The React Flow diagram sometimes renders with a very small scroll area and empty space. Console shows React Flow parent container height warning. Location: Chapter pages, right sidebar diagram. Repro: Load any chapter page, observe diagram panel.
+11. **[MEDIUM] No visible "active chapter" highlight in nav when on a chapter page** - When viewing a chapter, the navigation doesn't indicate which section you're in (no "Chapters" link highlighted). Location: Header nav on chapter pages.
+12. **[LOW] "Complete!" badge appears in top-right corner without context** - Small "Complete!" text appears floating in the top-right on some chapter pages without clear association to the chapter. Location: Chapter page top-right.
+
+### CONTENT - Missing/Incomplete Sections
+13. **[HIGH] Playground is "Coming Soon"** - The Playground page shows only a placeholder with no interactive functionality. Location: `/playground`.
+14. **[HIGH] Leaderboard fails without Supabase** - Shows "Failed to fetch leaderboard" error message and empty state when Supabase isn't configured. Location: `/leaderboard`. Should gracefully handle missing backend.
+15. **[MEDIUM] No search functionality** - No way to search across chapters, code terms, or tutorial content. No Cmd+K shortcut. Location: Global.
+16. **[MEDIUM] No print styles** - Ctrl+P on chapter pages shows raw unstyled content with navigation still visible. Location: Any chapter page, print preview.
+17. **[LOW] "1 examples" grammar error** - Chapters with 1 code example show "1 examples" (should be "1 example"). Location: `/chapters` listing, chapters 9, 11, 12, 13, 20, 21.
+
+### ACCESSIBILITY - Keyboard & Screen Reader Issues
+18. **[HIGH] No visible focus indicators on nav links** - Tab navigation through header links shows no visible focus ring or outline. Location: Header navigation.
+19. **[HIGH] Diagram nodes not keyboard-accessible** - React Flow diagram cannot be navigated with keyboard (Tab/Arrow keys don't focus nodes). Location: Chapter page diagram section.
+20. **[MEDIUM] Quiz answer buttons lack visible focus states** - Tab through quiz options doesn't show clear focus indicators. Location: Chapter quiz section.
+21. **[MEDIUM] No skip-to-content link** - No way to skip past the header navigation to the main content. Location: Every page.
+22. **[LOW] Theme switcher dropdown may trap focus** - After opening theme dropdown, focus management could be improved for keyboard users. Location: Header theme toggle.
+
+### Summary by Priority
+| Priority | Count | Categories |
+|----------|-------|------------|
+| CRITICAL | 3 | All light mode contrast issues |
+| HIGH | 6 | Hover effects, animations, focus indicators, keyboard, content |
+| MEDIUM | 7 | Diagram, nav, search, print, quiz focus, skip link, grammar |
+| LOW | 4 | Progress tracker, badge, theme focus, grammar |
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems
