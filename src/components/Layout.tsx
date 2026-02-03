@@ -322,7 +322,7 @@ export default function Layout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-dark-700/40 bg-dark-950/80">
+      <footer className="border-t border-dark-700/40 bg-dark-950/80 no-print">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">

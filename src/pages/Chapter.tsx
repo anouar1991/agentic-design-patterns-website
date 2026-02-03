@@ -448,7 +448,7 @@ function ChapterContent() {
           </div>
 
           {/* Mobile Diagram - Shows below content on mobile */}
-          <div className="lg:hidden mt-8">
+          <div className="lg:hidden mt-8 no-print">
             {chapter.diagramNodes && chapter.diagramNodes.length > 0 && (
               <InteractiveDiagram
                 diagramNodes={chapter.diagramNodes}
@@ -545,7 +545,7 @@ function ChapterContent() {
       )}
 
       {/* Navigation - Improved alignment */}
-      <section className="py-12 border-t border-dark-800">
+      <section className="py-12 border-t border-dark-800 no-print">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-3 gap-4 items-center">
             {/* Previous Chapter */}

@@ -976,3 +976,346 @@ html.rtl .chapter-card:hover {
   font-family: var(--font-arabic);
   font-weight: 600;
 }
+
+/* Print utility - hidden on screen, visible in print */
+.print-only {
+  display: none;
+}
+
+/* ============================================
+   Print Styles - Clean study material output
+   ============================================ */
+@media print {
+  /* Page setup */
+  @page {
+    margin: 12mm 15mm 15mm 15mm;
+    size: A4;
+  }
+
+  /* Force light colors for print */
+  html, html.light, html:not(.light) {
+    --color-dark-50: #0f172a;
+    --color-dark-100: #1e293b;
+    --color-dark-200: #334155;
+    --color-dark-300: #475569;
+    --color-dark-400: #64748b;
+    --color-dark-500: #94a3b8;
+    --color-dark-600: #cbd5e1;
+    --color-dark-700: #e2e8f0;
+    --color-dark-800: #f1f5f9;
+    --color-dark-900: #f8fafc;
+    --color-dark-950: #ffffff;
+  }
+
+  body {
+    background: white !important;
+    background-image: none !important;
+    color: #1e293b !important;
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+
+  /* Orphans & widows - prevent sparse pages */
+  body, p, li, dd, dt, blockquote {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* ---- Hide non-printable elements ---- */
+
+  /* Navigation, progress bar, fixed elements, footer */
+  nav:not([aria-label="Breadcrumb"]),
+  header,
+  .reading-progress-bar,
+  [class*="fixed top-"],
+  footer,
+  [role="contentinfo"] {
+    display: none !important;
+  }
+
+  /* Interactive elements not useful in print */
+  button,
+  [role="button"],
+  .react-flow__controls,
+  .react-flow__minimap,
+  .react-flow__background,
+  .node-tooltip,
+  .node-ripple,
+  .diagram-fullscreen,
+  .celebration-overlay {
+    display: none !important;
+  }
+
+  /* Theme/language switchers, mobile menus */
+  .theme-switcher,
+  .language-switcher,
+  [class*="mobile-menu"],
+  [class*="hamburger"] {
+    display: none !important;
+  }
+
+  /* Animations and decorative elements */
+  .pattern-dots,
+  .pattern-grid,
+  .ambient-bg,
+  .animated-border::before,
+  .shimmer-hover::after,
+  .animate-confetti,
+  .animate-sparkle,
+  .progress-shimmer,
+  .pulse-glow,
+  .float {
+    display: none !important;
+    animation: none !important;
+  }
+
+  /* Kill all animations and transitions */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Remove backdrop filters and glows */
+  .glass,
+  .glass-elevated,
+  pre {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  .glow-primary,
+  .glow-accent,
+  .glow-success {
+    box-shadow: none !important;
+  }
+
+  /* ---- Layout adjustments ---- */
+
+  /* Remove fixed/absolute positioning on decorative elements */
+  .blur-3xl,
+  .blur-2xl,
+  .blur-xl {
+    display: none !important;
+  }
+
+  /* Linearize grid layout - single column for print */
+  .grid {
+    display: block !important;
+  }
+
+  .grid > * {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Max width containers expand */
+  .max-w-7xl,
+  .max-w-4xl,
+  .max-w-3xl {
+    max-width: 100% !important;
+  }
+
+  /* ---- Code blocks for print ---- */
+
+  pre {
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    overflow: visible !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    font-size: 9pt !important;
+    line-height: 1.5 !important;
+    page-break-inside: auto;
+  }
+
+  code {
+    color: #1e293b !important;
+    font-size: 9pt !important;
+  }
+
+  /* Inline code */
+  :not(pre) > code {
+    background-color: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0278c7 !important;
+    padding: 1px 4px !important;
+  }
+
+  /* Code block container (TutorialCodeBlock) */
+  .glass.rounded-xl {
+    background-color: white !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    overflow: visible !important;
+  }
+
+  /* Keep code block headers for language label */
+  .glass.rounded-xl > div:first-child {
+    border-bottom: 1px solid #e2e8f0 !important;
+    background-color: #f8fafc !important;
+    padding: 6px 12px !important;
+  }
+
+  /* Hide copy button inside code blocks */
+  .glass.rounded-xl button,
+  .glass.rounded-xl [role="button"] {
+    display: none !important;
+  }
+
+  /* Clickable code terms - remove interactive styling */
+  .concept-highlight {
+    cursor: default !important;
+    text-decoration: none !important;
+  }
+
+  .concept-highlight::after {
+    display: none !important;
+  }
+
+  /* ---- Page break rules ---- */
+
+  /* Avoid breaking inside small elements */
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid;
+    page-break-after: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Keep heading with following content */
+  h1 + *, h2 + *, h3 + *, h4 + * {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
+  /* Small elements: avoid page breaks */
+  figure, img, table, blockquote {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Large containers: allow natural flow */
+  section, article, .tutorial-section, .chapter-content {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  /* ---- Gradient text fix ---- */
+
+  .gradient-text,
+  .text-gradient-subtle {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: #0f172a !important;
+    color: #0f172a !important;
+  }
+
+  /* ---- Print header with chapter title ---- */
+
+  /* Show chapter title as running header via first h1 */
+  h1 {
+    font-size: 20pt !important;
+    color: #0f172a !important;
+    border-bottom: 2px solid #cbd5e1;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  /* ---- Links: show URL for external links ---- */
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #64748b;
+    word-break: break-all;
+  }
+
+  /* Don't show URL for internal nav links */
+  nav a::after,
+  a[href^="/"]::after,
+  a[href^="#"]::after {
+    content: none !important;
+  }
+
+  /* ---- Quiz sections: hide interactive quiz (needs JS) ---- */
+
+  /* Keep the learning objectives visible, hide interactive quiz card */
+  .quiz-progress-bar,
+  .quiz-submit-btn {
+    display: none !important;
+  }
+
+  /* ---- Chapter navigation (prev/next, bottom of page) ---- */
+
+  /* Hide the chapter footer navigation section and celebration overlay */
+  .no-print,
+  .celebration-overlay {
+    display: none !important;
+  }
+
+  /* ---- Diagrams: hide interactive diagrams (don't render in print) ---- */
+
+  .react-flow,
+  .react-flow__renderer,
+  .react-flow__viewport,
+  [class*="react-flow"],
+  .diagram-fullscreen {
+    display: none !important;
+  }
+
+  /* Hide the sticky diagram column (right sidebar) */
+  .lg\:col-span-5 {
+    display: none !important;
+  }
+
+  /* Make left content column full width */
+  .lg\:col-span-7 {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+
+  /* ---- Utility classes ---- */
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* ---- Misc print cleanup ---- */
+
+  /* Remove all border-radius extremes */
+  .rounded-full {
+    border-radius: 4px !important;
+  }
+
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Remove overflow hidden that clips content */
+  .overflow-hidden,
+  .overflow-x-auto,
+  .overflow-y-auto {
+    overflow: visible !important;
+  }
+
+  /* Scrollbar not needed */
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  * {
+    scrollbar-width: none !important;
+  }
+}

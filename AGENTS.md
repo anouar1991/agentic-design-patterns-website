@@ -267,6 +267,14 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-430] Global `:focus-visible` rule in `index.css` provides visible blue outline on all focusable elements — no per-component focus styling needed
 - [T-430] `useRef<ReturnType<typeof setTimeout>>()` requires initial value `undefined` in React 19 strict mode — pre-existing TS error fixed alongside keyboard work
 
+- [T-440] Print styles are CSS-only (`@media print` in `index.css`) — no JavaScript runtime changes needed; all hiding is done via CSS selectors
+- [T-440] `position: static !important` on all elements is too aggressive for print — breaks internal component layout; instead, hide specific elements like `.blur-3xl` decorative blobs
+- [T-440] React Flow diagrams don't render in print media (canvas/SVG-based) — hide the entire diagram column rather than trying to make it static
+- [T-440] `orphans: 3` and `widows: 3` on body/p/li elements prevent sparse pages with only 1-2 lines; `break-inside: avoid` only on small elements (h1-h6, figures), `break-inside: auto` on large sections
+- [T-440] Force light colors in print by redefining `--color-dark-*` tokens to their light equivalents inside `@media print` — same pattern used by `html.light` class
+- [T-440] `no-print` class hides elements only in print; `print-only` class shows elements only in print — both toggled by `@media print` block
+- [T-440] Gradient text (`-webkit-text-fill-color: transparent` with `background-clip: text`) must be explicitly reset in print — otherwise text becomes invisible on white paper
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

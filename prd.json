@@ -647,7 +647,7 @@
       "name": "Print-friendly styles: chapters printable as clean study materials",
       "intent": "Students often want to print or save chapters as PDF for offline study",
       "description": "Add print media styles that produce clean, readable chapter printouts. Hide navigation, interactive elements, and animations. Format code blocks with borders and line numbers. Add chapter title and page numbers.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-300"
       ],
@@ -827,7 +827,8 @@
       "T-300",
       "T-310",
       "T-420",
-      "T-430"
+      "T-430",
+      "T-440"
     ],
     "startedAt": "2026-02-03T20:30:00Z"
   }
