@@ -10,6 +10,11 @@
  * - https://python.langchain.com/api_reference/core/output_parsers/langchain_core.output_parsers.string.StrOutputParser.html
  * - https://google.github.io/adk-docs/ (Google Agent Development Kit)
  * - https://heapq.readthedocs.io/ (Python heapq module)
+ * - https://docs.crewai.com/ (CrewAI framework)
+ * - https://gofastmcp.com/ (FastMCP server framework)
+ * - https://google.github.io/A2A/ (Agent-to-Agent protocol)
+ * - https://docs.pydantic.dev/ (Pydantic data validation)
+ * - https://langchain-ai.github.io/langgraph/ (LangGraph)
  */
 
 export interface CodeTerm {
@@ -60,6 +65,31 @@ export const codeTerms: Record<string, CodeTerm> = {
     fullDescription: 'The prompts module contains classes for creating and managing prompt templates. These templates allow you to create reusable prompts with variable placeholders that get filled in at runtime.',
     syntax: 'from langchain_core.prompts import ChatPromptTemplate',
     docUrl: 'https://python.langchain.com/api_reference/core/prompts.html'
+  },
+
+  'langchain_core.runnables': {
+    id: 'langchain_core.runnables',
+    name: 'langchain_core.runnables',
+    type: 'module',
+    shortDescription: 'LCEL runnable building blocks',
+    fullDescription: 'The runnables module contains the composable building blocks for LCEL chains. It includes RunnablePassthrough (pass-through), RunnableParallel (fan-out), RunnableBranch (routing), and RunnableLambda (custom functions).',
+    syntax: 'from langchain_core.runnables import RunnablePassthrough, RunnableParallel, RunnableBranch',
+    docUrl: 'https://python.langchain.com/api_reference/core/runnables.html'
+  },
+
+  'langchain_google_genai': {
+    id: 'langchain_google_genai',
+    name: 'langchain_google_genai',
+    type: 'module',
+    shortDescription: 'Google Gemini integration for LangChain',
+    fullDescription: 'The langchain-google-genai package provides LangChain integrations with Google\'s Gemini models. It includes ChatGoogleGenerativeAI for chat models and GoogleGenerativeAIEmbeddings for embeddings.',
+    syntax: 'from langchain_google_genai import ChatGoogleGenerativeAI',
+    tips: [
+      'Install with: pip install langchain-google-genai',
+      'Requires GOOGLE_API_KEY environment variable',
+      'Drop-in replacement for langchain_openai in LCEL chains'
+    ],
+    docUrl: 'https://python.langchain.com/docs/integrations/chat/google_generative_ai/'
   },
 
   'langchain_core.output_parsers': {
@@ -948,6 +978,468 @@ def retry_with_backoff(func, max_retries=3):
       'Lower temperature = more consistent but less creative'
     ],
     docUrl: 'https://ai.google.dev/gemini-api/docs/text-generation'
+  },
+
+  // ==================== LANGCHAIN LEGACY CHAINS ====================
+  'PromptTemplate': {
+    id: 'PromptTemplate',
+    name: 'PromptTemplate',
+    type: 'class',
+    shortDescription: 'Simple string prompt template',
+    fullDescription: 'PromptTemplate creates reusable prompt templates with placeholder variables using {curly_braces}. Unlike ChatPromptTemplate (which formats messages for chat models), PromptTemplate produces a single string. Used with the older LLMChain/SequentialChain API.',
+    syntax: `PromptTemplate(\n    input_variables=["topic"],\n    template="Write about {topic}"\n)`,
+    parameters: [
+      { name: 'input_variables', type: 'list[str]', description: 'Variable names that appear in the template' },
+      { name: 'template', type: 'str', description: 'Template string with {variable} placeholders' }
+    ],
+    returns: {
+      type: 'PromptTemplate',
+      description: 'A prompt template ready for use in chains'
+    },
+    tips: [
+      'input_variables must match the {variables} in the template string',
+      'For chat models, prefer ChatPromptTemplate.from_messages()',
+      'This is the older API — LCEL with ChatPromptTemplate is now recommended'
+    ],
+    docUrl: 'https://python.langchain.com/api_reference/core/prompts/langchain_core.prompts.prompt.PromptTemplate.html'
+  },
+
+  'LLMChain': {
+    id: 'LLMChain',
+    name: 'LLMChain',
+    type: 'class',
+    shortDescription: 'Pairs a prompt with an LLM (legacy)',
+    fullDescription: 'LLMChain combines a PromptTemplate with an LLM and an optional output_key. When invoked, it fills the template with input data, sends it to the LLM, and returns the result under the specified output_key. This is the legacy API — modern code uses LCEL pipe syntax instead.',
+    syntax: `LLMChain(llm=llm, prompt=my_prompt, output_key="result")`,
+    parameters: [
+      { name: 'llm', type: 'BaseLLM', description: 'The language model to use' },
+      { name: 'prompt', type: 'PromptTemplate', description: 'The prompt template' },
+      { name: 'output_key', type: 'str', description: 'Name for this chain\'s output', default: '"text"' }
+    ],
+    tips: [
+      'output_key names how the next step references this chain\'s output',
+      'Modern equivalent: prompt | llm | StrOutputParser()',
+      'Still useful for understanding chain composition concepts'
+    ],
+    docUrl: 'https://python.langchain.com/docs/versions/migrating_chains/llm_chain/'
+  },
+
+  'SequentialChain': {
+    id: 'SequentialChain',
+    name: 'SequentialChain',
+    type: 'class',
+    shortDescription: 'Chains multiple LLMChains in sequence (legacy)',
+    fullDescription: 'SequentialChain orchestrates multiple LLMChains so the output of one feeds into the next. Each chain\'s output_key must match the next chain\'s input_variables. This is the legacy API — modern code uses LCEL pipe chains instead.',
+    syntax: `SequentialChain(\n    chains=[chain1, chain2, chain3],\n    input_variables=["document"],\n    output_variables=["topics", "summary", "actions"]\n)`,
+    parameters: [
+      { name: 'chains', type: 'list[Chain]', description: 'Ordered list of chains to execute' },
+      { name: 'input_variables', type: 'list[str]', description: 'Initial input variable names' },
+      { name: 'output_variables', type: 'list[str]', description: 'Which chain outputs to include in result' }
+    ],
+    tips: [
+      'Include intermediate outputs in output_variables for debugging',
+      'output_key of chain N must match input_variables of chain N+1',
+      'Modern equivalent: chain1 | chain2 | chain3 using LCEL'
+    ],
+    docUrl: 'https://python.langchain.com/docs/versions/migrating_chains/sequential_chain/'
+  },
+
+  // ==================== LANGCHAIN ROUTING ====================
+  'RunnableBranch': {
+    id: 'RunnableBranch',
+    name: 'RunnableBranch',
+    type: 'class',
+    shortDescription: 'Conditional routing between chains',
+    fullDescription: 'RunnableBranch routes input to different processing chains based on conditions. It takes a list of (condition, runnable) pairs and a default runnable. The first condition that returns True determines which chain runs — similar to if/elif/else logic.',
+    syntax: `RunnableBranch(\n    (lambda x: "booking" in x, booking_chain),\n    (lambda x: "info" in x, info_chain),\n    default_chain\n)`,
+    example: `from langchain_core.runnables import RunnableBranch\n\nrouter = RunnableBranch(\n    (lambda x: x["category"] == "booking", booking_handler),\n    (lambda x: x["category"] == "support", support_handler),\n    general_handler  # default\n)`,
+    tips: [
+      'Conditions are evaluated in order — first True wins',
+      'The last argument (no condition) is the default/fallback',
+      'Use with a classifier chain for intelligent routing'
+    ],
+    docUrl: 'https://python.langchain.com/docs/how_to/routing/'
+  },
+
+  'ChatGoogleGenerativeAI': {
+    id: 'ChatGoogleGenerativeAI',
+    name: 'ChatGoogleGenerativeAI',
+    type: 'class',
+    shortDescription: 'Google Gemini chat model for LangChain',
+    fullDescription: 'ChatGoogleGenerativeAI wraps Google\'s Gemini models for use in LangChain chains. It implements the same Runnable interface as ChatOpenAI, so you can swap between providers without changing your chain logic.',
+    syntax: `from langchain_google_genai import ChatGoogleGenerativeAI\n\nllm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0)`,
+    parameters: [
+      { name: 'model', type: 'str', description: 'Gemini model name (e.g., "gemini-2.0-flash", "gemini-2.5-flash")' },
+      { name: 'temperature', type: 'float', description: 'Sampling temperature (0-2)', default: '0.7' },
+      { name: 'google_api_key', type: 'str', description: 'API key (or use GOOGLE_API_KEY env var)', default: 'None' }
+    ],
+    tips: [
+      'Install with: pip install langchain-google-genai',
+      'Requires GOOGLE_API_KEY environment variable',
+      'Drop-in replacement for ChatOpenAI in any LCEL chain'
+    ],
+    docUrl: 'https://python.langchain.com/docs/integrations/chat/google_generative_ai/'
+  },
+
+  // ==================== LANGCHAIN METHODS (EXTENDED) ====================
+  'from_messages': {
+    id: 'from_messages',
+    name: '.from_messages()',
+    type: 'method',
+    shortDescription: 'Create prompt from message list',
+    fullDescription: 'Creates a ChatPromptTemplate from a list of (role, content) tuples. This is the preferred way to create prompts for chat models because it gives explicit control over system, user, and assistant messages. Variables use {curly_braces}.',
+    syntax: `ChatPromptTemplate.from_messages([\n    ("system", "You are a helpful assistant."),\n    ("human", "Analyze this: {input}")\n])`,
+    parameters: [
+      { name: 'messages', type: 'list[tuple]', description: 'List of (role, template) pairs. Roles: "system", "human", "ai"' }
+    ],
+    returns: {
+      type: 'ChatPromptTemplate',
+      description: 'A configured prompt template with multi-role messages'
+    },
+    example: `prompt = ChatPromptTemplate.from_messages([\n    ("system", "You are a {role} specialist."),\n    ("human", "Help me with: {question}")\n])\n\n# Invoke with variables\nchain = prompt | llm | StrOutputParser()\nresult = chain.invoke({"role": "Python", "question": "decorators"})`,
+    tips: [
+      'Use "system" for behavior instructions, "human" for user input',
+      'Preferred over from_template() for multi-turn conversations',
+      'Variables in any role message become input parameters'
+    ]
+  },
+
+  'ainvoke': {
+    id: 'ainvoke',
+    name: '.ainvoke()',
+    type: 'method',
+    shortDescription: 'Async version of invoke',
+    fullDescription: 'ainvoke() is the async version of invoke(). It runs a chain asynchronously, enabling concurrent execution of multiple chains or integration with async web frameworks like FastAPI. All LCEL components support ainvoke().',
+    syntax: 'result = await chain.ainvoke({"input_key": "value"})',
+    parameters: [
+      { name: 'input', type: 'dict | str', description: 'Input data matching the chain\'s expected variables' }
+    ],
+    returns: {
+      type: 'Any',
+      description: 'The output of the chain (same as invoke but async)'
+    },
+    example: `import asyncio\n\nasync def run_parallel():\n    # Run multiple chains concurrently\n    results = await asyncio.gather(\n        chain1.ainvoke({"topic": "AI"}),\n        chain2.ainvoke({"topic": "ML"})\n    )\n    return results`,
+    tips: [
+      'Must be called with await inside an async function',
+      'Use asyncio.gather() to run multiple ainvoke() calls in parallel',
+      'Essential for parallelization patterns (Chapter 3)'
+    ]
+  },
+
+  // ==================== TOOL USE ====================
+  'tool_decorator': {
+    id: 'tool_decorator',
+    name: '@tool',
+    type: 'function',
+    shortDescription: 'Decorator to define agent tools',
+    fullDescription: 'The @tool decorator converts a regular Python function into a tool that LLM agents can call. The function\'s docstring becomes the tool description the model sees, and type hints define the parameter schema. This is how you give agents capabilities beyond text generation.',
+    syntax: `from langchain_core.tools import tool\n\n@tool\ndef my_tool(param: str) -> str:\n    """Description the LLM sees."""\n    return result`,
+    example: `@tool\ndef get_weather(city: str) -> str:\n    """Get current weather for a city."""\n    # API call here\n    return f"Weather in {city}: 72°F, sunny"`,
+    tips: [
+      'The docstring is critical — it tells the LLM when to use this tool',
+      'Use clear type hints for parameter and return types',
+      'The LLM decides when to call tools based on the user query'
+    ],
+    docUrl: 'https://python.langchain.com/docs/how_to/custom_tools/'
+  },
+
+  'AgentExecutor': {
+    id: 'AgentExecutor',
+    name: 'AgentExecutor',
+    type: 'class',
+    shortDescription: 'Runs agent with tools in a loop',
+    fullDescription: 'AgentExecutor is the runtime that manages the agent loop: it sends the query to the LLM, executes any tool calls the LLM makes, feeds results back, and repeats until the LLM produces a final answer. It handles tool errors, output parsing, and iteration limits.',
+    syntax: `from langchain.agents import AgentExecutor\n\nexecutor = AgentExecutor(\n    agent=agent,\n    tools=tools,\n    verbose=True\n)`,
+    parameters: [
+      { name: 'agent', type: 'Agent', description: 'The agent (created by create_tool_calling_agent)' },
+      { name: 'tools', type: 'list[Tool]', description: 'Tools the agent can use' },
+      { name: 'verbose', type: 'bool', description: 'Print agent reasoning steps', default: 'False' }
+    ],
+    tips: [
+      'verbose=True shows the agent\'s thought process step by step',
+      'Set max_iterations to prevent infinite loops',
+      'The executor handles tool errors gracefully'
+    ],
+    docUrl: 'https://python.langchain.com/docs/how_to/agent_executor/'
+  },
+
+  'create_tool_calling_agent': {
+    id: 'create_tool_calling_agent',
+    name: 'create_tool_calling_agent',
+    type: 'function',
+    shortDescription: 'Create an agent that calls tools',
+    fullDescription: 'create_tool_calling_agent creates a LangChain agent that uses the model\'s native function/tool calling API. The agent receives a prompt and a list of tools, and uses the LLM\'s built-in tool-calling capability to decide which tools to invoke.',
+    syntax: `from langchain.agents import create_tool_calling_agent\n\nagent = create_tool_calling_agent(llm, tools, prompt)`,
+    parameters: [
+      { name: 'llm', type: 'BaseChatModel', description: 'Chat model with tool calling support' },
+      { name: 'tools', type: 'list[Tool]', description: 'Tools the agent can use' },
+      { name: 'prompt', type: 'ChatPromptTemplate', description: 'Prompt with agent_scratchpad placeholder' }
+    ],
+    tips: [
+      'The prompt must include a {agent_scratchpad} variable',
+      'Use with AgentExecutor to run the agent loop',
+      'Supports any model with native tool calling (GPT-4, Gemini, Claude)'
+    ],
+    docUrl: 'https://python.langchain.com/docs/how_to/agent_executor/'
+  },
+
+  // ==================== MEMORY MANAGEMENT ====================
+  'ConversationBufferMemory': {
+    id: 'ConversationBufferMemory',
+    name: 'ConversationBufferMemory',
+    type: 'class',
+    shortDescription: 'Stores full conversation history',
+    fullDescription: 'ConversationBufferMemory stores the complete conversation history as a list of messages. It\'s the simplest memory type — every message is kept. For long conversations, consider ConversationSummaryMemory which compresses older messages.',
+    syntax: `from langchain.memory import ConversationBufferMemory\n\nmemory = ConversationBufferMemory(memory_key="history")`,
+    parameters: [
+      { name: 'memory_key', type: 'str', description: 'Key to store conversation under', default: '"history"' },
+      { name: 'return_messages', type: 'bool', description: 'Return as message objects vs string', default: 'False' }
+    ],
+    example: `memory = ConversationBufferMemory(memory_key="history")\nmemory.save_context(\n    {"input": "Hi, I'm Alice"},\n    {"output": "Hello Alice! How can I help?"}\n)\nprint(memory.load_memory_variables({}))`,
+    tips: [
+      'Use memory_key to name the variable your prompt references',
+      'save_context() adds a human-AI turn pair',
+      'Token usage grows linearly — use summary memory for long chats'
+    ],
+    docUrl: 'https://python.langchain.com/docs/versions/migrating_memory/'
+  },
+
+  'InMemoryStore': {
+    id: 'InMemoryStore',
+    name: 'InMemoryStore',
+    type: 'class',
+    shortDescription: 'LangGraph in-memory state storage',
+    fullDescription: 'InMemoryStore provides in-memory storage for LangGraph agent state. It stores data in namespaced key-value pairs, enabling per-user or per-session memory isolation. Data is lost when the process ends — use a database-backed store for persistence.',
+    syntax: `from langgraph.store.memory import InMemoryStore\n\nstore = InMemoryStore()`,
+    example: `store = InMemoryStore()\n\n# Store data with namespace isolation\nstore.put(("user", "alice"), "preferences", {"theme": "dark"})\n\n# Retrieve data\nresult = store.get(("user", "alice"), "preferences")`,
+    tips: [
+      'Use namespaces like ("user", user_id) for per-user isolation',
+      'Data is ephemeral — lost on restart',
+      'For production, use PostgresStore or similar persistent backend'
+    ],
+    docUrl: 'https://langchain-ai.github.io/langgraph/reference/store/'
+  },
+
+  // ==================== MCP (MODEL CONTEXT PROTOCOL) ====================
+  'FastMCP': {
+    id: 'FastMCP',
+    name: 'FastMCP',
+    type: 'class',
+    shortDescription: 'Quick MCP server framework',
+    fullDescription: 'FastMCP is a lightweight framework for building Model Context Protocol (MCP) servers. It provides decorators to expose Python functions as tools that any MCP-compatible agent can discover and call. Think of it as "FastAPI for AI tools."',
+    syntax: `from fastmcp import FastMCP\n\nmcp = FastMCP("my_server")\n\n@mcp.tool()\ndef my_tool(param: str) -> str:\n    return result`,
+    example: `from fastmcp import FastMCP\n\nmcp = FastMCP("weather_server")\n\n@mcp.tool()\ndef get_weather(city: str) -> str:\n    """Get weather for a city."""\n    return f"Weather in {city}: sunny, 72°F"\n\nmcp.run()`,
+    tips: [
+      'Install with: pip install fastmcp',
+      'Docstrings become tool descriptions for the agent',
+      'Supports both STDIO and HTTP transport modes'
+    ],
+    docUrl: 'https://gofastmcp.com/'
+  },
+
+  'MCPToolset': {
+    id: 'MCPToolset',
+    name: 'MCPToolset',
+    type: 'class',
+    shortDescription: 'Connect ADK agents to MCP servers',
+    fullDescription: 'MCPToolset connects Google ADK agents to MCP servers, allowing agents to discover and use tools exposed by any MCP-compatible server. It handles the protocol handshake, tool discovery, and request/response marshaling.',
+    syntax: `from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset\nfrom mcp import StdioServerParameters\n\ntools = MCPToolset(\n    connection_params=StdioServerParameters(...),\n    tool_filter=["tool_name"]\n)`,
+    parameters: [
+      { name: 'connection_params', type: 'ServerParameters', description: 'How to connect to the MCP server (STDIO or HTTP)' },
+      { name: 'tool_filter', type: 'list[str]', description: 'Only expose these tools to the agent', default: 'None (all tools)' }
+    ],
+    tips: [
+      'Use tool_filter to limit which tools the agent can access',
+      'StdioServerParameters for local servers, HttpServerParameters for remote',
+      'The agent automatically discovers tool schemas from the server'
+    ],
+    docUrl: 'https://google.github.io/adk-docs/'
+  },
+
+  'LlmAgent': {
+    id: 'LlmAgent',
+    name: 'LlmAgent',
+    type: 'class',
+    shortDescription: 'ADK agent with LLM integration',
+    fullDescription: 'LlmAgent is a Google ADK agent type that integrates directly with a language model. Unlike the base Agent class, LlmAgent provides explicit control over model selection, output handling (via output_key), and tool integration. Used when you need fine-grained control over the LLM interaction.',
+    syntax: `from google.adk.agents import LlmAgent\n\nagent = LlmAgent(\n    name="my_agent",\n    model="gemini-2.0-flash",\n    instruction="Your prompt here",\n    tools=[...]\n)`,
+    parameters: [
+      { name: 'name', type: 'str', description: 'Unique agent identifier' },
+      { name: 'model', type: 'str', description: 'LLM model to use' },
+      { name: 'instruction', type: 'str', description: 'System prompt' },
+      { name: 'tools', type: 'list', description: 'Available tools', default: '[]' },
+      { name: 'output_key', type: 'str', description: 'State key to store output', default: 'None' }
+    ],
+    tips: [
+      'Use output_key to store agent output in shared state',
+      'Combine with MCPToolset for external tool access',
+      'Supports before_model_callback for request interception'
+    ],
+    docUrl: 'https://google.github.io/adk-docs/'
+  },
+
+  // ==================== CREWAI (EXTENDED) ====================
+  'Crew': {
+    id: 'Crew',
+    name: 'Crew',
+    type: 'class',
+    shortDescription: 'CrewAI team of agents working together',
+    fullDescription: 'A Crew assembles multiple CrewAI Agents and Tasks into a coordinated team. The Crew manages execution order (sequential or hierarchical), task delegation, and result aggregation. Think of it as the project manager that coordinates the team.',
+    syntax: `from crewai import Crew, Process\n\ncrew = Crew(\n    agents=[researcher, writer],\n    tasks=[research_task, writing_task],\n    process=Process.sequential\n)`,
+    parameters: [
+      { name: 'agents', type: 'list[Agent]', description: 'The team members' },
+      { name: 'tasks', type: 'list[Task]', description: 'Tasks to complete' },
+      { name: 'process', type: 'Process', description: 'Execution order', default: 'Process.sequential' },
+      { name: 'verbose', type: 'bool', description: 'Show agent reasoning', default: 'False' }
+    ],
+    tips: [
+      'Process.sequential runs tasks in order',
+      'Process.hierarchical adds a manager agent that delegates',
+      'Use crew.kickoff() to start execution'
+    ],
+    docUrl: 'https://docs.crewai.com/'
+  },
+
+  'CrewAI-Agent': {
+    id: 'CrewAI-Agent',
+    name: 'Agent (CrewAI)',
+    type: 'class',
+    shortDescription: 'CrewAI agent with role and backstory',
+    fullDescription: 'A CrewAI Agent represents a team member with a specific role, goal, and backstory. The backstory shapes how the agent approaches tasks. Agents can be given tools and the ability to delegate work to other agents.',
+    syntax: `from crewai import Agent\n\nagent = Agent(\n    role="Senior Researcher",\n    goal="Find accurate information",\n    backstory="You are an expert researcher...",\n    tools=[search_tool],\n    allow_delegation=False\n)`,
+    parameters: [
+      { name: 'role', type: 'str', description: 'The agent\'s job title/role' },
+      { name: 'goal', type: 'str', description: 'What the agent aims to achieve' },
+      { name: 'backstory', type: 'str', description: 'Background that shapes behavior' },
+      { name: 'tools', type: 'list', description: 'Tools the agent can use', default: '[]' },
+      { name: 'allow_delegation', type: 'bool', description: 'Can delegate to other agents', default: 'True' }
+    ],
+    tips: [
+      'backstory is crucial — it defines the agent\'s expertise and approach',
+      'Set allow_delegation=False for focused, independent agents',
+      'The role appears in logs and helps with debugging'
+    ],
+    docUrl: 'https://docs.crewai.com/'
+  },
+
+  'Process': {
+    id: 'Process',
+    name: 'Process',
+    type: 'class',
+    shortDescription: 'CrewAI execution strategy',
+    fullDescription: 'Process defines how a CrewAI Crew executes its tasks. Process.sequential runs tasks in order, while Process.hierarchical adds a manager agent that intelligently delegates tasks to the best-suited agents.',
+    syntax: `from crewai import Process\n\n# Sequential: tasks run in order\ncrew = Crew(process=Process.sequential)\n\n# Hierarchical: manager delegates\ncrew = Crew(process=Process.hierarchical)`,
+    tips: [
+      'Sequential is simpler and more predictable',
+      'Hierarchical adds overhead but is better for complex workflows',
+      'Sequential is the default process type'
+    ],
+    docUrl: 'https://docs.crewai.com/'
+  },
+
+  // ==================== ASYNC PATTERNS ====================
+  'asyncio': {
+    id: 'asyncio',
+    name: 'asyncio',
+    type: 'module',
+    shortDescription: 'Python async concurrency framework',
+    fullDescription: 'asyncio is Python\'s built-in library for writing concurrent code using async/await syntax. In agent systems, it enables parallel execution of multiple LLM calls, tool invocations, or agent workflows without threading.',
+    syntax: 'import asyncio',
+    example: `import asyncio\n\nasync def run_agents():\n    results = await asyncio.gather(\n        agent1.ainvoke(query),\n        agent2.ainvoke(query),\n        agent3.ainvoke(query)\n    )\n    return results\n\nasyncio.run(run_agents())`,
+    tips: [
+      'asyncio.gather() runs multiple async calls concurrently',
+      'asyncio.run() starts the event loop from synchronous code',
+      'Essential for parallelization patterns (Chapter 3)'
+    ],
+    docUrl: 'https://docs.python.org/3/library/asyncio.html'
+  },
+
+  // ==================== RAG & KNOWLEDGE RETRIEVAL ====================
+  'RecursiveCharacterTextSplitter': {
+    id: 'RecursiveCharacterTextSplitter',
+    name: 'RecursiveCharacterTextSplitter',
+    type: 'class',
+    shortDescription: 'Splits documents into chunks for RAG',
+    fullDescription: 'RecursiveCharacterTextSplitter breaks documents into smaller chunks suitable for embedding and retrieval. It recursively splits by multiple separators (paragraphs, sentences, words) to keep semantically meaningful units together.',
+    syntax: `from langchain.text_splitter import RecursiveCharacterTextSplitter\n\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=1000,\n    chunk_overlap=200\n)`,
+    parameters: [
+      { name: 'chunk_size', type: 'int', description: 'Maximum characters per chunk', default: '1000' },
+      { name: 'chunk_overlap', type: 'int', description: 'Overlap between adjacent chunks', default: '200' }
+    ],
+    tips: [
+      'Overlap ensures context isn\'t lost at chunk boundaries',
+      'Smaller chunks = more precise retrieval but less context',
+      'The "recursive" strategy tries paragraph breaks first, then sentences, then words'
+    ],
+    docUrl: 'https://python.langchain.com/docs/how_to/recursive_text_splitter/'
+  },
+
+  // ==================== INTER-AGENT COMMUNICATION ====================
+  'AgentCard': {
+    id: 'AgentCard',
+    name: 'AgentCard',
+    type: 'class',
+    shortDescription: 'A2A agent capability description',
+    fullDescription: 'AgentCard is the identity document for an A2A (Agent-to-Agent) protocol agent. It advertises the agent\'s skills, supported input/output formats, and authentication requirements. Other agents discover capabilities by reading the AgentCard.',
+    syntax: `from a2a import AgentCard, AgentSkill, AgentCapabilities\n\ncard = AgentCard(\n    name="WeatherBot",\n    skills=[weather_skill],\n    capabilities=AgentCapabilities(streaming=True)\n)`,
+    tips: [
+      'Published at /.well-known/agent.json by convention',
+      'Skills describe specific capabilities with input/output MIME types',
+      'Enables dynamic agent discovery and composition'
+    ],
+    docUrl: 'https://google.github.io/A2A/'
+  },
+
+  'AgentSkill': {
+    id: 'AgentSkill',
+    name: 'AgentSkill',
+    type: 'class',
+    shortDescription: 'A2A skill definition for an agent',
+    fullDescription: 'AgentSkill defines a specific capability an A2A agent offers. Each skill has an ID, name, description, and supported input/output MIME types. Skills are listed in the AgentCard for other agents to discover.',
+    syntax: `skill = AgentSkill(\n    id="check_weather",\n    name="Check Weather",\n    description="Get weather for a location",\n    tags=["weather", "forecast"]\n)`,
+    tips: [
+      'Use clear descriptions so other agents know when to call this skill',
+      'Tags help with skill discovery and filtering',
+      'MIME types define accepted input and output formats'
+    ],
+    docUrl: 'https://google.github.io/A2A/'
+  },
+
+  // ==================== SECURITY & GUARDRAILS ====================
+  'BaseTool': {
+    id: 'BaseTool',
+    name: 'BaseTool',
+    type: 'class',
+    shortDescription: 'ADK base class for tool definitions',
+    fullDescription: 'BaseTool is the abstract base class for all tools in Google ADK. It provides the interface that before_tool_callback receives when validating tool calls. Custom tools extend BaseTool to define their schema and execution logic.',
+    syntax: `from google.adk.tools.base_tool import BaseTool`,
+    tips: [
+      'Used in before_tool_callback for type checking',
+      'Provides tool.name for identifying which tool is being called',
+      'Extend for custom tools with complex validation logic'
+    ],
+    docUrl: 'https://google.github.io/adk-docs/'
+  },
+
+  'Field': {
+    id: 'Field',
+    name: 'Field',
+    type: 'function',
+    shortDescription: 'Pydantic field with metadata and constraints',
+    fullDescription: 'Field() configures individual fields in Pydantic BaseModel classes. It adds descriptions (which help LLMs understand the schema), default values, and validation constraints like minimum/maximum values.',
+    syntax: `from pydantic import Field\n\nclass MyModel(BaseModel):\n    name: str = Field(description="The item name")\n    score: float = Field(ge=0.0, le=1.0, description="Quality score")`,
+    parameters: [
+      { name: 'description', type: 'str', description: 'Human-readable field description' },
+      { name: 'default', type: 'Any', description: 'Default value if not provided' },
+      { name: 'ge', type: 'number', description: 'Greater than or equal constraint' },
+      { name: 'le', type: 'number', description: 'Less than or equal constraint' }
+    ],
+    tips: [
+      'Descriptions help LLMs generate correct structured output',
+      'Use ge/le for numeric range constraints',
+      'Required fields have no default value'
+    ],
+    docUrl: 'https://docs.pydantic.dev/latest/concepts/fields/'
   }
 };
 

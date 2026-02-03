@@ -363,7 +363,7 @@
       "name": "Code terms database expanded: all key classes, methods, and concepts are clickable with documentation",
       "intent": "Clickable code terms are the platform's unique learning feature - must be comprehensive",
       "description": "Audit all code blocks across all chapters, identify every key class, method, and concept that should be clickable. Add missing entries to codeTerms.ts with full documentation including syntax, parameters, return types, examples, tips, and doc URLs.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-300"
       ],
@@ -808,7 +808,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-300",
+    "recommendedNextStepId": "T-310",
     "history": [
       "T-100",
       "T-101",
@@ -824,7 +824,8 @@
       "T-320",
       "T-330",
       "T-340",
-      "T-300"
+      "T-300",
+      "T-310"
     ],
     "startedAt": "2026-02-03T20:30:00Z"
   }

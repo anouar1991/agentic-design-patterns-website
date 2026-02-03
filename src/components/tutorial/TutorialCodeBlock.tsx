@@ -23,24 +23,82 @@ interface TutorialCodeBlockProps {
 
 // Map of terms to find in code (pattern -> term ID)
 const termPatterns: Array<{ pattern: RegExp; termId: string }> = [
-  // Imports
+  // Imports / Modules
   { pattern: /\blangchain_openai\b/g, termId: 'langchain_openai' },
   { pattern: /\blangchain_core\.prompts\b/g, termId: 'langchain_core.prompts' },
   { pattern: /\blangchain_core\.output_parsers\b/g, termId: 'langchain_core.output_parsers' },
+  { pattern: /\blangchain_core\.runnables\b/g, termId: 'langchain_core.runnables' },
+  { pattern: /\blangchain_google_genai\b/g, termId: 'langchain_google_genai' },
+  { pattern: /\bgoogle\.adk\.agents\b/g, termId: 'google.adk.agents' },
+  { pattern: /\bgoogle\.adk\.tools\.mcp_tool\b/g, termId: 'MCPToolset' },
+  { pattern: /\bgoogle\.adk\.callbacks\b/g, termId: 'CallbackContext' },
+  { pattern: /\bgoogle\.adk\.models\.llm\b/g, termId: 'LlmRequest' },
+  { pattern: /\bgoogle\.adk\.tools\.base_tool\b/g, termId: 'BaseTool' },
+  { pattern: /\bgoogle\.adk\.tools\.tool_context\b/g, termId: 'tool-context' },
+  { pattern: /\bgoogle\.adk\.code_executors\b/g, termId: 'code-executor' },
+  { pattern: /\bgoogle\.generativeai\b/g, termId: 'generative-ai' },
+  { pattern: /\bimport asyncio\b/g, termId: 'asyncio' },
 
-  // Classes
+  // LangChain classes
   { pattern: /\bChatOpenAI\b/g, termId: 'ChatOpenAI' },
+  { pattern: /\bChatGoogleGenerativeAI\b/g, termId: 'ChatGoogleGenerativeAI' },
   { pattern: /\bChatPromptTemplate\b/g, termId: 'ChatPromptTemplate' },
   { pattern: /\bStrOutputParser\b/g, termId: 'StrOutputParser' },
   { pattern: /\bRunnablePassthrough\b/g, termId: 'RunnablePassthrough' },
   { pattern: /\bRunnableParallel\b/g, termId: 'RunnableParallel' },
+  { pattern: /\bRunnableBranch\b/g, termId: 'RunnableBranch' },
+  { pattern: /\bPromptTemplate\b/g, termId: 'PromptTemplate' },
+  { pattern: /\bLLMChain\b/g, termId: 'LLMChain' },
+  { pattern: /\bSequentialChain\b/g, termId: 'SequentialChain' },
+  { pattern: /\bAgentExecutor\b/g, termId: 'AgentExecutor' },
+  { pattern: /\bConversationBufferMemory\b/g, termId: 'ConversationBufferMemory' },
+  { pattern: /\bRecursiveCharacterTextSplitter\b/g, termId: 'RecursiveCharacterTextSplitter' },
+
+  // Google ADK classes
+  { pattern: /\bSequentialAgent\b/g, termId: 'SequentialAgent' },
+  { pattern: /\bParallelAgent\b/g, termId: 'ParallelAgent' },
+  { pattern: /\bLlmAgent\b/g, termId: 'LlmAgent' },
+  { pattern: /\bCallbackContext\b/g, termId: 'CallbackContext' },
+  { pattern: /\bLlmRequest\b/g, termId: 'LlmRequest' },
+  { pattern: /\bMCPToolset\b/g, termId: 'MCPToolset' },
+  { pattern: /\bToolContext\b/g, termId: 'tool-context' },
+  { pattern: /\bBuiltInCodeExecutor\b/g, termId: 'code-executor' },
+  { pattern: /\bBaseAgent\b/g, termId: 'base-agent' },
+  { pattern: /\bAgentTool\b/g, termId: 'agent-tool' },
+
+  // CrewAI / Pydantic classes
+  { pattern: /\bBaseModel\b/g, termId: 'pydantic-model' },
+  { pattern: /\bField\(/g, termId: 'Field' },
+  { pattern: /\bCrew\(/g, termId: 'Crew' },
+  { pattern: /\bProcess\./g, termId: 'Process' },
+  { pattern: /\bcreate_tool_calling_agent\b/g, termId: 'create_tool_calling_agent' },
+
+  // MCP / FastMCP
+  { pattern: /\bFastMCP\b/g, termId: 'FastMCP' },
+
+  // A2A protocol
+  { pattern: /\bAgentCard\b/g, termId: 'AgentCard' },
+  { pattern: /\bAgentSkill\b/g, termId: 'AgentSkill' },
+
+  // LangGraph
+  { pattern: /\bStateGraph\b/g, termId: 'state-graph' },
+  { pattern: /\bInMemoryStore\b/g, termId: 'InMemoryStore' },
 
   // Methods
   { pattern: /\.from_template\b/g, termId: 'from_template' },
+  { pattern: /\.from_messages\b/g, termId: 'from_messages' },
   { pattern: /\.invoke\b/g, termId: 'invoke' },
+  { pattern: /\.ainvoke\b/g, termId: 'ainvoke' },
+  { pattern: /\.add_conditional_edges\b/g, termId: 'conditional-edges' },
+
+  // Decorators
+  { pattern: /^@tool\b/gm, termId: 'tool_decorator' },
 
   // Parameters
   { pattern: /\btemperature\s*=/g, termId: 'temperature' },
+  { pattern: /\bbefore_tool_callback\s*=/g, termId: 'before-tool-callback' },
+  { pattern: /\bsub_agents\s*=/g, termId: 'sub_agents' },
+  { pattern: /\binstruction\s*=/g, termId: 'instruction' },
 ];
 
 interface CodeToken {
