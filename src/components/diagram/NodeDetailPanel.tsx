@@ -116,27 +116,42 @@ export default function NodeDetailPanel() {
               </div>
             </div>
 
-            {/* Content */}
+            {/* Content with staggered entrance */}
             <div className="p-4 space-y-6">
               {/* Description */}
               {data.description && (
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1, duration: 0.3 }}
+                >
                   <p className="text-dark-300">{data.description}</p>
-                </div>
+                </motion.div>
               )}
 
               {/* Role explanation */}
-              <div className="glass rounded-xl p-4">
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15, duration: 0.3 }}
+                className="glass rounded-xl p-4"
+              >
                 <h4 className="text-sm font-medium text-dark-400 mb-2 flex items-center gap-2">
                   <BookOpen className="w-4 h-4" />
                   About this step
                 </h4>
                 <p className="text-sm text-dark-200">{roleDescriptions[role]}</p>
-              </div>
+              </motion.div>
 
               {/* Detailed hint */}
               {data.detailedHint && (
-                <div className="glass rounded-xl p-4 border-l-4" style={{ borderLeftColor: color }}>
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.3 }}
+                  className="glass rounded-xl p-4 border-l-4"
+                  style={{ borderLeftColor: color }}
+                >
                   <h4 className="text-sm font-medium text-white mb-2 flex items-center gap-2">
                     <Lightbulb className="w-4 h-4" style={{ color }} />
                     How it works
@@ -144,12 +159,15 @@ export default function NodeDetailPanel() {
                   <p className="text-sm text-dark-200 whitespace-pre-line">
                     {data.detailedHint}
                   </p>
-                </div>
+                </motion.div>
               )}
 
               {/* View in Code button */}
               {hasCodeLink && (
                 <motion.button
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25, duration: 0.3 }}
                   onClick={handleViewCode}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -166,18 +184,25 @@ export default function NodeDetailPanel() {
 
               {/* Related concepts */}
               {conceptIds.length > 0 && (
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                >
                   <h4 className="text-sm font-medium text-dark-400 mb-3 flex items-center gap-2">
                     <Sparkles className="w-4 h-4" />
                     Related Concepts
                   </h4>
                   <div className="space-y-2">
-                    {conceptIds.map((conceptId) => {
+                    {conceptIds.map((conceptId, i) => {
                       const concept = concepts[conceptId];
                       if (!concept) return null;
                       return (
-                        <div
+                        <motion.div
                           key={conceptId}
+                          initial={{ opacity: 0, x: 12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.35 + i * 0.05, duration: 0.25 }}
                           className="glass rounded-lg p-3 hover:bg-dark-700/50 transition-colors cursor-pointer"
                         >
                           <div className="text-sm font-medium text-white">
@@ -186,19 +211,24 @@ export default function NodeDetailPanel() {
                           <div className="text-xs text-dark-400 mt-0.5">
                             {concept.shortDescription}
                           </div>
-                        </div>
+                        </motion.div>
                       );
                     })}
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {/* Code highlight info */}
               {data.codeHighlightLines && (
-                <div className="text-xs text-dark-500 flex items-center gap-2">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4, duration: 0.3 }}
+                  className="text-xs text-dark-500 flex items-center gap-2"
+                >
                   <Code className="w-3 h-3" />
                   Lines {data.codeHighlightLines[0]}-{data.codeHighlightLines[1]}
-                </div>
+                </motion.div>
               )}
             </div>
           </motion.div>

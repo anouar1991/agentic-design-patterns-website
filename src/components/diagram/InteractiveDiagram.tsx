@@ -10,20 +10,22 @@
  * - Keyboard shortcuts (Escape to clear selection)
  */
 
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ReactFlow,
   Background,
-  Controls,
   MiniMap,
+  MarkerType,
   type Node,
   type Edge,
   useNodesState,
   useEdgesState,
+  useReactFlow,
+  ReactFlowProvider,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { Maximize2, Minimize2, Play, MousePointer2 } from 'lucide-react';
+import { Maximize2, Minimize2, Play, MousePointer2, ZoomIn, ZoomOut, Crosshair } from 'lucide-react';
 import { useDiagram } from '../../contexts/DiagramContext';
 import EnhancedNode from './EnhancedNode';
 import NodeDetailPanel from './NodeDetailPanel';
@@ -41,7 +43,59 @@ interface InteractiveDiagramProps {
   title?: string;
 }
 
-export default function InteractiveDiagram({
+// Custom zoom controls component (needs to be inside ReactFlowProvider)
+function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
+  const { zoomIn, zoomOut, fitView } = useReactFlow();
+  const [zoomLevel, setZoomLevel] = useState(100);
+
+  const handleZoomIn = useCallback(() => {
+    zoomIn({ duration: 200 });
+    setZoomLevel((prev) => Math.min(prev + 20, 200));
+  }, [zoomIn]);
+
+  const handleZoomOut = useCallback(() => {
+    zoomOut({ duration: 200 });
+    setZoomLevel((prev) => Math.max(prev - 20, 30));
+  }, [zoomOut]);
+
+  const handleFitView = useCallback(() => {
+    fitView({ padding: 0.2, duration: 300 });
+    setZoomLevel(100);
+  }, [fitView]);
+
+  return (
+    <div className="absolute bottom-4 right-4 z-10 flex flex-col gap-1">
+      <button
+        onClick={handleZoomIn}
+        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-white transition-colors"
+        title="Zoom in"
+      >
+        <ZoomIn className="w-4 h-4" />
+      </button>
+      <div className="text-[10px] text-dark-500 text-center py-0.5">
+        {zoomLevel}%
+      </div>
+      <button
+        onClick={handleZoomOut}
+        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-white transition-colors"
+        title="Zoom out"
+      >
+        <ZoomOut className="w-4 h-4" />
+      </button>
+      <div className="h-px bg-dark-700 my-1" />
+      <button
+        onClick={handleFitView}
+        className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-white transition-colors"
+        title="Fit to view"
+        style={{ color: chapterColor }}
+      >
+        <Crosshair className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
+
+function InteractiveDiagramInner({
   diagramNodes,
   diagramEdges,
   chapterColor,
@@ -68,13 +122,25 @@ export default function InteractiveDiagram({
     }));
   }, [diagramNodes]);
 
+  // Edge end marker for flow direction
+  const edgeMarker = useMemo(() => ({
+    type: MarkerType.ArrowClosed,
+    width: 16,
+    height: 16,
+    color: '#64748b',
+  }), []);
+
   const initialEdges = useMemo<Edge[]>(() => {
     return diagramEdges.map((edge) => ({
       id: edge.id,
       source: edge.source,
       target: edge.target,
       label: edge.label,
-      animated: edge.animated,
+      animated: edge.animated !== false, // default to animated
+      markerEnd: {
+        ...edgeMarker,
+        color: '#64748b',
+      },
       style: {
         stroke: '#64748b',
         strokeWidth: 2,
@@ -82,7 +148,7 @@ export default function InteractiveDiagram({
       },
       labelStyle: { fill: '#94a3b8', fontSize: 12 },
     }));
-  }, [diagramEdges]);
+  }, [diagramEdges, edgeMarker]);
 
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -105,11 +171,15 @@ export default function InteractiveDiagram({
             strokeWidth: isConnected ? 3 : 2,
             opacity: activeNodeId && !isConnected ? 0.3 : 1,
           },
+          markerEnd: {
+            ...edgeMarker,
+            color: isConnected ? chapterColor : '#64748b',
+          },
           animated: isConnected || edge.animated,
         };
       })
     );
-  }, [hoveredNodeId, selectedNodeId, chapterColor, setEdges]);
+  }, [hoveredNodeId, selectedNodeId, chapterColor, setEdges, edgeMarker]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -184,7 +254,7 @@ export default function InteractiveDiagram({
         </div>
 
         {/* Diagram */}
-        <div className={isFullScreen ? 'h-[calc(100vh-65px)]' : 'h-[400px]'} style={{ background: 'rgba(15, 23, 42, 0.5)' }}>
+        <div className={`relative ${isFullScreen ? 'h-[calc(100vh-65px)]' : 'h-[400px]'}`} style={{ background: 'rgba(15, 23, 42, 0.5)' }}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -201,12 +271,12 @@ export default function InteractiveDiagram({
             proOptions={{ hideAttribution: true }}
             minZoom={0.3}
             maxZoom={2}
+            defaultEdgeOptions={{
+              type: 'default',
+              animated: true,
+            }}
           >
             <Background color="#334155" gap={20} />
-            <Controls
-              className="!bg-dark-800 !rounded-lg !border-dark-700"
-              showInteractive={false}
-            />
             {isFullScreen && (
               <MiniMap
                 nodeColor={(node) => (node.data?.color as string) || '#64748b'}
@@ -215,6 +285,8 @@ export default function InteractiveDiagram({
               />
             )}
           </ReactFlow>
+          {/* Custom zoom controls */}
+          <CustomZoomControls chapterColor={chapterColor} />
         </div>
 
         {/* Legend (only in full-screen) */}
@@ -249,5 +321,14 @@ export default function InteractiveDiagram({
       {/* Node detail panel */}
       <NodeDetailPanel />
     </>
+  );
+}
+
+// Wrap with ReactFlowProvider so useReactFlow is available in custom controls
+export default function InteractiveDiagram(props: InteractiveDiagramProps) {
+  return (
+    <ReactFlowProvider>
+      <InteractiveDiagramInner {...props} />
+    </ReactFlowProvider>
   );
 }

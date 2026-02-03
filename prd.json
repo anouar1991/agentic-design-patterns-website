@@ -244,7 +244,7 @@
       "name": "Interactive diagrams enhanced: node hover tooltips, click animations, zoom controls",
       "intent": "Diagrams are the visual learning tool - must be engaging and informative",
       "description": "Enhance flow diagrams with smooth hover tooltips showing node details, click animations with visual feedback, zoom/pan controls, and improved edge styling with animated flow direction.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-200"
       ],
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-240",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230"],
+    "recommendedNextStepId": "T-250",
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }

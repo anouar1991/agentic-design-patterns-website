@@ -208,6 +208,14 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-230] Framer Motion `AnimatePresence` with `mode="wait"` and spring transitions creates smooth copy-button icon swap without layout shift
 - [T-230] The `oneDark` theme from react-syntax-highlighter can be spread and customized by overriding specific keys like `'pre[class*="language-"]'` for transparent backgrounds
 
+- [T-240] `ReactFlowProvider` must wrap any component using `useReactFlow()` — the custom zoom controls component needs this, so `InteractiveDiagram` wraps its inner component with `ReactFlowProvider`
+- [T-240] React Flow's default `<Controls>` was replaced with custom `CustomZoomControls` using `useReactFlow()` hooks for zoom in/out/fit — provides better visual consistency with the glass-elevated design
+- [T-240] `MarkerType.ArrowClosed` on edge `markerEnd` shows flow direction arrows at the target end of each edge — color updates dynamically with edge highlighting
+- [T-240] CSS `animate-pulse-subtle` on nodes with code links causes Playwright `element is not stable` errors — use `force: true` when testing these nodes programmatically
+- [T-240] Node tooltip uses 400ms delay via `setTimeout` in `handleMouseEnter` to avoid flicker on quick mouse movements — cleared in `handleMouseLeave`
+- [T-240] Click ripple uses `onAnimationEnd` callback to clean up the ripple element — avoids accumulating DOM nodes from repeated clicks
+- [T-240] Detail panel content sections use staggered Framer Motion delays (0.1s increments) for a cascading reveal effect — each section animates independently
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems

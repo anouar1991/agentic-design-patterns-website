@@ -6,9 +6,11 @@
  * - Displays role-based styling (input/process/output)
  * - Pulses when it has linked code examples
  * - Supports click to show detail panel
+ * - Shows tooltip on hover with description and role
+ * - Click ripple animation for tactile feedback
  */
 
-import { memo } from 'react';
+import { memo, useState, useRef, useCallback } from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 import { Code, ArrowRight, CircleDot, Database, Cog, CheckCircle2, Wrench, Bot, Brain } from 'lucide-react';
 import { useDiagramOptional } from '../../contexts/DiagramContext';
@@ -49,6 +51,18 @@ const roleColors: Record<NodeRole, string> = {
   memory: '#ec4899',
 };
 
+// Role display names for tooltip
+const roleLabels: Record<NodeRole, string> = {
+  input: 'Input',
+  process: 'Process',
+  output: 'Output',
+  decision: 'Decision',
+  handler: 'Handler',
+  tool: 'Tool',
+  agent: 'Agent',
+  memory: 'Memory',
+};
+
 function EnhancedNode({ data, selected, id }: NodeProps) {
   const nodeData = data as unknown as EnhancedNodeData;
   const diagramContext = useDiagramOptional();
@@ -61,24 +75,47 @@ function EnhancedNode({ data, selected, id }: NodeProps) {
   const isSelected = selected || diagramContext?.selectedNodeId === id;
   const isHovered = diagramContext?.hoveredNodeId === id;
 
-  const handleClick = () => {
+  // Tooltip state
+  const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Click ripple state
+  const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);
+  const rippleCounter = useRef(0);
+
+  const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    // Trigger ripple animation at click position
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    rippleCounter.current += 1;
+    setRipple({ x, y, key: rippleCounter.current });
+
     if (diagramContext) {
       const node = {
         id,
-        position: { x: 0, y: 0 }, // Position not needed for selection
+        position: { x: 0, y: 0 },
         data: nodeData,
       };
       diagramContext.selectNode(node);
     }
-  };
+  }, [diagramContext, id, nodeData]);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = useCallback(() => {
     diagramContext?.setHoveredNodeId(id);
-  };
+    // Show tooltip after a short delay
+    tooltipTimeoutRef.current = setTimeout(() => {
+      setShowTooltip(true);
+    }, 400);
+  }, [diagramContext, id]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     diagramContext?.setHoveredNodeId(null);
-  };
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+    setShowTooltip(false);
+  }, [diagramContext]);
 
   return (
     <div
@@ -161,6 +198,20 @@ function EnhancedNode({ data, selected, id }: NodeProps) {
         />
       )}
 
+      {/* Click ripple effect */}
+      {ripple && (
+        <span
+          key={ripple.key}
+          className="node-ripple"
+          style={{
+            left: ripple.x,
+            top: ripple.y,
+            backgroundColor: `${color}40`,
+          }}
+          onAnimationEnd={() => setRipple(null)}
+        />
+      )}
+
       {/* Selection glow effect */}
       {isSelected && (
         <div
@@ -169,6 +220,33 @@ function EnhancedNode({ data, selected, id }: NodeProps) {
             background: `radial-gradient(ellipse at center, ${color}20 0%, transparent 70%)`,
           }}
         />
+      )}
+
+      {/* Hover tooltip */}
+      {showTooltip && !isSelected && nodeData.detailedHint && (
+        <div
+          className="node-tooltip"
+          style={{ borderColor: `${color}40` }}
+        >
+          <div className="flex items-center gap-1.5 mb-1">
+            <span
+              className="text-[10px] font-medium px-1.5 py-0.5 rounded"
+              style={{ backgroundColor: `${color}20`, color }}
+            >
+              {roleLabels[role]}
+            </span>
+            {hasCodeLink && (
+              <span className="text-[10px] text-dark-500 flex items-center gap-0.5">
+                <Code className="w-2.5 h-2.5" />
+                Has code
+              </span>
+            )}
+          </div>
+          <p className="text-[11px] text-dark-300 leading-relaxed line-clamp-3">
+            {nodeData.detailedHint}
+          </p>
+          <p className="text-[10px] text-dark-500 mt-1">Click for details</p>
+        </div>
       )}
     </div>
   );
