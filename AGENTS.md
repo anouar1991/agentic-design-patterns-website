@@ -247,6 +247,11 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-340] Code blocks (`<pre>`) stay dark in light mode (hardcoded `#1e293b` background) — this is intentional for readability; inline `<code>` gets light styling
 - [T-340] Glass effect, glow effects, scrollbar, node tooltip, React Flow controls all need explicit `html.light` CSS overrides since they use hardcoded rgba values
 
+- [T-300] Chapters 1-8 had rich tutorials (20-28 steps each), but chapters 16-19 had sparse tutorials (2-7 steps) despite having matching notebooks — tutorial completeness requires comparing step counts, not just checking for tutorial array presence
+- [T-300] When expanding tutorials from notebooks, adapt code to be educational (add comments, break into digestible blocks) rather than copy-pasting entire notebook cells — raw notebook code is often too dense for step-by-step learning
+- [T-300] `highlightTerms` in tutorial steps must reference existing IDs in `codeTerms.ts` — always add new code terms before referencing them in tutorials, or the highlighting silently fails
+- [T-300] Chapters 20-21 appeared sparse in initial audit but had adequate tutorial content (4 sections, 10+ steps) — verify actual step quality before expanding
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

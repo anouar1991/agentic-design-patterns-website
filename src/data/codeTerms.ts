@@ -725,6 +725,229 @@ def retry_with_backoff(func, max_retries=3):
       'Set a maximum retry count',
       'Only retry transient errors, not permanent ones'
     ]
+  },
+
+  // ==================== OPENAI SDK ====================
+  'openai-client': {
+    id: 'openai-client',
+    name: 'OpenAI',
+    type: 'class',
+    shortDescription: 'OpenAI Python SDK client',
+    fullDescription: 'The OpenAI class is the main client for the OpenAI Python SDK. It provides access to chat completions, embeddings, and other API endpoints. Initialize it with your API key to start making requests.',
+    syntax: `from openai import OpenAI\nclient = OpenAI(api_key="...")`,
+    tips: [
+      'Set OPENAI_API_KEY env var instead of passing key directly',
+      'The client is thread-safe and can be reused across requests',
+      'Use AsyncOpenAI for async applications'
+    ],
+    docUrl: 'https://platform.openai.com/docs/libraries/python-library'
+  },
+
+  'chat-completions': {
+    id: 'chat-completions',
+    name: 'chat.completions.create',
+    type: 'method',
+    shortDescription: 'Generate chat completions from OpenAI models',
+    fullDescription: 'The chat.completions.create method sends a list of messages to an OpenAI model and receives a generated response. Messages include roles (system, user, assistant) and content. This is the primary API for conversational AI.',
+    syntax: `client.chat.completions.create(\n    model="gpt-4o",\n    messages=[{"role": "user", "content": "Hello"}],\n    temperature=0\n)`,
+    parameters: [
+      { name: 'model', type: 'str', description: 'Model ID (e.g., "gpt-4o", "gpt-4o-mini", "o4-mini")' },
+      { name: 'messages', type: 'list[dict]', description: 'Conversation messages with role and content' },
+      { name: 'temperature', type: 'float', description: 'Sampling temperature (0-2). Lower = more deterministic', default: '1.0' }
+    ],
+    tips: [
+      'Use temperature=0 for classification tasks',
+      'gpt-4o-mini is 10-20x cheaper than gpt-4o for simple tasks',
+      'Access response: response.choices[0].message.content'
+    ],
+    docUrl: 'https://platform.openai.com/docs/api-reference/chat/create'
+  },
+
+  // ==================== GOOGLE ADK (Extended) ====================
+  'base-agent': {
+    id: 'base-agent',
+    name: 'BaseAgent',
+    type: 'class',
+    shortDescription: 'Abstract base for custom ADK agents',
+    fullDescription: 'BaseAgent is the abstract base class for building custom agents in Google ADK. Override _run_async_impl to define custom behavior like routing, orchestration, or specialized processing. Use this when the built-in Agent class is insufficient.',
+    syntax: `from google.adk.agents import BaseAgent\n\nclass MyAgent(BaseAgent):\n    async def _run_async_impl(self, context):\n        yield Event(author=self.name, content=result)`,
+    tips: [
+      'Override _run_async_impl for custom logic',
+      'Yield Event objects to produce output',
+      'Use for routers, orchestrators, or custom processing pipelines'
+    ],
+    docUrl: 'https://google.github.io/adk-docs/'
+  },
+
+  'agent-tool': {
+    id: 'agent-tool',
+    name: 'AgentTool',
+    type: 'class',
+    shortDescription: 'Wrap an agent as a tool for another agent',
+    fullDescription: 'AgentTool wraps an ADK Agent so it can be used as a tool by another agent. This enables agent composition — a root agent can delegate to specialized sub-agents by calling them as tools.',
+    syntax: `from google.adk.tools import agent_tool\n\ntools=[agent_tool.AgentTool(agent=my_agent)]`,
+    tips: [
+      'The root agent decides when to call each sub-agent',
+      'Sub-agents can have different models (cost optimization)',
+      'Combine with search and code execution agents for ReAct'
+    ],
+    docUrl: 'https://google.github.io/adk-docs/'
+  },
+
+  'code-executor': {
+    id: 'code-executor',
+    name: 'BuiltInCodeExecutor',
+    type: 'class',
+    shortDescription: 'Execute code within ADK agents',
+    fullDescription: 'BuiltInCodeExecutor enables ADK agents to write and execute Python code during their reasoning process. This is essential for agents that need to perform calculations, data processing, or verify their logic programmatically.',
+    syntax: `from google.adk.code_executors import BuiltInCodeExecutor\n\nagent = Agent(\n    code_executor=[BuiltInCodeExecutor]\n)`,
+    tips: [
+      'Code execution runs in a sandboxed environment',
+      'Useful for math, data analysis, and verification tasks',
+      'Combine with search agents for ReAct-style reasoning'
+    ],
+    docUrl: 'https://google.github.io/adk-docs/'
+  },
+
+  'before-tool-callback': {
+    id: 'before-tool-callback',
+    name: 'before_tool_callback',
+    type: 'parameter',
+    shortDescription: 'ADK hook to validate tool calls before execution',
+    fullDescription: 'The before_tool_callback parameter on ADK agents registers a function that runs before every tool execution. It receives the tool, its arguments, and a context object. Return None to allow execution or return a dict to block it with an error message.',
+    syntax: `def validate(tool, args, tool_context):\n    # Return None to allow, dict to block\n    return None\n\nagent = Agent(before_tool_callback=validate)`,
+    parameters: [
+      { name: 'tool', type: 'BaseTool', description: 'The tool about to be executed' },
+      { name: 'args', type: 'Dict[str, Any]', description: 'Arguments passed to the tool' },
+      { name: 'tool_context', type: 'ToolContext', description: 'Context with session state and metadata' }
+    ],
+    tips: [
+      'Use for security: validate user IDs, check permissions',
+      'Access session state via tool_context.state',
+      'Return a dict with error_message to block with explanation'
+    ],
+    docUrl: 'https://google.github.io/adk-docs/'
+  },
+
+  'tool-context': {
+    id: 'tool-context',
+    name: 'ToolContext',
+    type: 'class',
+    shortDescription: 'Context object for ADK tool callbacks',
+    fullDescription: 'ToolContext provides access to session state and metadata within tool callbacks. Use tool_context.state to read and write session-level data for validation, logging, or state management during tool execution.',
+    syntax: `from google.adk.tools.tool_context import ToolContext\n\ndef my_callback(tool, args, tool_context: ToolContext):\n    user_id = tool_context.state.get("session_user_id")`,
+    tips: [
+      'State is shared across all tools in a session',
+      'Use state for permission checks and audit trails',
+      'Changes to state persist for the session duration'
+    ],
+    docUrl: 'https://google.github.io/adk-docs/'
+  },
+
+  // ==================== LANGGRAPH ====================
+  'state-graph': {
+    id: 'state-graph',
+    name: 'StateGraph',
+    type: 'class',
+    shortDescription: 'LangGraph state machine for agent workflows',
+    fullDescription: 'StateGraph is the core building block of LangGraph. It defines a directed graph of nodes (processing functions) and edges (transitions). Each node receives and returns state, enabling complex multi-step agent workflows with conditional routing and cycles.',
+    syntax: `from langgraph.graph import StateGraph, START, END\n\nbuilder = StateGraph(MyState)\nbuilder.add_node("step1", my_function)\nbuilder.add_edge(START, "step1")\ngraph = builder.compile()`,
+    tips: [
+      'Nodes are functions that receive state and return state updates',
+      'Use add_conditional_edges for routing based on state',
+      'compile() produces a runnable graph',
+      'State persists across nodes within a single execution'
+    ],
+    docUrl: 'https://langchain-ai.github.io/langgraph/'
+  },
+
+  'conditional-edges': {
+    id: 'conditional-edges',
+    name: 'add_conditional_edges',
+    type: 'method',
+    shortDescription: 'Add routing logic between graph nodes',
+    fullDescription: 'add_conditional_edges allows dynamic routing in a StateGraph based on the current state. A routing function examines the state and returns the name of the next node to execute. This enables loops, branching, and complex multi-step workflows.',
+    syntax: `builder.add_conditional_edges(\n    "reflection",\n    evaluate_research,  # routing function\n    ["web_research", "finalize_answer"]  # possible targets\n)`,
+    tips: [
+      'The routing function returns a node name as a string',
+      'Use for iterative loops (e.g., research → reflect → repeat)',
+      'Can fan out to multiple nodes with Send objects for parallelism'
+    ],
+    docUrl: 'https://langchain-ai.github.io/langgraph/'
+  },
+
+  // ==================== CREWAI ====================
+  'crewai-task': {
+    id: 'crewai-task',
+    name: 'Task (CrewAI)',
+    type: 'class',
+    shortDescription: 'Define tasks for CrewAI agents',
+    fullDescription: 'A CrewAI Task defines work for an agent to complete. Tasks have descriptions, expected outputs, and can include guardrail functions for output validation. Use output_pydantic to enforce structured output schemas.',
+    syntax: `from crewai import Task\n\ntask = Task(\n    description="Research topic...",\n    agent=researcher,\n    guardrail=validate_fn,\n    output_pydantic=OutputModel\n)`,
+    parameters: [
+      { name: 'description', type: 'str', description: 'What the agent should do' },
+      { name: 'agent', type: 'Agent', description: 'The agent assigned to this task' },
+      { name: 'guardrail', type: 'Callable', description: 'Validation function: (output) -> (bool, str)' },
+      { name: 'output_pydantic', type: 'BaseModel', description: 'Pydantic model for structured output' }
+    ],
+    tips: [
+      'guardrail function returns (True, output) to approve, (False, reason) to reject',
+      'CrewAI auto-retries when guardrail rejects output',
+      'Use context=[other_task] to chain task outputs'
+    ],
+    docUrl: 'https://docs.crewai.com/'
+  },
+
+  'pydantic-model': {
+    id: 'pydantic-model',
+    name: 'BaseModel (Pydantic)',
+    type: 'class',
+    shortDescription: 'Data validation with Python type annotations',
+    fullDescription: 'Pydantic BaseModel provides automatic data validation using Python type hints. In agent systems, it enforces structured LLM outputs — the model must return data matching the schema or validation fails. Use model_validate() for parsing and model_dump_json() for serialization.',
+    syntax: `from pydantic import BaseModel, Field\n\nclass MyOutput(BaseModel):\n    title: str = Field(description="...")\n    score: float = Field(ge=0.0, le=1.0)`,
+    tips: [
+      'Field descriptions help LLMs understand the expected format',
+      'Use Field(ge=0, le=1) for range constraints',
+      'model_validate(data) parses and validates dictionaries',
+      'Combine with json.loads() for LLM output parsing'
+    ],
+    docUrl: 'https://docs.pydantic.dev/'
+  },
+
+  // ==================== GOOGLE GENERATIVE AI ====================
+  'generative-ai': {
+    id: 'generative-ai',
+    name: 'google.generativeai',
+    type: 'module',
+    shortDescription: 'Google Generative AI Python SDK',
+    fullDescription: 'The google-generativeai package provides access to Google Gemini models for text generation, evaluation, and embedding. Use genai.configure() to set up API keys and GenerativeModel to create model instances.',
+    syntax: `import google.generativeai as genai\n\ngenai.configure(api_key=os.environ["GOOGLE_API_KEY"])\nmodel = genai.GenerativeModel("gemini-1.5-flash")`,
+    tips: [
+      'Install with: pip install google-generativeai',
+      'Set GOOGLE_API_KEY environment variable',
+      'Use response_mime_type="application/json" for structured output'
+    ],
+    docUrl: 'https://ai.google.dev/gemini-api/docs'
+  },
+
+  'generation-config': {
+    id: 'generation-config',
+    name: 'GenerationConfig',
+    type: 'class',
+    shortDescription: 'Configure generation parameters for Gemini models',
+    fullDescription: 'GenerationConfig controls how Gemini models generate responses. Set temperature for creativity vs consistency, response_mime_type for structured output format, and other parameters like max_output_tokens.',
+    syntax: `genai.types.GenerationConfig(\n    temperature=0.2,\n    response_mime_type="application/json"\n)`,
+    parameters: [
+      { name: 'temperature', type: 'float', description: 'Sampling temperature (0-2). Lower = deterministic', default: '1.0' },
+      { name: 'response_mime_type', type: 'str', description: 'Output format: "text/plain" or "application/json"' },
+      { name: 'max_output_tokens', type: 'int', description: 'Maximum tokens to generate' }
+    ],
+    tips: [
+      'Use temperature=0.2 for evaluation/judge tasks',
+      'response_mime_type="application/json" forces JSON output',
+      'Lower temperature = more consistent but less creative'
+    ],
+    docUrl: 'https://ai.google.dev/gemini-api/docs/text-generation'
   }
 };
 
