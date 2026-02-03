@@ -27,7 +27,7 @@ export function ThemeSwitcher() {
     { value: 'auto' as const, icon: Monitor, label: t('theme.auto', 'Auto') },
   ]
 
-  const currentIcon = mode === 'auto' ? Monitor : theme === 'light' ? Sun : Moon
+  const CurrentIcon = mode === 'auto' ? Monitor : theme === 'light' ? Sun : Moon
 
   return (
     <div ref={menuRef} className="relative">
@@ -36,7 +36,7 @@ export function ThemeSwitcher() {
         className="flex items-center justify-center w-9 h-9 rounded-lg bg-dark-800/50 light:bg-white/80 hover:bg-dark-700 light:hover:bg-gray-100 text-dark-300 light:text-gray-600 transition-colors"
         aria-label={t('theme.switchTheme', 'Switch theme')}
       >
-        <currentIcon className="w-5 h-5" />
+        <CurrentIcon className="w-5 h-5" />
       </button>
 
       <AnimatePresence>

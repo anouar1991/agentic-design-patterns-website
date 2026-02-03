@@ -134,6 +134,10 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-101] 2 appendix notebooks (Pydantic, Appendix C) don't map to numbered chapters
 - [T-101] No chapters are missing tutorials - T-300 (create missing tutorials) may need scope adjustment
 
+- [T-110] ThemeSwitcher.tsx had `currentIcon` (lowercase) used as JSX - React requires PascalCase for component references → fixed to `CurrentIcon`
+- [T-110] Console errors from React about casing and unrecognized tags trace to Lucide icon dynamic rendering patterns
+- [T-110] Vite dev server starts on port 5173; `npx vite` works from the project directory
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems

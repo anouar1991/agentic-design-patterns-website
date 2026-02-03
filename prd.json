@@ -66,7 +66,7 @@
       "name": "Build verified: project compiles and runs without errors",
       "intent": "Must have a working baseline before making any changes",
       "description": "Run the dev build, verify no compilation errors, check that the site loads and basic navigation works.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-100"
       ],
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-110",
-    "history": ["T-100", "T-101"],
+    "recommendedNextStepId": "T-120",
+    "history": ["T-100", "T-101", "T-110"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }
