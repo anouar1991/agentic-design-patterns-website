@@ -25,9 +25,13 @@ import { useProgress } from '../contexts/ProgressContext'
 
 const TOTAL_CHAPTERS = 21
 
-const getNavLinks = (t: (key: string) => string, hasProgress: boolean) => [
+const getNavLinks = (t: (key: string) => string, hasProgress: boolean, lastVisitedChapterId?: number | null) => [
   { to: '/', label: t('nav.home'), icon: Home },
-  { to: '/introduction', label: hasProgress ? t('nav.continue') : t('nav.startHere'), icon: GraduationCap },
+  {
+    to: hasProgress && lastVisitedChapterId ? `/chapter/${lastVisitedChapterId}` : '/introduction',
+    label: hasProgress ? t('nav.continue') : t('nav.startHere'),
+    icon: GraduationCap,
+  },
   { to: '/chapters', label: t('nav.chapters'), icon: BookOpen },
   { to: '/learning-path', label: t('nav.learningPath'), icon: Map },
   { to: '/playground', label: t('nav.playground'), icon: Code },
@@ -38,9 +42,9 @@ export default function Layout() {
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { t } = useTranslation()
-  const { completedChapters, completionPercentage } = useProgress()
-  const hasProgress = completedChapters.length > 0
-  const navLinks = getNavLinks(t, hasProgress)
+  const { completedChapters, completionPercentage, lastVisited } = useProgress()
+  const hasProgress = completedChapters.length > 0 || !!lastVisited
+  const navLinks = getNavLinks(t, hasProgress, lastVisited?.chapterId)
 
   // Close mobile menu on route change
   useEffect(() => {

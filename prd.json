@@ -422,7 +422,7 @@
       "name": "Learning progress persistence: localStorage tracks chapter completion, quiz scores, visited sections",
       "intent": "Users return to learn more - must remember where they left off",
       "description": "Implement localStorage-based progress tracking that remembers completed chapters, quiz scores, last visited section, and tutorial progress. Show this in the navigation and chapter cards.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-210",
         "T-320"
@@ -809,7 +809,7 @@
   "ralph": {
     "currentTaskId": null,
     "recommendedNextStepId": "T-340",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250", "T-260", "T-320"],
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250", "T-260", "T-320", "T-330"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }

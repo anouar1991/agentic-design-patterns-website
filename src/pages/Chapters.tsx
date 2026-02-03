@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useProgress } from '../contexts/ProgressContext';
 
 import {
   BookOpen,
+  CheckCircle2,
   ChevronRight,
   GitBranch,
   Layers,
@@ -26,7 +28,8 @@ import {
   ListOrdered,
   Compass,
   Zap,
-  FileCode
+  FileCode,
+  Trophy
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -116,6 +119,7 @@ const parts: Part[] = [
 
 export default function Chapters() {
   const { t } = useTranslation();
+  const { isChapterCompleted, getPhaseProgress, getQuizScore } = useProgress();
 
   return (
     <div className="min-h-screen py-12">
@@ -162,21 +166,46 @@ export default function Chapters() {
               transition={{ duration: 0.4, delay: partIndex * 0.15 }}
             >
               {/* Part Header */}
-              <div className="flex items-center gap-4 mb-8">
-                <div
-                  className="w-1.5 h-16 rounded-full"
-                  style={{ backgroundColor: part.color }}
-                />
-                <div>
-                  <h2 className="text-2xl font-bold text-white">{t(`parts.${part.id}.name`)}</h2>
-                  <p className="text-dark-400">{t(`parts.${part.id}.description`)}</p>
-                </div>
-              </div>
+              {(() => {
+                const phaseChapterIds = part.chapters.map(c => c.num);
+                const phaseProgress = getPhaseProgress(phaseChapterIds);
+                return (
+                  <div className="flex items-center gap-4 mb-8">
+                    <div
+                      className="w-1.5 h-16 rounded-full"
+                      style={{ backgroundColor: part.color }}
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-2xl font-bold text-white">{t(`parts.${part.id}.name`)}</h2>
+                        {phaseProgress.completed > 0 && (
+                          <span className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">
+                            {phaseProgress.completed}/{phaseProgress.total} completed
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-dark-400">{t(`parts.${part.id}.description`)}</p>
+                      {phaseProgress.completed > 0 && (
+                        <div className="mt-2 h-1 rounded-full bg-dark-700 overflow-hidden">
+                          <motion.div
+                            className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${phaseProgress.percentage}%` }}
+                            transition={{ duration: 0.6, ease: 'easeOut' }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Chapter Cards Grid */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {part.chapters.map((chapter) => {
                   const Icon = iconMap[chapter.icon] || Zap;
+                  const completed = isChapterCompleted(chapter.num);
+                  const quizScore = getQuizScore(chapter.num);
                   // Use global chapter number for sequential animation across all parts
                   const globalDelay = (chapter.num - 1) * 0.04;
                   return (
@@ -188,11 +217,27 @@ export default function Chapters() {
                     >
                       <Link
                         to={`/chapter/${chapter.num}`}
-                        className="chapter-card group block glass rounded-2xl p-6 h-full hover:border-dark-600/70 shimmer-hover"
+                        className={`chapter-card group block glass rounded-2xl p-6 h-full hover:border-dark-600/70 shimmer-hover relative ${
+                          completed ? 'border-emerald-500/30 chapter-card-completed' : ''
+                        }`}
                       >
+                        {/* Completion badge */}
+                        {completed && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                            className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30 z-10"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                          </motion.div>
+                        )}
+
                         <div className="flex items-start justify-between mb-4">
                           <div
-                            className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 ${
+                              completed ? 'ring-2 ring-emerald-500/30' : ''
+                            }`}
                             style={{ backgroundColor: `${chapter.color}20` }}
                           >
                             <Icon className="w-6 h-6" style={{ color: chapter.color }} />
@@ -217,9 +262,19 @@ export default function Chapters() {
                         </p>
 
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-xs text-dark-500">
-                            <FileCode className="w-4 h-4" />
-                            <span>{chapter.notebooks} {t('chaptersPage.examples')}</span>
+                          <div className="flex items-center gap-3 text-xs text-dark-500">
+                            <span className="inline-flex items-center gap-1">
+                              <FileCode className="w-4 h-4" />
+                              {chapter.notebooks} {t('chaptersPage.examples')}
+                            </span>
+                            {quizScore && (
+                              <span className={`inline-flex items-center gap-1 ${
+                                quizScore.passed ? 'text-emerald-400' : 'text-amber-400'
+                              }`}>
+                                <Trophy className="w-3.5 h-3.5" />
+                                {quizScore.score}/{quizScore.totalQuestions}
+                              </span>
+                            )}
                           </div>
                           <ChevronRight
                             className="w-5 h-5 text-dark-600 group-hover:text-primary-400 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-all"

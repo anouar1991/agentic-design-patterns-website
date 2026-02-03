@@ -233,6 +233,13 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-320] Segmented progress bar (one segment per question, colored green/red) replaces the single continuous progress bar — gives immediate visual feedback on performance trajectory
 - [T-320] ShakeWrapper uses Framer Motion keyframe array `x: [0, -8, 8, -6, 6, -3, 3, 0]` for natural shake feel on wrong answers
 
+- [T-330] ProgressContext already had localStorage for `completedChapters` — extended the same `CourseProgress` type in `types.ts` to also store `quizScores` (Record<number, QuizScore>) and `lastVisited` ({ chapterId, section?, timestamp })
+- [T-330] Backward compatibility: `loadProgress()` normalizes missing fields with `|| {}` / `|| []` defaults so existing localStorage data from before T-330 still loads correctly
+- [T-330] `saveQuizScore` only updates if the new score is better than existing (best-score-wins) — prevents regression when retaking quizzes
+- [T-330] `hasProgress` in Layout.tsx was expanded from `completedChapters.length > 0` to also include `!!lastVisited` — so "Continue" link appears even before completing any chapter
+- [T-330] Refs (`quizScoresRef`, `lastVisitedRef`) used in `markChapterComplete`/`toggleChapterComplete` callbacks to avoid stale closures when building the full progress object for localStorage save
+- [T-330] Chapters.tsx had no progress integration — added `useProgress()` with completion badges (matching Home.tsx pattern), phase progress bars, and quiz score indicators per card
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems

@@ -186,8 +186,17 @@ export interface TutorialSection {
 }
 
 // Progress tracking
+export interface QuizScore {
+  score: number;
+  totalQuestions: number;
+  passed: boolean;
+  timestamp: string;
+}
+
 export interface CourseProgress {
   completedChapters: number[];
+  quizScores: Record<number, QuizScore>;
+  lastVisited?: { chapterId: number; section?: string; timestamp: string };
   lastUpdated: string;
 }
 

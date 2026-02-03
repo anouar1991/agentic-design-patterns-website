@@ -92,7 +92,7 @@ function ChapterContent() {
   const { isRTL } = useLanguage();
   const { id } = useParams<{ id: string }>();
   const chapterNum = parseInt(id || '1', 10);
-  const { isChapterCompleted, markChapterComplete, toggleChapterComplete } = useProgress();
+  const { isChapterCompleted, markChapterComplete, toggleChapterComplete, setLastVisited } = useProgress();
   const { setScrollToCodeCallback, highlightedCodeLines } = useDiagram();
 
   const chapter = chapterDetails[chapterNum];
@@ -114,6 +114,13 @@ function ChapterContent() {
       }
     });
   }, [setScrollToCodeCallback]);
+
+  // Track last visited chapter
+  useEffect(() => {
+    if (chapter) {
+      setLastVisited(chapterNum);
+    }
+  }, [chapterNum, chapter, setLastVisited]);
 
   const handleQuizPass = useCallback(() => {
     markChapterComplete(chapterNum);

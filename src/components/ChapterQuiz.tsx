@@ -18,6 +18,7 @@ import {
 import type { ChapterQuiz as ChapterQuizType, QuizQuestion, QuizQuestionType } from '../data/types';
 import { useQuizAttempts, formatQuizScore } from '../hooks/useQuizAttempts';
 import { useAuth } from '../contexts/AuthContext';
+import { useProgress } from '../contexts/ProgressContext';
 
 interface ChapterQuizProps {
   quiz: ChapterQuizType;
@@ -256,6 +257,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
   // Auth and quiz persistence
   const { user } = useAuth();
   const { bestScore, attemptCount, saveAttempt, saving } = useQuizAttempts(chapterId);
+  const { saveQuizScore } = useProgress();
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
   const totalQuestions = quiz.questions.length;
@@ -364,6 +366,9 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
     if (state === 'results' && !hasSavedAttempt) {
       setHasSavedAttempt(true);
 
+      // Always save to localStorage (offline-first)
+      saveQuizScore(chapterId, score, totalQuestions, passed);
+
       if (user) {
         saveAttempt({
           chapterId,
@@ -378,7 +383,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
         onPass();
       }
     }
-  }, [state, hasSavedAttempt, user, saveAttempt, chapterId, score, totalQuestions, passed, getDurationSeconds, onPass]);
+  }, [state, hasSavedAttempt, user, saveAttempt, saveQuizScore, chapterId, score, totalQuestions, passed, getDurationSeconds, onPass]);
 
   // Check if this is a new best score
   const isNewBest = bestScore ? score > bestScore.score : (user && score > 0);
