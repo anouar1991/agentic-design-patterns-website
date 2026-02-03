@@ -33,6 +33,14 @@ import {
   Award
 } from 'lucide-react';
 import { useProgress } from '../contexts/ProgressContext';
+import { chapterDetails } from '../data/chapters';
+import { Clock, BarChart2 } from 'lucide-react';
+
+const difficultyConfig = {
+  beginner: { label: 'Beginner', color: '#22c55e' },
+  intermediate: { label: 'Intermediate', color: '#f59e0b' },
+  advanced: { label: 'Advanced', color: '#ef4444' },
+} as const;
 
 const iconMap: Record<string, React.ElementType> = {
   link: GitBranch,
@@ -321,30 +329,58 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-4">
-            {chapters.map((chapter, index) => {
+          <motion.div
+            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-4"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.04,
+                  delayChildren: 0.6,
+                },
+              },
+            }}
+          >
+            {chapters.map((chapter) => {
               const Icon = iconMap[chapter.icon] || Zap;
               const completed = isChapterCompleted(chapter.num);
+              const detail = chapterDetails[chapter.num];
+              const readingMeta = detail?.readingMeta;
+              const difficulty = readingMeta?.difficulty;
+              const diffInfo = difficulty ? difficultyConfig[difficulty] : null;
+
               return (
                 <motion.div
                   key={chapter.num}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.8 + index * 0.03 }}
+                  variants={{
+                    hidden: { opacity: 0, y: 20, scale: 0.9 },
+                    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] } },
+                  }}
                 >
                   <Link
                     to={`/chapter/${chapter.num}`}
                     className={`chapter-card group block glass rounded-xl p-4 text-center relative ${
                       completed
-                        ? 'border-emerald-500/30 hover:border-emerald-500/50'
-                        : 'hover:border-dark-600'
+                        ? 'border-emerald-500/30 chapter-card-completed'
+                        : ''
                     }`}
+                    style={{ '--card-glow': `${chapter.color}40` } as React.CSSProperties}
                   >
+                    {/* Completion badge */}
                     {completed && (
-                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
-                        <CheckCircle2 className="w-3 h-3 text-white" />
-                      </div>
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                        className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30 z-10"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                      </motion.div>
                     )}
+
+                    {/* Icon */}
                     <motion.div
                       layoutId={layoutIds.chapterIcon(chapter.num)}
                       className={`w-10 h-10 rounded-lg mx-auto mb-2 flex items-center justify-center transition-transform group-hover:scale-110 ${
@@ -354,19 +390,42 @@ export default function Home() {
                     >
                       <Icon className="w-5 h-5" style={{ color: chapter.color }} />
                     </motion.div>
+
+                    {/* Chapter number */}
                     <div className={`text-xs font-medium mb-1 ${
                       completed ? 'text-emerald-400' : 'text-dark-400'
                     }`}>
                       Ch {chapter.num}
                     </div>
+
+                    {/* Title */}
                     <div className="text-sm font-medium text-white truncate">
                       {chapter.title}
                     </div>
+
+                    {/* Metadata: reading time + difficulty */}
+                    {readingMeta && (
+                      <div className="mt-2 flex items-center justify-center gap-2 text-[10px] text-dark-500">
+                        <span className="inline-flex items-center gap-0.5">
+                          <Clock className="w-2.5 h-2.5" />
+                          {readingMeta.estimatedMinutes}m
+                        </span>
+                        {diffInfo && (
+                          <span
+                            className="inline-flex items-center gap-0.5"
+                            style={{ color: diffInfo.color }}
+                          >
+                            <BarChart2 className="w-2.5 h-2.5" />
+                            {diffInfo.label.charAt(0)}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </Link>
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
           <div className="text-center mt-12">
             <Link

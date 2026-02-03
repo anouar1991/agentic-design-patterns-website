@@ -197,6 +197,11 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-210] `aria-expanded` on mobile menu button and `aria-label="Breadcrumb"` on nav element are essential for accessibility
 - [T-210] TypeScript `--noEmit` shows false positives (jsx flag, moduleResolution) in this project — use `vite build` for actual error checking
 
+- [T-220] Framer Motion `variants` with `staggerChildren` on parent container is cleaner than computing `delay: baseDelay + index * step` per child — fewer magic numbers, easier to tune
+- [T-220] CSS custom properties (`--card-glow`) set via inline `style` allow per-card dynamic glow color without generating unique CSS classes
+- [T-220] `chapterDetails` from `chapters.ts` has `readingMeta` for all 21 chapters — no need for fallback data in Home.tsx cards
+- [T-220] Difficulty abbreviations (B/I/A) with color coding (green/amber/red) provide at-a-glance information without taking too much card space
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems

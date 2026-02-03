@@ -185,7 +185,7 @@
       "name": "Chapter landing cards enhanced: hover effects, completion badges, visual hierarchy improved",
       "intent": "First impression of available content - must communicate value and progress at a glance",
       "description": "Upgrade chapter cards on the main page with premium hover effects (scale, shadow, glow), completion badges, difficulty indicators, and estimated reading time. Add staggered entrance animations.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-200"
       ],
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-220",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210"],
+    "recommendedNextStepId": "T-230",
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }

@@ -309,22 +309,35 @@ code {
   text-wrap: balance;
 }
 
-/* Chapter card hover effects - enhanced with spring-like timing */
+/* Chapter card hover effects - premium with glow, scale, and shadow */
 .chapter-card {
+  --card-glow: transparent;
   transition: transform 0.35s var(--ease-spring),
               box-shadow 0.35s var(--ease-smooth),
               border-color 0.3s var(--ease-smooth);
 }
 
 .chapter-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) scale(1.03);
   box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.35),
-              0 0 0 1px rgba(255, 255, 255, 0.04);
+              0 0 0 1px rgba(255, 255, 255, 0.04),
+              0 0 20px -5px var(--card-glow);
+  border-color: var(--card-glow);
 }
 
 .chapter-card:active {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
   transition-duration: 0.1s;
+}
+
+/* Completed chapter card pulse ring */
+.chapter-card-completed {
+  animation: completed-pulse 3s var(--ease-smooth) infinite;
+}
+
+@keyframes completed-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  50% { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1); }
 }
 
 /* React Flow customization */
