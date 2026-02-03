@@ -158,17 +158,33 @@ function ChapterContent() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <motion.div
+          <motion.nav
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-sm text-dark-400 mb-6"
+            className="flex items-center gap-2 text-sm mb-6"
+            aria-label="Breadcrumb"
           >
-            <Link to="/chapters" className="hover:text-white transition-colors">
+            <Link
+              to="/"
+              className="text-dark-500 hover:text-dark-300 transition-colors"
+            >
+              {t('nav.home')}
+            </Link>
+            <span className="text-dark-600">/</span>
+            <Link
+              to="/chapters"
+              className="text-dark-400 hover:text-dark-200 transition-colors"
+            >
               {t('nav.chapters')}
             </Link>
-            <span>/</span>
-            <span className="text-white">{t('chaptersPage.ch')} {chapter.number}</span>
-          </motion.div>
+            <span className="text-dark-600">/</span>
+            <span
+              className="font-medium"
+              style={{ color: chapter.color }}
+            >
+              {t('chaptersPage.ch')} {chapter.number}
+            </span>
+          </motion.nav>
 
           {/* Title and Meta */}
           <motion.div

@@ -8,7 +8,8 @@
     "playground": "Playground",
     "leaderboard": "Leaderboard",
     "github": "GitHub",
-    "viewOnGithub": "View on GitHub"
+    "viewOnGithub": "View on GitHub",
+    "progress": "Progress"
   },
   "header": {
     "title": "Agentic Patterns",

@@ -156,7 +156,7 @@
       "name": "Navigation enhanced: sidebar/header polished with active states, smooth transitions, progress indicators",
       "intent": "Navigation is the user's primary interaction - it must feel premium and informative",
       "description": "Enhance navigation with smooth active state transitions, chapter completion progress indicators, breadcrumb improvements, and responsive mobile menu polish.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-200"
       ],
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-210",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200"],
+    "recommendedNextStepId": "T-220",
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }

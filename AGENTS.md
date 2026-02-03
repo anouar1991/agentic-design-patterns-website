@@ -191,6 +191,12 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-200] Inline code styling (`:not(pre) > code`) may affect code blocks in unexpected places — scoped to exclude `<pre>` children
 - [T-200] `font-extrabold` used for hero/page titles to create stronger visual hierarchy vs. `font-bold` for section headers
 
+- [T-210] Framer Motion `layoutId` for active nav underline must use a different ID than the background pill to avoid conflicting animations
+- [T-210] Mobile menu auto-close via `useEffect` on `location.pathname` is cleaner than `onClick` handlers on each link (catches all navigation, including browser back)
+- [T-210] SVG circle progress indicator: `strokeDasharray` = circumference, `strokeDashoffset` = circumference * (1 - progress) creates the fill effect
+- [T-210] `aria-expanded` on mobile menu button and `aria-label="Breadcrumb"` on nav element are essential for accessibility
+- [T-210] TypeScript `--noEmit` shows false positives (jsx flag, moduleResolution) in this project — use `vite build` for actual error checking
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems
