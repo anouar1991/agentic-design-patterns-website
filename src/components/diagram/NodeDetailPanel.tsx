@@ -9,6 +9,7 @@
  * - Related concepts list
  */
 
+import { useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Code, BookOpen, ArrowRight, Lightbulb, Sparkles } from 'lucide-react';
 import { useDiagram } from '../../contexts/DiagramContext';
@@ -47,6 +48,27 @@ export default function NodeDetailPanel() {
     scrollToCodeExample,
   } = useDiagram();
 
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Escape key to close panel
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      closeDetailPanel();
+    }
+  }, [closeDetailPanel]);
+
+  useEffect(() => {
+    if (isDetailPanelOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      // Focus the close button when panel opens
+      setTimeout(() => {
+        const closeBtn = panelRef.current?.querySelector<HTMLElement>('button');
+        closeBtn?.focus();
+      }, 100);
+    }
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isDetailPanelOpen, handleKeyDown]);
+
   if (!selectedNode) return null;
 
   const { data } = selectedNode;
@@ -78,6 +100,10 @@ export default function NodeDetailPanel() {
 
           {/* Panel */}
           <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Details for ${data.label}`}
             initial={{ x: '100%', opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
@@ -109,6 +135,7 @@ export default function NodeDetailPanel() {
                 </div>
                 <button
                   onClick={closeDetailPanel}
+                  aria-label="Close detail panel"
                   className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-800 transition-colors"
                 >
                   <X className="w-5 h-5" />

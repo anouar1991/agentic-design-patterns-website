@@ -258,6 +258,15 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-420] Exit animation uses `cubic-bezier(0.4, 0, 1, 1)` (accelerate-out) while enter uses `cubic-bezier(0, 0, 0.2, 1)` (decelerate-in) — this asymmetry creates natural-feeling motion where exit feels quick and enter feels smooth
 - [T-420] `reducedMotion` from MotionContext skips all transform/timing to 0ms — respects OS-level `prefers-reduced-motion` setting
 
+- [T-430] Code term `<span>` elements need `role="button"`, `tabIndex={0}`, and `onKeyDown` for Enter/Space — without these, keyboard users cannot activate clickable terms in code blocks
+- [T-430] Focus trap in modals requires querying all focusable elements (`button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])`) and wrapping Tab at boundaries
+- [T-430] `previousFocusRef` pattern: store `document.activeElement` before modal opens, restore focus on close — critical for keyboard users to maintain context
+- [T-430] Framer Motion `Reorder.Item` is drag-only by default — added `onKeyDown` with ArrowUp/ArrowDown handlers that swap adjacent items in the ordered array + `setTimeout` refocus after React re-render
+- [T-430] React Flow diagram nodes already get wrapper elements, but the inner `EnhancedNode` div needs explicit `tabIndex={0}` and `role="button"` for keyboard activation via Enter/Space
+- [T-430] `onFocus`/`onBlur` handlers on diagram nodes mirror `onMouseEnter`/`onMouseLeave` — shows tooltip and hover styling for keyboard-focused nodes
+- [T-430] Global `:focus-visible` rule in `index.css` provides visible blue outline on all focusable elements — no per-component focus styling needed
+- [T-430] `useRef<ReturnType<typeof setTimeout>>()` requires initial value `undefined` in React 19 strict mode — pre-existing TS error fixed alongside keyboard work
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

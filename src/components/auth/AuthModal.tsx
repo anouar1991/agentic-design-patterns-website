@@ -67,6 +67,9 @@ export function AuthModal({ isOpen, onClose, initialView = 'login' }: AuthModalP
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', duration: 0.3 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={view === 'login' ? 'Sign in' : 'Create account'}
             className="relative z-10 w-full max-w-md max-h-[90vh] overflow-y-auto bg-dark-900 rounded-2xl shadow-2xl"
           >
             {/* Header */}
@@ -78,6 +81,7 @@ export function AuthModal({ isOpen, onClose, initialView = 'login' }: AuthModalP
               </h2>
               <button
                 onClick={onClose}
+                aria-label="Close dialog"
                 className="p-2 text-dark-400 hover:text-dark-200 rounded-lg hover:bg-dark-800 transition-colors"
               >
                 <X className="w-5 h-5" />

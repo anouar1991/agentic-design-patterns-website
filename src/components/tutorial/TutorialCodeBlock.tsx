@@ -260,14 +260,25 @@ export default function TutorialCodeBlock({
         return (
           <span
             key={index}
+            role="button"
+            tabIndex={0}
+            aria-label={`Learn about ${token.content.replace(/[.()=]/g, '')}`}
             className="relative cursor-pointer transition-all duration-150 rounded px-0.5 -mx-0.5"
             style={{
               backgroundColor: isHovered ? `${chapterColor}30` : 'transparent',
               borderBottom: `2px dashed ${chapterColor}`,
             }}
             onClick={() => token.termId && handleTermClick(token.termId)}
+            onKeyDown={(e) => {
+              if ((e.key === 'Enter' || e.key === ' ') && token.termId) {
+                e.preventDefault();
+                handleTermClick(token.termId);
+              }
+            }}
             onMouseEnter={() => setHoveredTermId(token.termId || null)}
             onMouseLeave={() => setHoveredTermId(null)}
+            onFocus={() => setHoveredTermId(token.termId || null)}
+            onBlur={() => setHoveredTermId(null)}
           >
             {token.content}
             {isHovered && (

@@ -11,6 +11,7 @@
  * - Related links
  */
 
+import { useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Lightbulb, Code, BookOpen, ArrowRight } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -41,6 +42,52 @@ export default function CodeTermModal({
   onClose,
   chapterColor = '#f59e0b'
 }: CodeTermModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  // Escape key handler and focus trap
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onClose();
+      return;
+    }
+    // Focus trap: keep Tab within modal
+    if (e.key === 'Tab' && modalRef.current) {
+      const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }, [onClose]);
+
+  // Store previous focus and manage focus on open/close
+  useEffect(() => {
+    if (isOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      document.addEventListener('keydown', handleKeyDown);
+      // Focus the close button after animation
+      setTimeout(() => {
+        const closeBtn = modalRef.current?.querySelector<HTMLElement>('button');
+        closeBtn?.focus();
+      }, 100);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      if (!isOpen && previousFocusRef.current) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, [isOpen, handleKeyDown]);
+
   if (!term) return null;
 
   const typeStyle = typeColors[term.type];
@@ -61,6 +108,10 @@ export default function CodeTermModal({
 
           {/* Modal */}
           <motion.div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Documentation for ${term.name}`}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -88,6 +139,7 @@ export default function CodeTermModal({
                 </div>
                 <button
                   onClick={onClose}
+                  aria-label="Close documentation"
                   className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-800 transition-colors flex-shrink-0"
                 >
                   <X className="w-5 h-5" />

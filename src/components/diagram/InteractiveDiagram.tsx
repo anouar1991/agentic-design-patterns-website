@@ -69,16 +69,18 @@ function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
         onClick={handleZoomIn}
         className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-dark-50 transition-colors"
         title="Zoom in"
+        aria-label="Zoom in"
       >
         <ZoomIn className="w-4 h-4" />
       </button>
-      <div className="text-[10px] text-dark-500 text-center py-0.5">
+      <div className="text-[10px] text-dark-500 text-center py-0.5" aria-live="polite">
         {zoomLevel}%
       </div>
       <button
         onClick={handleZoomOut}
         className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-dark-50 transition-colors"
         title="Zoom out"
+        aria-label="Zoom out"
       >
         <ZoomOut className="w-4 h-4" />
       </button>
@@ -87,6 +89,7 @@ function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
         onClick={handleFitView}
         className="p-2 rounded-lg glass-elevated text-dark-300 hover:text-dark-50 transition-colors"
         title="Fit to view"
+        aria-label="Fit diagram to view"
         style={{ color: chapterColor }}
       >
         <Crosshair className="w-4 h-4" />
@@ -243,6 +246,8 @@ function InteractiveDiagramInner({
               onClick={toggleFullScreen}
               className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-700 transition-colors"
               title={isFullScreen ? 'Exit full screen (Esc)' : 'Full screen'}
+              aria-label={isFullScreen ? 'Exit full screen' : 'Enter full screen'}
+              aria-expanded={isFullScreen}
             >
               {isFullScreen ? (
                 <Minimize2 className="w-5 h-5" />

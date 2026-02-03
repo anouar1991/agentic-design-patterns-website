@@ -124,22 +124,53 @@ function OrderingQuestion({
     [question.options],
   );
 
+  // Keyboard handler: Arrow Up/Down to move focused item
+  const handleItemKeyDown = useCallback((e: React.KeyboardEvent, idx: number) => {
+    if (e.key === 'ArrowUp' && idx > 0) {
+      e.preventDefault();
+      const newOrder = [...orderedItems];
+      [newOrder[idx - 1], newOrder[idx]] = [newOrder[idx], newOrder[idx - 1]];
+      onReorder(newOrder);
+      // Focus the moved item at its new position
+      setTimeout(() => {
+        const items = (e.currentTarget as HTMLElement).parentElement?.querySelectorAll<HTMLElement>('[data-reorder-item]');
+        items?.[idx - 1]?.focus();
+      }, 50);
+    } else if (e.key === 'ArrowDown' && idx < orderedItems.length - 1) {
+      e.preventDefault();
+      const newOrder = [...orderedItems];
+      [newOrder[idx], newOrder[idx + 1]] = [newOrder[idx + 1], newOrder[idx]];
+      onReorder(newOrder);
+      setTimeout(() => {
+        const items = (e.currentTarget as HTMLElement).parentElement?.querySelectorAll<HTMLElement>('[data-reorder-item]');
+        items?.[idx + 1]?.focus();
+      }, 50);
+    }
+  }, [orderedItems, onReorder]);
+
   return (
     <div>
       <p className="text-sm text-dark-400 mb-3 flex items-center gap-2">
         <GripVertical className="w-4 h-4" />
-        Drag to reorder
+        Drag to reorder or use arrow keys
       </p>
       <Reorder.Group
         axis="y"
         values={orderedItems}
         onReorder={onReorder}
         className="space-y-2"
+        role="listbox"
+        aria-label="Reorder items"
       >
         {orderedItems.map((itemId, idx) => (
           <Reorder.Item
             key={itemId}
             value={itemId}
+            data-reorder-item
+            tabIndex={0}
+            role="option"
+            aria-label={`Position ${idx + 1}: ${optionMap.get(itemId)}. Use arrow keys to reorder.`}
+            onKeyDown={(e: React.KeyboardEvent) => handleItemKeyDown(e, idx)}
             className="flex items-center gap-3 p-4 rounded-xl border-2 border-dark-600 bg-dark-800/50 cursor-grab active:cursor-grabbing select-none"
             whileDrag={{
               scale: 1.02,

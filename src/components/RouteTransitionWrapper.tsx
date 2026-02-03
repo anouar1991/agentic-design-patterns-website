@@ -24,7 +24,7 @@ export default function RouteTransitionWrapper() {
   const [phase, setPhase] = useState<'visible' | 'exiting' | 'entering'>('visible');
   const [direction, setDirection] = useState<'forward' | 'back'>('forward');
   const prevPathRef = useRef(location.pathname);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Save current scroll position before navigating away
   const saveScrollPosition = useCallback(() => {

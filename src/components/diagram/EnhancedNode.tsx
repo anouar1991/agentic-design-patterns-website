@@ -83,14 +83,7 @@ function EnhancedNode({ data, selected, id }: NodeProps) {
   const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);
   const rippleCounter = useRef(0);
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    // Trigger ripple animation at click position
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    rippleCounter.current += 1;
-    setRipple({ x, y, key: rippleCounter.current });
-
+  const selectCurrentNode = useCallback(() => {
     if (diagramContext) {
       const node = {
         id,
@@ -100,6 +93,24 @@ function EnhancedNode({ data, selected, id }: NodeProps) {
       diagramContext.selectNode(node);
     }
   }, [diagramContext, id, nodeData]);
+
+  const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    // Trigger ripple animation at click position
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    rippleCounter.current += 1;
+    setRipple({ x, y, key: rippleCounter.current });
+
+    selectCurrentNode();
+  }, [selectCurrentNode]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      selectCurrentNode();
+    }
+  }, [selectCurrentNode]);
 
   const handleMouseEnter = useCallback(() => {
     diagramContext?.setHoveredNodeId(id);
@@ -119,7 +130,13 @@ function EnhancedNode({ data, selected, id }: NodeProps) {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={`${nodeData.label}${nodeData.description ? `: ${nodeData.description}` : ''}`}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={`

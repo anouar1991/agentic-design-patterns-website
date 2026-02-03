@@ -615,7 +615,7 @@
       "name": "Keyboard navigation: full keyboard accessibility for all interactive elements",
       "intent": "Accessibility is essential - keyboard users must be able to use all features",
       "description": "Ensure all interactive elements are keyboard accessible: tab order is logical, focus indicators are visible, diagrams can be navigated with arrow keys, code term modals can be opened/closed with keyboard, quizzes are fully keyboard-operable.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-260",
         "T-320"
@@ -808,7 +808,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-310",
+    "recommendedNextStepId": "T-350",
     "history": [
       "T-100",
       "T-101",
@@ -826,7 +826,8 @@
       "T-340",
       "T-300",
       "T-310",
-      "T-420"
+      "T-420",
+      "T-430"
     ],
     "startedAt": "2026-02-03T20:30:00Z"
   }
