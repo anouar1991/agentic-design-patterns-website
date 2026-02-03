@@ -128,6 +128,11 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-100] Light mode uses custom CSS `html.light .light\:*` classes rather than Tailwind's built-in dark mode
 - [T-100] All 21 chapters already have tutorial+quiz content - focus should be on enhancing quality, not creating from scratch
 - [T-100] Supabase integration exists for auth/leaderboard but local progress uses ProgressContext
+- [T-101] 61 notebooks map to 21 chapters; all chapters already have complete tutorial arrays (21/21 confirmed)
+- [T-101] Part One chapters (1-3) have richest enhancedCodeExamples (3-4 each); later chapters have fewer but still complete tutorials
+- [T-101] Heaviest notebook coverage: Ch5 Tool Use (6), Ch7 Multi-Agent (6), Ch8 Memory (6)
+- [T-101] 2 appendix notebooks (Pydantic, Appendix C) don't map to numbered chapters
+- [T-101] No chapters are missing tutorials - T-300 (create missing tutorials) may need scope adjustment
 
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
