@@ -6,7 +6,7 @@
  */
 
 import { useState, useCallback, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, Check, HelpCircle } from 'lucide-react';
 import { codeTerms, type CodeTerm } from '../../data/codeTerms';
 import CodeTermModal from './CodeTermModal';
@@ -17,6 +17,8 @@ interface TutorialCodeBlockProps {
   chapterColor?: string;
   /** List of term IDs that should be clickable in this code block */
   highlightTerms?: string[];
+  /** Line range to highlight [start, end] (1-indexed) */
+  highlightLines?: [number, number] | null;
 }
 
 // Map of terms to find in code (pattern -> term ID)
@@ -155,6 +157,7 @@ export default function TutorialCodeBlock({
   language = 'python',
   chapterColor = '#f59e0b',
   highlightTerms,
+  highlightLines,
 }: TutorialCodeBlockProps) {
   const [selectedTerm, setSelectedTerm] = useState<CodeTerm | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -175,7 +178,18 @@ export default function TutorialCodeBlock({
   }, []);
 
   const handleCopy = useCallback(async () => {
-    await navigator.clipboard.writeText(code);
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      const textarea = document.createElement('textarea');
+      textarea.value = code;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }, [code]);
@@ -242,11 +256,15 @@ export default function TutorialCodeBlock({
     <>
       <div className="glass rounded-xl overflow-hidden">
         {/* Header */}
-        <div className="px-4 py-2 border-b border-dark-700 flex items-center justify-between">
+        <div className="px-4 py-3 border-b border-dark-700/60 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span
-              className="px-2 py-0.5 rounded text-xs font-medium"
-              style={{ backgroundColor: `${chapterColor}20`, color: chapterColor }}
+              className="px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wider"
+              style={{
+                backgroundColor: `${chapterColor}15`,
+                color: chapterColor,
+                border: `1px solid ${chapterColor}25`,
+              }}
             >
               {language}
             </span>
@@ -257,19 +275,37 @@ export default function TutorialCodeBlock({
           </div>
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-2 py-1 rounded text-xs text-dark-400 hover:text-white hover:bg-dark-700 transition-colors"
+            className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 hover:bg-dark-700/80"
+            style={{ color: copied ? '#4ade80' : '#8c9bb5' }}
+            aria-label={copied ? 'Copied to clipboard' : 'Copy code'}
           >
-            {copied ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-green-400" />
-                Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5" />
-                Copy
-              </>
-            )}
+            <AnimatePresence mode="wait">
+              {copied ? (
+                <motion.span
+                  key="check"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                  className="flex items-center gap-1.5"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Copied!
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="copy"
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                  className="flex items-center gap-1.5"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  Copy
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
 
@@ -277,16 +313,39 @@ export default function TutorialCodeBlock({
         <div className="p-4 overflow-x-auto">
           <pre className="font-mono text-sm leading-relaxed">
             <code>
-              {tokenizedLines.map((lineTokens, lineIndex) => (
-                <div key={lineIndex} className="flex">
-                  <span className="select-none text-dark-600 w-8 text-right pr-4 flex-shrink-0">
-                    {lineIndex + 1}
-                  </span>
-                  <span className="text-dark-200">
-                    {lineTokens.length === 0 ? '\n' : lineTokens.map(renderToken)}
-                  </span>
-                </div>
-              ))}
+              {tokenizedLines.map((lineTokens, lineIndex) => {
+                const lineNum = lineIndex + 1;
+                const isLineHighlighted =
+                  highlightLines &&
+                  lineNum >= highlightLines[0] &&
+                  lineNum <= highlightLines[1];
+
+                return (
+                  <div
+                    key={lineIndex}
+                    className="flex transition-colors duration-300"
+                    style={{
+                      backgroundColor: isLineHighlighted
+                        ? `${chapterColor}12`
+                        : 'transparent',
+                      borderLeft: isLineHighlighted
+                        ? `3px solid ${chapterColor}`
+                        : '3px solid transparent',
+                      paddingLeft: isLineHighlighted ? '0.25rem' : '0.25rem',
+                    }}
+                  >
+                    <span
+                      className="select-none w-10 text-right pr-4 flex-shrink-0 text-dark-600"
+                      style={{ fontSize: '0.8rem', lineHeight: 'inherit' }}
+                    >
+                      {lineNum}
+                    </span>
+                    <span className="text-dark-200">
+                      {lineTokens.length === 0 ? '\n' : lineTokens.map(renderToken)}
+                    </span>
+                  </div>
+                );
+              })}
             </code>
           </pre>
         </div>

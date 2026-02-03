@@ -214,7 +214,7 @@
       "name": "Code blocks enhanced: syntax highlighting improved, copy button, line numbers, language badges",
       "intent": "Code is the core content - must be beautiful and functional for learners",
       "description": "Upgrade all code blocks with improved syntax highlighting theme, line numbers, copy-to-clipboard button with feedback, language badge, and optional line highlighting for emphasis.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-200"
       ],
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-230",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220"],
+    "recommendedNextStepId": "T-240",
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }

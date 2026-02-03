@@ -202,6 +202,12 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-220] `chapterDetails` from `chapters.ts` has `readingMeta` for all 21 chapters — no need for fallback data in Home.tsx cards
 - [T-220] Difficulty abbreviations (B/I/A) with color coding (green/amber/red) provide at-a-glance information without taking too much card space
 
+- [T-230] Codebase has a dual code block system: `TutorialCodeBlock` (custom tokenizer with clickable terms) and `react-syntax-highlighter` (non-interactive code in Chapter.tsx, ProgressiveContent.tsx)
+- [T-230] Created `EnhancedCodeBlock` wrapper to give `react-syntax-highlighter` instances consistent copy button, language badge, and line highlighting — reusable across all non-interactive code contexts
+- [T-230] `DiagramContext.highlightedCodeLines` is typed as `number[] | null` not `[number, number] | null` — `EnhancedCodeBlock` accepts both via union type
+- [T-230] Framer Motion `AnimatePresence` with `mode="wait"` and spring transitions creates smooth copy-button icon swap without layout shift
+- [T-230] The `oneDark` theme from react-syntax-highlighter can be spread and customized by overriding specific keys like `'pre[class*="language-"]'` for transparent backgrounds
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems

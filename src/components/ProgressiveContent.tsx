@@ -6,11 +6,10 @@
  */
 
 import { motion } from 'framer-motion';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Lightbulb, AlertTriangle, BookOpen, Code, FileCode, Dumbbell } from 'lucide-react';
 import type { ContentSection } from '../data/types';
 import ConceptTooltip from './ConceptTooltip';
+import EnhancedCodeBlock from './EnhancedCodeBlock';
 
 interface ProgressiveContentProps {
   sections: ContentSection[];
@@ -124,41 +123,12 @@ export default function ProgressiveContent({
 
             {/* Content */}
             {sectionType === 'code' ? (
-              <div className="overflow-hidden rounded-xl">
-                <SyntaxHighlighter
-                  language={section.language || 'python'}
-                  style={oneDark}
-                  customStyle={{
-                    margin: 0,
-                    padding: '1.5rem',
-                    background: 'transparent',
-                    fontSize: '0.875rem',
-                  }}
-                  showLineNumbers
-                  wrapLines
-                  lineProps={(lineNumber) => {
-                    const isHighlighted =
-                      highlightedLines &&
-                      lineNumber >= highlightedLines[0] &&
-                      lineNumber <= highlightedLines[1];
-                    return {
-                      style: {
-                        display: 'block',
-                        backgroundColor: isHighlighted
-                          ? `${chapterColor}20`
-                          : 'transparent',
-                        borderLeft: isHighlighted
-                          ? `3px solid ${chapterColor}`
-                          : '3px solid transparent',
-                        paddingLeft: '0.5rem',
-                        marginLeft: '-0.5rem',
-                      },
-                    };
-                  }}
-                >
-                  {sectionContent}
-                </SyntaxHighlighter>
-              </div>
+              <EnhancedCodeBlock
+                code={sectionContent}
+                language={section.language || 'python'}
+                chapterColor={chapterColor}
+                highlightedLines={highlightedLines}
+              />
             ) : (
               <div
                 className={`px-4 ${

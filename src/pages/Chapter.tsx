@@ -2,8 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { layoutIds } from '../config/motion';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import EnhancedCodeBlock from '../components/EnhancedCodeBlock';
 import {
   ArrowLeft,
   ArrowRight,
@@ -351,72 +350,19 @@ function ChapterContent() {
                         {chapter.codeExamples.map((example, index) => (
                           <motion.div
                             key={index}
-                            ref={(el) => { codeExampleRefs.current[index] = el; }}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                            className={`glass rounded-2xl overflow-hidden transition-all duration-300 ${
-                              highlightedCodeLines ? 'ring-2 ring-offset-2 ring-offset-dark-900' : ''
-                            }`}
-                            style={{
-                              // @ts-expect-error CSS custom property for ring color
-                              '--tw-ring-color': highlightedCodeLines ? chapter.color : 'transparent'
-                            }}
                           >
-                            <div className="p-4 border-b border-dark-700 flex items-center justify-between">
-                              <h3 className="font-semibold text-white flex items-center gap-2">
-                                <FileCode className="w-4 h-4" style={{ color: chapter.color }} />
-                                {example.title}
-                              </h3>
-                              <span
-                                className="px-2 py-1 rounded text-xs font-medium"
-                                style={{ backgroundColor: `${chapter.color}20`, color: chapter.color }}
-                              >
-                                {example.language}
-                              </span>
-                            </div>
-
-                            <SyntaxHighlighter
+                            <EnhancedCodeBlock
+                              code={example.code}
                               language={example.language}
-                              style={oneDark}
-                              customStyle={{
-                                margin: 0,
-                                padding: '1.5rem',
-                                background: 'transparent',
-                                fontSize: '0.875rem',
-                              }}
-                              showLineNumbers
-                              wrapLines
-                              lineProps={(lineNumber) => {
-                                const isHighlighted =
-                                  highlightedCodeLines &&
-                                  lineNumber >= highlightedCodeLines[0] &&
-                                  lineNumber <= highlightedCodeLines[1];
-                                return {
-                                  style: {
-                                    display: 'block',
-                                    backgroundColor: isHighlighted
-                                      ? `${chapter.color}20`
-                                      : 'transparent',
-                                    borderLeft: isHighlighted
-                                      ? `3px solid ${chapter.color}`
-                                      : '3px solid transparent',
-                                    paddingLeft: '0.5rem',
-                                    marginLeft: '-0.5rem',
-                                    transition: 'all 0.3s ease',
-                                  },
-                                };
-                              }}
-                            >
-                              {example.code}
-                            </SyntaxHighlighter>
-
-                            <div className="p-4 bg-dark-800/50 border-t border-dark-700">
-                              <p className="text-sm text-dark-300">
-                                <span className="font-medium text-white">{t('chapter.explanation')}: </span>
-                                {example.explanation}
-                              </p>
-                            </div>
+                              title={example.title}
+                              chapterColor={chapter.color}
+                              highlightedLines={highlightedCodeLines}
+                              explanation={example.explanation}
+                              refCallback={(el) => { codeExampleRefs.current[index] = el; }}
+                            />
                           </motion.div>
                         ))}
                       </div>
@@ -445,72 +391,19 @@ function ChapterContent() {
                     {chapter.codeExamples.map((example, index) => (
                       <motion.div
                         key={index}
-                        ref={(el) => { codeExampleRefs.current[index] = el; }}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                        className={`glass rounded-2xl overflow-hidden transition-all duration-300 ${
-                          highlightedCodeLines ? 'ring-2 ring-offset-2 ring-offset-dark-900' : ''
-                        }`}
-                        style={{
-                          // @ts-expect-error CSS custom property for ring color
-                          '--tw-ring-color': highlightedCodeLines ? chapter.color : 'transparent'
-                        }}
                       >
-                        <div className="p-4 border-b border-dark-700 flex items-center justify-between">
-                          <h3 className="font-semibold text-white flex items-center gap-2">
-                            <FileCode className="w-4 h-4" style={{ color: chapter.color }} />
-                            {example.title}
-                          </h3>
-                          <span
-                            className="px-2 py-1 rounded text-xs font-medium"
-                            style={{ backgroundColor: `${chapter.color}20`, color: chapter.color }}
-                          >
-                            {example.language}
-                          </span>
-                        </div>
-
-                        <SyntaxHighlighter
+                        <EnhancedCodeBlock
+                          code={example.code}
                           language={example.language}
-                          style={oneDark}
-                          customStyle={{
-                            margin: 0,
-                            padding: '1.5rem',
-                            background: 'transparent',
-                            fontSize: '0.875rem',
-                          }}
-                          showLineNumbers
-                          wrapLines
-                          lineProps={(lineNumber) => {
-                            const isHighlighted =
-                              highlightedCodeLines &&
-                              lineNumber >= highlightedCodeLines[0] &&
-                              lineNumber <= highlightedCodeLines[1];
-                            return {
-                              style: {
-                                display: 'block',
-                                backgroundColor: isHighlighted
-                                  ? `${chapter.color}20`
-                                  : 'transparent',
-                                borderLeft: isHighlighted
-                                  ? `3px solid ${chapter.color}`
-                                  : '3px solid transparent',
-                                paddingLeft: '0.5rem',
-                                marginLeft: '-0.5rem',
-                                transition: 'all 0.3s ease',
-                              },
-                            };
-                          }}
-                        >
-                          {example.code}
-                        </SyntaxHighlighter>
-
-                        <div className="p-4 bg-dark-800/50 border-t border-dark-700">
-                          <p className="text-sm text-dark-300">
-                            <span className="font-medium text-white">{t('chapter.explanation')}: </span>
-                            {example.explanation}
-                          </p>
-                        </div>
+                          title={example.title}
+                          chapterColor={chapter.color}
+                          highlightedLines={highlightedCodeLines}
+                          explanation={example.explanation}
+                          refCallback={(el) => { codeExampleRefs.current[index] = el; }}
+                        />
                       </motion.div>
                     ))}
                   </div>
