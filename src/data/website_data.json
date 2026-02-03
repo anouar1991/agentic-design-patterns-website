@@ -1,0 +1,1216 @@
+{
+  "meta": {
+    "title": "Agentic Design Patterns",
+    "subtitle": "A Hands-On Guide to Building Intelligent Systems",
+    "author": "Antonio Gulli",
+    "totalChapters": 21,
+    "totalAppendices": 7,
+    "totalPages": 424
+  },
+  "parts": [
+    {
+      "id": "intro",
+      "name": "Introduction",
+      "color": "#6366f1",
+      "icon": "rocket",
+      "description": "What makes an AI system an agent?",
+      "chapters": []
+    },
+    {
+      "id": "core",
+      "name": "Part One: Core Design Patterns",
+      "color": "#8b5cf6",
+      "icon": "cpu",
+      "description": "Fundamental patterns for building AI agents",
+      "chapters": [
+        {
+          "num": 1,
+          "title": "Prompt Chaining",
+          "icon": "link",
+          "color": "#f59e0b",
+          "notebooks": [
+            {
+              "filename": "Chapter 1_ Prompt Chaining (Code Example)",
+              "topic": "Code Example",
+              "type": "code",
+              "size": 1992,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 1_ Prompt Chaining (Code Example)"
+            },
+            {
+              "filename": "Chapter 1_ Prompt Chaining (JSON example)",
+              "topic": "JSON example",
+              "type": "code",
+              "size": 756,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 1_ Prompt Chaining (JSON example)"
+            }
+          ]
+        },
+        {
+          "num": 2,
+          "title": "Routing",
+          "icon": "git-branch",
+          "color": "#10b981",
+          "notebooks": [
+            {
+              "filename": "Chapter 2_ Routing (Openrouter example)",
+              "topic": "Openrouter example",
+              "type": "code",
+              "size": 883,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 2_ Routing (Openrouter example)"
+            },
+            {
+              "filename": "Chapter 2_ Routing (LangGraph Code Example)",
+              "topic": "LangGraph Code Example",
+              "type": "code",
+              "size": 5095,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 2_ Routing (LangGraph Code Example)"
+            },
+            {
+              "filename": "Chapter 2_ Routing (Google ADK Code Example)",
+              "topic": "Google ADK Code Example",
+              "type": "code",
+              "size": 6191,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 2_ Routing (Google ADK Code Example)"
+            }
+          ]
+        },
+        {
+          "num": 3,
+          "title": "Parallelization",
+          "icon": "layers",
+          "color": "#3b82f6",
+          "notebooks": [
+            {
+              "filename": "Chapter 3_ Parallelization (LangChain Code Example)",
+              "topic": "LangChain Code Example",
+              "type": "code",
+              "size": 4193,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 3_ Parallelization (LangChain Code Example)"
+            },
+            {
+              "filename": "Chapter 3_ Parallelization (Google ADK Code Example).ipynb",
+              "topic": "Google ADK Code Example",
+              "type": "notebook",
+              "size": 6126,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 3_ Parallelization (Google ADK Code Example).ipynb"
+            }
+          ]
+        },
+        {
+          "num": 4,
+          "title": "Reflection",
+          "icon": "refresh-cw",
+          "color": "#ec4899",
+          "notebooks": [
+            {
+              "filename": "Chapter 4_ Reflection (Iterative Loop reflection)",
+              "topic": "Iterative Loop reflection",
+              "type": "code",
+              "size": 5035,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 4_ Reflection (Iterative Loop reflection)"
+            },
+            {
+              "filename": "Chapter 4_ Reflection (LangChain Code Example)",
+              "topic": "LangChain Code Example",
+              "type": "code",
+              "size": 4000,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 4_ Reflection (LangChain Code Example)"
+            },
+            {
+              "filename": "Chapter 4_ Reflection (ADK Code Example)",
+              "topic": "ADK Code Example",
+              "type": "code",
+              "size": 1954,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 4_ Reflection (ADK Code Example)"
+            }
+          ]
+        },
+        {
+          "num": 5,
+          "title": "Tool Use",
+          "icon": "tool",
+          "color": "#f97316",
+          "notebooks": [
+            {
+              "filename": "Chapter 5_ Tool Use (LangChain Code Example )",
+              "topic": "LangChain Code Example ",
+              "type": "code",
+              "size": 20804,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (LangChain Code Example )"
+            },
+            {
+              "filename": "Chapter 5_ Tool Use (using Google Search).ipynb",
+              "topic": "using Google Search",
+              "type": "notebook",
+              "size": 2073,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (using Google Search).ipynb"
+            },
+            {
+              "filename": "Chapter 5_ Tool Use (Executing Code).ipynb",
+              "topic": "Executing Code",
+              "type": "notebook",
+              "size": 4716,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (Executing Code).ipynb"
+            },
+            {
+              "filename": "Chapter 5_ Tool Use (Vertex AI Search).ipynb",
+              "topic": "Vertex AI Search",
+              "type": "notebook",
+              "size": 4279,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (Vertex AI Search).ipynb"
+            },
+            {
+              "filename": "Chapter 5_ Tool Use (CrewAI Function Calling Example)",
+              "topic": "CrewAI Function Calling Example",
+              "type": "code",
+              "size": 4766,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (CrewAI Function Calling Example)"
+            }
+          ]
+        },
+        {
+          "num": 6,
+          "title": "Planning",
+          "icon": "map",
+          "color": "#14b8a6",
+          "notebooks": [
+            {
+              "filename": "Chapter 6_ Planning - Deep Research API  Example",
+              "topic": "General",
+              "type": "code",
+              "size": 9275,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 6_ Planning - Deep Research API  Example"
+            },
+            {
+              "filename": "Chapter 6_ Planning - Code Example",
+              "topic": "General",
+              "type": "code",
+              "size": 2280,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 6_ Planning - Code Example"
+            }
+          ]
+        },
+        {
+          "num": 7,
+          "title": "Multi-Agent Collaboration",
+          "icon": "users",
+          "color": "#8b5cf6",
+          "notebooks": [
+            {
+              "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini AgentTooll).ipynb",
+              "topic": "ADK + Gemini AgentTooll",
+              "type": "notebook",
+              "size": 3575,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini AgentTooll).ipynb"
+            },
+            {
+              "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Sequential).ipynb",
+              "topic": "ADK + Gemini Sequential",
+              "type": "notebook",
+              "size": 1115,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Sequential).ipynb"
+            },
+            {
+              "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Coordinator).ipynb",
+              "topic": "ADK + Gemini Coordinator",
+              "type": "notebook",
+              "size": 2346,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Coordinator).ipynb"
+            },
+            {
+              "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Parallel).ipynb",
+              "topic": "ADK + Gemini Parallel",
+              "type": "notebook",
+              "size": 2390,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Parallel).ipynb"
+            },
+            {
+              "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Loop).ipynb",
+              "topic": "ADK + Gemini Loop",
+              "type": "notebook",
+              "size": 2409,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Loop).ipynb"
+            },
+            {
+              "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (CrewAI + Gemini)",
+              "topic": "CrewAI + Gemini",
+              "type": "code",
+              "size": 3384,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (CrewAI + Gemini)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "infra",
+      "name": "Part Two: Infrastructure Patterns",
+      "color": "#14b8a6",
+      "icon": "database",
+      "description": "Memory, adaptation, and protocols",
+      "chapters": [
+        {
+          "num": 8,
+          "title": "Memory Management",
+          "icon": "hard-drive",
+          "color": "#06b6d4",
+          "notebooks": [
+            {
+              "filename": "Chapter 8_ Memory Management - Code Example (ADK SessionService InMemory and Database)",
+              "topic": "ADK SessionService InMemory and Database",
+              "type": "code",
+              "size": 2464,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (ADK SessionService InMemory and Database)"
+            },
+            {
+              "filename": "Chapter 8_ Memory Management - Code Example (LangChain and LangGraph)",
+              "topic": "LangChain and LangGraph",
+              "type": "code",
+              "size": 13632,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (LangChain and LangGraph)"
+            },
+            {
+              "filename": "Chapter 8_ Memory Management - Code Example (ADK Conceptual Example_ Explicit State Update via EventActions)",
+              "topic": "ADK Conceptual Example_ Explicit State Update via EventActions",
+              "type": "code",
+              "size": 2973,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (ADK Conceptual Example_ Explicit State Update via EventActions)"
+            },
+            {
+              "filename": "Chapter 8_ Memory Management - Code Example (ADK LlmAgent output_key Example)",
+              "topic": "ADK LlmAgent output_key Example",
+              "type": "code",
+              "size": 1846,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (ADK LlmAgent output_key Example)"
+            },
+            {
+              "filename": "Chapter 8_ Memory Management - Code Example (ADK MemoryService InMemory Example)",
+              "topic": "ADK MemoryService InMemory Example",
+              "type": "code",
+              "size": 1787,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (ADK MemoryService InMemory Example)"
+            }
+          ]
+        },
+        {
+          "num": 9,
+          "title": "Learning and Adaptation",
+          "icon": "trending-up",
+          "color": "#84cc16",
+          "notebooks": [
+            {
+              "filename": "Chapter 9_ Adaptation - Code Example (OpenEvolve)",
+              "topic": "OpenEvolve",
+              "type": "code",
+              "size": 711,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 9_ Adaptation - Code Example (OpenEvolve)"
+            }
+          ]
+        },
+        {
+          "num": 10,
+          "title": "Model Context Protocol (MCP)",
+          "icon": "plug",
+          "color": "#a855f7",
+          "notebooks": [
+            {
+              "filename": "Chapter 10_ Model Context Protocol (__init__.py for MCP Filesystem Example)",
+              "topic": "__init__.py for MCP Filesystem Example",
+              "type": "code",
+              "size": 311,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (__init__.py for MCP Filesystem Example)"
+            },
+            {
+              "filename": "Chapter 10_ Model Context Protocol (ADK Agent Consuming FastMCP Server)",
+              "topic": "ADK Agent Consuming FastMCP Server",
+              "type": "code",
+              "size": 1238,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (ADK Agent Consuming FastMCP Server)"
+            },
+            {
+              "filename": "Chapter 10_ Model Context Protocol (FastMCP Server Example)",
+              "topic": "FastMCP Server Example",
+              "type": "code",
+              "size": 1937,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (FastMCP Server Example)"
+            },
+            {
+              "filename": "Chapter 10_ Model Context Protocol (agent.py for MCP Filesystem Example)",
+              "topic": "agent.py for MCP Filesystem Example",
+              "type": "code",
+              "size": 5054,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (agent.py for MCP Filesystem Example)"
+            },
+            {
+              "filename": "Chapter 10_ Model Context Protocol (__init__.py for FastMCP Client Agent)",
+              "topic": "__init__.py for FastMCP Client Agent",
+              "type": "code",
+              "size": 322,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (__init__.py for FastMCP Client Agent)"
+            }
+          ]
+        },
+        {
+          "num": 11,
+          "title": "Goal Setting and Monitoring",
+          "icon": "target",
+          "color": "#f43f5e",
+          "notebooks": [
+            {
+              "filename": "Chapter 11_ Goal Setting and Monitoring (Goal_Setting_Iteration).ipynb",
+              "topic": "Goal_Setting_Iteration",
+              "type": "notebook",
+              "size": 15532,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 11_ Goal Setting and Monitoring (Goal_Setting_Iteration).ipynb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recovery",
+      "name": "Part Three: Recovery and Knowledge",
+      "color": "#f59e0b",
+      "icon": "shield",
+      "description": "Exception handling, human interaction, and RAG",
+      "chapters": [
+        {
+          "num": 12,
+          "title": "Exception Handling and Recovery",
+          "icon": "alert-triangle",
+          "color": "#ef4444",
+          "notebooks": [
+            {
+              "filename": "Chapter 12_ Exception Handling and Recovery (Agent with Fallback)",
+              "topic": "Agent with Fallback",
+              "type": "code",
+              "size": 2072,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 12_ Exception Handling and Recovery (Agent with Fallback)"
+            }
+          ]
+        },
+        {
+          "num": 13,
+          "title": "Human-in-the-Loop",
+          "icon": "user-check",
+          "color": "#22c55e",
+          "notebooks": [
+            {
+              "filename": "Chapter 13_ Human-in-the-Loop (Customer Support Agent with Personalization and Escalation)",
+              "topic": "Customer Support Agent with Personalization and Escalation",
+              "type": "code",
+              "size": 3448,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 13_ Human-in-the-Loop (Customer Support Agent with Personalization and Escalation)"
+            }
+          ]
+        },
+        {
+          "num": 14,
+          "title": "Knowledge Retrieval (RAG)",
+          "icon": "search",
+          "color": "#3b82f6",
+          "notebooks": [
+            {
+              "filename": "Chapter 14_ Knowledge Retrieval (RAG VertexAI)",
+              "topic": "RAG VertexAI",
+              "type": "code",
+              "size": 1646,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 14_ Knowledge Retrieval (RAG VertexAI)"
+            },
+            {
+              "filename": "Chapter 14_ Knowledge Retrieval (RAG  LangChain)",
+              "topic": "RAG  LangChain",
+              "type": "code",
+              "size": 4973,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 14_ Knowledge Retrieval (RAG  LangChain)"
+            },
+            {
+              "filename": "Chapter 14_ Knowledge Retrieval (RAG Google Search)",
+              "topic": "RAG Google Search",
+              "type": "code",
+              "size": 648,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 14_ Knowledge Retrieval (RAG Google Search)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "name": "Part Four: Advanced Patterns",
+      "color": "#ef4444",
+      "icon": "zap",
+      "description": "Communication, optimization, reasoning, safety",
+      "chapters": [
+        {
+          "num": 15,
+          "title": "Inter-Agent Communication (A2A)",
+          "icon": "message-circle",
+          "color": "#6366f1",
+          "notebooks": [
+            {
+              "filename": "Chapter 15_ Inter-Agent Communication (A2A)",
+              "topic": "A2A",
+              "type": "code",
+              "size": 6673,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 15_ Inter-Agent Communication (A2A)"
+            },
+            {
+              "filename": "Chapter 15_ Inter-Agent Communication (A2A AgentCard for an Agent acting as a WeatherBot)",
+              "topic": "A2A AgentCard for an Agent acting as a WeatherBot",
+              "type": "code",
+              "size": 1997,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 15_ Inter-Agent Communication (A2A AgentCard for an Agent acting as a WeatherBot)"
+            },
+            {
+              "filename": "Chapter 15_ Inter-Agent Communication (Synchronous and Streaming Requests)",
+              "topic": "Synchronous and Streaming Requests",
+              "type": "code",
+              "size": 1416,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 15_ Inter-Agent Communication (Synchronous and Streaming Requests)"
+            }
+          ]
+        },
+        {
+          "num": 16,
+          "title": "Resource-Aware Optimization",
+          "icon": "cpu",
+          "color": "#ec4899",
+          "notebooks": [
+            {
+              "filename": "Chapter 16_ Resource-Aware Optimization (code snippets)",
+              "topic": "code snippets",
+              "type": "code",
+              "size": 3904,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 16_ Resource-Aware Optimization (code snippets)"
+            },
+            {
+              "filename": "Chapter 16_ Resource-Aware Optimization (OI and Google search)",
+              "topic": "OI and Google search",
+              "type": "code",
+              "size": 5799,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 16_ Resource-Aware Optimization (OI and Google search)"
+            }
+          ]
+        },
+        {
+          "num": 17,
+          "title": "Reasoning Techniques",
+          "icon": "brain",
+          "color": "#f97316",
+          "notebooks": [
+            {
+              "filename": "Chapter 17_ Reasoning Techniques (Prompt with Self-correction with Agents)",
+              "topic": "Prompt with Self-correction with Agents",
+              "type": "code",
+              "size": 4309,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 17_ Reasoning Techniques (Prompt with Self-correction with Agents)"
+            },
+            {
+              "filename": "Chapter 17_ Reasoning Techniques (Executing code)",
+              "topic": "Executing code",
+              "type": "code",
+              "size": 1193,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 17_ Reasoning Techniques (Executing code)"
+            },
+            {
+              "filename": "Chapter 17_ Reasoning Techniques (Prompt with CoT for Agent)",
+              "topic": "Prompt with CoT for Agent",
+              "type": "code",
+              "size": 4584,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 17_ Reasoning Techniques (Prompt with CoT for Agent)"
+            },
+            {
+              "filename": "Chapter 17_ Reasoning Techniques (Google DeepSearch)",
+              "topic": "Google DeepSearch",
+              "type": "code",
+              "size": 1408,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 17_ Reasoning Techniques (Google DeepSearch)"
+            }
+          ]
+        },
+        {
+          "num": 18,
+          "title": "Guardrails and Safety Patterns",
+          "icon": "shield-check",
+          "color": "#10b981",
+          "notebooks": [
+            {
+              "filename": "Chapter 18_ Guardrails_Safety Patterns (Practical Code Examples for Guardrails)(1)",
+              "topic": "Practical Code Examples for Guardrails",
+              "type": "code",
+              "size": 15312,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 18_ Guardrails_Safety Patterns (Practical Code Examples for Guardrails)(1)"
+            },
+            {
+              "filename": "Chapter 18_ Guardrails_Safety Patterns (LLM as a Guardrail)",
+              "topic": "LLM as a Guardrail",
+              "type": "code",
+              "size": 4222,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 18_ Guardrails_Safety Patterns (LLM as a Guardrail)"
+            },
+            {
+              "filename": "Chapter 18_ Guardrails_Safety Patterns (ADK validate tool)",
+              "topic": "ADK validate tool",
+              "type": "code",
+              "size": 2183,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 18_ Guardrails_Safety Patterns (ADK validate tool)"
+            },
+            {
+              "filename": "Chapter 18_ Guardrails_Safety Patterns (Practical Code Examples for Guardrails)",
+              "topic": "Practical Code Examples for Guardrails",
+              "type": "code",
+              "size": 8637,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 18_ Guardrails_Safety Patterns (Practical Code Examples for Guardrails)"
+            }
+          ]
+        },
+        {
+          "num": 19,
+          "title": "Evaluation and Monitoring",
+          "icon": "activity",
+          "color": "#06b6d4",
+          "notebooks": [
+            {
+              "filename": "Chapter 19_ Evaluation and Monitoring (LLM as a Judge)",
+              "topic": "LLM as a Judge",
+              "type": "code",
+              "size": 8042,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 19_ Evaluation and Monitoring (LLM as a Judge)"
+            },
+            {
+              "filename": "Chapter 19_ Evaluation and Monitoring (Basic Agent Response Evaluation (Correctness_Relevance))",
+              "topic": "Basic Agent Response Evaluation (Correctness_Relevance",
+              "type": "code",
+              "size": 2987,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 19_ Evaluation and Monitoring (Basic Agent Response Evaluation (Correctness_Relevance))"
+            }
+          ]
+        },
+        {
+          "num": 20,
+          "title": "Prioritization",
+          "icon": "list-ordered",
+          "color": "#a855f7",
+          "notebooks": [
+            {
+              "filename": "Chapter 20_ Prioritization (SuperSimplePM)",
+              "topic": "SuperSimplePM",
+              "type": "code",
+              "size": 8749,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 20_ Prioritization (SuperSimplePM)"
+            }
+          ]
+        },
+        {
+          "num": 21,
+          "title": "Exploration and Discovery",
+          "icon": "compass",
+          "color": "#f43f5e",
+          "notebooks": [
+            {
+              "filename": "Chapter 21_ Chapter 21_ Exploration and Discovery(Agent Laboratory)",
+              "topic": "Agent Laboratory",
+              "type": "code",
+              "size": 8263,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 21_ Chapter 21_ Exploration and Discovery(Agent Laboratory)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "appendix",
+      "name": "Appendices",
+      "color": "#64748b",
+      "icon": "book-open",
+      "description": "Advanced topics and frameworks",
+      "chapters": [
+        {
+          "id": "A",
+          "title": "Advanced Prompting Techniques",
+          "icon": "message-square"
+        },
+        {
+          "id": "B",
+          "title": "AI Agentic Interactions",
+          "icon": "monitor"
+        },
+        {
+          "id": "C",
+          "title": "Quick Overview of Agentic Frameworks",
+          "icon": "grid",
+          "notebooks": [
+            {
+              "filename": "Appendix C_",
+              "topic": "General",
+              "type": "code",
+              "size": 5994,
+              "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Appendix C_"
+            }
+          ]
+        },
+        {
+          "id": "D",
+          "title": "Building an Agent with AgentSpace",
+          "icon": "box"
+        },
+        {
+          "id": "E",
+          "title": "AI Agents on the CLI",
+          "icon": "terminal"
+        },
+        {
+          "id": "F",
+          "title": "Under the Hood - Reasoning Engines",
+          "icon": "settings"
+        },
+        {
+          "id": "G",
+          "title": "Coding Agents",
+          "icon": "code"
+        }
+      ]
+    }
+  ],
+  "notebooks": {
+    "Chapter 1": [
+      {
+        "filename": "Chapter 1_ Prompt Chaining (Code Example)",
+        "topic": "Code Example",
+        "type": "code",
+        "size": 1992,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 1_ Prompt Chaining (Code Example)"
+      },
+      {
+        "filename": "Chapter 1_ Prompt Chaining (JSON example)",
+        "topic": "JSON example",
+        "type": "code",
+        "size": 756,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 1_ Prompt Chaining (JSON example)"
+      }
+    ],
+    "Chapter 2": [
+      {
+        "filename": "Chapter 2_ Routing (Openrouter example)",
+        "topic": "Openrouter example",
+        "type": "code",
+        "size": 883,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 2_ Routing (Openrouter example)"
+      },
+      {
+        "filename": "Chapter 2_ Routing (LangGraph Code Example)",
+        "topic": "LangGraph Code Example",
+        "type": "code",
+        "size": 5095,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 2_ Routing (LangGraph Code Example)"
+      },
+      {
+        "filename": "Chapter 2_ Routing (Google ADK Code Example)",
+        "topic": "Google ADK Code Example",
+        "type": "code",
+        "size": 6191,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 2_ Routing (Google ADK Code Example)"
+      }
+    ],
+    "Chapter 3": [
+      {
+        "filename": "Chapter 3_ Parallelization (LangChain Code Example)",
+        "topic": "LangChain Code Example",
+        "type": "code",
+        "size": 4193,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 3_ Parallelization (LangChain Code Example)"
+      },
+      {
+        "filename": "Chapter 3_ Parallelization (Google ADK Code Example).ipynb",
+        "topic": "Google ADK Code Example",
+        "type": "notebook",
+        "size": 6126,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 3_ Parallelization (Google ADK Code Example).ipynb"
+      }
+    ],
+    "Chapter 4": [
+      {
+        "filename": "Chapter 4_ Reflection (Iterative Loop reflection)",
+        "topic": "Iterative Loop reflection",
+        "type": "code",
+        "size": 5035,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 4_ Reflection (Iterative Loop reflection)"
+      },
+      {
+        "filename": "Chapter 4_ Reflection (LangChain Code Example)",
+        "topic": "LangChain Code Example",
+        "type": "code",
+        "size": 4000,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 4_ Reflection (LangChain Code Example)"
+      },
+      {
+        "filename": "Chapter 4_ Reflection (ADK Code Example)",
+        "topic": "ADK Code Example",
+        "type": "code",
+        "size": 1954,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 4_ Reflection (ADK Code Example)"
+      }
+    ],
+    "Chapter 5": [
+      {
+        "filename": "Chapter 5_ Tool Use (LangChain Code Example )",
+        "topic": "LangChain Code Example ",
+        "type": "code",
+        "size": 20804,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (LangChain Code Example )"
+      },
+      {
+        "filename": "Chapter 5_ Tool Use (using Google Search).ipynb",
+        "topic": "using Google Search",
+        "type": "notebook",
+        "size": 2073,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (using Google Search).ipynb"
+      },
+      {
+        "filename": "Chapter 5_ Tool Use (Executing Code).ipynb",
+        "topic": "Executing Code",
+        "type": "notebook",
+        "size": 4716,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (Executing Code).ipynb"
+      },
+      {
+        "filename": "Chapter 5_ Tool Use (Vertex AI Search).ipynb",
+        "topic": "Vertex AI Search",
+        "type": "notebook",
+        "size": 4279,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (Vertex AI Search).ipynb"
+      },
+      {
+        "filename": "Chapter 5_ Tool Use (CrewAI Function Calling Example)",
+        "topic": "CrewAI Function Calling Example",
+        "type": "code",
+        "size": 4766,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 5_ Tool Use (CrewAI Function Calling Example)"
+      }
+    ],
+    "Chapter 6": [
+      {
+        "filename": "Chapter 6_ Planning - Deep Research API  Example",
+        "topic": "General",
+        "type": "code",
+        "size": 9275,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 6_ Planning - Deep Research API  Example"
+      },
+      {
+        "filename": "Chapter 6_ Planning - Code Example",
+        "topic": "General",
+        "type": "code",
+        "size": 2280,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 6_ Planning - Code Example"
+      }
+    ],
+    "Chapter 7": [
+      {
+        "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini AgentTooll).ipynb",
+        "topic": "ADK + Gemini AgentTooll",
+        "type": "notebook",
+        "size": 3575,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini AgentTooll).ipynb"
+      },
+      {
+        "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Sequential).ipynb",
+        "topic": "ADK + Gemini Sequential",
+        "type": "notebook",
+        "size": 1115,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Sequential).ipynb"
+      },
+      {
+        "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Coordinator).ipynb",
+        "topic": "ADK + Gemini Coordinator",
+        "type": "notebook",
+        "size": 2346,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Coordinator).ipynb"
+      },
+      {
+        "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Parallel).ipynb",
+        "topic": "ADK + Gemini Parallel",
+        "type": "notebook",
+        "size": 2390,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Parallel).ipynb"
+      },
+      {
+        "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Loop).ipynb",
+        "topic": "ADK + Gemini Loop",
+        "type": "notebook",
+        "size": 2409,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (ADK + Gemini Loop).ipynb"
+      },
+      {
+        "filename": "Chapter 7_ Multi-Agent Collaboration - Code Example (CrewAI + Gemini)",
+        "topic": "CrewAI + Gemini",
+        "type": "code",
+        "size": 3384,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 7_ Multi-Agent Collaboration - Code Example (CrewAI + Gemini)"
+      }
+    ],
+    "Chapter 8": [
+      {
+        "filename": "Chapter 8_ Memory Management - Code Example (ADK SessionService InMemory and Database)",
+        "topic": "ADK SessionService InMemory and Database",
+        "type": "code",
+        "size": 2464,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (ADK SessionService InMemory and Database)"
+      },
+      {
+        "filename": "Chapter 8_ Memory Management - Code Example (LangChain and LangGraph)",
+        "topic": "LangChain and LangGraph",
+        "type": "code",
+        "size": 13632,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (LangChain and LangGraph)"
+      },
+      {
+        "filename": "Chapter 8_ Memory Management - Code Example (ADK Conceptual Example_ Explicit State Update via EventActions)",
+        "topic": "ADK Conceptual Example_ Explicit State Update via EventActions",
+        "type": "code",
+        "size": 2973,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (ADK Conceptual Example_ Explicit State Update via EventActions)"
+      },
+      {
+        "filename": "Chapter 8_ Memory Management - Code Example (ADK LlmAgent output_key Example)",
+        "topic": "ADK LlmAgent output_key Example",
+        "type": "code",
+        "size": 1846,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (ADK LlmAgent output_key Example)"
+      },
+      {
+        "filename": "Chapter 8_ Memory Management - Code Example (ADK MemoryService InMemory Example)",
+        "topic": "ADK MemoryService InMemory Example",
+        "type": "code",
+        "size": 1787,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 8_ Memory Management - Code Example (ADK MemoryService InMemory Example)"
+      }
+    ],
+    "Chapter 9": [
+      {
+        "filename": "Chapter 9_ Adaptation - Code Example (OpenEvolve)",
+        "topic": "OpenEvolve",
+        "type": "code",
+        "size": 711,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 9_ Adaptation - Code Example (OpenEvolve)"
+      }
+    ],
+    "Chapter 10": [
+      {
+        "filename": "Chapter 10_ Model Context Protocol (__init__.py for MCP Filesystem Example)",
+        "topic": "__init__.py for MCP Filesystem Example",
+        "type": "code",
+        "size": 311,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (__init__.py for MCP Filesystem Example)"
+      },
+      {
+        "filename": "Chapter 10_ Model Context Protocol (ADK Agent Consuming FastMCP Server)",
+        "topic": "ADK Agent Consuming FastMCP Server",
+        "type": "code",
+        "size": 1238,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (ADK Agent Consuming FastMCP Server)"
+      },
+      {
+        "filename": "Chapter 10_ Model Context Protocol (FastMCP Server Example)",
+        "topic": "FastMCP Server Example",
+        "type": "code",
+        "size": 1937,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (FastMCP Server Example)"
+      },
+      {
+        "filename": "Chapter 10_ Model Context Protocol (agent.py for MCP Filesystem Example)",
+        "topic": "agent.py for MCP Filesystem Example",
+        "type": "code",
+        "size": 5054,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (agent.py for MCP Filesystem Example)"
+      },
+      {
+        "filename": "Chapter 10_ Model Context Protocol (__init__.py for FastMCP Client Agent)",
+        "topic": "__init__.py for FastMCP Client Agent",
+        "type": "code",
+        "size": 322,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 10_ Model Context Protocol (__init__.py for FastMCP Client Agent)"
+      }
+    ],
+    "Chapter 11": [
+      {
+        "filename": "Chapter 11_ Goal Setting and Monitoring (Goal_Setting_Iteration).ipynb",
+        "topic": "Goal_Setting_Iteration",
+        "type": "notebook",
+        "size": 15532,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 11_ Goal Setting and Monitoring (Goal_Setting_Iteration).ipynb"
+      }
+    ],
+    "Chapter 12": [
+      {
+        "filename": "Chapter 12_ Exception Handling and Recovery (Agent with Fallback)",
+        "topic": "Agent with Fallback",
+        "type": "code",
+        "size": 2072,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 12_ Exception Handling and Recovery (Agent with Fallback)"
+      }
+    ],
+    "Chapter 13": [
+      {
+        "filename": "Chapter 13_ Human-in-the-Loop (Customer Support Agent with Personalization and Escalation)",
+        "topic": "Customer Support Agent with Personalization and Escalation",
+        "type": "code",
+        "size": 3448,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 13_ Human-in-the-Loop (Customer Support Agent with Personalization and Escalation)"
+      }
+    ],
+    "Chapter 14": [
+      {
+        "filename": "Chapter 14_ Knowledge Retrieval (RAG VertexAI)",
+        "topic": "RAG VertexAI",
+        "type": "code",
+        "size": 1646,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 14_ Knowledge Retrieval (RAG VertexAI)"
+      },
+      {
+        "filename": "Chapter 14_ Knowledge Retrieval (RAG  LangChain)",
+        "topic": "RAG  LangChain",
+        "type": "code",
+        "size": 4973,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 14_ Knowledge Retrieval (RAG  LangChain)"
+      },
+      {
+        "filename": "Chapter 14_ Knowledge Retrieval (RAG Google Search)",
+        "topic": "RAG Google Search",
+        "type": "code",
+        "size": 648,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 14_ Knowledge Retrieval (RAG Google Search)"
+      }
+    ],
+    "Chapter 15": [
+      {
+        "filename": "Chapter 15_ Inter-Agent Communication (A2A)",
+        "topic": "A2A",
+        "type": "code",
+        "size": 6673,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 15_ Inter-Agent Communication (A2A)"
+      },
+      {
+        "filename": "Chapter 15_ Inter-Agent Communication (A2A AgentCard for an Agent acting as a WeatherBot)",
+        "topic": "A2A AgentCard for an Agent acting as a WeatherBot",
+        "type": "code",
+        "size": 1997,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 15_ Inter-Agent Communication (A2A AgentCard for an Agent acting as a WeatherBot)"
+      },
+      {
+        "filename": "Chapter 15_ Inter-Agent Communication (Synchronous and Streaming Requests)",
+        "topic": "Synchronous and Streaming Requests",
+        "type": "code",
+        "size": 1416,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 15_ Inter-Agent Communication (Synchronous and Streaming Requests)"
+      }
+    ],
+    "Chapter 16": [
+      {
+        "filename": "Chapter 16_ Resource-Aware Optimization (code snippets)",
+        "topic": "code snippets",
+        "type": "code",
+        "size": 3904,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 16_ Resource-Aware Optimization (code snippets)"
+      },
+      {
+        "filename": "Chapter 16_ Resource-Aware Optimization (OI and Google search)",
+        "topic": "OI and Google search",
+        "type": "code",
+        "size": 5799,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 16_ Resource-Aware Optimization (OI and Google search)"
+      }
+    ],
+    "Chapter 17": [
+      {
+        "filename": "Chapter 17_ Reasoning Techniques (Prompt with Self-correction with Agents)",
+        "topic": "Prompt with Self-correction with Agents",
+        "type": "code",
+        "size": 4309,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 17_ Reasoning Techniques (Prompt with Self-correction with Agents)"
+      },
+      {
+        "filename": "Chapter 17_ Reasoning Techniques (Executing code)",
+        "topic": "Executing code",
+        "type": "code",
+        "size": 1193,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 17_ Reasoning Techniques (Executing code)"
+      },
+      {
+        "filename": "Chapter 17_ Reasoning Techniques (Prompt with CoT for Agent)",
+        "topic": "Prompt with CoT for Agent",
+        "type": "code",
+        "size": 4584,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 17_ Reasoning Techniques (Prompt with CoT for Agent)"
+      },
+      {
+        "filename": "Chapter 17_ Reasoning Techniques (Google DeepSearch)",
+        "topic": "Google DeepSearch",
+        "type": "code",
+        "size": 1408,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 17_ Reasoning Techniques (Google DeepSearch)"
+      }
+    ],
+    "Chapter 18": [
+      {
+        "filename": "Chapter 18_ Guardrails_Safety Patterns (Practical Code Examples for Guardrails)(1)",
+        "topic": "Practical Code Examples for Guardrails",
+        "type": "code",
+        "size": 15312,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 18_ Guardrails_Safety Patterns (Practical Code Examples for Guardrails)(1)"
+      },
+      {
+        "filename": "Chapter 18_ Guardrails_Safety Patterns (LLM as a Guardrail)",
+        "topic": "LLM as a Guardrail",
+        "type": "code",
+        "size": 4222,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 18_ Guardrails_Safety Patterns (LLM as a Guardrail)"
+      },
+      {
+        "filename": "Chapter 18_ Guardrails_Safety Patterns (ADK validate tool)",
+        "topic": "ADK validate tool",
+        "type": "code",
+        "size": 2183,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 18_ Guardrails_Safety Patterns (ADK validate tool)"
+      },
+      {
+        "filename": "Chapter 18_ Guardrails_Safety Patterns (Practical Code Examples for Guardrails)",
+        "topic": "Practical Code Examples for Guardrails",
+        "type": "code",
+        "size": 8637,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 18_ Guardrails_Safety Patterns (Practical Code Examples for Guardrails)"
+      }
+    ],
+    "Chapter 19": [
+      {
+        "filename": "Chapter 19_ Evaluation and Monitoring (LLM as a Judge)",
+        "topic": "LLM as a Judge",
+        "type": "code",
+        "size": 8042,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 19_ Evaluation and Monitoring (LLM as a Judge)"
+      },
+      {
+        "filename": "Chapter 19_ Evaluation and Monitoring (Basic Agent Response Evaluation (Correctness_Relevance))",
+        "topic": "Basic Agent Response Evaluation (Correctness_Relevance",
+        "type": "code",
+        "size": 2987,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 19_ Evaluation and Monitoring (Basic Agent Response Evaluation (Correctness_Relevance))"
+      }
+    ],
+    "Chapter 20": [
+      {
+        "filename": "Chapter 20_ Prioritization (SuperSimplePM)",
+        "topic": "SuperSimplePM",
+        "type": "code",
+        "size": 8749,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 20_ Prioritization (SuperSimplePM)"
+      }
+    ],
+    "Chapter 21": [
+      {
+        "filename": "Chapter 21_ Chapter 21_ Exploration and Discovery(Agent Laboratory)",
+        "topic": "Agent Laboratory",
+        "type": "code",
+        "size": 8263,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Chapter 21_ Chapter 21_ Exploration and Discovery(Agent Laboratory)"
+      }
+    ],
+    "Appendix": [
+      {
+        "filename": "Appendix_ Pydantic",
+        "topic": "General",
+        "type": "code",
+        "size": 2368,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Appendix_ Pydantic"
+      }
+    ],
+    "Appendix C": [
+      {
+        "filename": "Appendix C_",
+        "topic": "General",
+        "type": "code",
+        "size": 5994,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Appendix C_"
+      }
+    ],
+    "Other": [
+      {
+        "filename": "Copy of Chapter 8_ Memory Management - Code Example (LangChain and LangGraph)",
+        "topic": "LangChain and LangGraph",
+        "type": "code",
+        "size": 751,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Copy of Chapter 8_ Memory Management - Code Example (LangChain and LangGraph)"
+      },
+      {
+        "filename": "Copy of 5_tool_calling.ipynb",
+        "topic": "General",
+        "type": "notebook",
+        "size": 87372,
+        "path": "/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/Copy of 5_tool_calling.ipynb"
+      }
+    ]
+  },
+  "learningPath": [
+    {
+      "phase": 1,
+      "name": "Foundations",
+      "description": "Build your first agent with basic patterns",
+      "chapters": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "color": "#10b981"
+    },
+    {
+      "phase": 2,
+      "name": "Tool Mastery",
+      "description": "Empower agents with tools and planning",
+      "chapters": [
+        5,
+        6,
+        7
+      ],
+      "color": "#3b82f6"
+    },
+    {
+      "phase": 3,
+      "name": "Infrastructure",
+      "description": "Memory, adaptation, and protocols",
+      "chapters": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "color": "#8b5cf6"
+    },
+    {
+      "phase": 4,
+      "name": "Robustness",
+      "description": "Handle errors and integrate humans",
+      "chapters": [
+        12,
+        13,
+        14
+      ],
+      "color": "#f59e0b"
+    },
+    {
+      "phase": 5,
+      "name": "Advanced Systems",
+      "description": "Multi-agent, reasoning, and safety",
+      "chapters": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "color": "#ef4444"
+    }
+  ]
+}

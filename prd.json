@@ -1,0 +1,815 @@
+{
+  "name": "Agentic Design Patterns Learning Platform Enhancement",
+  "description": "Analyze and dramatically enhance the agentic design patterns learning platform with improved content, interactivity, visual design, and educational features",
+  "goal": "Users can explore an incredibly polished, interactive learning platform that teaches agentic AI design patterns through beautiful visualizations, clickable code terms, interactive diagrams, quizzes, and comprehensive tutorials sourced from Jupyter notebooks",
+  "tasks": [
+    {
+      "id": "T-100",
+      "name": "Codebase analyzed: full architecture map of current platform",
+      "intent": "Cannot enhance what we don't understand - need complete picture of components, routes, data structures, and current feature state",
+      "description": "Explore entire codebase structure, identify all chapters, components, data files, routing, styling patterns, and current feature completeness. Produce a mental model of what exists and what gaps need filling.",
+      "pass": false,
+      "dependencies": [],
+      "complexity": 1,
+      "requires": [
+        "Project directory exists and is accessible"
+      ],
+      "guarantees": [
+        "Complete understanding of project structure",
+        "Identified all chapters and their completion state",
+        "Identified all reusable components",
+        "Identified styling/theming system",
+        "Identified data flow patterns"
+      ],
+      "validation": "Read and catalog all key files: package.json, src/App.tsx, router config, chapter data files, component directory. List chapters with completion percentage.",
+      "testLevel": "unit",
+      "actions": [
+        "Explore project structure",
+        "Read package.json for dependencies",
+        "Read router/App config",
+        "Catalog all chapter data files",
+        "Catalog all components",
+        "Identify theming system",
+        "Check notebook source files"
+      ]
+    },
+    {
+      "id": "T-101",
+      "name": "Notebook content audited: all source notebooks cataloged with chapter mapping",
+      "intent": "Chapters must be sourced from notebooks - need to know what notebook content exists and which chapters need content",
+      "description": "Read all Jupyter notebooks in the notebooks directory, map each to its corresponding chapter, identify chapters missing tutorial content or with incomplete code examples.",
+      "pass": false,
+      "dependencies": [
+        "T-100"
+      ],
+      "complexity": 1,
+      "requires": [
+        "Project structure is understood",
+        "Notebook directory location known"
+      ],
+      "guarantees": [
+        "Every notebook mapped to a chapter",
+        "Gaps identified: chapters without tutorials",
+        "Code examples cataloged per notebook"
+      ],
+      "validation": "List all notebooks with their chapter mapping and identify which chapters have complete tutorials vs incomplete/missing ones.",
+      "testLevel": "unit",
+      "actions": [
+        "List all notebooks",
+        "Read each notebook's content structure",
+        "Map notebooks to chapter IDs",
+        "Identify missing/incomplete chapter tutorials"
+      ]
+    },
+    {
+      "id": "T-110",
+      "name": "Build verified: project compiles and runs without errors",
+      "intent": "Must have a working baseline before making any changes",
+      "description": "Run the dev build, verify no compilation errors, check that the site loads and basic navigation works.",
+      "pass": false,
+      "dependencies": [
+        "T-100"
+      ],
+      "complexity": 1,
+      "requires": [
+        "Project structure understood"
+      ],
+      "guarantees": [
+        "Project builds successfully",
+        "Dev server starts",
+        "Homepage loads in browser",
+        "Navigation between chapters works"
+      ],
+      "validation": "Run npm run dev, navigate to localhost, verify homepage renders and at least one chapter page loads without console errors.",
+      "testLevel": "unit",
+      "actions": [
+        "npm install if needed",
+        "npm run dev",
+        "Open browser to verify homepage",
+        "Click through navigation",
+        "Check console for errors"
+      ]
+    },
+    {
+      "id": "T-120",
+      "name": "Current UX gaps documented: specific enhancement opportunities identified",
+      "intent": "Need concrete list of improvements before implementing - prevents scattered work",
+      "description": "Navigate entire site systematically, document specific UX issues: missing hover states, broken interactions, incomplete sections, visual inconsistencies, accessibility gaps, mobile responsiveness issues.",
+      "pass": false,
+      "dependencies": [
+        "T-110"
+      ],
+      "complexity": 1,
+      "requires": [
+        "Site loads and is navigable"
+      ],
+      "guarantees": [
+        "Prioritized list of UX enhancements",
+        "Categorized by: visual, interactive, content, accessibility",
+        "Each issue has specific location and reproduction steps"
+      ],
+      "validation": "Produce categorized enhancement list with at least 10 specific, actionable items across visual polish, interactivity, and content completeness.",
+      "testLevel": "unit",
+      "actions": [
+        "Navigate every page systematically",
+        "Check responsive behavior",
+        "Test all interactive elements",
+        "Check code term clickability",
+        "Test diagram interactions",
+        "Check quiz functionality",
+        "Document each gap"
+      ]
+    },
+    {
+      "id": "T-200",
+      "name": "Visual theme enhanced: color system, typography, and spacing upgraded for premium feel",
+      "intent": "The foundation of 'incredible' is visual polish - premium typography, refined spacing, and cohesive color palette",
+      "description": "Upgrade the global CSS/Tailwind theme with improved color palette, refined typography scale, better spacing rhythm, and subtle design tokens that create a premium educational platform feel. Add smooth transitions and micro-interactions to base elements.",
+      "pass": false,
+      "dependencies": [
+        "T-120"
+      ],
+      "complexity": 2,
+      "requires": [
+        "UX gaps documented",
+        "Theming system understood"
+      ],
+      "guarantees": [
+        "Refined color palette with better contrast",
+        "Improved typography hierarchy",
+        "Consistent spacing system",
+        "Smooth transitions on interactive elements",
+        "No regressions in existing layout"
+      ],
+      "validation": "Take screenshots of homepage before and after. Verify improved visual hierarchy, smoother transitions on hover/click, and consistent spacing across at least 3 pages.",
+      "testLevel": "unit",
+      "actions": [
+        "Update Tailwind config with refined color palette",
+        "Improve base typography styles",
+        "Add transition utilities",
+        "Update global spacing tokens",
+        "Verify across multiple pages"
+      ]
+    },
+    {
+      "id": "T-210",
+      "name": "Navigation enhanced: sidebar/header polished with active states, smooth transitions, progress indicators",
+      "intent": "Navigation is the user's primary interaction - it must feel premium and informative",
+      "description": "Enhance navigation with smooth active state transitions, chapter completion progress indicators, breadcrumb improvements, and responsive mobile menu polish.",
+      "pass": false,
+      "dependencies": [
+        "T-200"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Visual theme updated"
+      ],
+      "guarantees": [
+        "Active chapter highlighted with smooth transition",
+        "Progress indicators visible for each chapter",
+        "Mobile navigation works smoothly",
+        "Breadcrumbs show current location clearly"
+      ],
+      "validation": "Navigate between 3+ chapters, verify active state transitions are smooth, progress indicators are visible, and mobile menu (resize to 375px) works correctly.",
+      "testLevel": "unit",
+      "actions": [
+        "Add active state animations to nav items",
+        "Add chapter progress indicators",
+        "Polish mobile navigation",
+        "Add breadcrumb improvements",
+        "Test responsive behavior"
+      ]
+    },
+    {
+      "id": "T-220",
+      "name": "Chapter landing cards enhanced: hover effects, completion badges, visual hierarchy improved",
+      "intent": "First impression of available content - must communicate value and progress at a glance",
+      "description": "Upgrade chapter cards on the main page with premium hover effects (scale, shadow, glow), completion badges, difficulty indicators, and estimated reading time. Add staggered entrance animations.",
+      "pass": false,
+      "dependencies": [
+        "T-200"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Visual theme updated"
+      ],
+      "guarantees": [
+        "Cards have premium hover effects",
+        "Completion state is visible",
+        "Staggered entrance animation on page load",
+        "Visual hierarchy clearly shows chapter order"
+      ],
+      "validation": "Load homepage, verify cards animate in with stagger, hover over cards to see premium effects, verify completion badges render correctly.",
+      "testLevel": "unit",
+      "actions": [
+        "Add hover scale/shadow/glow effects to cards",
+        "Add entrance animation with stagger",
+        "Add completion badges",
+        "Add difficulty and reading time indicators",
+        "Test visual consistency"
+      ]
+    },
+    {
+      "id": "T-230",
+      "name": "Code blocks enhanced: syntax highlighting improved, copy button, line numbers, language badges",
+      "intent": "Code is the core content - must be beautiful and functional for learners",
+      "description": "Upgrade all code blocks with improved syntax highlighting theme, line numbers, copy-to-clipboard button with feedback, language badge, and optional line highlighting for emphasis.",
+      "pass": false,
+      "dependencies": [
+        "T-200"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Visual theme updated"
+      ],
+      "guarantees": [
+        "All code blocks have line numbers",
+        "Copy button works with visual feedback",
+        "Language badge shows on each block",
+        "Line highlighting works when specified",
+        "Syntax highlighting theme matches overall design"
+      ],
+      "validation": "Navigate to a chapter with code examples, verify line numbers display, click copy button and paste to confirm content copied, verify language badge visible, verify highlighted lines stand out.",
+      "testLevel": "unit",
+      "actions": [
+        "Update syntax highlighting theme",
+        "Add line number component",
+        "Implement copy-to-clipboard with toast feedback",
+        "Add language badge",
+        "Add line highlighting support"
+      ]
+    },
+    {
+      "id": "T-240",
+      "name": "Interactive diagrams enhanced: node hover tooltips, click animations, zoom controls",
+      "intent": "Diagrams are the visual learning tool - must be engaging and informative",
+      "description": "Enhance flow diagrams with smooth hover tooltips showing node details, click animations with visual feedback, zoom/pan controls, and improved edge styling with animated flow direction.",
+      "pass": false,
+      "dependencies": [
+        "T-200"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Visual theme updated"
+      ],
+      "guarantees": [
+        "Nodes show tooltip on hover",
+        "Click animation provides visual feedback",
+        "Zoom controls are accessible",
+        "Edge animations show data flow direction",
+        "Detail panel opens smoothly on node click"
+      ],
+      "validation": "Navigate to a chapter with a diagram, hover over nodes to see tooltips, click nodes to see animation and detail panel, use zoom controls, verify edge animations.",
+      "testLevel": "unit",
+      "actions": [
+        "Add hover tooltip component for diagram nodes",
+        "Add click animation feedback",
+        "Implement zoom/pan controls",
+        "Add edge flow animation",
+        "Polish detail panel transitions"
+      ]
+    },
+    {
+      "id": "T-250",
+      "name": "Navigation + Cards checkpoint: polished entry experience verified end-to-end",
+      "intent": "Verify that the visual foundation, navigation, and cards work together as a cohesive entry experience",
+      "description": "Checkpoint verifying that theme, navigation, and chapter cards create a premium first impression when a user arrives at the platform.",
+      "pass": false,
+      "dependencies": [
+        "T-210",
+        "T-220"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Navigation enhanced",
+        "Chapter cards enhanced"
+      ],
+      "guarantees": [
+        "Entry experience is cohesive and premium",
+        "No visual inconsistencies between nav and cards",
+        "Animations don't conflict or jank"
+      ],
+      "validation": "Fresh page load: verify staggered card entrance, navigate to chapter via card click, verify nav updates smoothly, navigate back, verify no visual glitches. Test at 1440px and 375px widths.",
+      "testLevel": "combination",
+      "actions": [
+        "Full flow test: load → browse cards → click chapter → nav updates → back",
+        "Test at desktop and mobile widths",
+        "Check for animation conflicts",
+        "Verify consistent styling"
+      ]
+    },
+    {
+      "id": "T-260",
+      "name": "Code + Diagrams checkpoint: interactive learning elements work together",
+      "intent": "Code blocks and diagrams must work together - clicking diagram nodes should highlight code",
+      "description": "Verify that diagram 'View in Code' links scroll to and highlight the correct code blocks, and that code term clicking works alongside diagram interactions without conflicts.",
+      "pass": false,
+      "dependencies": [
+        "T-230",
+        "T-240"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Code blocks enhanced",
+        "Diagrams enhanced"
+      ],
+      "guarantees": [
+        "Diagram node click → code scroll + highlight works",
+        "Code term click opens modal without breaking diagram state",
+        "No interaction conflicts between code and diagram features"
+      ],
+      "validation": "On a chapter with both diagram and code: click diagram node, verify it scrolls to code and highlights lines. Click a code term, verify modal opens. Return to diagram, verify state preserved.",
+      "testLevel": "combination",
+      "actions": [
+        "Test diagram-to-code linking",
+        "Test code term modals",
+        "Verify no state conflicts",
+        "Test sequence: diagram click → code term click → diagram click"
+      ]
+    },
+    {
+      "id": "T-300",
+      "name": "Missing chapter tutorials created: all chapters have complete tutorial content from notebooks",
+      "intent": "Content completeness is essential - every chapter must teach effectively with notebook-sourced content",
+      "description": "For each chapter identified as missing or incomplete tutorial content in T-101, create complete tutorial sections sourced from the corresponding Jupyter notebook. Include narrative, code, tips, warnings, exercises, and checkpoints following the CLAUDE.md structure rules.",
+      "pass": false,
+      "dependencies": [
+        "T-101",
+        "T-230"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Notebook audit complete",
+        "Code blocks enhanced"
+      ],
+      "guarantees": [
+        "Every chapter has tutorial content",
+        "All code examples match notebook source",
+        "Tutorial sections follow required step types",
+        "Code terms added for new content"
+      ],
+      "validation": "Navigate to each chapter that was previously incomplete, verify tutorial section exists with narrative, code blocks, tips, and exercises. Verify code matches notebook source.",
+      "testLevel": "unit",
+      "actions": [
+        "Read each incomplete chapter's notebook",
+        "Create tutorial sections with all required step types",
+        "Add code examples matching notebook exactly",
+        "Add code terms for new classes/methods",
+        "Add exercises and checkpoints"
+      ]
+    },
+    {
+      "id": "T-310",
+      "name": "Code terms database expanded: all key classes, methods, and concepts are clickable with documentation",
+      "intent": "Clickable code terms are the platform's unique learning feature - must be comprehensive",
+      "description": "Audit all code blocks across all chapters, identify every key class, method, and concept that should be clickable. Add missing entries to codeTerms.ts with full documentation including syntax, parameters, return types, examples, tips, and doc URLs.",
+      "pass": false,
+      "dependencies": [
+        "T-300"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All chapter tutorials complete"
+      ],
+      "guarantees": [
+        "Every key term in code blocks is clickable",
+        "Each term has complete documentation modal",
+        "Doc URLs point to valid official documentation",
+        "Pattern matching in TutorialCodeBlock covers all terms"
+      ],
+      "validation": "Navigate to 3 different chapters, click on key terms in code blocks (class names, method names), verify modal opens with syntax, parameters, examples, and working doc URL link.",
+      "testLevel": "unit",
+      "actions": [
+        "Audit all code blocks for key terms",
+        "Add missing entries to codeTerms.ts",
+        "Verify pattern matching covers new terms",
+        "Test clickability across chapters",
+        "Verify doc URLs are valid"
+      ]
+    },
+    {
+      "id": "T-320",
+      "name": "Quiz system enhanced: better question types, visual feedback, score tracking",
+      "intent": "Quizzes validate learning - must be engaging with clear feedback, not just checkboxes",
+      "description": "Enhance the quiz system with multiple question types (multiple choice, true/false, code completion, drag-and-drop ordering), animated feedback on answer (confetti for correct, gentle shake for wrong), score tracking with progress bar, and explanations for wrong answers.",
+      "pass": false,
+      "dependencies": [
+        "T-200"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Visual theme updated"
+      ],
+      "guarantees": [
+        "Multiple question types supported",
+        "Animated feedback on answers",
+        "Score tracking with visual progress",
+        "Wrong answers show explanations",
+        "Quiz state persists during session"
+      ],
+      "validation": "Navigate to a chapter with quiz, answer questions correctly and incorrectly, verify correct shows positive feedback, wrong shows explanation, score updates visually, progress bar advances.",
+      "testLevel": "unit",
+      "actions": [
+        "Add question type components",
+        "Implement answer feedback animations",
+        "Add score tracking with progress bar",
+        "Add explanation display for wrong answers",
+        "Persist quiz state in session"
+      ]
+    },
+    {
+      "id": "T-330",
+      "name": "Learning progress persistence: localStorage tracks chapter completion, quiz scores, visited sections",
+      "intent": "Users return to learn more - must remember where they left off",
+      "description": "Implement localStorage-based progress tracking that remembers completed chapters, quiz scores, last visited section, and tutorial progress. Show this in the navigation and chapter cards.",
+      "pass": false,
+      "dependencies": [
+        "T-210",
+        "T-320"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Navigation enhanced",
+        "Quiz system enhanced"
+      ],
+      "guarantees": [
+        "Chapter completion persists across page reloads",
+        "Quiz scores are saved and shown",
+        "Last visited section is remembered",
+        "Navigation shows progress state",
+        "Chapter cards show completion badges from stored data"
+      ],
+      "validation": "Complete a quiz, navigate away and back, verify score is preserved. Mark a chapter as read, reload page, verify completion state persists. Verify nav and cards reflect stored progress.",
+      "testLevel": "combination",
+      "actions": [
+        "Create progress store with localStorage",
+        "Track chapter visits and completion",
+        "Store quiz scores per chapter",
+        "Update nav to show stored progress",
+        "Update cards to show stored completion"
+      ]
+    },
+    {
+      "id": "T-340",
+      "name": "Dark mode toggle: clean dark theme with smooth transition and preference persistence",
+      "intent": "Modern learning platforms offer dark mode - reduces eye strain for long study sessions",
+      "description": "Add a dark mode toggle with smooth CSS transition, persisted preference in localStorage, and system preference detection. Ensure all components (code blocks, diagrams, cards, modals) look great in dark mode.",
+      "pass": false,
+      "dependencies": [
+        "T-200"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Visual theme updated"
+      ],
+      "guarantees": [
+        "Dark mode toggle visible in header",
+        "Smooth transition between modes",
+        "Preference persists across reloads",
+        "All components render correctly in dark mode",
+        "System preference detected on first visit"
+      ],
+      "validation": "Click dark mode toggle, verify smooth transition, verify code blocks/diagrams/cards all look correct. Reload page, verify preference persisted. Check system preference detection.",
+      "testLevel": "unit",
+      "actions": [
+        "Add dark mode CSS variables",
+        "Implement toggle component",
+        "Add smooth transition",
+        "Persist preference to localStorage",
+        "Detect system preference",
+        "Audit all components in dark mode"
+      ]
+    },
+    {
+      "id": "T-350",
+      "name": "Search functionality: instant search across chapters, code terms, and tutorial content",
+      "intent": "As content grows, users need to find specific topics quickly",
+      "description": "Add a search bar (Cmd+K shortcut) that searches across chapter titles, descriptions, code terms, and tutorial content. Show results in a modal with keyboard navigation and direct links to matched sections.",
+      "pass": false,
+      "dependencies": [
+        "T-300",
+        "T-310"
+      ],
+      "complexity": 3,
+      "requires": [
+        "All tutorials complete",
+        "Code terms expanded"
+      ],
+      "guarantees": [
+        "Search modal opens with Cmd+K",
+        "Searches chapter titles and descriptions",
+        "Searches code terms",
+        "Results link directly to matched section",
+        "Keyboard navigation works (up/down/enter)"
+      ],
+      "validation": "Press Cmd+K, type a pattern name, verify results show matching chapters and code terms. Use arrow keys to navigate, press Enter to go to result. Verify landing on correct section.",
+      "testLevel": "unit",
+      "actions": [
+        "Create search index from chapters and code terms",
+        "Build search modal component",
+        "Implement fuzzy search",
+        "Add keyboard shortcuts and navigation",
+        "Add direct linking to sections"
+      ]
+    },
+    {
+      "id": "T-400",
+      "name": "Content + Interactivity checkpoint: complete learning flow verified for one chapter",
+      "intent": "Verify the full learning experience works end-to-end for a single chapter before checking all",
+      "description": "Pick the most complete chapter and verify the entire learning flow: arrive via card, read tutorial with clickable terms, interact with diagram, view code examples from diagram links, complete quiz with feedback, see progress saved.",
+      "pass": false,
+      "dependencies": [
+        "T-260",
+        "T-300",
+        "T-310",
+        "T-320",
+        "T-330"
+      ],
+      "complexity": 4,
+      "requires": [
+        "Code+Diagram integration works",
+        "Tutorials complete",
+        "Code terms expanded",
+        "Quiz enhanced",
+        "Progress persistence works"
+      ],
+      "guarantees": [
+        "Full learning flow works for one chapter",
+        "All interactive features work together",
+        "No state conflicts between features",
+        "Progress correctly saved after completing chapter"
+      ],
+      "validation": "Full flow for one chapter: homepage → card click → tutorial read → click code terms → interact with diagram → diagram-to-code link → complete quiz → verify progress saved → return to homepage → verify completion badge.",
+      "testLevel": "integration",
+      "actions": [
+        "Execute full learning flow for chosen chapter",
+        "Verify each interaction point",
+        "Check state consistency throughout",
+        "Verify progress persistence",
+        "Check for console errors"
+      ]
+    },
+    {
+      "id": "T-410",
+      "name": "Animated hero section: eye-catching landing with animated pattern visualization and call-to-action",
+      "intent": "First impression must be incredible - the hero section sets the tone for the entire platform",
+      "description": "Create an animated hero section on the homepage with a subtle agentic pattern visualization (animated nodes connecting, data flowing), compelling headline, brief description, and clear call-to-action to start learning. Use CSS animations or lightweight canvas for performance.",
+      "pass": false,
+      "dependencies": [
+        "T-200"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Visual theme updated"
+      ],
+      "guarantees": [
+        "Animated visualization renders smoothly (60fps)",
+        "Headline and CTA are prominent",
+        "Animation doesn't distract from content",
+        "Responsive on mobile (simplified animation)",
+        "Accessible (respects prefers-reduced-motion)"
+      ],
+      "validation": "Load homepage, verify hero animation renders smoothly, headline is readable, CTA button is clickable and navigates to first chapter. Resize to mobile, verify simplified animation. Check prefers-reduced-motion.",
+      "testLevel": "unit",
+      "actions": [
+        "Design hero section layout",
+        "Create animated node visualization",
+        "Add headline and description",
+        "Add CTA button",
+        "Implement responsive simplification",
+        "Respect prefers-reduced-motion"
+      ]
+    },
+    {
+      "id": "T-420",
+      "name": "Chapter transition animations: smooth page transitions between chapters and sections",
+      "intent": "Smooth transitions between pages make the platform feel app-like and premium",
+      "description": "Add page transition animations when navigating between chapters and sections. Content should fade/slide in, maintain scroll position context, and feel smooth and intentional.",
+      "pass": false,
+      "dependencies": [
+        "T-210"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Navigation enhanced"
+      ],
+      "guarantees": [
+        "Page transitions animate smoothly",
+        "No layout shift during transitions",
+        "Scroll position managed correctly",
+        "Back navigation feels natural",
+        "Performance stays good (no jank)"
+      ],
+      "validation": "Navigate between 3 chapters, verify smooth fade/slide transitions. Use browser back button, verify smooth reverse transition. Check for layout shifts during transition.",
+      "testLevel": "unit",
+      "actions": [
+        "Add route transition wrapper component",
+        "Implement fade/slide animation",
+        "Handle scroll position",
+        "Test back navigation",
+        "Optimize for performance"
+      ]
+    },
+    {
+      "id": "T-430",
+      "name": "Keyboard navigation: full keyboard accessibility for all interactive elements",
+      "intent": "Accessibility is essential - keyboard users must be able to use all features",
+      "description": "Ensure all interactive elements are keyboard accessible: tab order is logical, focus indicators are visible, diagrams can be navigated with arrow keys, code term modals can be opened/closed with keyboard, quizzes are fully keyboard-operable.",
+      "pass": false,
+      "dependencies": [
+        "T-260",
+        "T-320"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Code+Diagram integration works",
+        "Quiz enhanced"
+      ],
+      "guarantees": [
+        "Logical tab order throughout",
+        "Visible focus indicators on all interactive elements",
+        "Diagram nodes navigable with arrow keys",
+        "Modals closable with Escape",
+        "Quizzes fully keyboard-operable"
+      ],
+      "validation": "Navigate entire chapter using only keyboard: Tab through nav, Enter to select chapter, Tab through tutorial, Enter on code term, Escape to close modal, Tab to diagram, arrows to navigate nodes, Tab to quiz, complete quiz with keyboard only.",
+      "testLevel": "combination",
+      "actions": [
+        "Audit tab order",
+        "Add focus indicators",
+        "Add keyboard handlers to diagrams",
+        "Ensure modal keyboard handling",
+        "Test quiz keyboard operation"
+      ]
+    },
+    {
+      "id": "T-440",
+      "name": "Print-friendly styles: chapters printable as clean study materials",
+      "intent": "Students often want to print or save chapters as PDF for offline study",
+      "description": "Add print media styles that produce clean, readable chapter printouts. Hide navigation, interactive elements, and animations. Format code blocks with borders and line numbers. Add chapter title and page numbers.",
+      "pass": false,
+      "dependencies": [
+        "T-300"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All tutorials complete"
+      ],
+      "guarantees": [
+        "Print preview shows clean layout",
+        "Navigation and interactive elements hidden",
+        "Code blocks formatted with borders",
+        "Page breaks avoid orphans/widows",
+        "Chapter title appears on each page"
+      ],
+      "validation": "Open a chapter, trigger print preview (Cmd+P), verify clean layout with hidden nav, formatted code blocks, proper page breaks, and chapter title header.",
+      "testLevel": "unit",
+      "actions": [
+        "Add @media print styles",
+        "Hide nav and interactive elements",
+        "Format code blocks for print",
+        "Set orphans/widows rules",
+        "Add page header with chapter title"
+      ]
+    },
+    {
+      "id": "T-500",
+      "name": "Full platform checkpoint: all features verified across all chapters",
+      "intent": "Before final polish, verify that all features work across all chapters, not just one",
+      "description": "Systematically verify that all enhanced features work correctly across every chapter: tutorials load, code terms are clickable, diagrams are interactive, quizzes work, progress saves, dark mode works, search finds content, keyboard navigation works.",
+      "pass": false,
+      "dependencies": [
+        "T-400",
+        "T-340",
+        "T-350",
+        "T-410",
+        "T-420",
+        "T-430",
+        "T-440"
+      ],
+      "complexity": 4,
+      "requires": [
+        "Single chapter flow verified",
+        "Dark mode works",
+        "Search works",
+        "Hero section works",
+        "Page transitions work",
+        "Keyboard accessible",
+        "Print styles work"
+      ],
+      "guarantees": [
+        "All features work across all chapters",
+        "No chapter-specific bugs",
+        "Dark mode consistent everywhere",
+        "Search indexes all content",
+        "No console errors on any page"
+      ],
+      "validation": "Visit every chapter, verify: tutorial loads, code terms clickable, diagram interactive, quiz works, dark mode toggles correctly. Run search for terms from each chapter. Check console for errors on every page.",
+      "testLevel": "integration",
+      "actions": [
+        "Test each chapter systematically",
+        "Verify all interactive features per chapter",
+        "Test dark mode on every page",
+        "Test search across all content",
+        "Check console for errors"
+      ]
+    },
+    {
+      "id": "T-510",
+      "name": "Performance optimized: lazy loading, code splitting, image optimization, smooth 60fps",
+      "intent": "Premium feel requires fast loading and smooth interactions",
+      "description": "Optimize performance: add route-based code splitting, lazy load heavy components (diagrams, code highlighter), optimize any images, ensure animations run at 60fps, add loading skeletons for lazy content.",
+      "pass": false,
+      "dependencies": [
+        "T-500"
+      ],
+      "complexity": 3,
+      "requires": [
+        "All features verified"
+      ],
+      "guarantees": [
+        "Route-based code splitting implemented",
+        "Heavy components lazy loaded",
+        "Loading skeletons visible during lazy load",
+        "Animations at 60fps",
+        "Lighthouse performance score > 90"
+      ],
+      "validation": "Run Lighthouse audit, verify performance score > 90. Navigate between chapters, verify loading skeletons appear briefly for lazy content. Check animation smoothness with DevTools performance tab.",
+      "testLevel": "unit",
+      "actions": [
+        "Add React.lazy for route components",
+        "Add Suspense with loading skeletons",
+        "Lazy load diagram and code highlighter components",
+        "Optimize images if any",
+        "Profile animations for 60fps"
+      ]
+    },
+    {
+      "id": "T-520",
+      "name": "SEO and meta tags: proper titles, descriptions, and Open Graph tags for each chapter",
+      "intent": "Platform should be discoverable and shareable - proper meta tags for social sharing",
+      "description": "Add proper document titles, meta descriptions, and Open Graph tags for each chapter page. Add structured data for educational content. Ensure each page has unique, descriptive metadata.",
+      "pass": false,
+      "dependencies": [
+        "T-500"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All features verified"
+      ],
+      "guarantees": [
+        "Each page has unique title",
+        "Meta descriptions set per chapter",
+        "Open Graph tags for social sharing",
+        "Structured data for educational content"
+      ],
+      "validation": "Navigate to 3 different chapters, inspect document title changes, verify meta tags in page source, verify Open Graph tags present.",
+      "testLevel": "unit",
+      "actions": [
+        "Add document title management (React Helmet or equivalent)",
+        "Set meta descriptions per chapter",
+        "Add Open Graph tags",
+        "Add structured data markup"
+      ]
+    },
+    {
+      "id": "T-600",
+      "name": "Production build verified: platform builds, deploys, and delivers incredible learning experience",
+      "intent": "Final deliverable - the user can build and use the enhanced platform",
+      "description": "Run production build, verify no errors, verify all features work in production build, verify bundle size is reasonable, and deliver the final enhanced platform ready for deployment.",
+      "pass": false,
+      "dependencies": [
+        "T-510",
+        "T-520"
+      ],
+      "complexity": 4,
+      "requires": [
+        "Performance optimized",
+        "SEO tags added"
+      ],
+      "guarantees": [
+        "Production build succeeds with no errors",
+        "All features work in production build",
+        "Bundle size is reasonable",
+        "Platform is ready for deployment",
+        "User can experience the full incredible learning platform"
+      ],
+      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation → chapter cards → tutorial → code terms → diagram → quiz → progress → dark mode → search → print preview. All features work in production.",
+      "testLevel": "integration",
+      "actions": [
+        "Run npm run build",
+        "Serve production build locally",
+        "Full end-to-end verification of all features",
+        "Check bundle size",
+        "Verify no console errors",
+        "Final visual inspection"
+      ]
+    }
+  ],
+  "ralph": {
+    "currentTaskId": null,
+    "recommendedNextStepId": "T-100",
+    "history": [],
+    "startedAt": null
+  }
+}

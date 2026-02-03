@@ -1,0 +1,541 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Colors - Inspired by AI/Neural Networks */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+
+  /* Accent - Purple/Violet for AI theme */
+  --color-accent-50: #faf5ff;
+  --color-accent-100: #f3e8ff;
+  --color-accent-200: #e9d5ff;
+  --color-accent-300: #d8b4fe;
+  --color-accent-400: #c084fc;
+  --color-accent-500: #a855f7;
+  --color-accent-600: #9333ea;
+  --color-accent-700: #7e22ce;
+  --color-accent-800: #6b21a8;
+  --color-accent-900: #581c87;
+
+  /* Success/Green */
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+
+  /* Warning/Orange */
+  --color-warning-500: #f97316;
+  --color-warning-600: #ea580c;
+
+  /* Error/Red */
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+
+  /* Dark theme base */
+  --color-dark-50: #f8fafc;
+  --color-dark-100: #f1f5f9;
+  --color-dark-200: #e2e8f0;
+  --color-dark-300: #cbd5e1;
+  --color-dark-400: #94a3b8;
+  --color-dark-500: #64748b;
+  --color-dark-600: #475569;
+  --color-dark-700: #334155;
+  --color-dark-800: #1e293b;
+  --color-dark-900: #0f172a;
+  --color-dark-950: #020617;
+
+  /* Spacing scale */
+  --spacing-128: 32rem;
+  --spacing-144: 36rem;
+
+  /* Font families */
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-arabic: "Noto Sans Arabic", "Amiri", system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Dark theme (default) */
+body {
+  @apply bg-dark-950 text-dark-100 font-sans antialiased;
+  margin: 0;
+  background-image:
+    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.15), transparent),
+    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(14, 165, 233, 0.1), transparent);
+  background-attachment: fixed;
+}
+
+/* Light theme */
+html.light body {
+  @apply bg-gray-50 text-gray-900;
+  background-image:
+    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(14, 165, 233, 0.08), transparent),
+    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(168, 85, 247, 0.05), transparent);
+}
+
+/* Light mode utility classes */
+html.light .light\:bg-white { background-color: white; }
+html.light .light\:bg-white\/80 { background-color: rgba(255, 255, 255, 0.8); }
+html.light .light\:bg-gray-50 { background-color: rgb(249 250 251); }
+html.light .light\:bg-gray-100 { background-color: rgb(243 244 246); }
+html.light .light\:bg-primary-50 { background-color: rgb(240 249 255); }
+html.light .light\:text-gray-600 { color: rgb(75 85 99); }
+html.light .light\:text-gray-700 { color: rgb(55 65 81); }
+html.light .light\:text-gray-900 { color: rgb(17 24 39); }
+html.light .light\:text-primary-600 { color: rgb(2 132 199); }
+html.light .light\:border-gray-200 { border-color: rgb(229 231 235); }
+html.light .light\:hover\:bg-gray-50:hover { background-color: rgb(249 250 251); }
+html.light .light\:hover\:bg-gray-100:hover { background-color: rgb(243 244 246); }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-dark-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-dark-500;
+}
+
+/* Selection */
+::selection {
+  @apply bg-accent-600/40 text-white;
+}
+
+/* Code highlighting overrides */
+pre {
+  @apply rounded-xl bg-dark-900/80 border border-dark-700/50;
+  backdrop-filter: blur(8px);
+}
+
+code {
+  @apply font-mono text-sm;
+}
+
+/* Glow effects */
+.glow-primary {
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.3), 0 0 40px rgba(14, 165, 233, 0.1);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3), 0 0 40px rgba(168, 85, 247, 0.1);
+}
+
+.glow-success {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3), 0 0 40px rgba(34, 197, 94, 0.1);
+}
+
+/* Glass effect */
+.glass {
+  @apply bg-dark-800/40 border border-dark-700/50;
+  backdrop-filter: blur(16px);
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 bg-clip-text text-transparent;
+  background-size: 200% auto;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+/* Node connection lines for React Flow */
+.react-flow__edge-path {
+  stroke: rgb(100, 116, 139);
+  stroke-width: 2;
+}
+
+.react-flow__edge-path:hover {
+  stroke: rgb(14, 165, 233);
+}
+
+/* Animated border */
+.animated-border {
+  position: relative;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(90deg, #0ea5e9, #a855f7, #0ea5e9);
+  background-size: 200% 100%;
+  border-radius: inherit;
+  animation: border-flow 3s linear infinite;
+  z-index: -1;
+}
+
+@keyframes border-flow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* Pulse animation for active elements */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pattern backgrounds */
+.pattern-grid {
+  background-image:
+    linear-gradient(rgba(100, 116, 139, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 116, 139, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.pattern-dots {
+  background-image: radial-gradient(rgba(100, 116, 139, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Chapter card hover effects */
+.chapter-card {
+  @apply transition-all duration-300;
+}
+
+.chapter-card:hover {
+  transform: translateY(-4px);
+}
+
+/* React Flow customization */
+.react-flow__node {
+  @apply rounded-xl shadow-lg;
+}
+
+.react-flow__handle {
+  @apply bg-primary-500;
+}
+
+.react-flow__minimap {
+  @apply bg-dark-900/80 rounded-lg border border-dark-700;
+}
+
+.react-flow__controls {
+  @apply bg-dark-800/80 rounded-lg border border-dark-700;
+}
+
+.react-flow__controls-button {
+  @apply bg-dark-700 border-dark-600 text-dark-200;
+}
+
+.react-flow__controls-button:hover {
+  @apply bg-dark-600;
+}
+
+/* ============================================
+   Enhanced Learning Experience Animations
+   ============================================ */
+
+/* Subtle pulse for interactive nodes with code links */
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.01);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+/* Glow animation for selected elements */
+@keyframes glow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Scale utility for hover states */
+.scale-102 {
+  transform: scale(1.02);
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Confetti animation for celebrations */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100%) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.animate-confetti {
+  animation: confetti-fall 3s ease-out forwards;
+}
+
+/* Sparkle animation */
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-sparkle {
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+/* Reading progress bar shimmer */
+@keyframes progress-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.progress-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: progress-shimmer 2s ease-in-out infinite;
+}
+
+/* Tooltip arrow */
+.tooltip-arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  border: inherit;
+  border-right: 0;
+  border-bottom: 0;
+  transform: rotate(45deg);
+}
+
+/* Focus mode - hides non-essential UI */
+.focus-mode .non-essential {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Code highlight animation */
+@keyframes highlight-flash {
+  0% {
+    background-color: transparent;
+  }
+  20% {
+    background-color: rgba(14, 165, 233, 0.3);
+  }
+  100% {
+    background-color: rgba(14, 165, 233, 0.1);
+  }
+}
+
+.animate-highlight {
+  animation: highlight-flash 1s ease-out forwards;
+}
+
+/* Smooth reveal for content sections */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Enhanced diagram node hover */
+.react-flow__node:hover {
+  z-index: 100 !important;
+}
+
+/* Full-screen diagram overlay */
+.diagram-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--color-dark-950);
+}
+
+/* Scrollbar styling for detail panel */
+.detail-panel-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(71, 85, 105) transparent;
+}
+
+.detail-panel-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.detail-panel-scroll::-webkit-scrollbar-thumb {
+  background-color: rgb(71, 85, 105);
+  border-radius: 3px;
+}
+
+/* Concept tooltip styling */
+.concept-highlight {
+  @apply relative cursor-help;
+}
+
+.concept-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary-400), var(--color-accent-400));
+  opacity: 0.5;
+  border-radius: 1px;
+}
+
+/* ============================================
+   RTL (Right-to-Left) Support for Arabic
+   ============================================ */
+
+/* Arabic font utility class */
+.font-arabic {
+  font-family: var(--font-arabic);
+}
+
+/* RTL direction styles */
+html[dir="rtl"] {
+  font-family: var(--font-arabic);
+}
+
+html[dir="rtl"] body {
+  font-family: var(--font-arabic);
+  text-align: right;
+}
+
+/* RTL-specific adjustments */
+html.rtl .gradient-text {
+  background: linear-gradient(to left, var(--color-primary-400), var(--color-accent-400), var(--color-primary-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Flip icons that have directional meaning in RTL */
+html.rtl .rtl\\:rotate-180 {
+  transform: rotate(180deg);
+}
+
+html.rtl .rtl\\:flip {
+  transform: scaleX(-1);
+}
+
+/* Adjust spacing for RTL */
+html.rtl .space-x-2 > * + * {
+  margin-right: 0.5rem;
+  margin-left: 0;
+}
+
+html.rtl .space-x-4 > * + * {
+  margin-right: 1rem;
+  margin-left: 0;
+}
+
+/* RTL gap adjustments - Flexbox gap works automatically */
+
+/* Keep code blocks LTR */
+html.rtl pre,
+html.rtl code,
+html.rtl .font-mono {
+  direction: ltr;
+  text-align: left;
+}
+
+/* RTL scrollbar position */
+html.rtl ::-webkit-scrollbar {
+  direction: rtl;
+}
+
+/* RTL chapter card hover */
+html.rtl .chapter-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Language switcher specific styles */
+.lang-switch-ar {
+  font-family: var(--font-arabic);
+  font-weight: 600;
+}

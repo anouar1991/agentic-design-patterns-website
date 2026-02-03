@@ -1,0 +1,430 @@
+{
+  "nav": {
+    "home": "Home",
+    "startHere": "Start Here",
+    "continue": "Continue",
+    "chapters": "Chapters",
+    "learningPath": "Learning Path",
+    "playground": "Playground",
+    "leaderboard": "Leaderboard",
+    "github": "GitHub",
+    "viewOnGithub": "View on GitHub"
+  },
+  "header": {
+    "title": "Agentic Patterns",
+    "subtitle": "Interactive Learning"
+  },
+  "footer": {
+    "basedOn": "Based on",
+    "bookTitle": "Agentic Design Patterns",
+    "byAuthor": "by Antonio Gulli",
+    "royalties": "All royalties donated to Save the Children",
+    "getBook": "Get the Book",
+    "sourceCode": "Source Code"
+  },
+  "home": {
+    "heroTitle": "Agentic Design",
+    "heroHighlight": "Patterns",
+    "heroSubtitle": "Master the art of building intelligent AI systems with 21 design patterns, interactive diagrams, and hands-on code examples.",
+    "startLearning": "Start Learning",
+    "exploreChapters": "Explore Chapters",
+    "statsChapters": "Chapters",
+    "statsCodeExamples": "Code Examples",
+    "statsFrameworks": "Frameworks",
+    "statsPages": "Pages",
+    "featuredTitle": "Featured Chapters",
+    "featuredSubtitle": "Start your journey with these foundational patterns",
+    "viewAllChapters": "View All Chapters",
+    "whyLearnTitle": "Why Learn Agentic Patterns?",
+    "whyLearnSubtitle": "Building intelligent AI systems requires understanding proven architectural patterns",
+    "feature1Title": "Interactive Diagrams",
+    "feature1Desc": "Visualize agent workflows with React Flow diagrams",
+    "feature2Title": "Real Code Examples",
+    "feature2Desc": "LangChain, LangGraph, ADK, and CrewAI implementations",
+    "feature3Title": "Deep Understanding",
+    "feature3Desc": "Concepts explained with animations and visualizations",
+    "feature4Title": "Production Ready",
+    "feature4Desc": "Safety patterns and evaluation techniques included",
+    "learnInteractive": "Learn AI Agents the",
+    "interactiveWay": "Interactive Way",
+    "learnInteractiveDesc": "This companion resource brings the book to life with visualizations, animations, and hands-on exploration of every pattern.",
+    "essentialPatterns": "21 Essential Patterns",
+    "essentialPatternsDesc": "From basic prompt chaining to advanced multi-agent systems, master every pattern you need to build production AI agents.",
+    "structuredPath": "Structured Learning Path",
+    "structuredPathDesc": "Follow our curated learning path to master agentic AI patterns from foundations to advanced systems. Each phase builds on the previous one, ensuring a solid understanding.",
+    "explorePath": "Explore Learning Path",
+    "visualTracker": "Visual progress tracker",
+    "newToAgents": "New to AI agents?",
+    "startBasics": "Start with the basics",
+    "yourProgress": "Your Progress",
+    "chaptersCompleted": "{{count}} of 21 chapters completed",
+    "progress": "Progress",
+    "ctaTitle": "Ready to Build Intelligent Agents?",
+    "ctaSubtitle": "Start with the fundamentals and progress through advanced patterns",
+    "ctaButton": "Begin Your Journey"
+  },
+  "chaptersPage": {
+    "title": "All Chapters",
+    "subtitle": "Explore each design pattern with interactive diagrams, code examples, and hands-on exercises.",
+    "chaptersCount": "21 Chapters",
+    "codeExamplesCount": "61+ Code Examples",
+    "examples": "examples",
+    "ch": "Ch"
+  },
+  "parts": {
+    "core": {
+      "name": "Part One: Core Design Patterns",
+      "description": "Fundamental patterns for building AI agents"
+    },
+    "infra": {
+      "name": "Part Two: Infrastructure Patterns",
+      "description": "Memory, adaptation, and protocols"
+    },
+    "recovery": {
+      "name": "Part Three: Recovery and Knowledge",
+      "description": "Exception handling, human interaction, and RAG"
+    },
+    "advanced": {
+      "name": "Part Four: Advanced Patterns",
+      "description": "Communication, optimization, reasoning, safety"
+    }
+  },
+  "chapterTitles": {
+    "1": "Prompt Chaining",
+    "2": "Routing",
+    "3": "Parallelization",
+    "4": "Reflection",
+    "5": "Tool Use",
+    "6": "Planning",
+    "7": "Multi-Agent Collaboration",
+    "8": "Memory Management",
+    "9": "Learning and Adaptation",
+    "10": "Model Context Protocol",
+    "11": "Goal Setting and Monitoring",
+    "12": "Exception Handling",
+    "13": "Human-in-the-Loop",
+    "14": "Knowledge Retrieval (RAG)",
+    "15": "Inter-Agent Communication",
+    "16": "Resource-Aware Optimization",
+    "17": "Reasoning Techniques",
+    "18": "Guardrails and Safety",
+    "19": "Evaluation and Monitoring",
+    "20": "Prioritization",
+    "21": "Exploration and Discovery"
+  },
+  "chapterDescriptions": {
+    "1": "Decompose tasks into sequential steps",
+    "2": "Direct queries to specialized handlers",
+    "3": "Execute multiple calls simultaneously",
+    "4": "Self-evaluate and improve outputs",
+    "5": "Integrate external tools and APIs",
+    "6": "Create and execute multi-step plans",
+    "7": "Orchestrate multiple specialized agents",
+    "8": "Implement short and long-term memory",
+    "9": "Enable agents to learn over time",
+    "10": "Integrate with MCP services",
+    "11": "Define and track agent objectives",
+    "12": "Build resilient error recovery",
+    "13": "Integrate human oversight",
+    "14": "Augment with retrieval systems",
+    "15": "Enable A2A protocol communication",
+    "16": "Optimize performance and resources",
+    "17": "Implement Chain-of-Thought and more",
+    "18": "Build safe, validated agents",
+    "19": "Measure and monitor agents",
+    "20": "Manage task priorities",
+    "21": "Enable autonomous exploration"
+  },
+  "learningPath": {
+    "title": "Learning Path",
+    "subtitle": "Follow this structured path to master agentic AI patterns from fundamentals to advanced production systems.",
+    "phasesCount": "5 Phases",
+    "chaptersCount": "{{count}} Chapters",
+    "completedCount": "{{count}} completed",
+    "overallProgress": "Overall Progress",
+    "phase": "Phase",
+    "completed": "completed",
+    "chaptersInPhase": "Chapters in this Phase",
+    "skillsYoullLearn": "Skills You'll Learn",
+    "congratulations": "Congratulations! 🎉",
+    "congratulationsDesc": "You've mastered all 21 agentic design patterns. You're now ready to build production-grade AI agent systems.",
+    "exploreAllChapters": "Explore All Chapters",
+    "readyToBegin": "Ready to Begin?",
+    "readyToBeginDesc": "Start with Chapter 1 and learn the fundamental pattern of prompt chaining. Each chapter builds on the previous ones.",
+    "startWithChapter1": "Start with Chapter 1"
+  },
+  "phases": {
+    "1": {
+      "name": "Foundations",
+      "description": "Build your first agent with basic patterns. Learn the fundamental building blocks that every AI agent system uses."
+    },
+    "2": {
+      "name": "Tool Mastery",
+      "description": "Empower agents with tools and planning capabilities. Transform passive assistants into action-oriented agents."
+    },
+    "3": {
+      "name": "Infrastructure",
+      "description": "Build robust agent infrastructure with memory, adaptation, and external integrations."
+    },
+    "4": {
+      "name": "Robustness",
+      "description": "Handle errors gracefully and integrate human oversight. Build agents that work reliably in the real world."
+    },
+    "5": {
+      "name": "Advanced Systems",
+      "description": "Master advanced patterns for production-grade multi-agent systems with safety and evaluation."
+    }
+  },
+  "skills": {
+    "sequentialTaskDecomposition": "Sequential task decomposition",
+    "intentClassificationRouting": "Intent classification and routing",
+    "concurrentLLMOperations": "Concurrent LLM operations",
+    "selfEvaluationLoops": "Self-evaluation loops",
+    "functionCallingToolIntegration": "Function calling and tool integration",
+    "multiStepPlanGeneration": "Multi-step plan generation",
+    "agentCoordinationPatterns": "Agent coordination patterns",
+    "emergentCollectiveBehavior": "Emergent collective behavior",
+    "shortLongTermMemory": "Short and long-term memory",
+    "experienceBasedLearning": "Experience-based learning",
+    "mcpToolIntegration": "MCP tool integration",
+    "goalTrackingMetrics": "Goal tracking and metrics",
+    "errorRecoveryPatterns": "Error recovery patterns",
+    "humanEscalationWorkflows": "Human escalation workflows",
+    "ragImplementation": "RAG implementation",
+    "fallbackStrategies": "Fallback strategies",
+    "a2aProtocolCommunication": "A2A protocol communication",
+    "costLatencyOptimization": "Cost and latency optimization",
+    "chainOfThoughtReasoning": "Chain-of-Thought reasoning",
+    "inputOutputValidation": "Input/output validation",
+    "agentPerformanceMetrics": "Agent performance metrics",
+    "taskPrioritization": "Task prioritization",
+    "autonomousExploration": "Autonomous exploration"
+  },
+  "introduction": {
+    "badge": "Start Here",
+    "title": "What Are Agentic AI Systems?",
+    "subtitle": "Before diving into the 21 design patterns, let's understand what AI agents are and why they matter.",
+    "whatIsAgent": "What is an AI Agent?",
+    "whatIsAgentDesc": "An <strong>AI agent</strong> is a software system that uses a Large Language Model (LLM) to autonomously perform tasks, make decisions, and interact with the world.",
+    "simpleLLM": "Simple LLM (Chatbot)",
+    "simpleLLMPoints": [
+      "You ask a question, it responds",
+      "No memory between conversations",
+      "Cannot take actions in the real world",
+      "Limited to text generation"
+    ],
+    "aiAgent": "AI Agent",
+    "aiAgentPoints": [
+      "Reasons about complex problems",
+      "Remembers context and learns",
+      "Uses tools (search, APIs, code)",
+      "Takes autonomous actions"
+    ],
+    "analogy": "Think of it this way: a chatbot is like a knowledgeable friend who can only talk. An agent is like a personal assistant who can research, plan, execute tasks, and get things done.",
+    "keyTerms": "Key Terms You'll See",
+    "terms": {
+      "llm": {
+        "term": "LLM (Large Language Model)",
+        "definition": "The AI \"brain\" that understands and generates text. Examples: GPT-4, Claude, Gemini, Llama."
+      },
+      "prompt": {
+        "term": "Prompt",
+        "definition": "The instructions or questions you give to an LLM. Good prompts lead to better results."
+      },
+      "tool": {
+        "term": "Tool",
+        "definition": "A function the agent can call to interact with the world—search the web, run code, call APIs, etc."
+      },
+      "chain": {
+        "term": "Chain",
+        "definition": "A sequence of LLM calls or operations connected together, where output of one becomes input of the next."
+      },
+      "token": {
+        "term": "Token",
+        "definition": "How LLMs measure text. Roughly 4 characters = 1 token. Important for costs and context limits."
+      }
+    },
+    "frameworksTitle": "Frameworks Used in This Course",
+    "frameworksDesc": "The code examples use popular Python frameworks for building AI agents:",
+    "frameworks": {
+      "langchain": {
+        "name": "LangChain",
+        "description": "The most popular framework for building LLM applications. Provides tools, chains, and agent abstractions."
+      },
+      "langgraph": {
+        "name": "LangGraph",
+        "description": "LangChain's framework for building stateful, multi-step agent workflows as graphs."
+      },
+      "adk": {
+        "name": "Google ADK",
+        "description": "Agent Development Kit for building agents with Google's Gemini models."
+      },
+      "crewai": {
+        "name": "CrewAI",
+        "description": "Framework for orchestrating multiple AI agents working together as a \"crew\"."
+      }
+    },
+    "prerequisites": "Prerequisites",
+    "whatYouShouldKnow": "What You Should Know",
+    "shouldKnowPoints": [
+      "Basic Python programming",
+      "Understanding of APIs",
+      "General AI/ML awareness (helpful but not required)"
+    ],
+    "whatYoullNeed": "What You'll Need",
+    "needPoints": [
+      "Python 3.9+ installed",
+      "An API key from OpenAI, Anthropic, or Google",
+      "A code editor (VS Code recommended)"
+    ],
+    "quickStart": "Quick Start: Your First Agent",
+    "quickStartDesc": "Let's get you running your first AI agent in under 5 minutes. Copy and paste this code:",
+    "step1": "Install the packages",
+    "step2": "Set your API key (get one from",
+    "step3": "Run your first chain (save as agent.py)",
+    "step4": "Run it",
+    "quickStartSuccess": "That's it! You just ran your first LangChain agent. Now you're ready to learn the patterns that make agents powerful.",
+    "whyPatterns": "Why Learn Design Patterns?",
+    "whyPatternsDesc": "Just like software engineering has design patterns (Singleton, Factory, Observer...), AI agent development has its own patterns that solve common problems:",
+    "patternExamples": {
+      "promptChaining": { "pattern": "Prompt Chaining", "problem": "Complex tasks that need multiple steps" },
+      "routing": { "pattern": "Routing", "problem": "Directing queries to the right handler" },
+      "toolUse": { "pattern": "Tool Use", "problem": "Letting agents interact with external systems" },
+      "memory": { "pattern": "Memory", "problem": "Remembering context across conversations" },
+      "multiAgent": { "pattern": "Multi-Agent", "problem": "Complex problems requiring specialized agents" }
+    },
+    "patternsSummary": "These 21 patterns give you a toolkit to build robust, production-ready AI systems.",
+    "readyToStart": "Ready to Start Learning?",
+    "readyToStartDesc": "Begin with Chapter 1: Prompt Chaining—the foundational pattern that everything else builds on.",
+    "startChapter1": "Start Chapter 1",
+    "viewLearningPath": "View Learning Path"
+  },
+  "playground": {
+    "badge": "Interactive Playground",
+    "title": "Code Playground",
+    "subtitle": "Experiment with agentic design patterns in an interactive environment.",
+    "comingSoon": "Coming Soon",
+    "comingSoonDesc": "We're building an interactive playground where you can experiment with agentic patterns using LangChain, LangGraph, and Google ADK directly in your browser.",
+    "features": {
+      "liveCode": { "title": "Live Code Execution", "description": "Run Python code in your browser" },
+      "templates": { "title": "Pattern Templates", "description": "Start from pre-built examples" },
+      "visualization": { "title": "Real-time Visualization", "description": "See agent flows as they run" }
+    },
+    "browseChapters": "Browse Chapters Instead",
+    "viewOnGithub": "View Code on GitHub",
+    "meantime": "In the meantime, run notebooks locally:"
+  },
+  "chapter": {
+    "sections": {
+      "keyConcepts": "Key Concepts",
+      "tutorial": "Tutorial",
+      "completeCode": "Complete Code",
+      "implementation": "Implementation",
+      "validateLearning": "Validate Your Learning"
+    },
+    "keyConceptsTitle": "Key Concepts",
+    "tutorialTitle": "Tutorial",
+    "codeExamplesTitle": "Pattern Code Examples",
+    "codeExamplesDesc": "Hands-on implementations using LangChain, LangGraph, and Google ADK.",
+    "quizTitle": "Validate Your Learning",
+    "nextChapter": "Next Chapter",
+    "previousChapter": "Previous Chapter",
+    "backToChapters": "Back to Chapters",
+    "whatYoullLearn": "What You'll Learn",
+    "theBigPicture": "The Big Picture",
+    "handsonTutorial": "Hands-On Tutorial",
+    "tutorialHint": "Click on highlighted terms in the code to learn what they do.",
+    "completeCode": "Complete Code",
+    "codeExamplesHint": "Complete, runnable code examples. Click diagram nodes to highlight relevant sections.",
+    "patternFlow": "Pattern Flow",
+    "diagramComingSoon": "Diagram coming soon",
+    "testYourKnowledge": "Test Your Knowledge",
+    "quizDescription": "Complete this quiz to validate your understanding and unlock the chapter completion badge.",
+    "testKnowledge": "Test Your Knowledge",
+    "quizHint": "Pass the quiz to auto-complete, or mark manually",
+    "chapterCompleted": "Chapter Completed",
+    "markAsComplete": "Mark as Complete",
+    "passQuizHint": "Pass the quiz to auto-complete, or mark manually",
+    "previous": "Previous",
+    "next": "Next",
+    "allChapters": "All Chapters",
+    "chapterNotFound": "Chapter Not Found",
+    "min": "min",
+    "done": "Done",
+    "explanation": "Explanation",
+    "implementation": "Implementation",
+    "codeExamplesDescription": "Hands-on implementations using LangChain, LangGraph, and Google ADK."
+  },
+  "chapters": {
+    "title": "All Chapters",
+    "subtitle": "Explore the complete guide to agentic design patterns",
+    "search": "Search chapters...",
+    "filterAll": "All",
+    "noResults": "No chapters found matching your search"
+  },
+  "quiz": {
+    "question": "Question",
+    "of": "of",
+    "checkAnswer": "Check Answer",
+    "nextQuestion": "Next Question",
+    "correct": "Correct!",
+    "incorrect": "Incorrect",
+    "tryAgain": "Try Again",
+    "completed": "Quiz Completed!",
+    "score": "Your Score"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "learnMore": "Learn More",
+    "viewCode": "View Code",
+    "copyCode": "Copy Code",
+    "copied": "Copied!",
+    "refresh": "Refresh"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "createAccount": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "displayName": "Display name",
+    "displayNamePlaceholder": "Your name",
+    "optional": "optional",
+    "welcomeBack": "Welcome back",
+    "createAccountTitle": "Create your account",
+    "orContinueWith": "or continue with email",
+    "hasAccount": "Already have an account?",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithGithub": "Continue with GitHub",
+    "termsNotice": "By continuing, you agree to our Terms of Service and Privacy Policy.",
+    "checkEmail": "Check your email",
+    "confirmationSent": "We've sent you a confirmation link. Please check your inbox.",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "setCountry": "Set country",
+    "selectCountry": "Select your country",
+    "searchCountries": "Search countries..."
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "subtitle": "See how you rank against other learners mastering agentic design patterns",
+    "badge": "Top Learners",
+    "allCountries": "All countries",
+    "noEntries": "No learners yet",
+    "noEntriesCountry": "No learners from this country yet",
+    "beFirst": "Be the first to complete a chapter!",
+    "yourRank": "Your Rank",
+    "joinCta": "Want to join the leaderboard?",
+    "joinCtaDesc": "Sign in to track your progress and compete with other learners",
+    "startLearning": "Start learning",
+    "viewProgress": "View your progress",
+    "notConfigured": "Leaderboard Not Available",
+    "notConfiguredDesc": "The leaderboard requires Supabase to be configured. Your progress is still tracked locally."
+  }
+}

@@ -1,0 +1,304 @@
+/**
+ * TutorialCodeBlock
+ *
+ * Renders code with clickable terms that open the CodeTermModal.
+ * Terms are highlighted and show a tooltip on hover.
+ */
+
+import { useState, useCallback, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { Copy, Check, HelpCircle } from 'lucide-react';
+import { codeTerms, type CodeTerm } from '../../data/codeTerms';
+import CodeTermModal from './CodeTermModal';
+
+interface TutorialCodeBlockProps {
+  code: string;
+  language?: string;
+  chapterColor?: string;
+  /** List of term IDs that should be clickable in this code block */
+  highlightTerms?: string[];
+}
+
+// Map of terms to find in code (pattern -> term ID)
+const termPatterns: Array<{ pattern: RegExp; termId: string }> = [
+  // Imports
+  { pattern: /\blangchain_openai\b/g, termId: 'langchain_openai' },
+  { pattern: /\blangchain_core\.prompts\b/g, termId: 'langchain_core.prompts' },
+  { pattern: /\blangchain_core\.output_parsers\b/g, termId: 'langchain_core.output_parsers' },
+
+  // Classes
+  { pattern: /\bChatOpenAI\b/g, termId: 'ChatOpenAI' },
+  { pattern: /\bChatPromptTemplate\b/g, termId: 'ChatPromptTemplate' },
+  { pattern: /\bStrOutputParser\b/g, termId: 'StrOutputParser' },
+  { pattern: /\bRunnablePassthrough\b/g, termId: 'RunnablePassthrough' },
+  { pattern: /\bRunnableParallel\b/g, termId: 'RunnableParallel' },
+
+  // Methods
+  { pattern: /\.from_template\b/g, termId: 'from_template' },
+  { pattern: /\.invoke\b/g, termId: 'invoke' },
+
+  // Parameters
+  { pattern: /\btemperature\s*=/g, termId: 'temperature' },
+];
+
+interface CodeToken {
+  type: 'text' | 'term' | 'comment' | 'string' | 'keyword' | 'operator';
+  content: string;
+  termId?: string;
+  lineNumber?: number;
+}
+
+function tokenizeCode(code: string, highlightTerms?: string[]): CodeToken[][] {
+  const lines = code.split('\n');
+  const result: CodeToken[][] = [];
+
+  lines.forEach((line, lineIndex) => {
+    const lineTokens: CodeToken[] = [];
+    let remaining = line;
+    let position = 0;
+
+    while (remaining.length > 0) {
+      let matched = false;
+
+      // Check for comments first
+      const commentMatch = remaining.match(/^#.*/);
+      if (commentMatch) {
+        lineTokens.push({
+          type: 'comment',
+          content: commentMatch[0],
+          lineNumber: lineIndex + 1,
+        });
+        break;
+      }
+
+      // Check for strings
+      const stringMatch = remaining.match(/^(["'])((?:\\.|(?!\1)[^\\])*)\1/) ||
+                          remaining.match(/^("""|''')([\s\S]*?)\1/);
+      if (stringMatch) {
+        lineTokens.push({
+          type: 'string',
+          content: stringMatch[0],
+          lineNumber: lineIndex + 1,
+        });
+        remaining = remaining.slice(stringMatch[0].length);
+        position += stringMatch[0].length;
+        matched = true;
+        continue;
+      }
+
+      // Check for term patterns
+      for (const { pattern, termId } of termPatterns) {
+        if (highlightTerms && !highlightTerms.includes(termId)) continue;
+
+        pattern.lastIndex = 0;
+        const match = pattern.exec(remaining);
+        if (match && match.index === 0) {
+          lineTokens.push({
+            type: 'term',
+            content: match[0],
+            termId,
+            lineNumber: lineIndex + 1,
+          });
+          remaining = remaining.slice(match[0].length);
+          position += match[0].length;
+          matched = true;
+          break;
+        }
+      }
+
+      if (matched) continue;
+
+      // Check for pipe operator
+      if (remaining.startsWith('|')) {
+        lineTokens.push({
+          type: 'operator',
+          content: '|',
+          termId: 'pipe_operator',
+          lineNumber: lineIndex + 1,
+        });
+        remaining = remaining.slice(1);
+        position += 1;
+        continue;
+      }
+
+      // Check for keywords
+      const keywordMatch = remaining.match(/^(from|import|def|class|return|if|else|for|in|and|or|not|True|False|None|async|await)\b/);
+      if (keywordMatch) {
+        lineTokens.push({
+          type: 'keyword',
+          content: keywordMatch[0],
+          lineNumber: lineIndex + 1,
+        });
+        remaining = remaining.slice(keywordMatch[0].length);
+        position += keywordMatch[0].length;
+        continue;
+      }
+
+      // Default: take one character as text
+      lineTokens.push({
+        type: 'text',
+        content: remaining[0],
+        lineNumber: lineIndex + 1,
+      });
+      remaining = remaining.slice(1);
+      position += 1;
+    }
+
+    result.push(lineTokens);
+  });
+
+  return result;
+}
+
+export default function TutorialCodeBlock({
+  code,
+  language = 'python',
+  chapterColor = '#f59e0b',
+  highlightTerms,
+}: TutorialCodeBlockProps) {
+  const [selectedTerm, setSelectedTerm] = useState<CodeTerm | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hoveredTermId, setHoveredTermId] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const tokenizedLines = useMemo(
+    () => tokenizeCode(code, highlightTerms),
+    [code, highlightTerms]
+  );
+
+  const handleTermClick = useCallback((termId: string) => {
+    const term = codeTerms[termId];
+    if (term) {
+      setSelectedTerm(term);
+      setIsModalOpen(true);
+    }
+  }, []);
+
+  const handleCopy = useCallback(async () => {
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [code]);
+
+  const renderToken = (token: CodeToken, index: number) => {
+    switch (token.type) {
+      case 'term':
+      case 'operator':
+        const isHovered = hoveredTermId === token.termId;
+        return (
+          <span
+            key={index}
+            className="relative cursor-pointer transition-all duration-150 rounded px-0.5 -mx-0.5"
+            style={{
+              backgroundColor: isHovered ? `${chapterColor}30` : 'transparent',
+              borderBottom: `2px dashed ${chapterColor}`,
+            }}
+            onClick={() => token.termId && handleTermClick(token.termId)}
+            onMouseEnter={() => setHoveredTermId(token.termId || null)}
+            onMouseLeave={() => setHoveredTermId(null)}
+          >
+            {token.content}
+            {isHovered && (
+              <motion.span
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded text-xs whitespace-nowrap z-10"
+                style={{ backgroundColor: chapterColor, color: '#000' }}
+              >
+                <HelpCircle className="w-3 h-3 inline mr-1" />
+                Click to learn more
+              </motion.span>
+            )}
+          </span>
+        );
+
+      case 'comment':
+        return (
+          <span key={index} className="text-dark-500 italic">
+            {token.content}
+          </span>
+        );
+
+      case 'string':
+        return (
+          <span key={index} className="text-green-400">
+            {token.content}
+          </span>
+        );
+
+      case 'keyword':
+        return (
+          <span key={index} className="text-purple-400 font-semibold">
+            {token.content}
+          </span>
+        );
+
+      default:
+        return <span key={index}>{token.content}</span>;
+    }
+  };
+
+  return (
+    <>
+      <div className="glass rounded-xl overflow-hidden">
+        {/* Header */}
+        <div className="px-4 py-2 border-b border-dark-700 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span
+              className="px-2 py-0.5 rounded text-xs font-medium"
+              style={{ backgroundColor: `${chapterColor}20`, color: chapterColor }}
+            >
+              {language}
+            </span>
+            <span className="text-xs text-dark-500 flex items-center gap-1">
+              <HelpCircle className="w-3 h-3" />
+              Click highlighted terms for explanations
+            </span>
+          </div>
+          <button
+            onClick={handleCopy}
+            className="flex items-center gap-1.5 px-2 py-1 rounded text-xs text-dark-400 hover:text-white hover:bg-dark-700 transition-colors"
+          >
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-green-400" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Copy className="w-3.5 h-3.5" />
+                Copy
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Code */}
+        <div className="p-4 overflow-x-auto">
+          <pre className="font-mono text-sm leading-relaxed">
+            <code>
+              {tokenizedLines.map((lineTokens, lineIndex) => (
+                <div key={lineIndex} className="flex">
+                  <span className="select-none text-dark-600 w-8 text-right pr-4 flex-shrink-0">
+                    {lineIndex + 1}
+                  </span>
+                  <span className="text-dark-200">
+                    {lineTokens.length === 0 ? '\n' : lineTokens.map(renderToken)}
+                  </span>
+                </div>
+              ))}
+            </code>
+          </pre>
+        </div>
+      </div>
+
+      {/* Term Modal */}
+      <CodeTermModal
+        term={selectedTerm}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        chapterColor={chapterColor}
+      />
+    </>
+  );
+}
