@@ -137,7 +137,7 @@ export default function Chapters() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl font-bold text-white mb-4"
+            className="text-4xl sm:text-5xl font-extrabold text-white mb-4"
           >
             {t('chaptersPage.title')}
           </motion.h1>
@@ -188,7 +188,7 @@ export default function Chapters() {
                     >
                       <Link
                         to={`/chapter/${chapter.num}`}
-                        className="chapter-card group block glass rounded-2xl p-6 h-full hover:border-dark-600"
+                        className="chapter-card group block glass rounded-2xl p-6 h-full hover:border-dark-600/70 shimmer-hover"
                       >
                         <div className="flex items-start justify-between mb-4">
                           <motion.div

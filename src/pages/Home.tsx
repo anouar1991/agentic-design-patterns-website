@@ -148,14 +148,14 @@ export default function Home() {
             </motion.div>
 
             {/* Title */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold">
               <span className="gradient-text">{t('home.heroTitle')}</span>
               <br />
               <span className="text-white">{t('home.heroHighlight')}</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="max-w-2xl mx-auto text-xl text-dark-300 text-balance">
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl text-dark-300 text-balance leading-relaxed">
               {t('home.heroSubtitle')}
             </p>
 
@@ -163,14 +163,14 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/chapters"
-                className="group flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold hover:opacity-90 transition-opacity glow-primary"
+                className="group flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold hover:shadow-lg hover:shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] glow-primary"
               >
                 {t('home.startLearning')}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" />
               </Link>
               <Link
                 to="/learning-path"
-                className="flex items-center gap-2 px-8 py-4 rounded-xl bg-dark-800 border border-dark-700 text-white font-medium hover:bg-dark-700 transition-colors"
+                className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-dark-800/80 border border-dark-700/60 text-white font-medium hover:bg-dark-700/80 hover:border-dark-600 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Map className="w-5 h-5" />
                 {t('home.exploreChapters')}
@@ -269,10 +269,10 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 border-t border-dark-800">
+      <section className="py-20 border-t border-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
               {t('home.learnInteractive')}{' '}
               <span className="gradient-text">{t('home.interactiveWay')}</span>
             </h2>
@@ -290,7 +290,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                  className="glass rounded-2xl p-6 hover:border-dark-600 transition-colors group"
+                  className="glass rounded-2xl p-6 hover:border-dark-600/70 group shimmer-hover"
                 >
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
@@ -310,7 +310,7 @@ export default function Home() {
       </section>
 
       {/* Chapters Overview */}
-      <section className="py-20 border-t border-dark-800">
+      <section className="py-20 border-t border-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-white mb-4">
@@ -381,7 +381,7 @@ export default function Home() {
       </section>
 
       {/* Learning Path Preview */}
-      <section className="py-20 border-t border-dark-800">
+      <section className="py-20 border-t border-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -468,7 +468,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 border-t border-dark-800">
+      <section className="py-20 border-t border-dark-800/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -483,7 +483,7 @@ export default function Home() {
             </p>
             <Link
               to="/chapter/1"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold hover:opacity-90 transition-opacity glow-primary"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold hover:shadow-lg hover:shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] glow-primary"
             >
               {t('home.ctaButton')}
               <ArrowRight className="w-5 h-5 rtl:rotate-180" />

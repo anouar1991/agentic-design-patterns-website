@@ -184,6 +184,13 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 | MEDIUM | 7 | Diagram, nav, search, print, quiz focus, skip link, grammar |
 | LOW | 4 | Progress tracker, badge, theme focus, grammar |
 
+- [T-200] Tailwind v4 uses `@theme` block in CSS for design tokens — no `tailwind.config.js` file exists
+- [T-200] Custom easing functions (`--ease-spring`, `--ease-smooth`, `--ease-out-expo`) added as CSS custom properties in `@theme` for consistent animation timing
+- [T-200] Global transition defaults applied to `a, button, [role="button"]` — component-level transitions should override if needed
+- [T-200] `shimmer-hover` utility uses `::after` pseudo-element — elements using it must have `position: relative` and `overflow: hidden`
+- [T-200] Inline code styling (`:not(pre) > code`) may affect code blocks in unexpected places — scoped to exclude `<pre>` children
+- [T-200] `font-extrabold` used for hero/page titles to create stronger visual hierarchy vs. `font-bold` for section headers
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems

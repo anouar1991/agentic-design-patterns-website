@@ -42,7 +42,7 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-dark-700/50">
+      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-dark-700/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -185,7 +185,7 @@ export default function Layout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-dark-800 bg-dark-950/80">
+      <footer className="border-t border-dark-800/40 bg-dark-950/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
