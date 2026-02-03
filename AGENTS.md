@@ -226,6 +226,13 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-260] The Escape key handler in InteractiveDiagram.tsx captures Escape before CodeTermModal can — CodeTermModal relies on backdrop click (`onClick={onClose}`) not Escape to close
 - [T-260] `animate-pulse-subtle` CSS on EnhancedNode causes Playwright "element is not stable" — use `page.evaluate()` with native MouseEvent dispatch as workaround for programmatic testing
 
+- [T-320] Quiz type system uses optional `type` field defaulting to `'multiple-choice'` for backward compatibility — all 21 existing quizzes work without changes
+- [T-320] Framer Motion `Reorder.Group` with `Reorder.Item` provides drag-and-drop for ordering questions without extra dependencies
+- [T-320] Confetti particles are `useMemo`'d to prevent re-randomization on re-render — each particle has fixed trajectory computed once
+- [T-320] `sessionStorage` (not `localStorage`) persists mid-quiz state — cleared on results or intro, so it doesn't persist across browser sessions (intentional: quiz state is ephemeral)
+- [T-320] Segmented progress bar (one segment per question, colored green/red) replaces the single continuous progress bar — gives immediate visual feedback on performance trajectory
+- [T-320] ShakeWrapper uses Framer Motion keyframe array `x: [0, -8, 8, -6, 6, -3, 3, 0]` for natural shake feel on wrong answers
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems

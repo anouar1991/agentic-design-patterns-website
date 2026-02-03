@@ -203,12 +203,21 @@ export interface QuizOption {
   text: string;
 }
 
+// Question type discriminator – defaults to 'multiple-choice' for backward compat
+export type QuizQuestionType = 'multiple-choice' | 'true-false' | 'ordering';
+
 export interface QuizQuestion {
   id: string;
   question: string;
+  /** Defaults to 'multiple-choice' when omitted (backward compatible) */
+  type?: QuizQuestionType;
   options: QuizOption[];
   correctOptionId: string;
   explanation: string;
+  /** For 'ordering' questions: the correct order of option IDs */
+  correctOrder?: string[];
+  /** Optional code snippet shown alongside the question */
+  codeSnippet?: string;
 }
 
 export interface ChapterQuiz {

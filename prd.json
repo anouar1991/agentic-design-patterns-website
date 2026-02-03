@@ -392,7 +392,7 @@
       "name": "Quiz system enhanced: better question types, visual feedback, score tracking",
       "intent": "Quizzes validate learning - must be engaging with clear feedback, not just checkboxes",
       "description": "Enhance the quiz system with multiple question types (multiple choice, true/false, code completion, drag-and-drop ordering), animated feedback on answer (confetti for correct, gentle shake for wrong), score tracking with progress bar, and explanations for wrong answers.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-200"
       ],
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-320",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250", "T-260"],
+    "recommendedNextStepId": "T-340",
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250", "T-260", "T-320"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }

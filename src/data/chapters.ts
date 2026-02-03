@@ -678,6 +678,31 @@ recommend_chain = (
           ],
           correctOptionId: 'a',
           explanation: 'Errors can propagate and amplify through a chain. If step 1 produces incorrect output, all subsequent steps will work with bad data. Implementing validation and checkpoints at each step helps catch errors early.'
+        },
+        {
+          id: 'q1-5',
+          type: 'true-false',
+          question: 'Prompt chaining always reduces the total cost of LLM API calls compared to a single long prompt.',
+          options: [
+            { id: 'a', text: 'True' },
+            { id: 'b', text: 'False' }
+          ],
+          correctOptionId: 'b',
+          explanation: 'Prompt chaining often increases the total number of API calls and can increase cost. Its benefit is improved reliability, debuggability, and modularity—not cost reduction.'
+        },
+        {
+          id: 'q1-6',
+          type: 'ordering',
+          question: 'Put these prompt chaining steps in the correct execution order:',
+          options: [
+            { id: 'a', text: 'Validate intermediate output' },
+            { id: 'b', text: 'Send initial prompt to LLM' },
+            { id: 'c', text: 'Parse and format the input' },
+            { id: 'd', text: 'Pass output to next chain step' }
+          ],
+          correctOptionId: 'a',
+          correctOrder: ['c', 'b', 'a', 'd'],
+          explanation: 'A proper prompt chain first parses/formats input, then sends it to the LLM, validates the intermediate output for errors, and finally passes the validated output to the next step in the chain.'
         }
       ]
     }
@@ -1322,6 +1347,17 @@ Hint: Questions like "How do I write a for loop in Python?" should route to your
           ],
           correctOptionId: 'b',
           explanation: 'A fallback route ensures graceful handling of ambiguous queries. Without it, queries that don\'t clearly match any route could fail silently or produce unexpected behavior.'
+        },
+        {
+          id: 'q2-5',
+          type: 'true-false',
+          question: 'Semantic routing requires exact keyword matching to determine the correct route.',
+          options: [
+            { id: 'a', text: 'True' },
+            { id: 'b', text: 'False' }
+          ],
+          correctOptionId: 'b',
+          explanation: 'Semantic routing uses embedding similarity, not keyword matching. It compares the meaning of a query against route descriptions using vector embeddings, enabling it to understand intent even without exact keyword matches.'
         }
       ]
     }
