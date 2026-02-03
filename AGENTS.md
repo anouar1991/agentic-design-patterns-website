@@ -221,6 +221,11 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-250] CSS-based route transitions (useState + setTimeout 150ms + `transition-opacity duration-300`) are more reliable than framer-motion `AnimatePresence` for wrapping `<Outlet />` — avoids stuck animation states entirely
 - [T-250] `useRef` for `prevPathRef` prevents unnecessary effect triggers when `location` object changes but pathname stays the same
 
+- [T-260] DiagramContext and CodeTermModal use independent state systems — clicking a code term modal doesn't clear diagram selection, and closing the modal preserves diagram state
+- [T-260] Both NodeDetailPanel and CodeTermModal render at z-50 but don't conflict because NodeDetailPanel is fixed right-0 and CodeTermModal is centered with backdrop
+- [T-260] The Escape key handler in InteractiveDiagram.tsx captures Escape before CodeTermModal can — CodeTermModal relies on backdrop click (`onClick={onClose}`) not Escape to close
+- [T-260] `animate-pulse-subtle` CSS on EnhancedNode causes Playwright "element is not stable" — use `page.evaluate()` with native MouseEvent dispatch as workaround for programmatic testing
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme classes are custom CSS, not Tailwind `dark:` variants - changes need updating in both systems

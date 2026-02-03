@@ -303,7 +303,7 @@
       "name": "Code + Diagrams checkpoint: interactive learning elements work together",
       "intent": "Code blocks and diagrams must work together - clicking diagram nodes should highlight code",
       "description": "Verify that diagram 'View in Code' links scroll to and highlight the correct code blocks, and that code term clicking works alongside diagram interactions without conflicts.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-230",
         "T-240"
@@ -808,8 +808,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-260",
-    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250"],
+    "recommendedNextStepId": "T-320",
+    "history": ["T-100", "T-101", "T-110", "T-120", "T-200", "T-210", "T-220", "T-230", "T-240", "T-250", "T-260"],
     "startedAt": "2026-02-03T20:30:00Z"
   }
 }
