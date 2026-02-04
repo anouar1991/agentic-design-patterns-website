@@ -753,6 +753,36 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-750] `react-i18next` depends on `react`, so they must be in the same `manualChunks` group — otherwise Rollup detects a circular chunk dependency. The fix is to put the dependent package with its dependency, not the other way around
 - [T-750] PrismLight (`react-syntax-highlighter/dist/esm/light`) with selective `registerLanguage()` is already optimal — it loads only the Prism core (~30KB) plus specific language grammars, vs. full Prism which bundles ~200 languages
 
+## Compression (T-790)
+
+**Result: gzip + Brotli pre-compression for all static assets — 68-86% size reduction**
+
+### Configuration
+- Two `vite-plugin-compression` instances in `vite.config.ts` — one for gzip (`.gz`), one for Brotli (`.br`)
+- Filter: JS, CSS, HTML, SVG, JSON files only (no images/fonts — already binary-compressed)
+- Threshold: 1024 bytes (skip tiny files where compression overhead > savings)
+- Source maps excluded by filter pattern (only compresses text asset extensions)
+
+### Compression Ratios (largest assets)
+| Asset | Original | Brotli | Gzip | Brotli % |
+|-------|----------|--------|------|----------|
+| data-chapters | 376KB | 82KB | 101KB | **79%** |
+| index.js | 241KB | 54KB | 63KB | **78%** |
+| vendor-react | 234KB | 65KB | 75KB | **73%** |
+| index.css | 90KB | 13KB | 16KB | **86%** |
+
+### File Counts
+- 19 `.br` files generated
+- 19 `.gz` files generated
+- 0 `.map.br` or `.map.gz` files (source maps excluded)
+
+### Lessons Learned (T-790)
+
+- [T-790] `vite-plugin-compression` needs two separate plugin instances for gzip + Brotli — each instance generates one file extension; there's no single-call dual-output mode
+- [T-790] Brotli achieves 73-86% reduction vs gzip's 68-83% on text assets — the 5-10% extra savings compound across many assets, making Brotli the preferred algorithm for modern browsers
+- [T-790] The `filter` option accepts a regex matched against output filenames — using `/\.(js|css|html|svg|json)$/i` is more precise than the default `threshold`-only approach, which would also compress binary files pointlessly
+- [T-790] Pre-compression at build time means zero runtime CPU cost for serving compressed assets — the web server (nginx, Caddy, CloudFront) simply serves the `.br`/`.gz` file when the client sends `Accept-Encoding: br, gzip`
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

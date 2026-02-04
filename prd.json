@@ -1085,7 +1085,7 @@
       "name": "Compression configured: gzip and Brotli pre-compression for all static assets",
       "intent": "Reduce transfer size by 60-80% through pre-compression of static assets",
       "description": "Configure Vite build to generate .gz and .br compressed versions of all static assets. Use vite-plugin-compression for Brotli (best ratio) and gzip (widest support). Verify compressed files are generated alongside originals.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-750"
       ],
@@ -1278,8 +1278,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-800",
+    "recommendedNextStepId": "T-780",
     "history": [
+      "T-790",
       "T-770",
       "T-100",
       "T-101",

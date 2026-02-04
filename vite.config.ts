@@ -2,10 +2,27 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { criticalCssPlugin } from './vite-plugin-critical-css'
+import viteCompression from 'vite-plugin-compression'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), criticalCssPlugin()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    criticalCssPlugin(),
+    viteCompression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 1024,
+      filter: /\.(js|css|html|svg|json)$/i,
+    }),
+    viteCompression({
+      algorithm: 'brotliCompress',
+      ext: '.br',
+      threshold: 1024,
+      filter: /\.(js|css|html|svg|json)$/i,
+    }),
+  ],
   resolve: {
     alias: {
       '@': '/src',
