@@ -293,6 +293,41 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-400] All interactive features coexist without state conflicts — code term modal and diagram detail panel use independent state systems
 - [T-400] Playwright `element is not stable` on animated diagram nodes — use `page.evaluate()` with native `.click()` as workaround (confirmed from T-240/T-260 lesson)
 
+## Chapter Inventory (T-500-100)
+
+Complete list of 21 chapters with routes for systematic testing:
+
+| # | Title | Route |
+|---|-------|-------|
+| 1 | Prompt Chaining | `/chapter/1` |
+| 2 | Routing | `/chapter/2` |
+| 3 | Parallelization | `/chapter/3` |
+| 4 | Reflection | `/chapter/4` |
+| 5 | Tool Use | `/chapter/5` |
+| 6 | Planning | `/chapter/6` |
+| 7 | Multi-Agent Collaboration | `/chapter/7` |
+| 8 | Memory Management | `/chapter/8` |
+| 9 | Learning and Adaptation | `/chapter/9` |
+| 10 | Model Context Protocol (MCP) | `/chapter/10` |
+| 11 | Goal Setting and Monitoring | `/chapter/11` |
+| 12 | Exception Handling and Recovery | `/chapter/12` |
+| 13 | Human-in-the-Loop | `/chapter/13` |
+| 14 | Knowledge Retrieval (RAG) | `/chapter/14` |
+| 15 | Inter-Agent Communication (A2A) | `/chapter/15` |
+| 16 | Resource-Aware Optimization | `/chapter/16` |
+| 17 | Reasoning Techniques | `/chapter/17` |
+| 18 | Guardrails and Safety Patterns | `/chapter/18` |
+| 19 | Evaluation and Monitoring | `/chapter/19` |
+| 20 | Prioritization | `/chapter/20` |
+| 21 | Exploration and Discovery | `/chapter/21` |
+
+**Parts Structure:**
+- Part One (Core): Ch 1-8
+- Part Two (Advanced): Ch 9-15
+- Part Three (Production): Ch 16-21
+
+**Other Routes:** `/`, `/introduction`, `/chapters`, `/learning-path`, `/playground`, `/leaderboard`, `/profile`
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
