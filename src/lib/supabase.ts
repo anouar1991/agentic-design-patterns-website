@@ -11,21 +11,21 @@ if (!supabaseUrl || !supabaseAnonKey) {
   )
 }
 
+// Helper to check if Supabase is properly configured
+export const isSupabaseConfigured = () => {
+  return Boolean(supabaseUrl && supabaseAnonKey && supabaseAnonKey !== 'your-anon-key-from-supabase-start')
+}
+
 // Create client with proper typing
-// Falls back to empty strings if env vars not set (client will be non-functional)
+// When not configured, disable auto-connect features to prevent console errors
 export const supabase = createClient<Database>(
   supabaseUrl || 'http://localhost:54321',
   supabaseAnonKey || 'missing-key',
   {
     auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true,
+      autoRefreshToken: isSupabaseConfigured(),
+      persistSession: isSupabaseConfigured(),
+      detectSessionInUrl: isSupabaseConfigured(),
     },
   }
 )
-
-// Helper to check if Supabase is properly configured
-export const isSupabaseConfigured = () => {
-  return Boolean(supabaseUrl && supabaseAnonKey && supabaseAnonKey !== 'your-anon-key-from-supabase-start')
-}

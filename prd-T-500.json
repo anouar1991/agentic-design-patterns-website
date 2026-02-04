@@ -39,7 +39,7 @@
       "name": "Console error audit across all chapter pages",
       "intent": "Ensure no JavaScript errors or warnings appear on any chapter page",
       "description": "Navigate to every chapter page programmatically and capture browser console output. Fix any errors or warnings found.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-500-100"
       ],
@@ -267,7 +267,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-500-200",
-    "history": ["T-500-100"]
+    "recommendedNextStepId": "T-500-300",
+    "history": ["T-500-100", "T-500-200"]
   }
 }

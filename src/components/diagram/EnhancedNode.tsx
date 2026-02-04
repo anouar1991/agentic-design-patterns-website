@@ -159,15 +159,13 @@ function EnhancedNode({ data, selected, id }: NodeProps) {
         ...(isSelected ? { ringColor: color } : {}),
       }}
     >
-      {/* Input handle (left side) */}
-      {role !== 'input' && (
-        <Handle
-          type="target"
-          position={Position.Left}
-          className="!w-3 !h-3 !border-2 !border-dark-800"
-          style={{ backgroundColor: color }}
-        />
-      )}
+      {/* Input handle (left side) - always rendered to support feedback loops */}
+      <Handle
+        type="target"
+        position={Position.Left}
+        className="!w-3 !h-3 !border-2 !border-dark-800"
+        style={{ backgroundColor: color, opacity: role === 'input' ? 0 : 1 }}
+      />
 
       {/* Node content */}
       <div className="flex items-start gap-2">
@@ -205,15 +203,13 @@ function EnhancedNode({ data, selected, id }: NodeProps) {
         </div>
       )}
 
-      {/* Output handle (right side) */}
-      {role !== 'output' && (
-        <Handle
-          type="source"
-          position={Position.Right}
-          className="!w-3 !h-3 !border-2 !border-dark-800"
-          style={{ backgroundColor: color }}
-        />
-      )}
+      {/* Output handle (right side) - always rendered to support feedback loops */}
+      <Handle
+        type="source"
+        position={Position.Right}
+        className="!w-3 !h-3 !border-2 !border-dark-800"
+        style={{ backgroundColor: color, opacity: role === 'output' ? 0 : 1 }}
+      />
 
       {/* Click ripple effect */}
       {ripple && (

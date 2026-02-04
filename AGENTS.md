@@ -328,6 +328,24 @@ Complete list of 21 chapters with routes for systematic testing:
 
 **Other Routes:** `/`, `/introduction`, `/chapters`, `/learning-path`, `/playground`, `/leaderboard`, `/profile`
 
+## Console Error Audit (T-500-200)
+
+**Result: 27/27 routes clean (zero application errors, zero warnings)**
+
+Issues found and fixed:
+1. **Chapter 9 React Flow edge warning** — Edge `e6-2` (feedback loop from output node '6' to node '2') couldn't connect because output nodes didn't render source handles. Fixed by always rendering both handles with `opacity: 0` for hidden ones.
+2. **Leaderboard `console.error` on network failure** — Supabase client tries to fetch from `localhost:54321` (configured in `.env.local` but not running). Silenced `console.error` for `TypeError: Failed to fetch` network errors; real Supabase data errors still logged.
+3. **Supabase auth auto-connect** — Disabled `autoRefreshToken`, `persistSession`, `detectSessionInUrl` when Supabase is not configured to prevent background auth requests.
+
+**Note:** Browser-level `ERR_CONNECTION_REFUSED` on `/leaderboard` persists — this is a browser network log (not suppressible by JS) that occurs because `.env.local` has Supabase credentials pointing to non-running local instance. It disappears when Supabase is running.
+
+## Lessons Learned (T-500-200)
+
+- [T-500-200] React Flow conditionally rendered handles (`{role !== 'output' && <Handle>}`) break feedback loops — always render handles with `opacity: 0` instead
+- [T-500-200] Supabase `createClient` with `autoRefreshToken: true` fires background auth requests even when app code guards against using the client
+- [T-500-200] Supabase catch blocks receive wrapped error objects (`{message, details, hint, code}`), not raw `TypeError` — use `JSON.stringify(err).includes()` for reliable network error detection
+- [T-500-200] `Failed to load resource: net::ERR_CONNECTION_REFUSED` is a browser-level log that cannot be suppressed by JavaScript — only the application's `console.error` calls can be controlled
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

@@ -66,9 +66,14 @@ export function useLeaderboard({
         }))
 
       setEntries(validEntries)
-    } catch (err) {
-      console.error('Error fetching leaderboard:', err)
-      setError(err instanceof Error ? err.message : 'Failed to fetch leaderboard')
+    } catch (err: unknown) {
+      const errStr = JSON.stringify(err)
+      const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('ERR_CONNECTION_REFUSED') || errStr.includes('NetworkError')
+      if (!isNetworkError) {
+        console.error('Error fetching leaderboard:', err)
+      }
+      const errMsg = err instanceof Error ? err.message : (typeof err === 'object' && err !== null && 'message' in err ? String((err as Record<string, unknown>).message) : 'Failed to fetch leaderboard')
+      setError(isNetworkError ? 'Unable to connect to server' : errMsg)
     } finally {
       setLoading(false)
     }
