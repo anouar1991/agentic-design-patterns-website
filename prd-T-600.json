@@ -95,7 +95,7 @@
       "name": "Production build serves and renders all routes",
       "intent": "Verify the built assets actually work when served, not just that they compile",
       "description": "Serve the production build locally and verify all chapter routes render correctly without JavaScript errors",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-600-100"
       ],
@@ -250,7 +250,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-600-400",
-    "history": ["T-600-100", "T-600-200", "T-600-300"]
+    "recommendedNextStepId": "T-600-500",
+    "history": ["T-600-100", "T-600-200", "T-600-300", "T-600-400"]
   }
 }
