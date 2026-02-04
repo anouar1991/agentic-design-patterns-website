@@ -1311,3 +1311,9 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1110] Created dedicated `.glass-header` CSS class with stronger blur (24px vs 20px) and `saturate(1.3)` for richer glass-morphism — separating header glass from generic `.glass` avoids coupling header visual changes to all glass surfaces
 - [T-1110] `font-semibold` (600) + `tracking-tight` on headings gives a more refined look than `font-bold` (700); `tracking-wide` on small subtitle text improves readability
 - [T-1110] Both light and dark mode overrides needed: dark uses `bg-dark-900/70`, light uses `rgba(255,255,255,0.8)` — each with mode-appropriate shadow intensities
+
+### Lessons Learned (T-1120)
+- [T-1120] For scroll-aware headers, use `useRef` + `requestAnimationFrame` to throttle scroll events — avoid storing scroll position in state which causes re-render storms
+- [T-1120] Fixed headers don't cause CLS when compacting because they're out of document flow — the `pt-16` spacer on `<main>` stays constant regardless of header height changes
+- [T-1120] CSS `transition` on a utility class (`.header-transition`) applied to multiple elements is cleaner than inline Tailwind transition classes — keeps transition timing consistent across logo, title, subtitle, and nav height
+- [T-1120] `@media (prefers-reduced-motion: reduce)` should disable header compact transitions for accessibility

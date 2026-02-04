@@ -15,7 +15,7 @@ import {
   Search,
   Command
 } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import AmbientBackground from './AmbientBackground'
 import RouteTransitionWrapper from './RouteTransitionWrapper'
@@ -50,6 +50,31 @@ export default function Layout() {
   const hasProgress = completedChapters.length > 0 || !!lastVisited
   const navLinks = getNavLinks(t, hasProgress, lastVisited?.chapterId)
 
+  // Scroll-aware header compacting
+  const [isScrolled, setIsScrolled] = useState(false)
+  const scrollRef = useRef(false)
+  const rafRef = useRef<number>(0)
+
+  const handleScroll = useCallback(() => {
+    if (rafRef.current) return
+    rafRef.current = requestAnimationFrame(() => {
+      const scrolled = window.scrollY > 32
+      if (scrollRef.current !== scrolled) {
+        scrollRef.current = scrolled
+        setIsScrolled(scrolled)
+      }
+      rafRef.current = 0
+    })
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [handleScroll])
+
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false)
@@ -58,20 +83,20 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-header">
+      <nav className={`fixed top-0 left-0 right-0 z-50 glass-header header-transition ${isScrolled ? 'header-compact' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className={`flex items-center justify-between header-transition ${isScrolled ? 'h-12' : 'h-16'}`}>
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="relative">
+              <div className={`relative header-transition ${isScrolled ? 'scale-[0.85]' : 'scale-100'}`}>
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-lg font-semibold tracking-tight gradient-text">{t('header.title')}</h1>
-                <p className="text-[11px] text-dark-400 tracking-wide">{t('header.subtitle')}</p>
+                <h1 className={`font-semibold tracking-tight gradient-text header-transition ${isScrolled ? 'text-base' : 'text-lg'}`}>{t('header.title')}</h1>
+                <p className={`text-[11px] text-dark-400 tracking-wide header-transition ${isScrolled ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'}`}>{t('header.subtitle')}</p>
               </div>
             </Link>
 
