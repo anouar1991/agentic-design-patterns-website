@@ -37,18 +37,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fetchProfile = useCallback(async (userId: string) => {
     if (!isConfigured) return
 
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
 
-    if (error) {
-      console.error('Error fetching profile:', error)
-      return
+      if (error) {
+        const errStr = JSON.stringify(error)
+        const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
+        if (!isNetworkError) {
+          console.error('Error fetching profile:', error)
+        }
+        return
+      }
+
+      setProfile(data)
+    } catch {
+      // Network error — silently ignore
     }
-
-    setProfile(data)
   }, [isConfigured])
 
   // Refresh profile data

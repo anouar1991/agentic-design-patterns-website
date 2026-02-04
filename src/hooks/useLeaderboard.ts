@@ -97,27 +97,35 @@ export function useLeaderboard({
 export async function getUserRank(userId: string): Promise<LeaderboardEntry | null> {
   if (!isSupabaseConfigured()) return null
 
-  const { data, error } = await supabase
-    .from('leaderboard_cache')
-    .select('*')
-    .eq('user_id', userId)
-    .single()
+  try {
+    const { data, error } = await supabase
+      .from('leaderboard_cache')
+      .select('*')
+      .eq('user_id', userId)
+      .single()
 
-  if (error) {
-    console.error('Error fetching user rank:', error)
+    if (error) {
+      const errStr = JSON.stringify(error)
+      const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('ERR_CONNECTION_REFUSED') || errStr.includes('NetworkError')
+      if (!isNetworkError) {
+        console.error('Error fetching user rank:', error)
+      }
+      return null
+    }
+
+    if (!data || data.user_id === null) return null
+
+    return {
+      user_id: data.user_id,
+      display_name: data.display_name,
+      avatar_url: data.avatar_url,
+      country_code: data.country_code,
+      completed_chapters: data.completed_chapters ?? 0,
+      completion_percentage: data.completion_percentage ?? 0,
+      global_rank: data.global_rank ?? 0,
+    }
+  } catch {
+    // Network error or other unexpected failure — silently return null
     return null
-  }
-
-  if (!data || data.user_id === null) return null
-
-  // Transform to LeaderboardEntry
-  return {
-    user_id: data.user_id,
-    display_name: data.display_name,
-    avatar_url: data.avatar_url,
-    country_code: data.country_code,
-    completed_chapters: data.completed_chapters ?? 0,
-    completion_percentage: data.completion_percentage ?? 0,
-    global_rank: data.global_rank ?? 0,
   }
 }

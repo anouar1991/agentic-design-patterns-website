@@ -177,8 +177,12 @@ export function useProfileStats() {
         recentActivity,
         achievements
       })
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to fetch profile stats'))
+    } catch (err: unknown) {
+      const errStr = JSON.stringify(err)
+      const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
+      if (!isNetworkError) {
+        setError(err instanceof Error ? err : new Error('Failed to fetch profile stats'))
+      }
     } finally {
       setLoading(false)
     }

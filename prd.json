@@ -1400,7 +1400,7 @@
       "name": "Runtime errors fixed: all TypeError, ReferenceError, and unhandled promise rejections resolved",
       "intent": "Fix actual runtime errors that indicate bugs in application logic",
       "description": "Using the catalog from T-900, fix all runtime JavaScript errors including TypeErrors (null/undefined access), ReferenceErrors, unhandled promise rejections, and any errors from event handlers or async operations. Add null guards where needed, fix race conditions, and ensure proper error handling on async calls.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-900"
       ],
@@ -1704,9 +1704,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-950",
-    "completedAt": "2026-02-04T13:45:00Z",
-    "recommendedNextStepId": "T-940",
+    "lastCompletedTaskId": "T-940",
+    "completedAt": "2026-02-04T13:50:00Z",
+    "recommendedNextStepId": "T-970",
     "history": [
       "T-780",
       "T-790",
@@ -1755,7 +1755,8 @@
       "T-910",
       "T-920",
       "T-930",
-      "T-950"
+      "T-950",
+      "T-940"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

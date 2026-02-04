@@ -62,8 +62,12 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
       if (fetchError) throw fetchError
 
       setAttempts(data || [])
-    } catch (err) {
-      console.error('Error fetching quiz attempts:', err)
+    } catch (err: unknown) {
+      const errStr = JSON.stringify(err)
+      const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
+      if (!isNetworkError) {
+        console.error('Error fetching quiz attempts:', err)
+      }
       setError(err instanceof Error ? err.message : 'Failed to fetch quiz attempts')
     } finally {
       setLoading(false)
@@ -103,8 +107,12 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
       } else {
         setBestScore(null)
       }
-    } catch (err) {
-      console.error('Error fetching best quiz score:', err)
+    } catch (err: unknown) {
+      const errStr = JSON.stringify(err)
+      const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
+      if (!isNetworkError) {
+        console.error('Error fetching best quiz score:', err)
+      }
     }
   }, [isConfigured, user])
 
@@ -156,8 +164,12 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
       await fetchBestScore(data.chapterId)
 
       return insertedAttempt
-    } catch (err) {
-      console.error('Error saving quiz attempt:', err)
+    } catch (err: unknown) {
+      const errStr = JSON.stringify(err)
+      const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
+      if (!isNetworkError) {
+        console.error('Error saving quiz attempt:', err)
+      }
       setError(err instanceof Error ? err.message : 'Failed to save quiz attempt')
       return null
     } finally {

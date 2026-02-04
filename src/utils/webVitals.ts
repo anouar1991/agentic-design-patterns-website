@@ -29,5 +29,7 @@ export function reportWebVitals() {
     onLCP(sendToAnalytics);
     onFCP(sendToAnalytics);
     onTTFB(sendToAnalytics);
+  }).catch(() => {
+    // web-vitals failed to load — non-critical, silently ignore
   });
 }

@@ -133,7 +133,7 @@ export default function Leaderboard() {
   // Fetch current user's rank
   useEffect(() => {
     if (user) {
-      getUserRank(user.id).then(setUserRank)
+      getUserRank(user.id).then(setUserRank).catch(() => {})
     }
   }, [user])
 

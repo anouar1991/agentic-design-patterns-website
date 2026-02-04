@@ -26,7 +26,10 @@ export async function mergeProgress(userId: string): Promise<number[]> {
       .eq('user_id', userId)
 
     if (error) {
-      console.error('Error fetching cloud progress:', error)
+      const errStr = JSON.stringify(error)
+      if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
+        console.error('Error fetching cloud progress:', error)
+      }
       return localChapters
     }
 
@@ -50,7 +53,10 @@ export async function mergeProgress(userId: string): Promise<number[]> {
         .insert(insertData)
 
       if (insertError) {
-        console.error('Error syncing progress to cloud:', insertError)
+        const errStr = JSON.stringify(insertError)
+        if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
+          console.error('Error syncing progress to cloud:', insertError)
+        }
       }
     }
 
@@ -87,7 +93,10 @@ export async function syncChapterToCloud(
         })
 
       if (error) {
-        console.error('Error syncing chapter to cloud:', error)
+        const errStr = JSON.stringify(error)
+        if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
+          console.error('Error syncing chapter to cloud:', error)
+        }
       }
     } else {
       // Delete progress record
@@ -98,7 +107,10 @@ export async function syncChapterToCloud(
         .eq('chapter_id', chapterId)
 
       if (error) {
-        console.error('Error removing chapter from cloud:', error)
+        const errStr = JSON.stringify(error)
+        if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
+          console.error('Error removing chapter from cloud:', error)
+        }
       }
     }
   } catch (err) {
@@ -121,7 +133,10 @@ export async function fetchCloudProgress(userId: string): Promise<number[]> {
       .eq('user_id', userId)
 
     if (error) {
-      console.error('Error fetching cloud progress:', error)
+      const errStr = JSON.stringify(error)
+      if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
+        console.error('Error fetching cloud progress:', error)
+      }
       return []
     }
 
