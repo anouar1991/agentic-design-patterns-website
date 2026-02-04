@@ -234,11 +234,26 @@ html.light ::selection {
   color: inherit;
 }
 
-/* Code blocks in light mode */
+/* Code blocks in light mode - keep dark background for readability */
 html.light pre {
   background-color: #1e293b;
   border-color: rgba(51, 65, 85, 0.3);
 }
+
+/* Code block glass wrappers stay dark in light mode so syntax colors remain readable */
+html.light .glass-code {
+  background-color: rgba(30, 41, 59, 0.95) !important;
+  border-color: rgba(51, 65, 85, 0.4) !important;
+  color: #e2e8f0;
+}
+
+html.light .glass-code .text-dark-50 { color: #f1f5f9; }
+html.light .glass-code .text-dark-200 { color: #e2e8f0; }
+html.light .glass-code .text-dark-300 { color: #cbd5e1; }
+html.light .glass-code .text-dark-400 { color: #94a3b8; }
+html.light .glass-code .text-dark-500 { color: #64748b; }
+html.light .glass-code .text-dark-600 { color: #475569; }
+html.light .glass-code .border-dark-700\/60 { border-color: rgba(51, 65, 85, 0.6); }
 
 html.light :not(pre) > code {
   background-color: rgba(241, 245, 249, 0.9);

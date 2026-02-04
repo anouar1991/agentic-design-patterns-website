@@ -328,7 +328,7 @@ const TutorialCodeBlock = memo(function TutorialCodeBlock({
 
   return (
     <>
-      <div className="glass rounded-xl overflow-hidden">
+      <div className="glass glass-code rounded-xl overflow-hidden">
         {/* Header */}
         <div className="px-4 py-3 border-b border-dark-700/60 flex items-center justify-between">
           <div className="flex items-center gap-3">

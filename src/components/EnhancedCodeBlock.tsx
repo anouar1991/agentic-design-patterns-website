@@ -113,8 +113,8 @@ const EnhancedCodeBlock = memo(function EnhancedCodeBlock({
   return (
     <div
       ref={refCallback}
-      className={`glass rounded-2xl overflow-hidden transition-all duration-300 ${
-        hasHighlight ? 'ring-2 ring-offset-2 ring-offset-dark-900' : ''
+      className={`glass glass-code rounded-2xl overflow-hidden transition-all duration-300 ${
+        hasHighlight ? 'ring-2 ring-offset-2 ring-offset-[#1e293b]' : ''
       } ${className}`}
       style={{
         // @ts-expect-error CSS custom property for ring color

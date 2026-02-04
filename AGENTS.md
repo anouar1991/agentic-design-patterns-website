@@ -1203,8 +1203,29 @@ This prevents `console.error` output when Supabase is simply not running (expect
 - [T-940] Browser-level `ERR_CONNECTION_REFUSED` from `fetch()` appears in the network log before JavaScript catch blocks execute — it cannot be suppressed; only the application's `console.error` calls can be controlled
 - [T-940] The codebase was already remarkably clean (zero TypeErrors, zero ReferenceErrors, zero unhandled rejections before fixes) — the improvements are purely defensive hardening
 
+### Navigation & Routing Edge Cases (T-960)
+
+**Changes made:**
+- Added hash fragment scroll support to `RouteTransitionWrapper.tsx` — handles cross-page hash navigation during route transitions and same-page hash changes
+- Added section `id` attributes to `Chapter.tsx` — `#concepts`, `#tutorial`, `#code`, `#quiz` sections are now directly linkable
+- Added hash scroll polling in `Chapter.tsx` — uses `requestAnimationFrame` polling to find elements after lazy-loaded content renders
+
+### Lessons Learned (T-960)
+- [T-960] React Router's `useLocation().hash` is available but the browser's native scroll-to-anchor doesn't work in SPAs because content renders asynchronously after navigation — you need manual `scrollIntoView` with polling for the target element
+- [T-960] `RouteTransitionWrapper`'s `prevPathRef` guard (`if (prevPath === pathname) return`) means same-page hash changes need a separate `useEffect` — the main transition effect skips them
+- [T-960] Fixed delays (100ms, 500ms) for scroll-to-hash are fragile across devices — `requestAnimationFrame` polling (up to ~30 frames) is more robust because it adapts to actual render timing
+- [T-960] HMR causes a "useEffect dependency array changed size" React error when adding new dependencies to an existing effect — this is an HMR artifact, not a production issue; verified by testing with fresh browser context
+
+### Lessons Learned (T-970)
+- [T-970] Anti-FOUC requires an inline `<script>` in `index.html` that reads localStorage and sets the theme class BEFORE React hydrates — React's useEffect is too late and causes a flash
+- [T-970] Code blocks using `oneDark` syntax theme need their glass wrappers to stay dark in light mode — created `glass-code` CSS class that overrides the light-mode glass background
+- [T-970] CSS variable remapping (dark-* → light values in `html.light`) works for most components but NOT for code blocks where the text colors assume a dark background — need explicit overrides
+- [T-970] `ring-offset-dark-900` in code block highlight becomes light-colored in light mode, breaking the visual — use a fixed color `ring-offset-[#1e293b]` instead
+- [T-970] Search modal `<mark>` used `text-primary-200` which is unreadable in light mode — `text-inherit font-semibold` adapts to both themes
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
 - Notebook paths in `website_data.json` reference `/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/` (different from actual path)
 - The `RouteTransitionWrapper` uses CSS opacity transitions (not framer-motion) for route changes — do NOT reintroduce `AnimatePresence` around `<Outlet />`
+- Chapter sections have `id` attributes (`concepts`, `tutorial`, `code`, `quiz`) — hash links like `/chapter/3#quiz` scroll to the section

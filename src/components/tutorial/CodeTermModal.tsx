@@ -165,7 +165,7 @@ const CodeTermModal = memo(function CodeTermModal({
 
               {/* Syntax */}
               {term.syntax && (
-                <div className="glass rounded-xl overflow-hidden">
+                <div className="glass glass-code rounded-xl overflow-hidden">
                   <div className="px-3 py-2 border-b border-dark-700 flex items-center gap-2">
                     <Code className="w-4 h-4 text-dark-400" />
                     <span className="text-xs font-medium text-dark-400 uppercase tracking-wide">
@@ -247,7 +247,7 @@ const CodeTermModal = memo(function CodeTermModal({
                     <BookOpen className="w-4 h-4" style={{ color: chapterColor }} />
                     Example
                   </h3>
-                  <div className="glass rounded-xl overflow-hidden">
+                  <div className="glass glass-code rounded-xl overflow-hidden">
                     <SyntaxHighlighter
                       language="python"
                       style={oneDark}

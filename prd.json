@@ -1460,7 +1460,7 @@
       "name": "Navigation and routing edge cases fixed: back/forward, direct URL, and hash navigation work correctly",
       "intent": "Fix navigation edge cases that cause errors or broken state",
       "description": "Test and fix edge cases in routing: direct URL access to chapter sections, browser back/forward button behavior, hash fragment navigation to specific sections, and scroll position restoration. Fix any state desync when navigating rapidly between chapters.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-940"
       ],
@@ -1493,7 +1493,7 @@
       "name": "Dark mode edge cases fixed: all components render correctly in both modes without flash",
       "intent": "Fix any remaining dark mode visual issues or transition glitches",
       "description": "Audit all components in dark mode for: incorrect colors, missing dark variants, flash of wrong theme on load, modal/overlay backgrounds, code block themes, and print styles. Fix any component that doesn't properly respond to the dark mode toggle.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-930"
       ],
@@ -1704,9 +1704,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-940",
-    "completedAt": "2026-02-04T13:50:00Z",
-    "recommendedNextStepId": "T-970",
+    "lastCompletedTaskId": "T-970",
+    "completedAt": "2026-02-04T14:30:00Z",
+    "recommendedNextStepId": "T-980",
     "history": [
       "T-780",
       "T-790",
@@ -1756,7 +1756,9 @@
       "T-920",
       "T-930",
       "T-950",
-      "T-940"
+      "T-940",
+      "T-960",
+      "T-970"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

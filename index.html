@@ -27,6 +27,18 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap"></noscript>
 
     <title>Agentic Design Patterns - Interactive Learning</title>
+    <!-- Anti-FOUC: Apply theme class before first paint -->
+    <script>
+      (function() {
+        var stored = 'dark';
+        try { stored = localStorage.getItem('theme-mode') || 'dark'; } catch(e) {}
+        var theme = stored;
+        if (stored === 'auto' || (stored !== 'light' && stored !== 'dark')) {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.classList.add(theme);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
