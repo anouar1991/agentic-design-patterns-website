@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useProgress } from '../contexts/ProgressContext';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 import {
   BookOpen,
@@ -120,6 +121,13 @@ const parts: Part[] = [
 export default function Chapters() {
   const { t } = useTranslation();
   const { isChapterCompleted, getPhaseProgress, getQuizScore } = useProgress();
+
+  useDocumentMeta({
+    title: 'All Chapters',
+    description: 'Browse all 21 agentic design pattern chapters. From prompt chaining to agent discovery, master the essential patterns for building intelligent AI systems.',
+    ogType: 'website',
+    keywords: 'AI design patterns, chapters, prompt chaining, routing, parallelization, reflection, tool use, planning, multi-agent',
+  });
 
   return (
     <div className="min-h-screen py-12">

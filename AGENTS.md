@@ -471,6 +471,23 @@ Issues found and fixed:
 
 **Build status:** Production build passes with zero errors (CSS pseudo-class lint notice is non-blocking)
 
+## SEO Meta Tags (T-520)
+
+**Implementation: Custom `useDocumentMeta` hook (zero dependencies)**
+
+- Created `src/hooks/useDocumentMeta.ts` — sets `document.title`, meta description, OG tags, keywords, and JSON-LD structured data
+- Integrated into 6 pages: Home, Chapter, Chapters, Introduction, LearningPath (+ cleanup on unmount)
+- Chapter pages use `LearningResource` schema.org type with `educationalLevel`, `teaches`, `timeRequired`
+- Home page uses `Course` schema.org type with `hasCourseInstance`
+- All OG tags update dynamically on client-side navigation
+
+### Lessons Learned (T-520)
+
+- [T-520] React 19 supports `<title>` and `<meta>` in component JSX (hoisted to `<head>`), but for SPAs with client-side routing, `useEffect`-based DOM manipulation is more reliable — avoids duplicate tags from concurrent renders
+- [T-520] JSON-LD `<script>` elements must be cleaned up on unmount to prevent stacking when navigating between pages — use `scriptEl.remove()` in effect cleanup
+- [T-520] `useMemo` for `structuredData` object prevents effect re-runs on every render — without it, the `useEffect` dependency array sees a new object reference each time
+- [T-520] Meta tag cleanup restores defaults (not blank) — important for SPA where the `index.html` static tags serve as initial SSR-like defaults
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

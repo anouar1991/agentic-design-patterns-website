@@ -36,6 +36,7 @@ import { useProgress } from '../contexts/ProgressContext';
 import { chapterDetails } from '../data/chapters';
 import { Clock, BarChart2 } from 'lucide-react';
 import HeroVisualization from '../components/HeroVisualization';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const difficultyConfig = {
   beginner: { label: 'Beginner', color: '#22c55e' },
@@ -130,6 +131,26 @@ export default function Home() {
   const { t } = useTranslation();
   const stats = getStats(t);
   const features = getFeatures(t);
+
+  useDocumentMeta({
+    title: 'Agentic Design Patterns - Interactive Learning',
+    description: 'Interactive learning companion for Agentic Design Patterns by Antonio Gulli. Master 21 essential patterns for building intelligent AI systems with interactive diagrams, tutorials, and quizzes.',
+    ogType: 'website',
+    keywords: 'AI agents, LangChain, LangGraph, design patterns, LLM, artificial intelligence, machine learning, agentic patterns',
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'Course',
+      name: 'Agentic Design Patterns',
+      description: 'Master 21 essential patterns for building intelligent AI systems',
+      provider: { '@type': 'Person', name: 'Antonio Gulli' },
+      numberOfCredits: 21,
+      hasCourseInstance: {
+        '@type': 'CourseInstance',
+        courseMode: 'online',
+        courseWorkload: 'PT10H',
+      },
+    },
+  });
 
   return (
     <div className="relative">

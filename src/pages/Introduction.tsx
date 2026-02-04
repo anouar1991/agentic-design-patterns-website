@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import {
   BookOpen,
   ArrowRight,
@@ -22,6 +23,13 @@ export default function Introduction() {
   const { t } = useTranslation();
   const { isRTL } = useLanguage();
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
+
+  useDocumentMeta({
+    title: 'Introduction to AI Agents',
+    description: 'Learn the fundamentals of AI agents and agentic design patterns. Understand what makes AI agents different from simple LLMs and why design patterns matter.',
+    ogType: 'article',
+    keywords: 'AI agents, introduction, LLM, agentic systems, design patterns fundamentals',
+  });
 
   // Get translated arrays
   const simpleLLMPoints = t('introduction.simpleLLMPoints', { returnObjects: true }) as string[];

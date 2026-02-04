@@ -37,10 +37,11 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { chapterDetails } from '../data/chapters';
-import { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useState, useRef, useEffect, useMemo } from 'react';
 import { useProgress } from '../contexts/ProgressContext';
 import { DiagramProvider, useDiagram } from '../contexts/DiagramContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import LearningObjectives from '../components/LearningObjectives';
 import ChapterQuiz from '../components/ChapterQuiz';
 import { InteractiveDiagram } from '../components/diagram';
@@ -98,6 +99,41 @@ function ChapterContent() {
   const chapter = chapterDetails[chapterNum];
   const isCompleted = isChapterCompleted(chapterNum);
   const [showCelebration, setShowCelebration] = useState(false);
+
+  // SEO: dynamic meta tags per chapter
+  const structuredData = useMemo(() => chapter ? ({
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    name: `Chapter ${chapter.number}: ${chapter.title}`,
+    description: chapter.description,
+    educationalLevel: chapter.readingMeta?.difficulty || 'intermediate',
+    teaches: chapter.keyConcepts?.slice(0, 5).join(', '),
+    isPartOf: {
+      '@type': 'Course',
+      name: 'Agentic Design Patterns',
+      description: 'Master 21 essential patterns for building intelligent AI systems',
+      provider: { '@type': 'Person', name: 'Antonio Gulli' },
+    },
+    timeRequired: chapter.readingMeta
+      ? `PT${chapter.readingMeta.estimatedMinutes}M`
+      : undefined,
+  }) : undefined, [chapter]);
+
+  useDocumentMeta({
+    title: chapter
+      ? `Chapter ${chapter.number}: ${chapter.title}`
+      : 'Chapter Not Found',
+    description: chapter?.description,
+    ogTitle: chapter
+      ? `${chapter.title} - Agentic Design Patterns`
+      : undefined,
+    ogDescription: chapter?.description,
+    ogType: 'article',
+    keywords: chapter
+      ? `${chapter.title}, ${chapter.keyConcepts?.slice(0, 3).join(', ')}, AI agents, design patterns`
+      : undefined,
+    structuredData,
+  });
 
   // Refs for code examples to enable scrolling
   const codeExampleRefs = useRef<(HTMLDivElement | null)[]>([]);
