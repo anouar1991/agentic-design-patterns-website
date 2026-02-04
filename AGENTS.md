@@ -1404,3 +1404,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1330] UserMenu returns `null` when `isSupabaseConfigured()` is false — component is invisible without valid Supabase env vars
 - [T-1330] Auth loading state causes a brief delay before sign-in button appears — `getSession()` is async, UserMenu shows pulse skeleton during `loading: true` then sign-in button after
 - [T-1330] Auth modal uses `createPortal(modalContent, document.body)` to render outside the React tree — ensures proper z-index stacking above all header elements
+
+### Lessons Learned (T-1340)
+- [T-1340] Progress sync was already partially implemented in `utils/progressMerge.ts` for chapter completions — new `services/progressSync.ts` consolidates and extends it with quiz score cloud sync
+- [T-1340] Quiz scores were localStorage-only before this task; now `saveQuizScore` dual-writes to Supabase via `syncQuizScoreToCloud` using the `get_next_attempt_number` RPC function
+- [T-1340] `mergeAllProgress` fetches cloud chapters and quiz scores in parallel (`Promise.all`) for faster sign-in merge — cloud pushes are fire-and-forget to avoid blocking UI
+- [T-1340] The `user_best_quiz_scores` view provides per-chapter best scores from `quiz_attempts` table — used for merge comparison instead of raw attempts
+- [T-1340] `mergeQuizScores` is a pure function (local + cloud → merged) keeping the higher score per chapter — makes the merge strategy testable independently

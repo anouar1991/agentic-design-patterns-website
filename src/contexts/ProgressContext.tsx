@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, useMemo, u
 import type { ReactNode } from 'react'
 import type { CourseProgress, QuizScore } from '../data/types'
 import { useAuth } from './AuthContext'
-import { mergeProgress, syncChapterToCloud, setLocalProgress, getLocalProgress } from '../utils/progressMerge'
+import { mergeAllProgress, syncChapterToCloud, syncQuizScoreToCloud } from '../services/progressSync'
 import { safeGetJSON, safeSetJSON } from '../utils/storage'
 
 const STORAGE_KEY = 'agentic-patterns-progress'
@@ -109,9 +109,15 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         setSyncing(true)
         hasMergedRef.current = true
 
-        mergeProgress(currentUserId)
-          .then(mergedChapters => {
-            setCompletedChapters(mergedChapters)
+        const localChapters = loadProgress().completedChapters
+        const localScores = loadProgress().quizScores || {}
+
+        mergeAllProgress(currentUserId, localChapters, localScores)
+          .then(merged => {
+            setCompletedChapters(merged.chapters)
+            setQuizScores(merged.quizScores)
+            // Persist merged data to localStorage
+            saveProgressToStorage(buildProgress(merged.chapters, merged.quizScores, lastVisitedRef.current))
           })
           .finally(() => {
             setSyncing(false)
@@ -164,17 +170,17 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [user])
 
   const resetProgress = useCallback(async () => {
+    // Capture current chapters before clearing
+    const currentChapters = loadProgress().completedChapters
     setCompletedChapters([])
     setQuizScores({})
     setLastVisitedState(null)
     saveProgressToStorage(buildProgress([], {}, null))
 
     if (user) {
-      const localChapters = getLocalProgress()
-      for (const chapterId of localChapters) {
+      for (const chapterId of currentChapters) {
         await syncChapterToCloud(user.id, chapterId, false)
       }
-      setLocalProgress([])
     }
   }, [user])
 
@@ -195,9 +201,11 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       // Read latest chapters from state via functional ref to avoid stale closure
       const progress = loadProgress()
       saveProgressToStorage(buildProgress(progress.completedChapters, updated, lastVisitedRef.current))
+      // Sync to cloud for authenticated users (fire-and-forget)
+      if (user) syncQuizScoreToCloud(user.id, chapterId, score, totalQuestions, passed)
       return updated
     })
-  }, [])
+  }, [user])
 
   // Last visited methods
   const setLastVisited = useCallback((chapterId: number, section?: string) => {
