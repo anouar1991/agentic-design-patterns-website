@@ -74,6 +74,9 @@ function LeaderboardRow({
         <img
           src={entry.avatar_url}
           alt={displayName}
+          width={40}
+          height={40}
+          loading="lazy"
           className="w-10 h-10 rounded-full object-cover"
         />
       ) : (

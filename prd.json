@@ -930,7 +930,7 @@
       "name": "Image optimization: WebP/AVIF conversion, responsive srcset, and lazy loading",
       "intent": "Images (if any) and SVGs should be optimized for fast loading across devices",
       "description": "Audit all image assets. Convert raster images to WebP with AVIF fallback. Add responsive srcset for different viewport sizes. Ensure all below-fold images use loading='lazy'. Optimize SVG assets with SVGO. Add explicit width/height to prevent CLS.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-700"
       ],
@@ -1310,7 +1310,8 @@
       "T-700",
       "T-710",
       "T-720",
-      "T-730"
+      "T-730",
+      "T-740"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

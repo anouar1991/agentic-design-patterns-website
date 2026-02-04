@@ -125,6 +125,9 @@ export default function Profile() {
                 <img
                   src={avatarUrl}
                   alt={displayName}
+                  width={96}
+                  height={96}
+                  loading="lazy"
                   className="w-24 h-24 rounded-full object-cover ring-4 ring-primary-500/30"
                 />
               ) : (

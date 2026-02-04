@@ -84,6 +84,9 @@ export function UserMenu() {
           <img
             src={avatarUrl}
             alt={displayName}
+            width={32}
+            height={32}
+            loading="lazy"
             className="w-8 h-8 rounded-full object-cover ring-2 ring-dark-800"
           />
         ) : (

@@ -638,6 +638,35 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-730] Static objects like `typeColors`, `enhancedTheme`, `confettiColors` defined at module scope (outside component) are inherently stable — no `useMemo` needed
 - [T-730] The search index (`buildSearchIndex()`) was already called once at module scope and stored in a constant — this is the ideal pattern for static data that never changes
 
+## Image Optimization (T-740)
+
+**Result: Zero raster images — SVG-only codebase with avatar `<img>` tags optimized**
+
+### Asset Audit
+- **Raster images**: 0 (no PNG, JPG, WebP, AVIF, GIF in src/ or public/)
+- **SVG files**: 2 (react.svg, vite.svg) — both unused boilerplate from Vite scaffolding → **deleted**
+- **Inline SVGs**: 13 usages via Lucide React icons — no optimization needed (tree-shaken by vendor-icons chunk)
+- **`<img>` tags**: 3 (all avatar images from Supabase auth)
+
+### Changes Made
+1. **Deleted unused SVGs**: `src/assets/react.svg` and `public/vite.svg` — not imported or referenced anywhere; `vite.svg` was previously copied to `dist/` on every build
+2. **Added `width`/`height` to all `<img>` elements** — prevents CLS by giving browser intrinsic size before CSS loads:
+   - `UserMenu.tsx`: 32×32 (w-8 h-8)
+   - `Profile.tsx`: 96×96 (w-24 h-24)
+   - `Leaderboard.tsx`: 40×40 (w-10 h-10)
+3. **Added `loading="lazy"` to all `<img>` elements** — all avatar images are below-fold content
+
+### Validation
+- `find dist -name '*.png' -o -name '*.jpg' | wc -l` → **0** (no raster images in production build)
+- `find dist -name '*.svg'` → **0** (unused vite.svg no longer copied to dist)
+- Production build succeeds with zero errors
+
+### Lessons Learned (T-740)
+
+- [T-740] SVG-only educational platforms (using React components for visuals) have trivially satisfied image optimization guarantees — the real optimization is removing unused boilerplate assets that waste build time and dist space
+- [T-740] Vite automatically copies `public/` files to `dist/` — unused files in `public/` silently inflate the production deployment
+- [T-740] Even when Tailwind CSS constrains `<img>` size (e.g., `w-8 h-8`), adding HTML `width`/`height` attributes is still valuable — the browser calculates aspect ratio from HTML attributes *before* CSS loads, preventing CLS during the critical rendering path
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
