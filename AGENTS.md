@@ -365,6 +365,22 @@ Issues found and fixed:
 - Visual inspection via screenshots: navigation bar, content cards, code blocks, tutorial sections, footer all properly themed
 - No fixes needed — dark mode styling is consistent across the entire platform
 
+## Navigation Verification (T-500-500)
+
+**Result: All chapter navigation links work, page transitions animate correctly**
+
+- All 21 chapters load successfully at `/chapter/1` through `/chapter/21`
+- Previous/Next links verified on every chapter:
+  - Chapter 1: No Previous (correct boundary), has Next Ch 2
+  - Chapters 2-20: Both Previous and Next with correct chapter numbers
+  - Chapter 21: Has Previous Ch 20, no Next (correct boundary)
+- "All Chapters" link present on every chapter page, navigates to `/chapters`
+- Breadcrumb navigation (Home > Chapters > Ch N) functional on all chapters
+- Chapters listing page shows all 21 chapters organized in 4 parts with working links
+- Page transition animations verified: 63 style mutations detected during Ch 1→2 transition (opacity fade + scale transform)
+- Zero console errors during full navigation sweep
+- No broken links or navigation dead ends
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

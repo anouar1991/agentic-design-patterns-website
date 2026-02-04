@@ -120,7 +120,7 @@
       "name": "Chapter navigation and page transitions verified",
       "intent": "Ensure page transitions and navigation work smoothly between all chapters",
       "description": "Navigate sequentially through all chapters using next/previous controls and sidebar links. Verify transitions animate correctly and no navigation dead ends exist.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-500-100"
       ],
@@ -267,7 +267,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-500-500",
-    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300"]
+    "recommendedNextStepId": "T-500-600",
+    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500"]
   }
 }
