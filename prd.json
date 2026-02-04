@@ -2185,7 +2185,7 @@
       "name": "Database schema verified: existing migrations match Supabase tables",
       "intent": "Ensure the already-created migrations have been applied and tables exist in Supabase",
       "description": "Check that the three existing migrations (initial schema, quiz attempts, progress update policy) have been applied to the Supabase instance. Verify tables exist: user_progress, quiz_attempts, and any related tables. If migrations haven't been applied, apply them.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1310"
       ],
@@ -2539,9 +2539,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1310",
-    "completedAt": "2026-02-05T10:00:00Z",
-    "recommendedNextStepId": "T-1320",
+    "lastCompletedTaskId": "T-1320",
+    "completedAt": "2026-02-05T00:45:00Z",
+    "recommendedNextStepId": "T-1330",
     "history": [
       "T-780",
       "T-790",
@@ -2612,7 +2612,8 @@
       "T-1200",
       "T-1210",
       "T-1300",
-      "T-1310"
+      "T-1310",
+      "T-1320"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

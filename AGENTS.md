@@ -1388,3 +1388,12 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1310] `src/lib/supabase.ts` already existed with singleton pattern, typed with `Database` generic, and graceful degradation — no code changes needed
 - [T-1310] Connection verified via REST API: `curl` to `/rest/v1/user_progress` returned PostgREST error (table not found, expected since migrations not applied yet) rather than connection error — proves connectivity works
 - [T-1310] `@supabase/supabase-js ^2.90.1` was already installed from a prior task — no `npm install` needed
+
+### Lessons Learned (T-1320)
+- [T-1320] Supabase direct DB host (`db.<ref>.supabase.co`) resolves only to IPv6 (AAAA record, no A record) — unreachable from IPv4-only machines
+- [T-1320] Supabase connection pooler (`aws-0-<region>.pooler.supabase.com`) requires knowing the correct region — wrong region gives "Tenant or user not found" even with correct credentials
+- [T-1320] Supabase Dashboard SQL Editor is the most reliable fallback for applying migrations when direct DB and pooler access fail — uses Playwright browser automation with Monaco editor's `window.monaco.editor.getEditors()[0].setValue(sql)` to inject SQL
+- [T-1320] Migration SQL must use `IF NOT EXISTS` / `IF NOT EXISTS (SELECT...)` guards for idempotency — prevents errors on re-runs
+- [T-1320] PRD described table as `user_progress` but actual migration names it `progress` — always read migration files to verify actual names
+- [T-1320] Supabase PostgREST automatically reflects schema changes after migration — no manual cache reload needed
+- [T-1320] Schema: 3 tables (profiles, progress, quiz_attempts), 1 materialized view (leaderboard_cache), 1 view (user_best_quiz_scores), 8 RLS policies, 2 triggers, 2 functions
