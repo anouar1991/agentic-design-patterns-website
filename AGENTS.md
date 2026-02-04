@@ -488,6 +488,40 @@ Issues found and fixed:
 - [T-520] `useMemo` for `structuredData` object prevents effect re-runs on every render — without it, the `useEffect` dependency array sees a new object reference each time
 - [T-520] Meta tag cleanup restores defaults (not blank) — important for SPA where the `index.html` static tags serve as initial SSR-like defaults
 
+## Performance Optimization (T-510)
+
+**Result: Lighthouse desktop score 91/100 (up from ~35 before optimization)**
+
+### Bundle Size Improvements
+
+| Metric | Before | After | Improvement |
+|--------|--------|-------|-------------|
+| Total JS (single bundle) | 2,106 KB | Split into 16 chunks | Route-based code splitting |
+| Initial load (gzip) | 654 KB | ~340 KB | **48% smaller** |
+| Syntax highlighter | 640 KB | 55 KB | **92% smaller** (PrismLight) |
+| Chapter page | Part of main bundle | 260 KB on demand | Deferred loading |
+
+### Optimizations Applied
+1. **Route-based code splitting**: All pages except Home use `React.lazy` with `Suspense` boundaries
+2. **PrismLight instead of full Prism**: Only registers python, bash, json languages (from ~200 bundled languages)
+3. **Vendor chunk splitting**: react, framer-motion, i18n, lucide-react, react-syntax-highlighter each in separate cached chunks
+4. **Loading skeletons**: `PageLoadingSkeleton` and `ChapterLoadingSkeleton` components for Suspense fallbacks
+5. **Font loading optimization**: Google Fonts loaded async with `media="print" onload` trick to eliminate render-blocking
+
+### Lighthouse Scores
+| Preset | Score | FCP | LCP | TBT | CLS | SI |
+|--------|-------|-----|-----|-----|-----|-----|
+| Desktop | 91/100 | 1.0s | 1.0s | 90ms | 0.001 | 2.3s |
+| Mobile (4x throttle) | 60/100 | 3.0s | 3.0s | 2,450ms | 0 | 3.3s |
+
+### Lessons Learned (T-510)
+
+- [T-510] `PrismLight` from `react-syntax-highlighter` only includes Prism core (~30KB) — you register only needed languages with `SyntaxHighlighter.registerLanguage()`, reducing the syntax chunk from 640KB to 55KB
+- [T-510] `manualChunks` in Vite's Rollup config enables long-term caching of vendor libraries — updating app code doesn't invalidate the vendor-react or vendor-motion cache
+- [T-510] Google Fonts `<link>` is render-blocking by default — `media="print" onload="this.media='all'"` with `<link rel="preload" as="style">` eliminates the blocking request while still loading fonts
+- [T-510] Lighthouse mobile scores are heavily penalized by 4x CPU throttling — a 920KB index chunk (258KB gzip) is acceptable for desktop but causes 2.4s TBT on mobile simulation
+- [T-510] The biggest performance win was switching from full Prism to PrismLight (92% reduction) — always check if a library offers a tree-shakeable or light build before accepting its full bundle
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

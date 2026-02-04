@@ -720,7 +720,7 @@
       "name": "Performance optimized: lazy loading, code splitting, image optimization, smooth 60fps",
       "intent": "Premium feel requires fast loading and smooth interactions",
       "description": "Optimize performance: add route-based code splitting, lazy load heavy components (diagrams, code highlighter), optimize any images, ensure animations run at 60fps, add loading skeletons for lazy content.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-500"
       ],
@@ -809,7 +809,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-510",
+    "recommendedNextStepId": "T-600",
     "history": [
       "T-100",
       "T-101",
@@ -834,7 +834,8 @@
       "T-410",
       "T-400",
       "T-500",
-      "T-520"
+      "T-520",
+      "T-510"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": []
