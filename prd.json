@@ -870,7 +870,7 @@
       "name": "Font loading optimized: font-display swap, preload, and subset applied",
       "intent": "Fonts are often the largest render-blocking resource; optimizing them directly improves LCP",
       "description": "Add font-display: swap to all @font-face declarations. Preload the primary font files with <link rel='preload'>. If using Google Fonts or large font files, subset to Latin characters. Ensure no layout shift from font loading.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-700"
       ],
@@ -1278,7 +1278,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-720",
+    "recommendedNextStepId": "T-730",
     "history": [
       "T-100",
       "T-101",
@@ -1308,7 +1308,8 @@
       "T-600",
       "T-600",
       "T-700",
-      "T-710"
+      "T-710",
+      "T-720"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

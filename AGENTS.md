@@ -576,6 +576,23 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-710] The `<style data-critical>` tag must appear BEFORE the `<link rel="stylesheet">` in the HTML head — this ensures inline styles take effect before the full stylesheet is parsed
 - [T-710] Including `html.light` overrides in critical CSS handles both dark (default) and light theme users without FOUC — the ThemeContext adds the class before React hydrates
 
+## Font Loading Optimization (T-720)
+
+**Result: Three-layer font loading strategy for zero FOIT and faster LCP**
+
+- Added `<link rel="preload" as="font">` for Inter (47KB woff2) and JetBrains Mono (31KB woff2) latin subsets — browser starts downloading font files immediately without waiting for Google Fonts CSS parse
+- Added local `@font-face` declarations with `font-display: swap` in `index.css` — ensures text is visible with system fallback immediately, swaps to web font when loaded
+- Added `<noscript>` fallback for the async CSS loading pattern (`media="print" onload`) — fonts still load when JavaScript is disabled
+- Google Fonts URL already included `display=swap` parameter — the local `@font-face` rules reinforce this and provide the font files to the preload hints
+- Font file sizes: Inter latin 47KB, JetBrains Mono latin 31KB — both under 50KB threshold, no subsetting needed
+
+### Lessons Learned (T-720)
+
+- [T-720] Google Fonts `display=swap` parameter only adds `font-display: swap` to the Google-served CSS — if the CSS hasn't been parsed yet (async loading), the browser has no `@font-face` to apply swap to. Local `@font-face` declarations bridge this gap
+- [T-720] `<link rel="preload" as="font" crossorigin>` MUST include `crossorigin` attribute even for same-protocol requests — fonts are always fetched in CORS mode; without `crossorigin`, the preloaded resource is discarded and re-fetched
+- [T-720] Google Fonts uses a single woff2 file per font family for the latin subset (variable font) — weight ranges (400-800) are served from one file, so only one preload per family is needed
+- [T-720] The `media="print" onload="this.media='all'"` async pattern needs a `<noscript>` with the blocking stylesheet as fallback — without it, users with JavaScript disabled get no web fonts at all
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
