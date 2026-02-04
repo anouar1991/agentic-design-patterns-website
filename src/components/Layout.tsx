@@ -12,8 +12,7 @@ import {
   GraduationCap,
   Trophy,
   CheckCircle2,
-  Search,
-  Command
+  Search
 } from 'lucide-react'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,6 +21,7 @@ import RouteTransitionWrapper from './RouteTransitionWrapper'
 import LanguageSwitcher from './LanguageSwitcher'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { UserMenu } from './UserMenu'
+import SearchBarTrigger from './SearchBarTrigger'
 import { layoutIds } from '../config/motion'
 import { useProgress } from '../contexts/ProgressContext'
 import SearchModal, { useSearchShortcut } from './SearchModal'
@@ -150,18 +150,8 @@ export default function Layout() {
 
             {/* Search, User Menu, GitHub Link, Language Switcher & Mobile Menu */}
             <div className="flex items-center gap-2 sm:gap-4">
-              {/* Search trigger */}
-              <button
-                onClick={openSearch}
-                className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-dark-800/80 border border-dark-700/50 text-dark-400 hover:text-dark-200 hover:border-dark-600 transition-all text-sm"
-                aria-label={t('search.placeholder')}
-              >
-                <Search className="w-3.5 h-3.5" />
-                <span className="text-xs">{t('search.trigger')}</span>
-                <kbd className="hidden lg:inline-flex items-center gap-0.5 ml-1 px-1.5 py-0.5 rounded bg-dark-700/60 border border-dark-600/40 text-[10px] text-dark-500">
-                  <Command className="w-2.5 h-2.5" />K
-                </kbd>
-              </button>
+              {/* Search trigger - prominent Spotlight-style bar */}
+              <SearchBarTrigger onClick={openSearch} isCompact={isScrolled} />
 
               {/* Progress indicator pill - shows when user has progress */}
               {hasProgress && (

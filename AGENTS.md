@@ -43,6 +43,7 @@ src/
 │   ├── ProgressiveContent.tsx # Progressive content reveal
 │   ├── ReadingProgressBar.tsx # Reading progress indicator
 │   ├── SearchModal.tsx        # Cmd+K search modal with fuzzy search
+│   ├── SearchBarTrigger.tsx   # Prominent search bar trigger with OS-aware shortcut badge
 │   ├── tutorial/
 │   │   ├── InteractiveTutorial.tsx # Main tutorial renderer
 │   │   ├── TutorialCodeBlock.tsx   # Code blocks with clickable terms
@@ -1323,3 +1324,8 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1130] Use CSS `::after` pseudo-elements for hover effects on non-active links separate from the `layoutId` active indicator — mixing both in React causes unnecessary re-renders
 - [T-1130] `useReducedMotion()` from framer-motion returns a boolean; pass `{ duration: 0 }` instead of spring config to instantly snap rather than animate
 - [T-1130] When conditionally constructing Framer Motion transition objects with `type: 'spring'`, TypeScript needs `as const` on the string literal to satisfy the `Transition` union type
+
+### Lessons Learned (T-1140)
+- [T-1140] Spotlight/VS Code-style search triggers should be buttons styled as inputs, not actual inputs — the real input lives in the modal
+- [T-1140] Platform detection for keyboard shortcut badges: use `navigator.userAgentData?.platform` (modern) with fallback to `navigator.platform` (legacy), wrapped in `useMemo` since it never changes
+- [T-1140] Compact search bar variant uses width-based sizing (`w-44` vs `w-56`) rather than hiding elements — preserves discoverability while saving header space
