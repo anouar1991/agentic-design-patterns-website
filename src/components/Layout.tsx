@@ -22,6 +22,7 @@ import LanguageSwitcher from './LanguageSwitcher'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { UserMenu } from './UserMenu'
 import SearchBarTrigger from './SearchBarTrigger'
+import HeaderProgressBar from './HeaderProgressBar'
 import { layoutIds } from '../config/motion'
 import { useProgress } from '../contexts/ProgressContext'
 import SearchModal, { useSearchShortcut } from './SearchModal'
@@ -356,6 +357,9 @@ export default function Layout() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Course progress bar at bottom edge of header */}
+        <HeaderProgressBar />
       </nav>
 
       {/* Ambient Background - persistent across route changes */}

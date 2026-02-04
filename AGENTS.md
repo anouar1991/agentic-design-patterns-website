@@ -1329,3 +1329,9 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1140] Spotlight/VS Code-style search triggers should be buttons styled as inputs, not actual inputs — the real input lives in the modal
 - [T-1140] Platform detection for keyboard shortcut badges: use `navigator.userAgentData?.platform` (modern) with fallback to `navigator.platform` (legacy), wrapped in `useMemo` since it never changes
 - [T-1140] Compact search bar variant uses width-based sizing (`w-44` vs `w-56`) rather than hiding elements — preserves discoverability while saving header space
+
+### Lessons Learned (T-1150)
+- [T-1150] Use `scaleX` transform for progress bar animation instead of `width` — `scaleX` is GPU-accelerated (compositor-only) so it animates at 60fps without layout reflows
+- [T-1150] Multi-stop gradient with all 21 chapter accent colors creates a "journey through the course" visual effect — as the bar grows, new chapter colors appear naturally
+- [T-1150] Return `null` for zero-progress state rather than rendering an empty/invisible bar — avoids unnecessary DOM elements and ARIA announcements for new users
+- [T-1150] `absolute bottom-0` on the progress bar inside the `fixed` nav works because fixed positioning establishes a containing block for absolutely-positioned children
