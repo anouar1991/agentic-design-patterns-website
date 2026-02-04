@@ -346,6 +346,15 @@ Issues found and fixed:
 - [T-500-200] Supabase catch blocks receive wrapped error objects (`{message, details, hint, code}`), not raw `TypeError` — use `JSON.stringify(err).includes()` for reliable network error detection
 - [T-500-200] `Failed to load resource: net::ERR_CONNECTION_REFUSED` is a browser-level log that cannot be suppressed by JavaScript — only the application's `console.error` calls can be controlled
 
+## Search Verification (T-500-400)
+
+**Result: All 21 chapters indexed and navigable via search**
+
+- Searched unique terms for all 21 chapters — every chapter returned results with correct `Ch.X` badge
+- Navigation verified on chapters 1, 10, 21 — clicking search results navigates to correct `/chapter/N` route
+- Zero console errors during search and navigation testing
+- Search also indexes 72 code terms and 10 concepts beyond chapter titles
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

@@ -93,7 +93,7 @@
       "name": "Search indexes all chapter content",
       "intent": "Verify the search modal finds content from every chapter, not just a subset",
       "description": "Open the search modal (Cmd+K) and search for unique terms from each chapter. Confirm results appear for all chapters and links navigate correctly.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-500-100"
       ],
@@ -268,6 +268,6 @@
   "ralph": {
     "currentTaskId": null,
     "recommendedNextStepId": "T-500-300",
-    "history": ["T-500-100", "T-500-200"]
+    "history": ["T-500-100", "T-500-200", "T-500-400"]
   }
 }
