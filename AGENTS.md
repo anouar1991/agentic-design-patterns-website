@@ -1064,6 +1064,36 @@ All routes except `/leaderboard` produced **zero console errors, warnings, or un
 - [T-900] The platform is remarkably clean after T-500/T-840 optimization rounds — zero React warnings, zero runtime errors, zero deprecation warnings across all 27 routes
 - [T-900] Rapid navigation (5 chapters in quick succession) produces zero state corruption or console errors — React Router + route transition wrapper handle rapid switching correctly
 
+## Structured Logger (T-910)
+
+**Result: Logger utility created at `src/utils/logger.ts` — zero external dependencies**
+
+### API
+- `createLogger(context: string): Logger` — factory returns scoped logger with `[Context]` tag prefix
+- `log` — default `createLogger('App')` instance exported for convenience
+- Logger interface: `{ debug, info, warn, error }` — each method accepts `...args: unknown[]`
+
+### Environment Behavior
+| Environment | Min Level | debug | info | warn | error |
+|-------------|-----------|-------|------|------|-------|
+| Dev (`import.meta.env.DEV`) | Debug (0) | Yes | Yes | Yes | Yes |
+| Production (`import.meta.env.PROD`) | Warn (2) | No | No | Yes | Yes |
+
+### Output Format
+```
+12:34:56.789 [Quiz] User answered question 3 correctly
+```
+
+### Design Decisions
+- `const enum LogLevel` — TypeScript inlines values at compile time, zero runtime enum object
+- `import.meta.env.PROD` — Vite statically replaces at build time, enabling dead-code elimination of debug/info paths in production
+- No external dependencies (no winston, pino, loglevel) — the 65-line module covers all needs for a browser SPA
+
+### Lessons Learned (T-910)
+- [T-910] `const enum` in TypeScript is superior to regular `enum` for compile-time-only values — the enum object is never emitted to JS, and comparisons become simple numeric constants that V8 constant-folds
+- [T-910] `import.meta.env.PROD` is statically replaced by Vite during build — the entire `if (MIN_LEVEL <= LogLevel.Debug)` block becomes `if (2 <= 0)` which is eliminated as dead code by terser/esbuild
+- [T-910] Tree-shaking works for unused logger: if no component imports the logger, it's completely absent from the production bundle — verified by searching `dist/` output for logger code
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
