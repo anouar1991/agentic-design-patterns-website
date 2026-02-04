@@ -1397,3 +1397,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1320] PRD described table as `user_progress` but actual migration names it `progress` — always read migration files to verify actual names
 - [T-1320] Supabase PostgREST automatically reflects schema changes after migration — no manual cache reload needed
 - [T-1320] Schema: 3 tables (profiles, progress, quiz_attempts), 1 materialized view (leaderboard_cache), 1 view (user_best_quiz_scores), 8 RLS policies, 2 triggers, 2 functions
+
+### Lessons Learned (T-1330)
+- [T-1330] Auth UI was already fully implemented: AuthContext, AuthModal, LoginForm, SignupForm, SocialAuth, UserMenu — all wired into App.tsx and Layout.tsx
+- [T-1330] The `dark-*` color palette uses CSS custom properties that swap in light mode (dark-900 becomes near-white, dark-50 becomes near-black) — no need for separate `light:` Tailwind classes on auth components
+- [T-1330] UserMenu returns `null` when `isSupabaseConfigured()` is false — component is invisible without valid Supabase env vars
+- [T-1330] Auth loading state causes a brief delay before sign-in button appears — `getSession()` is async, UserMenu shows pulse skeleton during `loading: true` then sign-in button after
+- [T-1330] Auth modal uses `createPortal(modalContent, document.body)` to render outside the React tree — ensures proper z-index stacking above all header elements
