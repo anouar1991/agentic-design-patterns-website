@@ -490,6 +490,59 @@ code {
   text-wrap: balance;
 }
 
+/* Hero Visualization — animated agentic pattern nodes */
+.hero-viz {
+  opacity: 0.22;
+}
+
+.hero-node-core {
+  animation: hero-fade-in 0.8s var(--ease-smooth) forwards;
+}
+
+.hero-edge {
+  animation: hero-edge-in 1s var(--ease-smooth) forwards;
+}
+
+.hero-pulse {
+  transform-origin: center;
+  animation: hero-ring-pulse 5s ease-in-out infinite;
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to { opacity: 0.6; }
+}
+
+@keyframes hero-edge-in {
+  from { opacity: 0; }
+  to { opacity: 0.3; }
+}
+
+@keyframes hero-ring-pulse {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.4); }
+}
+
+/* Responsive: reduce complexity on mobile */
+@media (max-width: 640px) {
+  .hero-viz {
+    opacity: 0.12;
+  }
+}
+
+/* Accessibility: no animation for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-node-core,
+  .hero-edge,
+  .hero-pulse {
+    animation: none !important;
+    opacity: 0.4;
+  }
+  .hero-viz {
+    opacity: 0.08;
+  }
+}
+
 /* Chapter card hover effects - premium with glow, scale, and shadow */
 .chapter-card {
   --card-glow: transparent;

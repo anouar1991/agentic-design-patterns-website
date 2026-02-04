@@ -517,7 +517,7 @@
       "name": "Content + Interactivity checkpoint: complete learning flow verified for one chapter",
       "intent": "Verify the full learning experience works end-to-end for a single chapter before checking all",
       "description": "Pick the most complete chapter and verify the entire learning flow: arrive via card, read tutorial with clickable terms, interact with diagram, view code examples from diagram links, complete quiz with feedback, see progress saved.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-260",
         "T-300",
@@ -554,7 +554,7 @@
       "name": "Animated hero section: eye-catching landing with animated pattern visualization and call-to-action",
       "intent": "First impression must be incredible - the hero section sets the tone for the entire platform",
       "description": "Create an animated hero section on the homepage with a subtle agentic pattern visualization (animated nodes connecting, data flowing), compelling headline, brief description, and clear call-to-action to start learning. Use CSS animations or lightweight canvas for performance.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-200"
       ],
@@ -808,7 +808,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-400",
+    "recommendedNextStepId": "T-500",
     "history": [
       "T-100",
       "T-101",
@@ -829,7 +829,9 @@
       "T-420",
       "T-430",
       "T-440",
-      "T-350"
+      "T-350",
+      "T-410",
+      "T-400"
     ],
     "startedAt": "2026-02-03T20:30:00Z"
   }

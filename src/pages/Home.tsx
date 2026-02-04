@@ -35,6 +35,7 @@ import {
 import { useProgress } from '../contexts/ProgressContext';
 import { chapterDetails } from '../data/chapters';
 import { Clock, BarChart2 } from 'lucide-react';
+import HeroVisualization from '../components/HeroVisualization';
 
 const difficultyConfig = {
   beginner: { label: 'Beginner', color: '#22c55e' },
@@ -134,7 +135,8 @@ export default function Home() {
     <div className="relative">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Background handled by persistent AmbientBackground component */}
+        {/* Animated agentic pattern visualization behind hero content */}
+        <HeroVisualization />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
           <motion.div

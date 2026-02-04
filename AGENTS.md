@@ -283,6 +283,16 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-350] Concept results navigate to the first chapter that introduces them (via `conceptsIntroduced` array) — fallback to `/chapters` if no chapter found
 - [T-350] `requestAnimationFrame` before `inputRef.current?.focus()` ensures the modal DOM is painted before attempting focus — prevents race condition with Framer Motion enter animation
 
+- [T-410] SVG `viewBox` scaling is multiplicative — a `viewBox="0 0 100 100"` mapped to a 1400px container makes each SVG unit ~14px; use larger viewBox (560×440) for finer positioning control of small decorative elements
+- [T-410] SVG `<animateMotion>` with `repeatCount="indefinite"` creates flow particles without JavaScript — pure SVG animation is GPU-composited and doesn't trigger React re-renders
+- [T-410] `useReducedMotion()` from framer-motion provides the `prefers-reduced-motion` check — returns static SVG with no animations when enabled
+- [T-410] CSS `transform-origin: center` is required for `hero-pulse` ring animation using `transform: scale()` — without it, SVG circles scale from top-left corner instead of center
+- [T-410] Hero visualization opacity levels: 0.22 desktop, 0.12 mobile, 0.08 reduced-motion — these values were tuned to keep nodes visible but never compete with text content
+
+- [T-400] Full learning flow verified for Chapter 1: homepage card → tutorial (9 steps) → clickable code terms (ChatOpenAI modal with full docs) → diagram interaction (Step 1: Extract node → detail panel with "View in Code") → quiz section (6 questions, 3 types) → progress persistence (2/21 on homepage)
+- [T-400] All interactive features coexist without state conflicts — code term modal and diagram detail panel use independent state systems
+- [T-400] Playwright `element is not stable` on animated diagram nodes — use `page.evaluate()` with native `.click()` as workaround (confirmed from T-240/T-260 lesson)
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
