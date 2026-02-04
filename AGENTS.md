@@ -593,6 +593,51 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-720] Google Fonts uses a single woff2 file per font family for the latin subset (variable font) — weight ranges (400-800) are served from one file, so only one preload per family is needed
 - [T-720] The `media="print" onload="this.media='all'"` async pattern needs a `<noscript>` with the blocking stylesheet as fallback — without it, users with JavaScript disabled get no web fonts at all
 
+## React Component Memoization (T-730)
+
+**Result: 15 components wrapped with React.memo, 1 new useCallback, zero type errors**
+
+### Components Memoized with React.memo
+
+| Component | File | Impact |
+|-----------|------|--------|
+| TutorialCodeBlock | tutorial/TutorialCodeBlock.tsx | High — expensive tokenization + syntax highlighting |
+| EnhancedCodeBlock | EnhancedCodeBlock.tsx | High — SyntaxHighlighter re-renders |
+| CodeTermModal | tutorial/CodeTermModal.tsx | Medium — modal re-renders when parent state changes |
+| NodeDetailPanel | diagram/NodeDetailPanel.tsx | Medium — panel re-renders on diagram interactions |
+| CustomZoomControls | diagram/InteractiveDiagram.tsx | Medium — re-renders on every diagram state change |
+| ConfettiParticles | ChapterQuiz.tsx | Low — renders 24 animated particles |
+| ShakeWrapper | ChapterQuiz.tsx | Low — animation wrapper |
+| OrderingQuestion | ChapterQuiz.tsx | Medium — drag-and-drop re-renders |
+| ChoiceQuestion | ChapterQuiz.tsx | Medium — option list re-renders |
+| QuestionCodeSnippet | ChapterQuiz.tsx | Low — static code display |
+| QuestionTypeBadge | ChapterQuiz.tsx | Low — static badge |
+| TypeBadge | SearchModal.tsx | Low — rendered per search result |
+| HighlightText | SearchModal.tsx | Low — rendered per search result |
+| LearningObjectives | LearningObjectives.tsx | Low — static list |
+| ConceptTooltip | ConceptTooltip.tsx | Low — hover tooltip |
+| ChapterCelebration | ChapterCelebration.tsx | Low — modal overlay |
+| FlowParticle | HeroVisualization.tsx | Low — SVG particle (×16) |
+
+### useCallback Additions
+
+- `EnhancedCodeBlock.lineProps` — previously inline function passed to SyntaxHighlighter on every render; now memoized with `useCallback` depending on highlight range and chapter color
+
+### Already Optimized (No Changes Needed)
+
+- `EnhancedNode` — already used `React.memo` + 5 `useCallback` handlers
+- `InteractiveDiagram` — already had `useMemo` for nodes/edges/markers
+- `SearchModal` — already had `useMemo` for search results, `useCallback` for handlers
+- `ChapterQuiz` (main) — already had extensive `useMemo`/`useCallback` usage
+
+### Lessons Learned (T-730)
+
+- [T-730] `React.memo` wrapping is pointless without also memoizing callback/object props from parent — inline `() => {}` creates new function reference every render, defeating memo
+- [T-730] Internal sub-components defined at module scope (like `ConfettiParticles`, `ChoiceQuestion`) benefit from `React.memo` because the parent component's state changes don't need to propagate to stable sub-components
+- [T-730] SyntaxHighlighter's `lineProps` accepts a function that gets called per line — passing it inline creates a new function identity every render, causing the entire highlighted output to re-compute. `useCallback` here prevents ~100+ line re-renders per code block state change
+- [T-730] Static objects like `typeColors`, `enhancedTheme`, `confettiColors` defined at module scope (outside component) are inherently stable — no `useMemo` needed
+- [T-730] The search index (`buildSearchIndex()`) was already called once at module scope and stored in a constant — this is the ideal pattern for static data that never changes
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

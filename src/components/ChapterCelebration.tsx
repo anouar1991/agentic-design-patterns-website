@@ -5,7 +5,7 @@
  * Features confetti particles and a congratulations message.
  */
 
-import { useEffect, useState, useCallback } from 'react';
+import { memo, useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Sparkles, Star, PartyPopper } from 'lucide-react';
 
@@ -36,7 +36,7 @@ const confettiColors = [
   '#14b8a6', // teal
 ];
 
-export default function ChapterCelebration({
+const ChapterCelebration = memo(function ChapterCelebration({
   isVisible,
   chapterTitle,
   chapterColor,
@@ -202,4 +202,6 @@ export default function ChapterCelebration({
       )}
     </AnimatePresence>
   );
-}
+});
+
+export default ChapterCelebration;

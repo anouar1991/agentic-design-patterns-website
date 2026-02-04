@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import { memo, useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import {
   HelpCircle,
@@ -56,7 +56,7 @@ function isOrderingCorrect(order: string[], correctOrder: string[]): boolean {
 }
 
 // ─── Confetti particle component ────────────────────────────────────────
-function ConfettiParticles({ color }: { color: string }) {
+const ConfettiParticles = memo(function ConfettiParticles({ color }: { color: string }) {
   const particles = useMemo(() =>
     Array.from({ length: 24 }, (_, i) => ({
       id: i,
@@ -93,10 +93,10 @@ function ConfettiParticles({ color }: { color: string }) {
       ))}
     </div>
   );
-}
+});
 
 // ─── Shake animation wrapper ────────────────────────────────────────────
-function ShakeWrapper({ shake, children }: { shake: boolean; children: React.ReactNode }) {
+const ShakeWrapper = memo(function ShakeWrapper({ shake, children }: { shake: boolean; children: React.ReactNode }) {
   return (
     <motion.div
       animate={shake ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : {}}
@@ -105,10 +105,10 @@ function ShakeWrapper({ shake, children }: { shake: boolean; children: React.Rea
       {children}
     </motion.div>
   );
-}
+});
 
 // ─── Ordering question renderer ─────────────────────────────────────────
-function OrderingQuestion({
+const OrderingQuestion = memo(function OrderingQuestion({
   question,
   orderedItems,
   onReorder,
@@ -191,10 +191,10 @@ function OrderingQuestion({
       </Reorder.Group>
     </div>
   );
-}
+});
 
 // ─── Multiple choice / True-false renderer ──────────────────────────────
-function ChoiceQuestion({
+const ChoiceQuestion = memo(function ChoiceQuestion({
   question,
   selectedOption,
   onSelect,
@@ -230,19 +230,19 @@ function ChoiceQuestion({
       ))}
     </div>
   );
-}
+});
 
 // ─── Code snippet display ───────────────────────────────────────────────
-function QuestionCodeSnippet({ code }: { code: string }) {
+const QuestionCodeSnippet = memo(function QuestionCodeSnippet({ code }: { code: string }) {
   return (
     <pre className="mb-4 p-4 rounded-xl bg-dark-900 border border-dark-700 overflow-x-auto text-sm">
       <code className="text-dark-200 font-mono">{code}</code>
     </pre>
   );
-}
+});
 
 // ─── Question type badge ────────────────────────────────────────────────
-function QuestionTypeBadge({ type }: { type: QuizQuestionType }) {
+const QuestionTypeBadge = memo(function QuestionTypeBadge({ type }: { type: QuizQuestionType }) {
   const labels: Record<QuizQuestionType, { text: string; icon: React.ReactNode }> = {
     'multiple-choice': { text: 'Multiple Choice', icon: <HelpCircle className="w-3 h-3" /> },
     'true-false': { text: 'True / False', icon: <Zap className="w-3 h-3" /> },
@@ -255,7 +255,7 @@ function QuestionTypeBadge({ type }: { type: QuizQuestionType }) {
       {label.text}
     </span>
   );
-}
+});
 
 // ═════════════════════════════════════════════════════════════════════════
 // Main ChapterQuiz component

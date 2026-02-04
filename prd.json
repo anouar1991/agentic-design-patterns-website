@@ -899,7 +899,7 @@
       "name": "React component memoization: expensive renders optimized with React.memo and useMemo",
       "intent": "Prevent unnecessary re-renders in component-heavy pages like chapter views with diagrams, code blocks, and quizzes",
       "description": "Profile React rendering with React DevTools or why-did-you-render. Apply React.memo to heavy pure components (diagram nodes, code blocks, chapter cards). Use useMemo for expensive computations (search indexing, quiz score calculation). Use useCallback for event handlers passed as props.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-700"
       ],
@@ -1278,7 +1278,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-730",
+    "recommendedNextStepId": "T-740",
     "history": [
       "T-100",
       "T-101",
@@ -1309,7 +1309,8 @@
       "T-600",
       "T-700",
       "T-710",
-      "T-720"
+      "T-720",
+      "T-730"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

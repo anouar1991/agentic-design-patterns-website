@@ -9,7 +9,7 @@
  * - Related concepts list
  */
 
-import { useEffect, useCallback, useRef } from 'react';
+import { memo, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Code, BookOpen, ArrowRight, Lightbulb, Sparkles } from 'lucide-react';
 import { useDiagram } from '../../contexts/DiagramContext';
@@ -40,7 +40,7 @@ const roleDescriptions: Record<NodeRole, string> = {
   memory: 'Stores and retrieves contextual information',
 };
 
-export default function NodeDetailPanel() {
+const NodeDetailPanel = memo(function NodeDetailPanel() {
   const {
     selectedNode,
     isDetailPanelOpen,
@@ -263,4 +263,6 @@ export default function NodeDetailPanel() {
       )}
     </AnimatePresence>
   );
-}
+});
+
+export default NodeDetailPanel;

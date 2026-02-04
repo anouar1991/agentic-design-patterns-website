@@ -10,7 +10,7 @@
  * - Keyboard shortcuts (Escape to clear selection)
  */
 
-import { useMemo, useEffect, useCallback, useState } from 'react';
+import { memo, useMemo, useEffect, useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ReactFlow,
@@ -44,7 +44,7 @@ interface InteractiveDiagramProps {
 }
 
 // Custom zoom controls component (needs to be inside ReactFlowProvider)
-function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
+const CustomZoomControls = memo(function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const [zoomLevel, setZoomLevel] = useState(100);
 
@@ -96,7 +96,7 @@ function CustomZoomControls({ chapterColor }: { chapterColor: string }) {
       </button>
     </div>
   );
-}
+});
 
 function InteractiveDiagramInner({
   diagramNodes,

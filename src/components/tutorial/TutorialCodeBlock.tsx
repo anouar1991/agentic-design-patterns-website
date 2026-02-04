@@ -5,7 +5,7 @@
  * Terms are highlighted and show a tooltip on hover.
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, Check, HelpCircle } from 'lucide-react';
 import { codeTerms, type CodeTerm } from '../../data/codeTerms';
@@ -210,7 +210,7 @@ function tokenizeCode(code: string, highlightTerms?: string[]): CodeToken[][] {
   return result;
 }
 
-export default function TutorialCodeBlock({
+const TutorialCodeBlock = memo(function TutorialCodeBlock({
   code,
   language = 'python',
   chapterColor = '#f59e0b',
@@ -436,4 +436,6 @@ export default function TutorialCodeBlock({
       />
     </>
   );
-}
+});
+
+export default TutorialCodeBlock;

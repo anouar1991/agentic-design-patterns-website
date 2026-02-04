@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
+import { memo, useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, BookOpen, Code2, ArrowRight } from 'lucide-react'
@@ -103,7 +103,7 @@ function search(query: string): SearchItem[] {
 
 // ─── Type Badge Component ─────────────────────────────────────────
 
-function TypeBadge({ type }: { type: SearchItem['type'] }) {
+const TypeBadge = memo(function TypeBadge({ type }: { type: SearchItem['type'] }) {
   const config = {
     chapter: { label: 'Chapter', bg: 'bg-primary-500/20', text: 'text-primary-300', icon: BookOpen },
     codeTerm: { label: 'Code', bg: 'bg-emerald-500/20', text: 'text-emerald-300', icon: Code2 },
@@ -117,11 +117,11 @@ function TypeBadge({ type }: { type: SearchItem['type'] }) {
       {c.label}
     </span>
   )
-}
+});
 
 // ─── Highlight matched text ───────────────────────────────────────
 
-function HighlightText({ text, query }: { text: string; query: string }) {
+const HighlightText = memo(function HighlightText({ text, query }: { text: string; query: string }) {
   if (!query.trim()) return <>{text}</>
   const idx = text.toLowerCase().indexOf(query.toLowerCase())
   if (idx === -1) return <>{text}</>
@@ -132,7 +132,7 @@ function HighlightText({ text, query }: { text: string; query: string }) {
       {text.slice(idx + query.length)}
     </>
   )
-}
+});
 
 // ─── Modal Component ──────────────────────────────────────────────
 

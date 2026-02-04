@@ -5,7 +5,7 @@
  * If this is the first appearance of a concept, shows a more detailed explanation.
  */
 
-import { useState, type ReactNode } from 'react';
+import { memo, useState, type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ExternalLink, BookOpen } from 'lucide-react';
 import { concepts, isFirstAppearance } from '../data/concepts';
@@ -16,7 +16,7 @@ interface ConceptTooltipProps {
   children: ReactNode;
 }
 
-export default function ConceptTooltip({
+const ConceptTooltip = memo(function ConceptTooltip({
   conceptId,
   chapterNumber,
   children,
@@ -134,4 +134,6 @@ export default function ConceptTooltip({
       </AnimatePresence>
     </span>
   );
-}
+});
+
+export default ConceptTooltip;

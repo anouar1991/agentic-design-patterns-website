@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Target, CheckCircle2 } from 'lucide-react';
 import type { LearningObjective } from '../data/types';
@@ -7,7 +8,7 @@ interface LearningObjectivesProps {
   chapterColor: string;
 }
 
-export default function LearningObjectives({ objectives, chapterColor }: LearningObjectivesProps) {
+const LearningObjectives = memo(function LearningObjectives({ objectives, chapterColor }: LearningObjectivesProps) {
   if (!objectives || objectives.length === 0) {
     return null;
   }
@@ -45,4 +46,6 @@ export default function LearningObjectives({ objectives, chapterColor }: Learnin
       </ul>
     </motion.div>
   );
-}
+});
+
+export default LearningObjectives;

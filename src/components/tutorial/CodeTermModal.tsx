@@ -11,7 +11,7 @@
  * - Related links
  */
 
-import { useEffect, useRef, useCallback } from 'react';
+import { memo, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Lightbulb, Code, BookOpen, ArrowRight } from 'lucide-react';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -43,7 +43,7 @@ const typeColors: Record<CodeTerm['type'], { bg: string; text: string }> = {
   concept: { bg: 'bg-pink-500/20', text: 'text-pink-400' },
 };
 
-export default function CodeTermModal({
+const CodeTermModal = memo(function CodeTermModal({
   term,
   isOpen,
   onClose,
@@ -303,4 +303,6 @@ export default function CodeTermModal({
       )}
     </AnimatePresence>
   );
-}
+});
+
+export default CodeTermModal;

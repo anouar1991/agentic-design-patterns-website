@@ -9,7 +9,7 @@
  * - Glass morphism styling matching the design system
  */
 
-import { useState, useCallback } from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
@@ -52,7 +52,7 @@ const enhancedTheme = {
   },
 };
 
-export default function EnhancedCodeBlock({
+const EnhancedCodeBlock = memo(function EnhancedCodeBlock({
   code,
   language = 'python',
   title,
@@ -88,6 +88,27 @@ export default function EnhancedCodeBlock({
   const hasHighlight = highlightedLines !== null && highlightedLines !== undefined && highlightedLines.length >= 2;
   const hlStart = highlightedLines ? highlightedLines[0] : 0;
   const hlEnd = highlightedLines ? highlightedLines[1] : 0;
+
+  const lineProps = useCallback((lineNumber: number) => {
+    const isHighlighted =
+      hasHighlight &&
+      lineNumber >= hlStart &&
+      lineNumber <= hlEnd;
+    return {
+      style: {
+        display: 'block' as const,
+        backgroundColor: isHighlighted
+          ? `${chapterColor}15`
+          : 'transparent',
+        borderLeft: isHighlighted
+          ? `3px solid ${chapterColor}`
+          : '3px solid transparent',
+        paddingLeft: '0.5rem',
+        marginLeft: '-0.5rem',
+        transition: 'all 0.3s ease',
+      },
+    };
+  }, [hasHighlight, hlStart, hlEnd, chapterColor]);
 
   return (
     <div
@@ -175,26 +196,7 @@ export default function EnhancedCodeBlock({
             fontSize: '0.8rem',
             userSelect: 'none',
           }}
-          lineProps={(lineNumber) => {
-            const isHighlighted =
-              hasHighlight &&
-              lineNumber >= hlStart &&
-              lineNumber <= hlEnd;
-            return {
-              style: {
-                display: 'block',
-                backgroundColor: isHighlighted
-                  ? `${chapterColor}15`
-                  : 'transparent',
-                borderLeft: isHighlighted
-                  ? `3px solid ${chapterColor}`
-                  : '3px solid transparent',
-                paddingLeft: '0.5rem',
-                marginLeft: '-0.5rem',
-                transition: 'all 0.3s ease',
-              },
-            };
-          }}
+          lineProps={lineProps}
         >
           {code}
         </SyntaxHighlighter>
@@ -211,4 +213,6 @@ export default function EnhancedCodeBlock({
       )}
     </div>
   );
-}
+});
+
+export default EnhancedCodeBlock;

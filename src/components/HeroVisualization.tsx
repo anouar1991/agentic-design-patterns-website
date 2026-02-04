@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useReducedMotion } from 'framer-motion';
 
 interface Node {
@@ -50,7 +50,7 @@ const EDGES: Edge[] = [
   { from: 'tool', to: 'output', delay: 1.2 },
 ];
 
-function FlowParticle({ fromNode, toNode, delay }: { fromNode: Node; toNode: Node; delay: number }) {
+const FlowParticle = memo(function FlowParticle({ fromNode, toNode, delay }: { fromNode: Node; toNode: Node; delay: number }) {
   return (
     <circle r="1.5" fill={fromNode.color} opacity="0">
       <animateMotion
@@ -68,7 +68,7 @@ function FlowParticle({ fromNode, toNode, delay }: { fromNode: Node; toNode: Nod
       />
     </circle>
   );
-}
+});
 
 export default function HeroVisualization() {
   const prefersReducedMotion = useReducedMotion();
