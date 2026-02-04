@@ -1249,3 +1249,60 @@ This prevents `console.error` output when Supabase is simply not running (expect
 - Notebook paths in `website_data.json` reference `/home/noreddine/agentic-ai/Agentic_Design_Patterns/repo/notebooks/` (different from actual path)
 - The `RouteTransitionWrapper` uses CSS opacity transitions (not framer-motion) for route changes — do NOT reintroduce `AnimatePresence` around `<Outlet />`
 - Chapter sections have `id` attributes (`concepts`, `tutorial`, `code`, `quiz`) — hash links like `/chapter/3#quiz` scroll to the section
+
+## Header Audit (T-1100)
+
+### Component Architecture
+All header functionality lives in `src/components/Layout.tsx` (399 lines). Sub-components extracted:
+- `ThemeSwitcher.tsx` (84 lines) — Light/Dark/Auto dropdown
+- `SearchModal.tsx` (389 lines) — Cmd+K fuzzy search with portal
+- `UserMenu.tsx` (181 lines) — Auth-dependent dropdown
+- `LanguageSwitcher.tsx` (47 lines) — EN/AR toggle with RTL
+
+### Header Layout Structure
+```
+Fixed nav (z-50, glass effect, h-16)
+├── Logo (gradient box + glow, text hidden <sm)
+├── Desktop Nav (hidden <md, 6 links with animated active underline)
+├── Search Button (hidden <sm, opens SearchModal)
+├── Progress Pill (hidden <sm, conditional on hasProgress)
+├── ThemeSwitcher (always visible)
+├── LanguageSwitcher (always visible)
+├── UserMenu (conditional on auth config)
+├── GitHub Link (hidden <sm)
+└── Mobile Menu Button (hidden ≥md, hamburger↔X animation)
+```
+
+### Responsive Breakpoints
+| Breakpoint | Width | Effect |
+|-----------|-------|--------|
+| <640px (mobile) | Shows: logo icon, theme, lang, user, hamburger only |
+| ≥640px (sm) | Adds: logo text, search, progress, GitHub |
+| ≥768px (md) | Adds: desktop nav. Hides: hamburger/mobile menu |
+
+### Interactive Elements Catalog
+1. **Desktop nav links** — 6 links with Framer Motion animated underline (layoutId)
+2. **Search trigger** — Opens SearchModal via `useSearchShortcut()`, Cmd+K global shortcut
+3. **ThemeSwitcher** — Dropdown (light/dark/auto), persists to localStorage
+4. **LanguageSwitcher** — EN↔AR toggle, updates document dir/lang/class
+5. **UserMenu** — Auth dropdown with profile, progress, leaderboard, country, sign-out
+6. **GitHub link** — External link to repository
+7. **Mobile hamburger** — Toggles mobile menu panel with AnimatePresence
+8. **Mobile menu panel** — Contains: progress bar, all nav links, search, GitHub
+
+### Glass-Morphism (Already Exists)
+Nav uses `.glass` class: `bg-dark-800/50 backdrop-filter: blur(20px)` with `border-dark-700/40`.
+Light mode overrides to white-based glass. T-1110 should refine, not add from scratch.
+
+### Context Dependencies
+Layout.tsx consumes: `useTranslation`, `useProgress`, `useSearchShortcut`, `useLocation`.
+Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
+
+### Enhancement Opportunities for T-1110+
+- **Sticky/compact behavior** — Header is fixed but doesn't shrink on scroll (T-1120)
+- **Nav active indicator** — Exists but could be more prominent (T-1130)
+- **Search bar** — Currently a button, could be VS Code-style bar (T-1140)
+- **Progress bar** — Currently a pill, could be a thin bar at header bottom (T-1150)
+- **Mobile drawer** — Currently expand-in-place, could be slide-out drawer (T-1160)
+- **Breadcrumbs** — No breadcrumbs when inside a chapter (T-1170)
+- **Typography** — Logo subtitle could have better letter-spacing/weight

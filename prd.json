@@ -1700,13 +1700,436 @@
         "Verify service worker registers and logs correctly",
         "Verify all features work in production mode"
       ]
+    },
+    {
+      "id": "T-1100",
+      "name": "Header audit: current header structure, styles, and behavior documented",
+      "intent": "Understand exactly what the header currently does before making changes",
+      "description": "Read and document the current header component(s), their props, styles, responsive breakpoints, dark mode handling, and interactive elements (dark mode toggle, search, navigation links). Identify specific enhancement opportunities.",
+      "pass": true,
+      "dependencies": [],
+      "complexity": 1,
+      "requires": [
+        "Complete understanding of project structure",
+        "Dark mode toggle visible in header",
+        "Search modal opens with Cmd+K"
+      ],
+      "guarantees": [
+        "Header component structure fully documented",
+        "Current header limitations and enhancement opportunities identified",
+        "All header interactive elements cataloged"
+      ],
+      "validation": "Document review confirms all header elements, styles, and behaviors are captured",
+      "testLevel": "unit",
+      "actions": [
+        "Read the header component file(s) and all related styles",
+        "Read the navigation/sidebar components that interact with the header",
+        "Document current responsive breakpoints and mobile behavior",
+        "List all interactive elements: dark mode toggle, search trigger, nav links, mobile menu",
+        "Identify visual gaps: spacing, typography, alignment, hover states"
+      ]
+    },
+    {
+      "id": "T-1110",
+      "name": "Header visual redesign: refined layout with better spacing, typography, and glass-morphism effect",
+      "intent": "Give the header a premium, modern look that matches the enhanced visual theme",
+      "description": "Redesign the header with improved spacing, refined typography for the logo/brand area, a subtle glass-morphism or frosted-glass backdrop effect, and better visual separation from content. Ensure it works in both light and dark modes.",
+      "pass": false,
+      "dependencies": [
+        "T-1100"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Header component structure fully documented",
+        "Refined color palette with better contrast",
+        "Improved typography hierarchy",
+        "Smooth transition between modes",
+        "All components render correctly in dark mode"
+      ],
+      "guarantees": [
+        "Header has glass-morphism backdrop effect in both modes",
+        "Header typography is refined with proper font weights and sizing",
+        "Spacing between header elements is consistent and balanced",
+        "Header visually distinct from page content with subtle border or shadow",
+        "No regressions in dark mode header rendering"
+      ],
+      "validation": "Visual inspection of header on homepage and chapter pages in both light and dark modes shows refined design",
+      "testLevel": "unit",
+      "actions": [
+        "Add backdrop-filter blur and semi-transparent background to header",
+        "Refine logo/brand typography with proper font weight and letter-spacing",
+        "Adjust padding and gap values for balanced spacing",
+        "Add subtle bottom border or shadow for content separation",
+        "Verify dark mode applies correct glass-morphism colors",
+        "Test on homepage and at least one chapter page"
+      ]
+    },
+    {
+      "id": "T-1120",
+      "name": "Sticky header with scroll-aware behavior: header shrinks and gains shadow on scroll",
+      "intent": "Keep navigation accessible while maximizing content space when scrolling",
+      "description": "Make the header sticky with scroll-aware behavior: full size at top, compacts with shadow when user scrolls down. Use CSS transitions for smooth size change. Ensure this doesn't break existing layout or cause CLS.",
+      "pass": false,
+      "dependencies": [
+        "T-1110"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Header has glass-morphism backdrop effect in both modes",
+        "No layout shift during transitions",
+        "All animations use transform/opacity only",
+        "CLS under 0.1"
+      ],
+      "guarantees": [
+        "Header stays visible when scrolling down",
+        "Header compacts smoothly when user scrolls past threshold",
+        "Header returns to full size when scrolled back to top",
+        "No CLS caused by header size change",
+        "Smooth CSS transition on compact/expand"
+      ],
+      "validation": "Scroll down on any chapter page and verify header compacts with shadow; scroll to top and verify it expands back smoothly",
+      "testLevel": "unit",
+      "actions": [
+        "Add scroll event listener with throttle/requestAnimationFrame",
+        "Define compact header styles: reduced padding, smaller logo",
+        "Add CSS transition for height, padding, and box-shadow changes",
+        "Add spacer element or padding-top to prevent content jump when header becomes fixed",
+        "Test scroll behavior on homepage, chapter pages, and mobile"
+      ]
+    },
+    {
+      "id": "T-1130",
+      "name": "Header navigation links enhanced: active state indicator with animated underline",
+      "intent": "Make it immediately clear which section the user is viewing through the header nav",
+      "description": "Enhance header navigation links with an animated underline indicator that slides to the active link. Include smooth hover effects on non-active links. The indicator should animate position when navigating between pages.",
+      "pass": false,
+      "dependencies": [
+        "T-1110"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Active chapter highlighted with smooth transition",
+        "Header typography is refined with proper font weights and sizing",
+        "Smooth transitions on interactive elements"
+      ],
+      "guarantees": [
+        "Active navigation link has a visible animated underline",
+        "Underline slides smoothly between links on navigation",
+        "Non-active links have subtle hover effect",
+        "Active state correctly reflects current route",
+        "Animation respects prefers-reduced-motion"
+      ],
+      "validation": "Navigate between pages and verify the underline indicator slides to the correct link with smooth animation",
+      "testLevel": "unit",
+      "actions": [
+        "Add animated underline element positioned relative to the nav container",
+        "Calculate underline position and width based on active link",
+        "Use CSS transform for slide animation between links",
+        "Add hover opacity/color effect on non-active links",
+        "Add prefers-reduced-motion check to disable slide animation",
+        "Test across all navigable routes"
+      ]
+    },
+    {
+      "id": "T-1140",
+      "name": "Search trigger enhanced: prominent search bar in header with keyboard shortcut hint",
+      "intent": "Make search more discoverable and inviting directly from the header",
+      "description": "Replace or enhance the search trigger in the header with a more prominent search bar appearance (similar to VS Code or Spotlight style) showing a placeholder hint and the Cmd+K shortcut badge. Clicking it opens the existing search modal.",
+      "pass": false,
+      "dependencies": [
+        "T-1110"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Search modal opens with Cmd+K",
+        "Header has glass-morphism backdrop effect in both modes",
+        "Searches chapter titles and descriptions",
+        "Searches code terms"
+      ],
+      "guarantees": [
+        "Search bar visual is prominent in the header",
+        "Keyboard shortcut hint (Cmd+K / Ctrl+K) displayed in search bar",
+        "Clicking search bar opens existing search modal",
+        "Search bar adapts to compact header on scroll",
+        "Search bar styled correctly in both light and dark modes"
+      ],
+      "validation": "Verify search bar is visible in header with shortcut hint; click it to confirm modal opens; check dark mode styling",
+      "testLevel": "unit",
+      "actions": [
+        "Create search bar trigger component with placeholder text and shortcut badge",
+        "Style with subtle border, rounded corners, and muted placeholder text",
+        "Wire click handler to open existing search modal",
+        "Detect OS for correct modifier key display (Cmd vs Ctrl)",
+        "Add compact variant for scrolled header state",
+        "Verify dark mode colors and contrast"
+      ]
+    },
+    {
+      "id": "T-1150",
+      "name": "Progress indicator in header: overall course progress bar visible at all times",
+      "intent": "Motivate learners by showing their overall progress persistently",
+      "description": "Add a thin, subtle progress bar at the bottom edge of the header showing overall course completion percentage. It reads from the existing localStorage progress data. Color matches the chapter accent colors as a gradient.",
+      "pass": false,
+      "dependencies": [
+        "T-1110"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Chapter completion persists across page reloads",
+        "Progress indicators visible for each chapter",
+        "Navigation shows progress state",
+        "Features degrade gracefully: app works without persistence"
+      ],
+      "guarantees": [
+        "Thin progress bar visible at bottom of header",
+        "Progress percentage calculated from completed chapters",
+        "Progress bar updates when chapter is completed",
+        "Gradient color follows chapter accent colors",
+        "Degrades gracefully when localStorage unavailable"
+      ],
+      "validation": "Complete a chapter quiz and verify the header progress bar updates; reload page and verify it persists",
+      "testLevel": "combination",
+      "actions": [
+        "Create ProgressBar component that reads chapter completion from localStorage/context",
+        "Calculate completion percentage from total chapters vs completed",
+        "Render thin bar (2-3px) at header bottom with gradient fill",
+        "Add smooth width transition on percentage change",
+        "Handle localStorage unavailable with 0% default",
+        "Test persistence across page reloads"
+      ]
+    },
+    {
+      "id": "T-1160",
+      "name": "Mobile header enhanced: hamburger menu with slide-out drawer and gesture support",
+      "intent": "Provide a polished mobile navigation experience from the header",
+      "description": "Enhance the mobile header with a refined hamburger menu icon that animates to an X on open, a slide-out navigation drawer with smooth animation, and swipe-to-close gesture support. Include all nav items, search, dark mode toggle, and progress in the drawer.",
+      "pass": false,
+      "dependencies": [
+        "T-1120",
+        "T-1140",
+        "T-1150"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Mobile navigation works smoothly",
+        "Header stays visible when scrolling down",
+        "Search bar visual is prominent in the header",
+        "Progress percentage calculated from completed chapters",
+        "Responsive on mobile (simplified animation)"
+      ],
+      "guarantees": [
+        "Hamburger icon animates to X when menu opens",
+        "Navigation drawer slides in from the right with smooth animation",
+        "Drawer contains all nav links, search trigger, dark mode toggle, and progress",
+        "Swipe right gesture closes the drawer",
+        "Backdrop overlay dims content when drawer is open",
+        "Body scroll is locked when drawer is open"
+      ],
+      "validation": "On mobile viewport: tap hamburger, verify drawer slides in with animated icon; swipe to close; verify all interactive elements in drawer work",
+      "testLevel": "combination",
+      "actions": [
+        "Create animated hamburger icon with CSS transitions (three lines to X)",
+        "Build slide-out drawer component with transform-based animation",
+        "Add backdrop overlay with opacity transition",
+        "Implement touch/swipe gesture detection for close",
+        "Lock body scroll when drawer is open",
+        "Include nav links, search bar, dark mode toggle, and progress bar in drawer",
+        "Test on multiple mobile viewport sizes"
+      ]
+    },
+    {
+      "id": "T-1170",
+      "name": "Header breadcrumb enhanced: animated breadcrumb with chapter icon and transition",
+      "intent": "Improve wayfinding when inside chapter content",
+      "description": "Enhance the breadcrumb display in the header when viewing a chapter. Show a small chapter icon, animate the breadcrumb text entry when navigating to a new chapter, and add a clickable back arrow to return to the chapter list. The breadcrumb should smoothly collapse in compact header mode.",
+      "pass": false,
+      "dependencies": [
+        "T-1120",
+        "T-1130"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Breadcrumbs show current location clearly",
+        "Header compacts smoothly when user scrolls past threshold",
+        "Active navigation link has a visible animated underline",
+        "Back navigation feels natural"
+      ],
+      "guarantees": [
+        "Breadcrumb shows chapter icon and name when inside a chapter",
+        "Breadcrumb text animates in on chapter navigation",
+        "Back arrow returns to chapter list",
+        "Breadcrumb collapses gracefully in compact header",
+        "Works correctly with browser back/forward"
+      ],
+      "validation": "Navigate to a chapter page and verify breadcrumb appears with icon and animation; click back arrow to return to chapter list; verify compact mode collapses breadcrumb",
+      "testLevel": "unit",
+      "actions": [
+        "Add chapter icon (emoji or SVG) to breadcrumb based on chapter data",
+        "Animate breadcrumb text entry with opacity and translateX",
+        "Add clickable back arrow/chevron before breadcrumb",
+        "Define compact breadcrumb styles for scrolled state",
+        "Ensure breadcrumb updates correctly on route change",
+        "Test browser back/forward breadcrumb state"
+      ]
+    },
+    {
+      "id": "T-1180",
+      "name": "Header visual checkpoint: all header enhancements verified together in both modes",
+      "intent": "Ensure all header features work cohesively without conflicts",
+      "description": "Verify all header enhancements work together: glass-morphism, sticky/compact behavior, animated nav links, search bar, progress bar, breadcrumbs, and mobile drawer. Check both light and dark modes, various screen sizes, and rapid navigation.",
+      "pass": false,
+      "dependencies": [
+        "T-1130",
+        "T-1140",
+        "T-1150",
+        "T-1160",
+        "T-1170"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Header has glass-morphism backdrop effect in both modes",
+        "Header compacts smoothly when user scrolls past threshold",
+        "Active navigation link has a visible animated underline",
+        "Search bar visual is prominent in the header",
+        "Thin progress bar visible at bottom of header",
+        "Hamburger icon animates to X when menu opens",
+        "Breadcrumb shows chapter icon and name when inside a chapter"
+      ],
+      "guarantees": [
+        "All header features work together without visual conflicts",
+        "Dark mode renders all header elements correctly",
+        "Compact header shows all elements proportionally",
+        "Mobile drawer contains all interactive elements",
+        "No layout shifts during any header interaction",
+        "No console errors from header components"
+      ],
+      "validation": "Navigate through all pages in both modes at desktop and mobile widths; scroll up and down; open search, toggle dark mode, use mobile drawer; verify zero console errors",
+      "testLevel": "integration",
+      "actions": [
+        "Test full navigation flow on desktop in light mode",
+        "Test full navigation flow on desktop in dark mode",
+        "Test full navigation flow on mobile in both modes",
+        "Verify scroll compact/expand with all features active",
+        "Rapid-navigate between chapters checking for jank or state issues",
+        "Check browser console for errors across all routes"
+      ]
+    },
+    {
+      "id": "T-1190",
+      "name": "Header accessibility verified: keyboard navigation, ARIA, focus management, and screen reader",
+      "intent": "Ensure the enhanced header is fully accessible",
+      "description": "Audit and fix accessibility on all new header features: skip-to-content link, proper ARIA roles and labels on the mobile drawer, focus trapping in drawer, keyboard-operable search bar trigger, and proper heading hierarchy. Verify with screen reader narration flow.",
+      "pass": false,
+      "dependencies": [
+        "T-1180"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All header features work together without visual conflicts",
+        "All interactive elements have ARIA labels",
+        "Logical tab order throughout",
+        "Visible focus indicators on all interactive elements",
+        "Modal focus trapping works correctly"
+      ],
+      "guarantees": [
+        "Skip-to-content link is the first focusable element",
+        "Mobile drawer has proper ARIA role and label",
+        "Focus is trapped inside open mobile drawer",
+        "All header buttons have accessible labels",
+        "Tab order through header is logical",
+        "Screen reader announces header navigation correctly"
+      ],
+      "validation": "Tab through header elements verifying focus order; open mobile drawer and verify focus trap; use screen reader to confirm announcements",
+      "testLevel": "integration",
+      "actions": [
+        "Add skip-to-content link as first element in header",
+        "Add role=dialog and aria-label to mobile drawer",
+        "Implement focus trapping in mobile drawer",
+        "Add aria-expanded to hamburger button",
+        "Verify all buttons have aria-label or visible text",
+        "Test tab order across desktop and mobile",
+        "Verify with screen reader"
+      ]
+    },
+    {
+      "id": "T-1200",
+      "name": "Header performance verified: no jank, no CLS, animations at 60fps",
+      "intent": "Ensure header enhancements don't degrade performance",
+      "description": "Verify all header animations and scroll listeners perform well. Check that the scroll handler is properly throttled, glass-morphism doesn't cause paint storms, compact transitions are GPU-accelerated, and no CLS is introduced by sticky header.",
+      "pass": false,
+      "dependencies": [
+        "T-1180"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All header features work together without visual conflicts",
+        "All animations use transform/opacity only",
+        "No animation causes layout thrashing",
+        "CLS under 0.1",
+        "Lighthouse performance score >= 95"
+      ],
+      "guarantees": [
+        "Scroll handler uses requestAnimationFrame or throttle",
+        "Header compact animation runs at 60fps",
+        "No CLS from sticky header positioning",
+        "Glass-morphism backdrop-filter doesn't cause paint storms",
+        "Mobile drawer animation runs at 60fps",
+        "Lighthouse performance score maintained >= 95"
+      ],
+      "validation": "Run Lighthouse audit and verify performance score >= 95; use Chrome DevTools Performance tab to verify 60fps during scroll and drawer animations",
+      "testLevel": "integration",
+      "actions": [
+        "Profile scroll behavior in Chrome DevTools Performance tab",
+        "Verify requestAnimationFrame or throttle on scroll handler",
+        "Check for layout thrashing during compact transition",
+        "Measure FPS during mobile drawer open/close",
+        "Run Lighthouse on homepage and one chapter page",
+        "Verify CLS is still under 0.1"
+      ]
+    },
+    {
+      "id": "T-1210",
+      "name": "Production build verified: header enhancements build cleanly and work in production",
+      "intent": "Final verification that all header work is production-ready",
+      "description": "Build the production bundle and verify all header enhancements work correctly in the production build. Check for zero build warnings, correct CSS extraction, and all interactive features functioning.",
+      "pass": false,
+      "dependencies": [
+        "T-1190",
+        "T-1200"
+      ],
+      "complexity": 1,
+      "requires": [
+        "All header features work together without visual conflicts",
+        "Skip-to-content link is the first focusable element",
+        "Scroll handler uses requestAnimationFrame or throttle",
+        "Production build has zero errors and zero warnings",
+        "TypeScript compilation produces zero warnings",
+        "Vite build produces zero warnings"
+      ],
+      "guarantees": [
+        "Production build succeeds with zero errors and zero warnings",
+        "All header features work in production build",
+        "No console errors from header components in production",
+        "Header renders correctly on first load without flash",
+        "Platform remains deployment-ready with enhanced header"
+      ],
+      "validation": "npm run build succeeds with zero warnings; serve production build and verify all header features work with zero console errors",
+      "testLevel": "integration",
+      "actions": [
+        "Run npm run build and verify zero warnings",
+        "Serve production build with npx serve or similar",
+        "Navigate all routes checking header behavior",
+        "Verify dark mode toggle, search, progress, drawer all work",
+        "Check console for errors",
+        "Verify no flash of unstyled header on initial load"
+      ]
     }
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1020",
-    "completedAt": "2026-02-04T18:45:00Z",
-    "recommendedNextStepId": null,
+    "lastCompletedTaskId": "T-1100",
+    "completedAt": "2026-02-04T19:00:00Z",
+    "recommendedNextStepId": "T-1110",
     "history": [
       "T-780",
       "T-790",
@@ -1763,10 +2186,11 @@
       "T-990",
       "T-1000",
       "T-1010",
-      "T-1020"
+      "T-1020",
+      "T-1100"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
-    "extendedAt": "2026-02-04T12:59:48Z"
+    "extendedAt": "2026-02-04T19:58:03Z"
   }
 }
