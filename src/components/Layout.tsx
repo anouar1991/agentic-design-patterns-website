@@ -16,7 +16,7 @@ import {
   Sun,
   Monitor
 } from 'lucide-react'
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import AmbientBackground from './AmbientBackground'
 import RouteTransitionWrapper from './RouteTransitionWrapper'
@@ -59,6 +59,7 @@ interface MobileDrawerProps {
   completionPercentage: number
   openSearch: () => void
   t: (key: string) => string
+  triggerRef: React.RefObject<HTMLButtonElement | null>
 }
 
 function MobileDrawer({
@@ -71,9 +72,11 @@ function MobileDrawer({
   completionPercentage,
   openSearch,
   t,
+  triggerRef,
 }: MobileDrawerProps) {
   const { mode, setMode } = useTheme()
   const drawerRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const touchDeltaRef = useRef(0)
   const [dragging, setDragging] = useState(false)
@@ -98,6 +101,18 @@ function MobileDrawer({
     }
   }, [isOpen])
 
+  // Focus the close button when drawer opens, restore focus on close
+  useEffect(() => {
+    if (isOpen) {
+      // Small delay to let Framer Motion render the drawer first
+      const timer = setTimeout(() => closeButtonRef.current?.focus(), 50)
+      return () => clearTimeout(timer)
+    } else {
+      // Restore focus to the hamburger trigger
+      triggerRef.current?.focus()
+    }
+  }, [isOpen, triggerRef])
+
   // Close on Escape
   useEffect(() => {
     if (!isOpen) return
@@ -107,6 +122,30 @@ function MobileDrawer({
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
   }, [isOpen, onClose])
+
+  // Focus trap: cycle Tab within the drawer
+  const handleKeyDown = useCallback((e: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'Tab') return
+    const drawer = drawerRef.current
+    if (!drawer) return
+    const focusable = drawer.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )
+    if (focusable.length === 0) return
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+  }, [])
 
   // Touch/swipe gesture handlers
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -178,6 +217,7 @@ function MobileDrawer({
             exit={{ x: '100%' }}
             transition={dragging ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 35 }}
             className="fixed top-0 right-0 bottom-0 z-[70] w-[280px] max-w-[85vw] glass-header md:hidden flex flex-col overflow-y-auto overscroll-contain"
+            onKeyDown={handleKeyDown}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -191,6 +231,7 @@ function MobileDrawer({
                 <span className="text-sm font-semibold gradient-text">{t('header.title')}</span>
               </div>
               <button
+                ref={closeButtonRef}
                 onClick={onClose}
                 className="p-1.5 rounded-lg hover:bg-dark-700/50 transition-colors text-dark-400 hover:text-dark-50"
                 aria-label="Close menu"
@@ -320,6 +361,7 @@ export default function Layout() {
   const { completedChapters, completionPercentage, lastVisited } = useProgress()
   const { isSearchOpen, openSearch, closeSearch } = useSearchShortcut()
   const prefersReducedMotion = useReducedMotion()
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
   const hasProgress = completedChapters.length > 0 || !!lastVisited
   const navLinks = getNavLinks(t, hasProgress, lastVisited?.chapterId)
 
@@ -355,8 +397,16 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Skip to content link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary-500 focus:text-white focus:text-sm focus:font-medium focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-dark-900"
+      >
+        {t('nav.skipToContent', 'Skip to main content')}
+      </a>
+
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 glass-header header-transition ${isScrolled ? 'header-compact' : ''}`}>
+      <nav aria-label={t('nav.primary', 'Primary')} className={`fixed top-0 left-0 right-0 z-50 glass-header header-transition ${isScrolled ? 'header-compact' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex items-center justify-between header-transition overflow-hidden ${isScrolled ? 'h-12' : 'h-16'}`}>
             {/* Logo */}
@@ -483,6 +533,7 @@ export default function Layout() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hidden sm:flex items-center justify-center w-9 h-9 rounded-lg bg-dark-800/50 light:bg-white/80 hover:bg-dark-700 light:hover:bg-gray-100 transition-colors text-dark-300 light:text-gray-600 hover:text-dark-50"
+                aria-label={t('nav.viewOnGithub', 'View on GitHub')}
                 title={t('nav.github')}
               >
                 <Github className="w-4 h-4" />
@@ -490,6 +541,7 @@ export default function Layout() {
 
               {/* Mobile menu button - animated hamburger to X */}
               <button
+                ref={hamburgerRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors"
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -521,13 +573,14 @@ export default function Layout() {
         completionPercentage={completionPercentage}
         openSearch={openSearch}
         t={t}
+        triggerRef={hamburgerRef}
       />
 
       {/* Ambient Background - persistent across route changes */}
       <AmbientBackground />
 
       {/* Main Content */}
-      <main className="flex-1 pt-16">
+      <main id="main-content" className="flex-1 pt-16" tabIndex={-1}>
         <RouteTransitionWrapper />
       </main>
 
@@ -535,7 +588,7 @@ export default function Layout() {
       <SearchModal isOpen={isSearchOpen} onClose={closeSearch} />
 
       {/* Footer */}
-      <footer className="border-t border-dark-700/40 bg-dark-950/80 no-print">
+      <footer className="border-t border-dark-700/40 bg-dark-950/80 no-print" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">

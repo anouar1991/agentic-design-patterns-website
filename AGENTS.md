@@ -1354,3 +1354,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1180] GitHub link with text (100px) vs icon-only (36px) saves 64px in tight header layouts — use `title` attr for accessibility when removing visible text
 - [T-1180] Search bar trigger width is a significant contributor to header overflow — reducing from `w-56 lg:w-64` to `w-44 lg:w-52` freed ~48px without hurting usability (placeholder text truncates gracefully)
 - [T-1180] Supabase `ERR_CONNECTION_REFUSED` errors on leaderboard page are infrastructure-only (no local Supabase running) and should not block header verification — distinguish infrastructure errors from component errors during visual testing
+
+### Lessons Learned (T-1190)
+- [T-1190] Mobile drawer already had `role="dialog"`, `aria-modal`, `aria-label`, and `aria-expanded` on hamburger from T-1160 — accessibility audit confirmed these, only needed focus trap and skip-to-content additions
+- [T-1190] Focus trap in dialogs requires querying focusable elements (`a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])`) and intercepting Tab/Shift+Tab at first/last boundaries — wrap-around creates a cycle
+- [T-1190] Focus must move INTO the dialog on open (close button is ideal first target) and RESTORE to the trigger on close — using a `triggerRef` prop passed from parent to drawer enables clean restoration without global state
+- [T-1190] `sr-only` with `focus:not-sr-only` is the standard Tailwind pattern for skip-to-content links — visually hidden by default, revealed with full styling on keyboard focus. Must be the very first child in the DOM to be first in tab order
+- [T-1190] Framer Motion `AnimatePresence` delays DOM insertion — focus assignment to close button needs `setTimeout(…, 50)` to wait for the drawer element to exist in the DOM before calling `.focus()`
