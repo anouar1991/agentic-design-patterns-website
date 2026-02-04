@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import type { QuizAttempt, BestQuizScore } from '../lib/database.types'
+import { createLogger } from '../utils/logger'
+
+const log = createLogger('QuizAttempts')
 
 interface QuizAttemptData {
   chapterId: number
@@ -66,7 +69,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
       const errStr = JSON.stringify(err)
       const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
       if (!isNetworkError) {
-        console.error('Error fetching quiz attempts:', err)
+        log.error('Error fetching quiz attempts:', err)
       }
       setError(err instanceof Error ? err.message : 'Failed to fetch quiz attempts')
     } finally {
@@ -111,7 +114,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
       const errStr = JSON.stringify(err)
       const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
       if (!isNetworkError) {
-        console.error('Error fetching best quiz score:', err)
+        log.error('Error fetching best quiz score:', err)
       }
     }
   }, [isConfigured, user])
@@ -119,7 +122,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
   // Save a new quiz attempt
   const saveAttempt = useCallback(async (data: QuizAttemptData): Promise<QuizAttempt | null> => {
     if (!isConfigured || !user) {
-      console.log('Quiz attempt not saved: user not logged in or Supabase not configured')
+      log.debug('Quiz attempt not saved: user not logged in or Supabase not configured')
       return null
     }
 
@@ -135,7 +138,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
         })
 
       if (rpcError) {
-        console.warn('Could not get attempt number, using 1:', rpcError)
+        log.warn('Could not get attempt number, using 1:', rpcError)
       }
 
       const attemptNumber = attemptNum || 1
@@ -168,7 +171,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
       const errStr = JSON.stringify(err)
       const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
       if (!isNetworkError) {
-        console.error('Error saving quiz attempt:', err)
+        log.error('Error saving quiz attempt:', err)
       }
       setError(err instanceof Error ? err.message : 'Failed to save quiz attempt')
       return null

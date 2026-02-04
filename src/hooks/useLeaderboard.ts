@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
 import type { LeaderboardEntry } from '../lib/database.types'
+import { createLogger } from '../utils/logger'
+
+const log = createLogger('Leaderboard')
 
 interface UseLeaderboardOptions {
   countryFilter?: string | null
@@ -70,7 +73,7 @@ export function useLeaderboard({
       const errStr = JSON.stringify(err)
       const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('ERR_CONNECTION_REFUSED') || errStr.includes('NetworkError')
       if (!isNetworkError) {
-        console.error('Error fetching leaderboard:', err)
+        log.error('Error fetching leaderboard:', err)
       }
       const errMsg = err instanceof Error ? err.message : (typeof err === 'object' && err !== null && 'message' in err ? String((err as Record<string, unknown>).message) : 'Failed to fetch leaderboard')
       setError(isNetworkError ? 'Unable to connect to server' : errMsg)
@@ -108,7 +111,7 @@ export async function getUserRank(userId: string): Promise<LeaderboardEntry | nu
       const errStr = JSON.stringify(error)
       const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('ERR_CONNECTION_REFUSED') || errStr.includes('NetworkError')
       if (!isNetworkError) {
-        console.error('Error fetching user rank:', error)
+        log.error('Error fetching user rank:', error)
       }
       return null
     }

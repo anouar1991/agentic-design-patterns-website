@@ -1,5 +1,8 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
 import { safeGetJSON, safeSetJSON } from './storage'
+import { createLogger } from './logger'
+
+const log = createLogger('ProgressMerge')
 
 /**
  * Merge localStorage progress with cloud progress on first login
@@ -29,7 +32,7 @@ export async function mergeProgress(userId: string): Promise<number[]> {
     if (error) {
       const errStr = JSON.stringify(error)
       if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
-        console.error('Error fetching cloud progress:', error)
+        log.error('Error fetching cloud progress:', error)
       }
       return localChapters
     }
@@ -56,7 +59,7 @@ export async function mergeProgress(userId: string): Promise<number[]> {
       if (insertError) {
         const errStr = JSON.stringify(insertError)
         if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
-          console.error('Error syncing progress to cloud:', insertError)
+          log.error('Error syncing progress to cloud:', insertError)
         }
       }
     }
@@ -66,7 +69,7 @@ export async function mergeProgress(userId: string): Promise<number[]> {
 
     return mergedChapters
   } catch (err) {
-    console.error('Error merging progress:', err)
+    log.error('Error merging progress:', err)
     return getLocalProgress()
   }
 }
@@ -96,7 +99,7 @@ export async function syncChapterToCloud(
       if (error) {
         const errStr = JSON.stringify(error)
         if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
-          console.error('Error syncing chapter to cloud:', error)
+          log.error('Error syncing chapter to cloud:', error)
         }
       }
     } else {
@@ -110,12 +113,12 @@ export async function syncChapterToCloud(
       if (error) {
         const errStr = JSON.stringify(error)
         if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
-          console.error('Error removing chapter from cloud:', error)
+          log.error('Error removing chapter from cloud:', error)
         }
       }
     }
   } catch (err) {
-    console.error('Error syncing chapter:', err)
+    log.error('Error syncing chapter:', err)
   }
 }
 
@@ -136,14 +139,14 @@ export async function fetchCloudProgress(userId: string): Promise<number[]> {
     if (error) {
       const errStr = JSON.stringify(error)
       if (!errStr.includes('Failed to fetch') && !errStr.includes('NetworkError')) {
-        console.error('Error fetching cloud progress:', error)
+        log.error('Error fetching cloud progress:', error)
       }
       return []
     }
 
     return data?.map(p => p.chapter_id) || []
   } catch (err) {
-    console.error('Error fetching progress:', err)
+    log.error('Error fetching progress:', err)
     return []
   }
 }

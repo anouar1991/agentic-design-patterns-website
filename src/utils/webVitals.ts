@@ -1,4 +1,7 @@
 import type { Metric } from 'web-vitals';
+import { createLogger } from './logger';
+
+const log = createLogger('WebVitals');
 
 /**
  * Report handler that logs in dev and can be wired to analytics in production.
@@ -6,12 +9,11 @@ import type { Metric } from 'web-vitals';
 function sendToAnalytics(metric: Metric) {
   // In development, log to console for visibility
   if (import.meta.env.DEV) {
-    const label = `[Web Vitals] ${metric.name}`;
     const value =
       metric.name === 'CLS'
         ? metric.value.toFixed(3)
         : `${Math.round(metric.value)}ms`;
-    console.log(`${label}: ${value} (rating: ${metric.rating})`);
+    log.info(`${metric.name}: ${value} (rating: ${metric.rating})`);
   }
 
   // Production: replace with your analytics endpoint

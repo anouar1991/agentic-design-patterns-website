@@ -1233,6 +1233,11 @@ This prevents `console.error` output when Supabase is simply not running (expect
 - [T-1000] Vite 7's Lightning CSS minifier treats escaped colon selectors (`.rtl\:rotate-180`) as pseudo-class names and warns — use hyphenated class names (`rtl-rotate-180`) instead
 - [T-1000] TypeScript had zero warnings; the only build warnings were CSS optimization warnings from RTL utility class naming
 
+### Lessons Learned (T-1010)
+- [T-1010] Six files still had raw `console.*` calls after T-910 logger creation: useLeaderboard, useQuizAttempts, AuthContext, supabase.ts, webVitals.ts, progressMerge.ts — integration checkpoints catch what unit tasks miss
+- [T-1010] `console.log` for non-critical info (quiz not saved) should become `log.debug()` (suppressed in prod), not `log.info()` — choose the right level based on production visibility needs
+- [T-1010] The only acceptable raw `console.*` calls in the codebase should be in `logger.ts` itself — grep for `console\.(log|warn|error|debug|info)` excluding logger.ts to verify
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

@@ -2,6 +2,9 @@ import { createContext, useContext, useEffect, useState, useCallback, type React
 import type { User, Session, AuthError } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
 import type { Profile, ProfileUpdate } from '../lib/database.types'
+import { createLogger } from '../utils/logger'
+
+const log = createLogger('Auth')
 
 interface AuthContextType {
   // Auth state
@@ -48,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const errStr = JSON.stringify(error)
         const isNetworkError = errStr.includes('Failed to fetch') || errStr.includes('NetworkError')
         if (!isNetworkError) {
-          console.error('Error fetching profile:', error)
+          log.error('Error fetching profile:', error)
         }
         return
       }
