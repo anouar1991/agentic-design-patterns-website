@@ -1306,3 +1306,8 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - **Mobile drawer** — Currently expand-in-place, could be slide-out drawer (T-1160)
 - **Breadcrumbs** — No breadcrumbs when inside a chapter (T-1170)
 - **Typography** — Logo subtitle could have better letter-spacing/weight
+
+### Lessons Learned (T-1110)
+- [T-1110] Created dedicated `.glass-header` CSS class with stronger blur (24px vs 20px) and `saturate(1.3)` for richer glass-morphism — separating header glass from generic `.glass` avoids coupling header visual changes to all glass surfaces
+- [T-1110] `font-semibold` (600) + `tracking-tight` on headings gives a more refined look than `font-bold` (700); `tracking-wide` on small subtitle text improves readability
+- [T-1110] Both light and dark mode overrides needed: dark uses `bg-dark-900/70`, light uses `rgba(255,255,255,0.8)` — each with mode-appropriate shadow intensities

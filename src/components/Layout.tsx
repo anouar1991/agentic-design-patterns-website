@@ -58,7 +58,7 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-dark-700/30">
+      <nav className="fixed top-0 left-0 right-0 z-50 glass-header">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -70,13 +70,13 @@ export default function Layout() {
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-lg font-bold gradient-text">{t('header.title')}</h1>
-                <p className="text-xs text-dark-400">{t('header.subtitle')}</p>
+                <h1 className="text-lg font-semibold tracking-tight gradient-text">{t('header.title')}</h1>
+                <p className="text-[11px] text-dark-400 tracking-wide">{t('header.subtitle')}</p>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-0.5">
               {navLinks.map((link) => {
                 const Icon = link.icon
                 const isActive = location.pathname === link.to
