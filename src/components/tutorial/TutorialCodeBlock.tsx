@@ -302,7 +302,7 @@ const TutorialCodeBlock = memo(function TutorialCodeBlock({
 
       case 'comment':
         return (
-          <span key={index} className="text-dark-500 italic">
+          <span key={index} className="text-dark-400 italic">
             {token.content}
           </span>
         );
@@ -411,7 +411,7 @@ const TutorialCodeBlock = memo(function TutorialCodeBlock({
                     }}
                   >
                     <span
-                      className="select-none w-10 text-right pr-4 flex-shrink-0 text-dark-600"
+                      className="select-none w-10 text-right pr-4 flex-shrink-0 text-dark-400"
                       style={{ fontSize: '0.8rem', lineHeight: 'inherit' }}
                     >
                       {lineNum}

@@ -519,11 +519,12 @@ export default function Home() {
               <div className="glass rounded-2xl p-8 border border-dark-700">
                 <div className="grid grid-cols-5 gap-2">
                   {chapters.slice(0, 20).map((chapter) => {
-                    let phaseColor = '#10b981';
-                    if (chapter.num > 4 && chapter.num <= 7) phaseColor = '#3b82f6';
-                    if (chapter.num > 7 && chapter.num <= 11) phaseColor = '#8b5cf6';
-                    if (chapter.num > 11 && chapter.num <= 14) phaseColor = '#f59e0b';
-                    if (chapter.num > 14) phaseColor = '#ef4444';
+                    // WCAG AA accessible colors: all pass 4.5:1 contrast with white text
+                    let phaseColor = '#047857'; // emerald-700 (5.36:1)
+                    if (chapter.num > 4 && chapter.num <= 7) phaseColor = '#2563eb'; // blue-600 (5.17:1)
+                    if (chapter.num > 7 && chapter.num <= 11) phaseColor = '#7c3aed'; // violet-600 (5.70:1)
+                    if (chapter.num > 11 && chapter.num <= 14) phaseColor = '#b45309'; // amber-700 (5.02:1)
+                    if (chapter.num > 14) phaseColor = '#dc2626'; // red-600 (4.83:1)
 
                     return (
                       <motion.div

@@ -230,7 +230,7 @@ const NodeDetailPanel = memo(function NodeDetailPanel() {
                           initial={{ opacity: 0, x: 12 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.35 + i * 0.05, duration: 0.25 }}
-                          className="glass rounded-lg p-3 hover:bg-dark-700/50 transition-colors cursor-pointer"
+                          className="glass rounded-lg p-3"
                         >
                           <div className="text-sm font-medium text-dark-50">
                             {concept.name}

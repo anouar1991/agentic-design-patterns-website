@@ -250,7 +250,7 @@ const QuestionTypeBadge = memo(function QuestionTypeBadge({ type }: { type: Quiz
   };
   const label = labels[type];
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs text-dark-400 bg-dark-800 border border-dark-700 mb-4">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs text-dark-300 bg-dark-800 border border-dark-700 mb-4">
       {label.icon}
       {label.text}
     </span>

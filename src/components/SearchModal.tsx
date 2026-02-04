@@ -239,6 +239,9 @@ export default function SearchModal({ isOpen, onClose, onOpenCodeTerm }: SearchM
             exit={{ opacity: 0, scale: 0.96, y: -20 }}
             transition={{ duration: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
             className="fixed z-[101] top-[15vh] left-1/2 -translate-x-1/2 w-full max-w-xl"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Search chapters, code terms, and concepts"
           >
             <div className="mx-4 bg-dark-900 border border-dark-700/60 rounded-2xl shadow-2xl shadow-dark-950/50 overflow-hidden">
               {/* Search Input */}

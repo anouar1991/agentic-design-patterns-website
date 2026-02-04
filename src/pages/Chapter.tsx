@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -93,6 +93,7 @@ function ChapterContent() {
   const { t } = useTranslation();
   const { isRTL } = useLanguage();
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const chapterNum = parseInt(id || '1', 10);
   const { isChapterCompleted, markChapterComplete, toggleChapterComplete, setLastVisited } = useProgress();
   const { setScrollToCodeCallback, highlightedCodeLines } = useDiagram();
@@ -158,6 +159,36 @@ function ChapterContent() {
       setLastVisited(chapterNum);
     }
   }, [chapterNum, chapter, setLastVisited]);
+
+  // Scroll to hash fragment on initial load or cross-chapter navigation
+  useEffect(() => {
+    if (!location.hash || !chapter) return;
+    const targetId = location.hash.slice(1);
+    let cancelled = false;
+    let attempts = 0;
+    const maxAttempts = 30; // ~500ms of polling at 16ms/frame
+
+    const tryScroll = () => {
+      if (cancelled) return;
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      attempts++;
+      if (attempts < maxAttempts) {
+        requestAnimationFrame(tryScroll);
+      }
+    };
+
+    // Start polling after a brief delay for content to begin rendering
+    const timer = setTimeout(tryScroll, 150);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapterNum, location.hash]); // Re-run on chapter or hash change
 
   const handleQuizPass = useCallback(() => {
     markChapterComplete(chapterNum);
@@ -314,16 +345,17 @@ function ChapterContent() {
             <div className="lg:col-span-7 space-y-12">
               {/* Section 1: Key Concepts */}
               <motion.div
+                id="concepts"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
               >
                 <SectionIndicator number={1} title={t('chapter.sections.keyConcepts')} isActive />
                 <div className="glass rounded-xl p-6">
-                  <h3 className="flex items-center gap-2 text-lg font-semibold text-dark-50 mb-4">
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-dark-50 mb-4">
                     <BookOpen className="w-5 h-5 text-primary-400" />
                     {t('chapter.whatYoullLearn')}
-                  </h3>
+                  </h2>
                   <p className="text-sm text-dark-400 mb-4">{chapter.keyConceptsIntro}</p>
                   <ul className="space-y-3">
                     {chapter.keyConcepts.map((concept, index) => (
@@ -348,7 +380,7 @@ function ChapterContent() {
               {/* Section 2: Interactive Tutorial or Code Examples */}
               {chapter.tutorial && chapter.tutorial.length > 0 ? (
                 <>
-                  <div>
+                  <div id="tutorial">
                     <SectionIndicator number={2} title={t('chapter.sections.tutorial')} />
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -374,7 +406,7 @@ function ChapterContent() {
 
                   {/* Pattern Code Examples - For diagram node linking */}
                   {chapter.codeExamples.length > 0 && (
-                    <div className="mt-12">
+                    <div id="code" className="mt-12">
                       <SectionIndicator number={3} title={t('chapter.sections.completeCode')} />
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -417,7 +449,7 @@ function ChapterContent() {
                   )}
                 </>
               ) : chapter.codeExamples.length > 0 && (
-                <div>
+                <div id="code">
                   <SectionIndicator number={2} title={t('chapter.sections.implementation')} />
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -510,7 +542,7 @@ function ChapterContent() {
 
       {/* Quiz Section with Learning Objectives */}
       {chapter.quiz && (
-        <section className="py-16 border-t border-dark-800 bg-dark-900/50">
+        <section id="quiz" className="py-16 border-t border-dark-800 bg-dark-900/50">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionIndicator
               number={chapter.tutorial && chapter.codeExamples.length > 0 ? 4 : 3}
@@ -610,7 +642,7 @@ function ChapterContent() {
                     <ArrowLeft className="w-5 h-5 text-dark-400 group-hover:text-dark-50 transition-colors" />
                   )}
                   <div>
-                    <div className="text-xs text-dark-400">{t('chapter.previous')}</div>
+                    <div className="text-xs text-dark-300">{t('chapter.previous')}</div>
                     <div className="text-dark-50 font-medium">
                       {t('chaptersPage.ch')} {chapter.prevChapter}
                     </div>
@@ -642,7 +674,7 @@ function ChapterContent() {
                   }}
                 >
                   <div className={`${isRTL ? 'text-left' : 'text-right'}`}>
-                    <div className="text-xs text-dark-400">{t('chapter.next')}</div>
+                    <div className="text-xs text-dark-300">{t('chapter.next')}</div>
                     <div className="text-dark-50 font-medium">
                       {t('chaptersPage.ch')} {chapter.nextChapter}
                     </div>
