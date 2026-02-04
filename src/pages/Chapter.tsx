@@ -9,33 +9,15 @@ import {
   BookOpen,
   Code,
   FileCode,
-  GitBranch,
   Layers,
-  RefreshCw,
-  Wrench,
-  Map,
-  Users,
-  HardDrive,
-  TrendingUp,
-  Plug,
   Target,
-  AlertTriangle,
-  UserCheck,
-  Search,
-  MessageCircle,
-  Cpu,
-  Brain,
-  Shield,
-  Activity,
-  ListOrdered,
-  Compass,
-  Zap,
   CheckCircle,
   CheckCircle2,
   Circle,
   Clock,
   Sparkles,
 } from 'lucide-react';
+import { getChapterIcon } from '../utils/chapterIcons';
 import { chapterDetails } from '../data/chapters';
 import { useCallback, useState, useRef, useEffect, useMemo } from 'react';
 import { useProgress } from '../contexts/ProgressContext';
@@ -50,29 +32,7 @@ import ReadingProgressBar from '../components/ReadingProgressBar';
 import ChapterCelebration from '../components/ChapterCelebration';
 import ErrorBoundary from '../components/ErrorBoundary';
 
-const iconMap: Record<string, React.ElementType> = {
-  link: GitBranch,
-  'git-branch': GitBranch,
-  layers: Layers,
-  'refresh-cw': RefreshCw,
-  tool: Wrench,
-  map: Map,
-  users: Users,
-  'hard-drive': HardDrive,
-  'trending-up': TrendingUp,
-  plug: Plug,
-  target: Target,
-  'alert-triangle': AlertTriangle,
-  'user-check': UserCheck,
-  search: Search,
-  'message-circle': MessageCircle,
-  cpu: Cpu,
-  brain: Brain,
-  'shield-check': Shield,
-  activity: Activity,
-  'list-ordered': ListOrdered,
-  compass: Compass
-};
+// Chapter icon map is shared via utils/chapterIcons.ts
 
 // Section progress indicator component
 function SectionIndicator({ number, title, isActive }: { number: number; title: string; isActive?: boolean }) {
@@ -212,7 +172,7 @@ function ChapterContent() {
     );
   }
 
-  const Icon = iconMap[chapter.icon] || Zap;
+  const Icon = getChapterIcon(chapter.icon);
 
   return (
     <div className="min-h-screen">

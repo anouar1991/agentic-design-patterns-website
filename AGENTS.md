@@ -1342,3 +1342,9 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1160] Drawer z-index must be higher than backdrop (z-70 vs z-60) and both above header (z-50) — the drawer is a sibling of `<nav>`, not nested inside it, which avoids stacking context issues
 - [T-1160] Swipe-to-close uses `touchDelta > threshold` with real-time `transform` updates during drag (`transition: none`) then restores transition on touchEnd for snap-back animation
 - [T-1160] Extracting MobileDrawer as a separate function component (not a separate file) keeps related header logic colocated while reducing Layout's JSX complexity
+
+### Lessons Learned (T-1170)
+- [T-1170] When extracting a shared module (e.g., icon map) from a component, grep for ALL usages of the removed imports — some may be used both in the extracted map AND directly in the component JSX (e.g., `Target`, `Layers` were used outside `iconMap`)
+- [T-1170] `AnimatePresence mode="wait"` with `key={chapterNum}` triggers re-animation when navigating between chapters, not just appear/disappear — this gives each chapter transition a fresh slide-in effect
+- [T-1170] Breadcrumb compact mode uses shorter text (`Ch N` vs `Ch N: Title`) and tighter `max-w` constraints rather than hiding entirely — preserves wayfinding even when header is compact
+- [T-1170] Using `useNavigate()` for the back button (`navigate('/chapters')`) instead of `<Link>` gives a proper history entry; `useLocation().pathname` with regex match is the cleanest way to detect chapter routes without context/props

@@ -25,6 +25,7 @@ import { ThemeSwitcher } from './ThemeSwitcher'
 import { UserMenu } from './UserMenu'
 import SearchBarTrigger from './SearchBarTrigger'
 import HeaderProgressBar from './HeaderProgressBar'
+import HeaderBreadcrumb from './HeaderBreadcrumb'
 import { layoutIds } from '../config/motion'
 import { useProgress } from '../contexts/ProgressContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -371,6 +372,9 @@ export default function Layout() {
                 <p className={`text-[11px] text-dark-400 tracking-wide header-transition ${isScrolled ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'}`}>{t('header.subtitle')}</p>
               </div>
             </Link>
+
+            {/* Breadcrumb - visible on chapter pages */}
+            <HeaderBreadcrumb isCompact={isScrolled} />
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-0.5 relative">
