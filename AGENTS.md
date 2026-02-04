@@ -10,7 +10,7 @@ React 19 + Vite 7 + Tailwind CSS 4 learning platform for "Agentic Design Pattern
 - **Build**: Vite 7.2 with `@tailwindcss/vite` plugin
 - **Styling**: Tailwind CSS 4 with `@theme` directive in `index.css`
 - **Routing**: React Router DOM 7.12 (BrowserRouter)
-- **Animation**: Framer Motion 12.26 + GSAP 3.14
+- **Animation**: Framer Motion 12.26
 - **Diagrams**: @xyflow/react 12.10 (React Flow)
 - **Code Highlighting**: react-syntax-highlighter 16.1
 - **Icons**: lucide-react 0.562
@@ -830,6 +830,35 @@ Also removed corresponding light mode and print media overrides for deleted clas
 - [T-800] Custom CSS classes added speculatively during feature development (`.focus-mode`, `.reveal-section`, `.concept-highlight`, `.animated-border`) accumulate as dead code — periodic grep audits against `.tsx` files catch these
 - [T-800] Before removing a CSS class, check `.tsx`, `.ts` (data files may contain class names), and `.json` locale files — some classes could be applied dynamically from data. In this codebase, all dynamic class usage was in `.tsx` files
 - [T-800] Light mode overrides (`html.light .class`) and print media overrides (`@media print { .class }`) must be removed alongside the base class definition — orphaned overrides still add to CSS payload
+
+## Third-Party Script Audit (T-810)
+
+**Result: 1 unused dependency removed, @types package relocated to devDependencies**
+
+### Changes Made
+1. **Removed `gsap`** (6.4MB node_modules) — completely unused; zero imports in codebase. Framer Motion handles all animations.
+2. **Moved `@types/react-syntax-highlighter`** from `dependencies` to `devDependencies` — type packages are compile-time only, should never be in production dependencies.
+
+### Dependency Size Audit
+| Package | node_modules Size | Bundle Impact | Status |
+|---------|------------------|---------------|--------|
+| gsap | 6.4 MB | 0 (unused) | **Removed** |
+| lucide-react | 45 MB (disk) | 22KB/6.7KB br (tree-shaken) | Keep |
+| react-syntax-highlighter | 8.9 MB | 65KB/18.6KB br | Keep (PrismLight) |
+| framer-motion | 5.4 MB | 120KB/35.8KB br | Keep |
+| @supabase/supabase-js | 5.7 MB | Used in 7 files | Keep |
+| @xyflow/react | 4.4 MB | Used for diagrams | Keep |
+
+### Depcheck Results After Cleanup
+- `tailwindcss` flagged as unused devDep — **false positive** (used via `@tailwindcss/vite` plugin, not direct imports)
+- No unused production dependencies remain
+
+### Lessons Learned (T-810)
+
+- [T-810] `depcheck` produces false positives for packages consumed via build plugins (like `tailwindcss` via `@tailwindcss/vite`) — it scans for import statements, not plugin configuration references
+- [T-810] `gsap` (GreenSock) was likely added during initial development but never used — Framer Motion already covers all animation needs in this codebase. Unused animation libraries are common technical debt
+- [T-810] `lucide-react` is 45MB on disk but only 6.7KB brotli in the bundle — ES module tree-shaking eliminates unused icons effectively. The node_modules size is misleading for tree-shakeable packages
+- [T-810] `@types/*` packages in `dependencies` instead of `devDependencies` don't affect the production bundle (TypeScript types are erased at build time) but they signal incorrect dependency classification and may confuse auditing tools
 
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
