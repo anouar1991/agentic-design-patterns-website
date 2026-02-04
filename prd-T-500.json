@@ -228,7 +228,7 @@
       "name": "Final verification: all parent guarantees satisfied",
       "intent": "Comprehensive final check proving all parent task guarantees are met",
       "description": "Run a full end-to-end verification covering all parent guarantees: all features work across all chapters, no chapter-specific bugs remain, dark mode is consistent, search indexes everything, and no console errors exist.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-500-200",
         "T-500-300",
@@ -267,7 +267,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-500-900",
-    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500", "T-500-600", "T-500-700", "T-500-800"]
+    "recommendedNextStepId": null,
+    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500", "T-500-600", "T-500-700", "T-500-800", "T-500-900"]
   }
 }
