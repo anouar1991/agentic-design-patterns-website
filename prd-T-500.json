@@ -174,7 +174,7 @@
       "name": "Print styles work for all chapters",
       "intent": "Verify print-friendly styles render correctly for every chapter's study materials",
       "description": "Trigger print preview or generate print output for each chapter and verify the print styles apply correctly without layout issues.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-500-100"
       ],
@@ -267,7 +267,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-500-700",
-    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500", "T-500-600"]
+    "recommendedNextStepId": "T-500-800",
+    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500", "T-500-600", "T-500-700"]
   }
 }

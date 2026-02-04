@@ -398,6 +398,22 @@ Issues found and fixed:
 - React Flow diagram nodes (`<g role="group">`) receive focus but lack outline — this is React Flow's internal wrapper; the inner `<div role="button">` nodes DO have visible outlines
 - No fixes needed — keyboard accessibility infrastructure from T-430 works correctly across all chapters
 
+## Print Styles Verification (T-500-700)
+
+**Result: All 21 chapters pass print media verification with zero issues**
+
+- Playwright `page.emulateMedia({ media: 'print' })` used for consistent testing across all chapters
+- Automated checks verified on every chapter:
+  - Navigation/header/footer hidden (display: none)
+  - Body background forced to white
+  - Gradient text resolved to solid dark color (no transparent `-webkit-text-fill-color`)
+  - Diagram column (`lg:col-span-5`) hidden
+  - Code blocks have visible borders and light background
+  - No elements overflow page width
+- Visual screenshot inspection of chapters 1, 5, 10, 15, 21 confirmed clean layout
+- Print CSS in `index.css:1041-1374` covers: page setup, color inversion, element hiding, code blocks, page breaks, gradient text fix, link URLs, and utility classes
+- No fixes needed — print styles from T-440 work correctly across all chapters
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
