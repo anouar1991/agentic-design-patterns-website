@@ -841,7 +841,7 @@
       "name": "Critical CSS inlined: above-the-fold styles load without render-blocking",
       "intent": "Eliminate render-blocking CSS to improve First Contentful Paint and LCP",
       "description": "Configure Vite to inline critical CSS for the initial viewport. Ensure the hero section, navigation, and homepage cards render without waiting for full stylesheet download. Use vite-plugin-critical or manual extraction.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-700"
       ],
@@ -1278,7 +1278,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-710",
+    "recommendedNextStepId": "T-720",
     "history": [
       "T-100",
       "T-101",
@@ -1307,7 +1307,8 @@
       "T-510",
       "T-600",
       "T-600",
-      "T-700"
+      "T-700",
+      "T-710"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

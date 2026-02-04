@@ -559,6 +559,23 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-700] Google Fonts are the second-largest network resource (193KB) despite the `media="print" onload` optimization from T-510 — the fonts themselves are large; subsetting to Latin would reduce significantly
 - [T-700] Previous T-510 desktop score was 91/100; current headless score of 47 reflects different throttling settings — the baseline comparison should use consistent Lighthouse config
 
+## Critical CSS (T-710)
+
+**Result: Critical CSS inlined in production HTML — prevents white flash / FOUC**
+
+- Custom Vite plugin (`vite-plugin-critical-css.ts`) injects `<style data-critical>` in `closeBundle` hook
+- Hand-crafted critical CSS (~1KB) covers: `:root` theme variables, `html`/`body` base styles, light mode overrides, `#root` layout skeleton
+- Full `<link rel="stylesheet">` preserved after the inline block for all remaining styles
+- Validation: `grep -c '<style' dist/index.html` returns 1
+
+### Lessons Learned (T-710)
+
+- [T-710] For SPAs with Tailwind CSS v4, hand-crafted critical CSS is more reliable than automated extraction tools (like `rollup-plugin-critical` / `critical` library) — Tailwind v4's `@layer` structure and minified output makes regex-based extraction fragile
+- [T-710] The most important critical CSS for a dark-themed SPA is the body background color and text color — prevents the jarring white flash before the full CSS loads
+- [T-710] Vite's `closeBundle` hook runs after all assets are emitted, making it ideal for post-processing the built `index.html` — no need for complex `generateBundle` or `transformIndexHtml` hooks
+- [T-710] The `<style data-critical>` tag must appear BEFORE the `<link rel="stylesheet">` in the HTML head — this ensures inline styles take effect before the full stylesheet is parsed
+- [T-710] Including `html.light` overrides in critical CSS handles both dark (default) and light theme users without FOUC — the ThemeContext adds the class before React hydrates
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
