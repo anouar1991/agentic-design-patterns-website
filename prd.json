@@ -805,12 +805,480 @@
         "Verify no console errors",
         "Final visual inspection"
       ],
-      "expanding": true
+      "subPrdCompleted": true
+    },
+    {
+      "id": "T-700",
+      "name": "Performance audit baseline: Lighthouse and bundle analysis captured with specific bottlenecks identified",
+      "intent": "Establish measurable baseline before optimizing so improvements can be verified",
+      "description": "Run Lighthouse audit on production build, capture bundle analysis with source-map-explorer or rollup-plugin-visualizer, identify largest chunks, slowest resources, and Core Web Vitals (LCP, FID, CLS) scores. Document specific bottlenecks.",
+      "pass": true,
+      "dependencies": [
+        "T-600"
+      ],
+      "complexity": 1,
+      "requires": [
+        "Production build succeeds with no errors",
+        "Lighthouse performance score > 90"
+      ],
+      "guarantees": [
+        "Baseline Lighthouse scores documented",
+        "Bundle composition analyzed with chunk sizes",
+        "Top 5 performance bottlenecks identified"
+      ],
+      "validation": "npx vite build && npx vite preview & sleep 3 && npx lighthouse http://localhost:4173 --output=json --quiet | jq '.categories.performance.score'",
+      "testLevel": "unit",
+      "actions": [
+        "Build production bundle",
+        "Run bundle visualizer to identify largest chunks",
+        "Run Lighthouse on production preview",
+        "Document LCP, FID/INP, CLS scores",
+        "Identify top 5 bottlenecks by impact"
+      ]
+    },
+    {
+      "id": "T-710",
+      "name": "Critical CSS inlined: above-the-fold styles load without render-blocking",
+      "intent": "Eliminate render-blocking CSS to improve First Contentful Paint and LCP",
+      "description": "Configure Vite to inline critical CSS for the initial viewport. Ensure the hero section, navigation, and homepage cards render without waiting for full stylesheet download. Use vite-plugin-critical or manual extraction.",
+      "pass": false,
+      "dependencies": [
+        "T-700"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Baseline Lighthouse scores documented",
+        "Production build succeeds with no errors"
+      ],
+      "guarantees": [
+        "Critical CSS is inlined in HTML head",
+        "FCP improved or maintained vs baseline",
+        "No visual flash of unstyled content"
+      ],
+      "validation": "npx vite build && grep -c '<style' dist/index.html && echo 'Critical CSS inlined'",
+      "testLevel": "unit",
+      "actions": [
+        "Identify above-the-fold CSS for homepage",
+        "Configure critical CSS extraction in Vite build",
+        "Verify inlined styles in built HTML",
+        "Test that page renders correctly without external CSS loaded",
+        "Verify no FOUC in production build"
+      ]
+    },
+    {
+      "id": "T-720",
+      "name": "Font loading optimized: font-display swap, preload, and subset applied",
+      "intent": "Fonts are often the largest render-blocking resource; optimizing them directly improves LCP",
+      "description": "Add font-display: swap to all @font-face declarations. Preload the primary font files with <link rel='preload'>. If using Google Fonts or large font files, subset to Latin characters. Ensure no layout shift from font loading.",
+      "pass": false,
+      "dependencies": [
+        "T-700"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Baseline Lighthouse scores documented",
+        "Refined color palette with better contrast"
+      ],
+      "guarantees": [
+        "All fonts use font-display: swap",
+        "Primary fonts are preloaded",
+        "No CLS from font loading"
+      ],
+      "validation": "npx vite build && grep -r 'font-display' dist/ && grep 'preload.*font' dist/index.html",
+      "testLevel": "unit",
+      "actions": [
+        "Audit current font loading strategy",
+        "Add font-display: swap to all @font-face rules",
+        "Add preload links for critical fonts",
+        "Subset fonts if file sizes exceed 50KB",
+        "Verify no layout shift during font swap"
+      ]
+    },
+    {
+      "id": "T-730",
+      "name": "React component memoization: expensive renders optimized with React.memo and useMemo",
+      "intent": "Prevent unnecessary re-renders in component-heavy pages like chapter views with diagrams, code blocks, and quizzes",
+      "description": "Profile React rendering with React DevTools or why-did-you-render. Apply React.memo to heavy pure components (diagram nodes, code blocks, chapter cards). Use useMemo for expensive computations (search indexing, quiz score calculation). Use useCallback for event handlers passed as props.",
+      "pass": false,
+      "dependencies": [
+        "T-700"
+      ],
+      "complexity": 3,
+      "requires": [
+        "All features work across all chapters",
+        "Animations at 60fps",
+        "Top 5 performance bottlenecks identified"
+      ],
+      "guarantees": [
+        "Heavy components wrapped with React.memo",
+        "Expensive computations use useMemo",
+        "No unnecessary re-renders on state changes unrelated to component"
+      ],
+      "validation": "npx tsc --noEmit && npx vite build",
+      "testLevel": "combination",
+      "actions": [
+        "Profile rendering with React DevTools Profiler",
+        "Identify components re-rendering unnecessarily",
+        "Apply React.memo to diagram nodes, code blocks, chapter cards",
+        "Add useMemo to search index building and quiz calculations",
+        "Add useCallback to event handlers in parent components",
+        "Verify animations still run at 60fps after memoization"
+      ]
+    },
+    {
+      "id": "T-740",
+      "name": "Image optimization: WebP/AVIF conversion, responsive srcset, and lazy loading",
+      "intent": "Images (if any) and SVGs should be optimized for fast loading across devices",
+      "description": "Audit all image assets. Convert raster images to WebP with AVIF fallback. Add responsive srcset for different viewport sizes. Ensure all below-fold images use loading='lazy'. Optimize SVG assets with SVGO. Add explicit width/height to prevent CLS.",
+      "pass": false,
+      "dependencies": [
+        "T-700"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Bundle composition analyzed with chunk sizes"
+      ],
+      "guarantees": [
+        "All raster images converted to modern formats",
+        "Below-fold images lazy loaded",
+        "All images have explicit dimensions to prevent CLS"
+      ],
+      "validation": "npx vite build && find dist -name '*.png' -o -name '*.jpg' | wc -l",
+      "testLevel": "unit",
+      "actions": [
+        "Audit all image assets in src/ and public/",
+        "Configure vite-plugin-image-optimizer or similar",
+        "Add width/height attributes to all img elements",
+        "Verify lazy loading on below-fold images",
+        "Optimize SVG files with SVGO"
+      ]
+    },
+    {
+      "id": "T-750",
+      "name": "Bundle optimization: tree-shaking verified, dynamic imports for heavy dependencies",
+      "intent": "Reduce JavaScript payload by ensuring unused code is eliminated and heavy libraries load on demand",
+      "description": "Analyze bundle for tree-shaking effectiveness. Ensure Prism languages load dynamically (only needed languages). Check if Framer Motion is tree-shakeable or needs manual optimization. Split vendor chunks strategically. Set up manual chunk splitting in Vite config for optimal caching.",
+      "pass": false,
+      "dependencies": [
+        "T-700"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Route-based code splitting implemented",
+        "Heavy components lazy loaded",
+        "Bundle composition analyzed with chunk sizes"
+      ],
+      "guarantees": [
+        "Vendor chunks split for optimal caching",
+        "Unused Prism languages not in bundle",
+        "Total JS payload reduced from baseline",
+        "No single chunk exceeds 150KB gzipped"
+      ],
+      "validation": "npx vite build 2>&1 | tail -30 && du -sh dist/assets/*.js | sort -rh | head -10",
+      "testLevel": "unit",
+      "actions": [
+        "Analyze current chunk composition",
+        "Configure Vite manualChunks for vendor splitting",
+        "Ensure Prism language imports are dynamic",
+        "Verify Framer Motion tree-shaking",
+        "Check for duplicate dependencies across chunks",
+        "Verify no chunk exceeds 150KB gzipped"
+      ]
+    },
+    {
+      "id": "T-760",
+      "name": "Resource hints applied: preconnect, prefetch, and modulepreload for critical paths",
+      "intent": "Give the browser early hints about resources it will need, reducing waterfall delays",
+      "description": "Add preconnect hints for external origins (CDNs, font providers). Add prefetch for likely next navigations (next chapter). Use modulepreload for critical JS modules. Configure Vite to generate optimal preload directives.",
+      "pass": false,
+      "dependencies": [
+        "T-710",
+        "T-720"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Critical CSS is inlined in HTML head",
+        "Primary fonts are preloaded"
+      ],
+      "guarantees": [
+        "Preconnect hints set for external origins",
+        "Next chapter resources prefetched on hover",
+        "Critical modules use modulepreload"
+      ],
+      "validation": "npx vite build && grep -E 'preconnect|prefetch|modulepreload' dist/index.html | wc -l",
+      "testLevel": "unit",
+      "actions": [
+        "Identify external origins needing preconnect",
+        "Add preconnect links to index.html",
+        "Implement prefetch on chapter card hover for next route",
+        "Verify Vite generates modulepreload for entry chunks",
+        "Test that hints don't cause unnecessary downloads"
+      ]
+    },
+    {
+      "id": "T-770",
+      "name": "Animation performance hardened: GPU-accelerated transforms, will-change, and reduced motion",
+      "intent": "Ensure all animations use compositor-friendly properties and don't cause jank or high CPU usage",
+      "description": "Audit all CSS animations and Framer Motion animations. Replace any top/left/width/height animations with transform/opacity. Add will-change hints sparingly for known animated elements. Verify prefers-reduced-motion is respected everywhere. Ensure hero animation doesn't cause high GPU memory usage on mobile.",
+      "pass": false,
+      "dependencies": [
+        "T-730"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Animations at 60fps",
+        "Accessible (respects prefers-reduced-motion)",
+        "No unnecessary re-renders on state changes unrelated to component"
+      ],
+      "guarantees": [
+        "All animations use transform/opacity only",
+        "will-change applied to persistently animated elements",
+        "No animation causes layout thrashing",
+        "Mobile GPU memory usage reasonable"
+      ],
+      "validation": "grep -rn 'animate.*top\\|animate.*left\\|animate.*width\\|animate.*height' src/ || echo 'No layout-triggering animations found'",
+      "testLevel": "combination",
+      "actions": [
+        "Audit all Framer Motion animate props for layout-triggering properties",
+        "Audit CSS transitions and animations",
+        "Replace layout-triggering animations with transform equivalents",
+        "Add will-change to hero animation and diagram edges",
+        "Test on throttled CPU in DevTools",
+        "Verify prefers-reduced-motion disables all animations"
+      ]
+    },
+    {
+      "id": "T-780",
+      "name": "Service worker caching: offline-capable with runtime caching for static assets",
+      "intent": "Enable instant repeat visits and offline access to previously viewed chapters",
+      "description": "Add vite-plugin-pwa or workbox to implement a service worker. Cache static assets (JS, CSS, fonts) with cache-first strategy. Cache API/data responses with stale-while-revalidate. Add offline fallback page. Ensure cache invalidation works on new deployments.",
+      "pass": false,
+      "dependencies": [
+        "T-750",
+        "T-760"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Vendor chunks split for optimal caching",
+        "Critical modules use modulepreload",
+        "Production build succeeds with no errors"
+      ],
+      "guarantees": [
+        "Service worker registers on production build",
+        "Static assets cached for offline access",
+        "Repeat visits load from cache instantly",
+        "New deployments trigger cache update"
+      ],
+      "validation": "npx vite build && grep -r 'serviceWorker\\|workbox' dist/ && echo 'Service worker present'",
+      "testLevel": "integration",
+      "actions": [
+        "Install and configure vite-plugin-pwa",
+        "Define caching strategies per resource type",
+        "Configure precaching for critical assets",
+        "Add runtime caching for chapter data",
+        "Test offline access after initial visit",
+        "Verify cache update on new deployment"
+      ]
+    },
+    {
+      "id": "T-790",
+      "name": "Compression configured: gzip and Brotli pre-compression for all static assets",
+      "intent": "Reduce transfer size by 60-80% through pre-compression of static assets",
+      "description": "Configure Vite build to generate .gz and .br compressed versions of all static assets. Use vite-plugin-compression for Brotli (best ratio) and gzip (widest support). Verify compressed files are generated alongside originals.",
+      "pass": false,
+      "dependencies": [
+        "T-750"
+      ],
+      "complexity": 1,
+      "requires": [
+        "Total JS payload reduced from baseline"
+      ],
+      "guarantees": [
+        "Brotli-compressed files generated for all JS/CSS",
+        "Gzip-compressed files generated as fallback",
+        "Compressed assets at least 60% smaller than originals"
+      ],
+      "validation": "npx vite build && ls -la dist/assets/*.br 2>/dev/null | head -5 && echo 'Brotli files present'",
+      "testLevel": "unit",
+      "actions": [
+        "Install vite-plugin-compression",
+        "Configure Brotli compression for JS, CSS, HTML, SVG",
+        "Configure gzip compression as fallback",
+        "Verify compressed file sizes vs originals",
+        "Ensure source maps are not compressed"
+      ]
+    },
+    {
+      "id": "T-800",
+      "name": "CSS optimization: unused CSS purged and styles minified",
+      "intent": "Remove unused CSS rules that accumulate during development, reducing CSS payload",
+      "description": "Analyze CSS for unused rules across all routes. If using Tailwind, ensure purge is configured. For custom CSS, use PurgeCSS or similar. Verify that dynamic classes (dark mode, active states) are not accidentally purged. Minify final CSS output.",
+      "pass": false,
+      "dependencies": [
+        "T-710"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Critical CSS is inlined in HTML head",
+        "Dark mode consistent everywhere"
+      ],
+      "guarantees": [
+        "Unused CSS rules removed from production build",
+        "Dynamic classes preserved (dark mode, hover, active)",
+        "CSS payload reduced from baseline"
+      ],
+      "validation": "npx vite build && du -sh dist/assets/*.css | sort -rh | head -5",
+      "testLevel": "combination",
+      "actions": [
+        "Analyze CSS coverage using Chrome DevTools",
+        "Configure PurgeCSS with safelist for dynamic classes",
+        "Safelist dark mode, animation, and state-dependent classes",
+        "Verify all components render correctly after purge",
+        "Compare CSS file sizes before and after"
+      ]
+    },
+    {
+      "id": "T-810",
+      "name": "Third-party script audit: unused dependencies removed, heavy imports replaced",
+      "intent": "Remove or replace heavy third-party code that inflates bundle size",
+      "description": "Audit all npm dependencies for size impact. Identify if lighter alternatives exist for heavy packages. Check for duplicate packages in the dependency tree. Remove unused dependencies. Consider replacing heavy icon libraries with individual imports.",
+      "pass": false,
+      "dependencies": [
+        "T-750"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Bundle composition analyzed with chunk sizes",
+        "Total JS payload reduced from baseline"
+      ],
+      "guarantees": [
+        "No unused npm dependencies in production bundle",
+        "Heavy packages evaluated for lighter alternatives",
+        "No duplicate packages in bundle"
+      ],
+      "validation": "npx depcheck --ignores='@types/*' 2>/dev/null | head -20 && npx vite build",
+      "testLevel": "unit",
+      "actions": [
+        "Run depcheck to find unused dependencies",
+        "Analyze each dependency's size contribution",
+        "Check for lighter alternatives to heavy packages",
+        "Remove unused dependencies",
+        "Verify build still succeeds after removals"
+      ]
+    },
+    {
+      "id": "T-820",
+      "name": "Performance monitoring: Web Vitals reporting integrated",
+      "intent": "Enable ongoing performance measurement after deployment so regressions are caught",
+      "description": "Integrate web-vitals library to measure and report Core Web Vitals (LCP, FID/INP, CLS, FCP, TTFB) in production. Log metrics to console in development. Prepare reporting hook for analytics integration. Display performance badge in dev mode.",
+      "pass": false,
+      "dependencies": [
+        "T-700"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Baseline Lighthouse scores documented",
+        "No console errors on any page"
+      ],
+      "guarantees": [
+        "Core Web Vitals measured on every page load",
+        "Metrics logged in development mode",
+        "Reporting hook ready for analytics integration"
+      ],
+      "validation": "npx vite build && grep -r 'web-vitals\\|getCLS\\|getLCP\\|getFID' src/ && echo 'Web Vitals integrated'",
+      "testLevel": "unit",
+      "actions": [
+        "Install web-vitals package",
+        "Create performance reporting utility",
+        "Integrate reporting on app mount",
+        "Log metrics in dev, prepare send function for prod",
+        "Verify metrics are captured on navigation"
+      ]
+    },
+    {
+      "id": "T-830",
+      "name": "Rendering checkpoint: all optimizations verified together without regressions",
+      "intent": "Verify that combined optimizations don't conflict and all features still work",
+      "description": "Run full integration test: build production bundle, verify all routes load, check that memoization doesn't break interactivity, animations still work, dark mode functions, search works, and no console errors appear. Compare bundle sizes and Lighthouse scores against T-700 baseline.",
+      "pass": false,
+      "dependencies": [
+        "T-730",
+        "T-740",
+        "T-770",
+        "T-800"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Heavy components wrapped with React.memo",
+        "All raster images converted to modern formats",
+        "All animations use transform/opacity only",
+        "Unused CSS rules removed from production build",
+        "All features work across all chapters"
+      ],
+      "guarantees": [
+        "All features work after optimization",
+        "No visual regressions in any chapter",
+        "No console errors on any route",
+        "Bundle size reduced from baseline"
+      ],
+      "validation": "npx vite build && npx vite preview & sleep 3 && curl -s http://localhost:4173 | grep -c '<div' && echo 'All routes render'",
+      "testLevel": "integration",
+      "actions": [
+        "Build production bundle",
+        "Navigate all routes in production preview",
+        "Verify dark mode toggle works",
+        "Verify search finds content",
+        "Verify diagram interactions work",
+        "Verify quiz functionality",
+        "Check console for errors",
+        "Compare bundle size to T-700 baseline"
+      ]
+    },
+    {
+      "id": "T-840",
+      "name": "Final performance audit: Lighthouse scores improved and all Core Web Vitals pass",
+      "intent": "Prove that optimizations achieved measurable improvements over baseline",
+      "description": "Run final Lighthouse audit on fully optimized production build. Compare all scores against T-700 baseline. Verify Core Web Vitals (LCP < 2.5s, FID < 100ms, CLS < 0.1) all pass. Document improvements in each category. Ensure performance score >= 95.",
+      "pass": false,
+      "dependencies": [
+        "T-830",
+        "T-780",
+        "T-790",
+        "T-810",
+        "T-820"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All features work after optimization",
+        "Service worker registers on production build",
+        "Brotli-compressed files generated for all JS/CSS",
+        "No unused npm dependencies in production bundle",
+        "Core Web Vitals measured on every page load",
+        "Bundle size reduced from baseline"
+      ],
+      "guarantees": [
+        "Lighthouse performance score >= 95",
+        "LCP under 2.5 seconds",
+        "CLS under 0.1",
+        "All optimizations verified in production build",
+        "Performance improvement documented vs baseline"
+      ],
+      "validation": "npx vite build && npx vite preview & sleep 3 && npx lighthouse http://localhost:4173 --output=json --quiet | jq '.categories.performance.score'",
+      "testLevel": "integration",
+      "actions": [
+        "Build final production bundle",
+        "Run Lighthouse audit",
+        "Compare scores to T-700 baseline",
+        "Verify all Core Web Vitals pass thresholds",
+        "Document size reductions per optimization",
+        "Verify service worker caching works",
+        "Final visual regression check"
+      ]
     }
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": null,
+    "recommendedNextStepId": "T-710",
     "history": [
       "T-100",
       "T-101",
@@ -837,17 +1305,12 @@
       "T-500",
       "T-520",
       "T-510",
-      "T-600"
+      "T-600",
+      "T-600",
+      "T-700"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
-    "prdStack": [
-      {
-        "prdFile": "prd.json",
-        "expandingTaskId": "T-600",
-        "iterationAtSuspend": 36,
-        "suspendedAt": "2026-02-04T02:59:31+01:00"
-      }
-    ],
-    "activeSubPrdFile": "prd-T-600.json"
+    "prdStack": [],
+    "extendedAt": "2026-02-04T11:13:16Z"
   }
 }

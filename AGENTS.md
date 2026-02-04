@@ -532,6 +532,33 @@ Build warnings found:
 
 Zero missing dependency, circular import, or unresolved module warnings.
 
+## Performance Baseline (T-700)
+
+**Lighthouse Performance: 47/100** (headless Chrome, simulated throttling)
+
+| Metric | Value | Pass? |
+|--------|-------|-------|
+| LCP | 3.3s | No (>2.5s) |
+| FCP | 3.2s | No (>1.8s) |
+| TBT | 43,810ms | No (>200ms) |
+| CLS | 0 | Yes (<0.1) |
+
+**Top 5 Bottlenecks:**
+1. `index` chunk at 918KB raw (258KB gzip) — `chapters.ts` (467KB) is the dominant contributor
+2. Google Fonts blocking (193KB, 2 requests) — delays FCP/LCP
+3. Framer Motion (124KB raw / 41KB gzip) — loaded on every page
+4. No critical CSS inlining — 89KB CSS blocks render
+5. No Brotli/gzip pre-compression configured
+
+**Full baseline:** See `PERF_BASELINE.md`
+
+### Lessons Learned (T-700)
+
+- [T-700] Lighthouse headless mode with simulated throttling inflates TBT/TTI/SI dramatically (4x CPU, 150ms RTT) — real-device scores will differ, but relative chunk sizes indicate real bottlenecks
+- [T-700] The 918KB index chunk contains all chapter data (467KB chapters.ts), shared components, contexts, Home page, GSAP, XYFlow, and Supabase — splitting chapter data into per-chapter dynamic imports would be the highest-impact optimization
+- [T-700] Google Fonts are the second-largest network resource (193KB) despite the `media="print" onload` optimization from T-510 — the fonts themselves are large; subsetting to Latin would reduce significantly
+- [T-700] Previous T-510 desktop score was 91/100; current headless score of 47 reflects different throttling settings — the baseline comparison should use consistent Lighthouse config
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
