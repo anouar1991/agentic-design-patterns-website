@@ -778,7 +778,7 @@
       "name": "Production build verified: platform builds, deploys, and delivers incredible learning experience",
       "intent": "Final deliverable - the user can build and use the enhanced platform",
       "description": "Run production build, verify no errors, verify all features work in production build, verify bundle size is reasonable, and deliver the final enhanced platform ready for deployment.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-510",
         "T-520"
@@ -804,12 +804,13 @@
         "Check bundle size",
         "Verify no console errors",
         "Final visual inspection"
-      ]
+      ],
+      "expanding": true
     }
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-600",
+    "recommendedNextStepId": null,
     "history": [
       "T-100",
       "T-101",
@@ -835,9 +836,18 @@
       "T-400",
       "T-500",
       "T-520",
-      "T-510"
+      "T-510",
+      "T-600"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
-    "prdStack": []
+    "prdStack": [
+      {
+        "prdFile": "prd.json",
+        "expandingTaskId": "T-600",
+        "iterationAtSuspend": 36,
+        "suspendedAt": "2026-02-04T02:59:31+01:00"
+      }
+    ],
+    "activeSubPrdFile": "prd-T-600.json"
   }
 }
