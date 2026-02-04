@@ -714,6 +714,45 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-770] `animation-duration: 0.01ms` (not `0s`) in reduced-motion media query ensures `animationend`/`transitionend` events still fire — some JavaScript logic depends on these callbacks
 - [T-770] Framer Motion's `<MotionConfig reducedMotion="user">` handles JS-driven animations, but CSS animations need a separate `@media (prefers-reduced-motion: reduce)` block — both layers must be covered for full accessibility
 
+## Bundle Optimization (T-750)
+
+**Result: Main chunk reduced from 258KB → 64.6KB gzipped (75% reduction), all chunks under 150KB gzipped**
+
+### Chunk Composition (Before → After)
+
+| Chunk | Before (gzip) | After (gzip) | Change |
+|-------|--------------|--------------|--------|
+| index (main) | 258.03 KB | 64.59 KB | **-75%** |
+| data-chapters | (in index) | 100.67 KB | Split out |
+| data-codeterms | (in index) | 18.02 KB | Split out |
+| data-misc | (in index) | 3.24 KB | Split out |
+| app-i18n | (in index) | 12.69 KB | Split out |
+| Chapter (lazy) | 78.50 KB | 76.91 KB | -2% |
+| vendor-react | 16.67 KB | 75.45 KB | +react-i18next |
+| vendor-motion | 41.10 KB | 40.86 KB | ~same |
+| vendor-syntax | 19.77 KB | 21.48 KB | ~same |
+| vendor-i18n | 15.66 KB | 15.67 KB | ~same |
+
+### Optimizations Applied
+1. **Function-based `manualChunks`** — replaced object-based config for finer module-level control
+2. **Data layer split** — `chapters.ts` (467KB source), `codeTerms.ts` (72KB), `concepts.ts` (10KB) extracted into separate chunks
+3. **i18n locale split** — `src/i18n/` (locales + init) into `app-i18n` chunk
+4. **Circular dependency fix** — `react-i18next` grouped with `react` (same chunk) to avoid circular `vendor-i18n → vendor-react → vendor-i18n` resolution
+
+### Verified Conditions
+- ✅ PrismLight already used with dynamic language imports (python, bash, json only)
+- ✅ Framer Motion has `sideEffects: false` — tree-shaking works correctly
+- ✅ No single chunk exceeds 150KB gzipped (largest: `data-chapters` at 100.67KB)
+- ✅ TypeScript compiles with zero errors
+- ✅ Production build succeeds
+
+### Lessons Learned (T-750)
+
+- [T-750] Function-based `manualChunks(id)` is superior to object-based because it matches on resolved module paths — catches transitive dependencies that string array keys miss (e.g., `refractor` modules pulled in by react-syntax-highlighter)
+- [T-750] The biggest bundle bloat was `chapters.ts` (467KB source → ~375KB minified) being imported by eagerly-loaded `Home.tsx` — any module imported by a non-lazy component gets bundled into the main chunk
+- [T-750] `react-i18next` depends on `react`, so they must be in the same `manualChunks` group — otherwise Rollup detects a circular chunk dependency. The fix is to put the dependent package with its dependency, not the other way around
+- [T-750] PrismLight (`react-syntax-highlighter/dist/esm/light`) with selective `registerLanguage()` is already optimal — it loads only the Prism core (~30KB) plus specific language grammars, vs. full Prism which bundles ~200 languages
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
