@@ -1361,3 +1361,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1190] Focus must move INTO the dialog on open (close button is ideal first target) and RESTORE to the trigger on close — using a `triggerRef` prop passed from parent to drawer enables clean restoration without global state
 - [T-1190] `sr-only` with `focus:not-sr-only` is the standard Tailwind pattern for skip-to-content links — visually hidden by default, revealed with full styling on keyboard focus. Must be the very first child in the DOM to be first in tab order
 - [T-1190] Framer Motion `AnimatePresence` delays DOM insertion — focus assignment to close button needs `setTimeout(…, 50)` to wait for the drawer element to exist in the DOM before calling `.focus()`
+
+### Lessons Learned (T-1200)
+- [T-1200] Scroll handlers using `requestAnimationFrame` with a guard (`if (rafRef.current) return`) plus passive event listeners are the gold standard for 60fps scroll performance — Layout.tsx and ReadingProgressBar.tsx both implement this correctly
+- [T-1200] `box-shadow` transitions trigger paint (not composited) — removed from header-transition to avoid paint storms; `height` and `font-size` transitions kept at 200ms as they're essential for the compact header visual effect
+- [T-1200] `contain: layout style` on the fixed header isolates it from the rest of the paint tree, preventing backdrop-filter (glass-morphism) from causing paint storms in the main content area
+- [T-1200] CLS prevention requires: (1) fixed position header with explicit heights (`h-16`/`h-12`), (2) matching padding-top on main content (`pt-16`), (3) `overflow-hidden` during height transitions — verified CLS = 0 on both homepage and chapter pages
+- [T-1200] Lighthouse scores in constrained VM environments (headless Chrome with CPU throttling) produce artificially low scores (28-34) due to compounded CPU constraints — CLS and specific audit metrics are more reliable than the aggregate score in such environments
