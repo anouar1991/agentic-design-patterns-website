@@ -1335,3 +1335,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1150] Multi-stop gradient with all 21 chapter accent colors creates a "journey through the course" visual effect — as the bar grows, new chapter colors appear naturally
 - [T-1150] Return `null` for zero-progress state rather than rendering an empty/invisible bar — avoids unnecessary DOM elements and ARIA announcements for new users
 - [T-1150] `absolute bottom-0` on the progress bar inside the `fixed` nav works because fixed positioning establishes a containing block for absolutely-positioned children
+
+### Lessons Learned (T-1160)
+- [T-1160] Body scroll lock on mobile requires `position: fixed` + saving/restoring `scrollY` — `overflow: hidden` alone doesn't work on iOS Safari because of elastic scrolling
+- [T-1160] CSS hamburger animation (3 lines → X) uses `translateY` + `rotate` on `:nth-child` spans — middle line fades via `opacity: 0` and `scaleX(0)`, outer lines rotate ±45° and meet at center (7px offset = half of 16px icon height minus line thickness)
+- [T-1160] Drawer z-index must be higher than backdrop (z-70 vs z-60) and both above header (z-50) — the drawer is a sibling of `<nav>`, not nested inside it, which avoids stacking context issues
+- [T-1160] Swipe-to-close uses `touchDelta > threshold` with real-time `transform` updates during drag (`transition: none`) then restores transition on touchEnd for snap-back animation
+- [T-1160] Extracting MobileDrawer as a separate function component (not a separate file) keeps related header logic colocated while reducing Layout's JSX complexity

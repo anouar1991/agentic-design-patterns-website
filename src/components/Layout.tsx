@@ -6,15 +6,17 @@ import {
   Map,
   Code,
   Github,
-  Menu,
   X,
   Sparkles,
   GraduationCap,
   Trophy,
   CheckCircle2,
-  Search
+  Search,
+  Moon,
+  Sun,
+  Monitor
 } from 'lucide-react'
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import AmbientBackground from './AmbientBackground'
 import RouteTransitionWrapper from './RouteTransitionWrapper'
@@ -25,6 +27,7 @@ import SearchBarTrigger from './SearchBarTrigger'
 import HeaderProgressBar from './HeaderProgressBar'
 import { layoutIds } from '../config/motion'
 import { useProgress } from '../contexts/ProgressContext'
+import { useTheme } from '../contexts/ThemeContext'
 import SearchModal, { useSearchShortcut } from './SearchModal'
 
 const TOTAL_CHAPTERS = 21
@@ -41,6 +44,273 @@ const getNavLinks = (t: (key: string) => string, hasProgress: boolean, lastVisit
   { to: '/playground', label: t('nav.playground'), icon: Code },
   { to: '/leaderboard', label: t('nav.leaderboard'), icon: Trophy },
 ]
+
+/* ─── Swipe threshold for closing the drawer (px) ─── */
+const SWIPE_THRESHOLD = 80
+
+interface MobileDrawerProps {
+  isOpen: boolean
+  onClose: () => void
+  navLinks: ReturnType<typeof getNavLinks>
+  location: { pathname: string }
+  hasProgress: boolean
+  completedChapters: number[]
+  completionPercentage: number
+  openSearch: () => void
+  t: (key: string) => string
+}
+
+function MobileDrawer({
+  isOpen,
+  onClose,
+  navLinks,
+  location,
+  hasProgress,
+  completedChapters,
+  completionPercentage,
+  openSearch,
+  t,
+}: MobileDrawerProps) {
+  const { mode, setMode } = useTheme()
+  const drawerRef = useRef<HTMLDivElement>(null)
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const touchDeltaRef = useRef(0)
+  const [dragging, setDragging] = useState(false)
+
+  // Body scroll lock
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.left = '0'
+      document.body.style.right = '0'
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.left = ''
+        document.body.style.right = ''
+        document.body.style.overflow = ''
+        window.scrollTo(0, scrollY)
+      }
+    }
+  }, [isOpen])
+
+  // Close on Escape
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [isOpen, onClose])
+
+  // Touch/swipe gesture handlers
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+    touchDeltaRef.current = 0
+    setDragging(false)
+  }, [])
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!touchStartRef.current) return
+    const dx = e.touches[0].clientX - touchStartRef.current.x
+    const dy = e.touches[0].clientY - touchStartRef.current.y
+    // Only track horizontal swipe (right direction)
+    if (Math.abs(dx) > Math.abs(dy) && dx > 0) {
+      touchDeltaRef.current = dx
+      setDragging(true)
+      if (drawerRef.current) {
+        drawerRef.current.style.transform = `translateX(${dx}px)`
+        drawerRef.current.style.transition = 'none'
+      }
+    }
+  }, [])
+
+  const handleTouchEnd = useCallback(() => {
+    if (!touchStartRef.current) return
+    const dx = touchDeltaRef.current
+    if (drawerRef.current) {
+      drawerRef.current.style.transition = ''
+      drawerRef.current.style.transform = ''
+    }
+    if (dx > SWIPE_THRESHOLD) {
+      onClose()
+    }
+    touchStartRef.current = null
+    touchDeltaRef.current = 0
+    setDragging(false)
+  }, [onClose])
+
+  const themeModes = useMemo(() => [
+    { value: 'light' as const, icon: Sun, label: 'Light' },
+    { value: 'dark' as const, icon: Moon, label: 'Dark' },
+    { value: 'auto' as const, icon: Monitor, label: 'Auto' },
+  ], [])
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm md:hidden"
+            onClick={onClose}
+            aria-hidden="true"
+          />
+
+          {/* Drawer panel */}
+          <motion.div
+            ref={drawerRef}
+            id="mobile-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={dragging ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 35 }}
+            className="fixed top-0 right-0 bottom-0 z-[70] w-[280px] max-w-[85vw] glass-header md:hidden flex flex-col overflow-y-auto overscroll-contain"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Drawer header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-dark-700/50">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+                  <Sparkles className="w-3.5 h-3.5 text-white" />
+                </div>
+                <span className="text-sm font-semibold gradient-text">{t('header.title')}</span>
+              </div>
+              <button
+                onClick={onClose}
+                className="p-1.5 rounded-lg hover:bg-dark-700/50 transition-colors text-dark-400 hover:text-dark-50"
+                aria-label="Close menu"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Progress section */}
+            {hasProgress && (
+              <div className="px-5 py-3 border-b border-dark-700/30">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-xs font-medium text-dark-300">{t('nav.progress')}</span>
+                  <span className="text-xs font-medium text-primary-400">
+                    {completedChapters.length}/{TOTAL_CHAPTERS}
+                  </span>
+                </div>
+                <div className="h-1.5 bg-dark-700 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-primary-500 to-accent-500 origin-left"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: completionPercentage / 100 }}
+                    transition={{ type: 'spring', stiffness: 100, damping: 30, delay: 0.1 }}
+                  />
+                </div>
+                <div className="flex items-center gap-1.5 mt-1.5">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                  <span className="text-[11px] text-dark-400">
+                    {completedChapters.length} {completedChapters.length === 1 ? 'chapter' : 'chapters'} completed
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Navigation links */}
+            <div className="flex-1 px-3 py-3 space-y-0.5">
+              {navLinks.map((link, index) => {
+                const Icon = link.icon
+                const isActive = location.pathname === link.to
+                return (
+                  <motion.div
+                    key={link.to}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.04 }}
+                  >
+                    <Link
+                      to={link.to}
+                      onClick={onClose}
+                      className={`
+                        flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
+                        ${isActive
+                          ? 'bg-gradient-to-r from-primary-500/10 to-accent-500/10 text-dark-50 border border-primary-500/20'
+                          : 'text-dark-400 hover:bg-dark-800/60 hover:text-dark-50'
+                        }
+                      `}
+                    >
+                      <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-primary-400' : ''}`} />
+                      <span className="flex-1 text-sm">{link.label}</span>
+                      {isActive && (
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary-400" />
+                      )}
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            {/* Bottom section: Search, Theme toggle, GitHub */}
+            <div className="border-t border-dark-700/30 px-3 py-3 space-y-1">
+              {/* Search */}
+              <button
+                onClick={() => { onClose(); openSearch() }}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dark-400 hover:bg-dark-800/60 hover:text-dark-50 transition-colors w-full"
+              >
+                <Search className="w-5 h-5 flex-shrink-0" />
+                <span className="text-sm flex-1 text-left">{t('search.trigger')}</span>
+              </button>
+
+              {/* Dark mode toggle */}
+              <div className="flex items-center gap-1 px-3 py-2">
+                <span className="text-xs text-dark-400 mr-auto">Theme</span>
+                {themeModes.map(({ value, icon: ThemeIcon, label }) => (
+                  <button
+                    key={value}
+                    onClick={() => setMode(value)}
+                    className={`p-1.5 rounded-md transition-colors ${
+                      mode === value
+                        ? 'bg-primary-500/20 text-primary-400'
+                        : 'text-dark-500 hover:text-dark-300 hover:bg-dark-700/50'
+                    }`}
+                    aria-label={`${label} theme`}
+                    title={label}
+                  >
+                    <ThemeIcon className="w-4 h-4" />
+                  </button>
+                ))}
+              </div>
+
+              {/* GitHub */}
+              <a
+                href="https://github.com/sarwarbeing-ai/Agentic_Design_Patterns"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-dark-400 hover:bg-dark-800/60 hover:text-dark-50 transition-colors"
+              >
+                <Github className="w-5 h-5 flex-shrink-0" />
+                <span className="text-sm">{t('nav.viewOnGithub')}</span>
+              </a>
+            </div>
+
+            {/* Swipe hint */}
+            <div className="px-5 py-2 text-center">
+              <span className="text-[10px] text-dark-600">Swipe right to close</span>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
 
 export default function Layout() {
   const location = useLocation()
@@ -214,153 +484,40 @@ export default function Layout() {
                 <span className="text-sm">{t('nav.github')}</span>
               </a>
 
-              {/* Mobile menu button */}
+              {/* Mobile menu button - animated hamburger to X */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors"
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-drawer"
               >
-                <AnimatePresence mode="wait" initial={false}>
-                  {mobileMenuOpen ? (
-                    <motion.div
-                      key="close"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      <X className="w-5 h-5" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="menu"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      <Menu className="w-5 h-5" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <div className="hamburger-icon" aria-hidden="true">
+                  <span className={`hamburger-line ${mobileMenuOpen ? 'hamburger-open' : ''}`} />
+                  <span className={`hamburger-line ${mobileMenuOpen ? 'hamburger-open' : ''}`} />
+                  <span className={`hamburger-line ${mobileMenuOpen ? 'hamburger-open' : ''}`} />
+                </div>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-              className="md:hidden border-t border-dark-700/50 overflow-hidden"
-            >
-              <div className="px-4 py-4 space-y-1">
-                {/* Mobile progress bar */}
-                {hasProgress && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-3 px-4 py-3 mb-2 rounded-lg bg-dark-800/60"
-                  >
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-xs font-medium text-dark-300">{t('nav.progress')}</span>
-                        <span className="text-xs font-medium text-primary-400">
-                          {completedChapters.length}/{TOTAL_CHAPTERS}
-                        </span>
-                      </div>
-                      <div className="h-1.5 bg-dark-700 rounded-full overflow-hidden">
-                        <motion.div
-                          className="h-full rounded-full bg-gradient-to-r from-primary-500 to-accent-500 origin-left"
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: completionPercentage / 100 }}
-                          transition={{ type: 'spring', stiffness: 100, damping: 30, delay: 0.1 }}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {navLinks.map((link, index) => {
-                  const Icon = link.icon
-                  const isActive = location.pathname === link.to
-                  return (
-                    <motion.div
-                      key={link.to}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.03 }}
-                    >
-                      <Link
-                        to={link.to}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={`
-                          flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-                          ${isActive
-                            ? 'bg-gradient-to-r from-primary-500/10 to-accent-500/10 text-dark-50 border border-primary-500/20'
-                            : 'text-dark-400 hover:bg-dark-800 hover:text-dark-50'
-                          }
-                        `}
-                      >
-                        <Icon className={`w-5 h-5 ${isActive ? 'text-primary-400' : ''}`} />
-                        <span className="flex-1">{link.label}</span>
-                        {isActive && (
-                          <motion.div
-                            layoutId="mobile-nav-active"
-                            className="w-1.5 h-1.5 rounded-full bg-primary-400"
-                          />
-                        )}
-                      </Link>
-                    </motion.div>
-                  )
-                })}
-
-                {/* Mobile completed chapters badges */}
-                {hasProgress && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                    className="flex items-center gap-2 px-4 py-2 mt-2"
-                  >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                    <span className="text-xs text-dark-400">
-                      {completedChapters.length} {completedChapters.length === 1 ? 'chapter' : 'chapters'} completed
-                    </span>
-                  </motion.div>
-                )}
-
-                {/* Mobile search button */}
-                <button
-                  onClick={() => { setMobileMenuOpen(false); openSearch() }}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-dark-400 hover:bg-dark-800 hover:text-dark-50 transition-colors w-full"
-                >
-                  <Search className="w-5 h-5" />
-                  {t('search.trigger')}
-                </button>
-
-                <a
-                  href="https://github.com/sarwarbeing-ai/Agentic_Design_Patterns"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-dark-400 hover:bg-dark-800 hover:text-dark-50 transition-colors"
-                >
-                  <Github className="w-5 h-5" />
-                  {t('nav.viewOnGithub')}
-                </a>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         {/* Course progress bar at bottom edge of header */}
         <HeaderProgressBar />
       </nav>
+
+      {/* Mobile Slide-Out Drawer */}
+      <MobileDrawer
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        navLinks={navLinks}
+        location={location}
+        hasProgress={hasProgress}
+        completedChapters={completedChapters}
+        completionPercentage={completionPercentage}
+        openSearch={openSearch}
+        t={t}
+      />
 
       {/* Ambient Background - persistent across route changes */}
       <AmbientBackground />
