@@ -990,7 +990,7 @@
       "name": "Resource hints applied: preconnect, prefetch, and modulepreload for critical paths",
       "intent": "Give the browser early hints about resources it will need, reducing waterfall delays",
       "description": "Add preconnect hints for external origins (CDNs, font providers). Add prefetch for likely next navigations (next chapter). Use modulepreload for critical JS modules. Configure Vite to generate optimal preload directives.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-710",
         "T-720"
@@ -1278,7 +1278,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-740",
+    "recommendedNextStepId": "T-750",
     "history": [
       "T-100",
       "T-101",
@@ -1311,7 +1311,8 @@
       "T-710",
       "T-720",
       "T-730",
-      "T-740"
+      "T-740",
+      "T-760"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

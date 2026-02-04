@@ -37,6 +37,7 @@ import { chapterDetails } from '../data/chapters';
 import { Clock, BarChart2 } from 'lucide-react';
 import HeroVisualization from '../components/HeroVisualization';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { prefetchRoute } from '../utils/prefetch';
 
 const difficultyConfig = {
   beginner: { label: 'Beginner', color: '#22c55e' },
@@ -384,6 +385,7 @@ export default function Home() {
                 >
                   <Link
                     to={`/chapter/${chapter.num}`}
+                    onMouseEnter={() => prefetchRoute('chapter')}
                     className={`chapter-card group block glass rounded-xl p-4 text-center relative ${
                       completed
                         ? 'border-emerald-500/30 chapter-card-completed'

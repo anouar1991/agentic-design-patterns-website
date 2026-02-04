@@ -667,6 +667,31 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-740] Vite automatically copies `public/` files to `dist/` — unused files in `public/` silently inflate the production deployment
 - [T-740] Even when Tailwind CSS constrains `<img>` size (e.g., `w-8 h-8`), adding HTML `width`/`height` attributes is still valuable — the browser calculates aspect ratio from HTML attributes *before* CSS loads, preventing CLS during the critical rendering path
 
+## Resource Hints (T-760)
+
+**Result: 10 resource hints in production HTML — preconnect, dns-prefetch, modulepreload, and hover prefetch**
+
+### Resource Hints in dist/index.html
+| Type | Count | Target |
+|------|-------|--------|
+| preconnect | 2 | fonts.googleapis.com, fonts.gstatic.com |
+| dns-prefetch | 2 | fonts.googleapis.com, fonts.gstatic.com |
+| modulepreload | 5 | vendor-react, vendor-motion, vendor-i18n, vendor-syntax, vendor-icons |
+| font preload | 2 | Inter woff2, JetBrains Mono woff2 (from T-720) |
+
+### Hover Prefetch Implementation
+- Created `src/utils/prefetch.ts` — deduplicating prefetch utility with `Set<string>` tracking
+- `prefetchRoute('chapter')` fires on `onMouseEnter` of chapter card `<Link>` in both Home.tsx and Chapters.tsx
+- Same `import()` path as `React.lazy` in App.tsx — browser module cache primes the chunk for instant navigation
+- `routeImports` map covers all 7 lazy-loaded routes for future extensibility
+
+### Lessons Learned (T-760)
+
+- [T-760] Vite automatically generates `<link rel="modulepreload">` for vendor chunks referenced by the entry module — no manual configuration needed; `manualChunks` in rollup config directly controls which chunks get modulepreload hints
+- [T-760] `dns-prefetch` is a fallback for browsers that don't support `preconnect` — both should be present for external origins; `preconnect` includes DNS + TCP + TLS while `dns-prefetch` only resolves DNS
+- [T-760] Dynamic `import()` in an event handler (onMouseEnter) fetches the chunk but doesn't execute it until React.lazy requests it — this is the lightest prefetch strategy, costing only a network fetch with no JS execution overhead
+- [T-760] A `Set`-based deduplication in the prefetch utility prevents redundant network requests when users hover over multiple cards — the first hover triggers the fetch, subsequent hovers are no-ops
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

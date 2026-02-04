@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useProgress } from '../contexts/ProgressContext';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { prefetchRoute } from '../utils/prefetch';
 
 import {
   BookOpen,
@@ -225,6 +226,7 @@ export default function Chapters() {
                     >
                       <Link
                         to={`/chapter/${chapter.num}`}
+                        onMouseEnter={() => prefetchRoute('chapter')}
                         className={`chapter-card group block glass rounded-2xl p-6 h-full hover:border-dark-600/70 shimmer-hover relative ${
                           completed ? 'border-emerald-500/30 chapter-card-completed' : ''
                         }`}
