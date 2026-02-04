@@ -48,6 +48,7 @@ import { InteractiveDiagram } from '../components/diagram';
 import { InteractiveTutorial } from '../components/tutorial';
 import ReadingProgressBar from '../components/ReadingProgressBar';
 import ChapterCelebration from '../components/ChapterCelebration';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const iconMap: Record<string, React.ElementType> = {
   link: GitBranch,
@@ -363,10 +364,12 @@ function ChapterContent() {
                         {t('chapter.tutorialHint')}
                       </p>
                     </motion.div>
-                    <InteractiveTutorial
-                      sections={chapter.tutorial}
-                      chapterColor={chapter.color}
-                    />
+                    <ErrorBoundary context="Tutorial">
+                      <InteractiveTutorial
+                        sections={chapter.tutorial}
+                        chapterColor={chapter.color}
+                      />
+                    </ErrorBoundary>
                   </div>
 
                   {/* Pattern Code Examples - For diagram node linking */}
@@ -396,15 +399,17 @@ function ChapterContent() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
                           >
-                            <EnhancedCodeBlock
-                              code={example.code}
-                              language={example.language}
-                              title={example.title}
-                              chapterColor={chapter.color}
-                              highlightedLines={highlightedCodeLines}
-                              explanation={example.explanation}
-                              refCallback={(el) => { codeExampleRefs.current[index] = el; }}
-                            />
+                            <ErrorBoundary context="CodeBlock">
+                              <EnhancedCodeBlock
+                                code={example.code}
+                                language={example.language}
+                                title={example.title}
+                                chapterColor={chapter.color}
+                                highlightedLines={highlightedCodeLines}
+                                explanation={example.explanation}
+                                refCallback={(el) => { codeExampleRefs.current[index] = el; }}
+                              />
+                            </ErrorBoundary>
                           </motion.div>
                         ))}
                       </div>
@@ -437,15 +442,17 @@ function ChapterContent() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                       >
-                        <EnhancedCodeBlock
-                          code={example.code}
-                          language={example.language}
-                          title={example.title}
-                          chapterColor={chapter.color}
-                          highlightedLines={highlightedCodeLines}
-                          explanation={example.explanation}
-                          refCallback={(el) => { codeExampleRefs.current[index] = el; }}
-                        />
+                        <ErrorBoundary context="CodeBlock">
+                          <EnhancedCodeBlock
+                            code={example.code}
+                            language={example.language}
+                            title={example.title}
+                            chapterColor={chapter.color}
+                            highlightedLines={highlightedCodeLines}
+                            explanation={example.explanation}
+                            refCallback={(el) => { codeExampleRefs.current[index] = el; }}
+                          />
+                        </ErrorBoundary>
                       </motion.div>
                     ))}
                   </div>
@@ -457,12 +464,14 @@ function ChapterContent() {
             <div className="hidden lg:block lg:col-span-5">
               <div className="sticky top-24">
                 {chapter.diagramNodes && chapter.diagramNodes.length > 0 ? (
-                  <InteractiveDiagram
-                    diagramNodes={chapter.diagramNodes}
-                    diagramEdges={chapter.diagramEdges || []}
-                    chapterColor={chapter.color}
-                    title={t('chapter.patternFlow')}
-                  />
+                  <ErrorBoundary context="Diagram">
+                    <InteractiveDiagram
+                      diagramNodes={chapter.diagramNodes}
+                      diagramEdges={chapter.diagramEdges || []}
+                      chapterColor={chapter.color}
+                      title={t('chapter.patternFlow')}
+                    />
+                  </ErrorBoundary>
                 ) : (
                   <div className="glass rounded-2xl overflow-hidden">
                     <div className="p-4 border-b border-dark-700">
@@ -486,12 +495,14 @@ function ChapterContent() {
           {/* Mobile Diagram - Shows below content on mobile */}
           <div className="lg:hidden mt-8 no-print">
             {chapter.diagramNodes && chapter.diagramNodes.length > 0 && (
-              <InteractiveDiagram
-                diagramNodes={chapter.diagramNodes}
-                diagramEdges={chapter.diagramEdges || []}
-                chapterColor={chapter.color}
-                title={t('chapter.patternFlow')}
-              />
+              <ErrorBoundary context="Diagram">
+                <InteractiveDiagram
+                  diagramNodes={chapter.diagramNodes}
+                  diagramEdges={chapter.diagramEdges || []}
+                  chapterColor={chapter.color}
+                  title={t('chapter.patternFlow')}
+                />
+              </ErrorBoundary>
             )}
           </div>
         </div>
@@ -536,12 +547,14 @@ function ChapterContent() {
               </motion.div>
             )}
 
-            <ChapterQuiz
-              quiz={chapter.quiz}
-              chapterColor={chapter.color}
-              chapterId={Number(id)}
-              onPass={handleQuizPass}
-            />
+            <ErrorBoundary context="Quiz">
+              <ChapterQuiz
+                quiz={chapter.quiz}
+                chapterColor={chapter.color}
+                chapterId={Number(id)}
+                onPass={handleQuizPass}
+              />
+            </ErrorBoundary>
 
             {/* Mark Complete Button - After Quiz */}
             <motion.div

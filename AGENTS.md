@@ -1094,6 +1094,38 @@ All routes except `/leaderboard` produced **zero console errors, warnings, or un
 - [T-910] `import.meta.env.PROD` is statically replaced by Vite during build — the entire `if (MIN_LEVEL <= LogLevel.Debug)` block becomes `if (2 <= 0)` which is eliminated as dead code by terser/esbuild
 - [T-910] Tree-shaking works for unused logger: if no component imports the logger, it's completely absent from the production bundle — verified by searching `dist/` output for logger code
 
+## React Error Boundaries (T-920)
+
+**Result: Reusable ErrorBoundary component wrapping 4 major section types**
+
+### Component: `src/components/ErrorBoundary.tsx`
+- Class component (required — hooks cannot catch render errors)
+- `getDerivedStateFromError` sets fallback state, `componentDidCatch` logs via structured logger
+- `context` prop controls fallback message ("Diagram failed to load") and logger tag (`[ErrorBoundary:Diagram]`)
+- `fallback` prop allows custom fallback UI per boundary
+- Retry via `resetKey` increment — resets error state, React re-renders children fresh
+
+### Sections Wrapped in `Chapter.tsx`
+| Section | Context | Location |
+|---------|---------|----------|
+| InteractiveTutorial | "Tutorial" | Tutorial section |
+| InteractiveDiagram (desktop) | "Diagram" | Right column sticky |
+| InteractiveDiagram (mobile) | "Diagram" | Below content |
+| ChapterQuiz | "Quiz" | Quiz section |
+| EnhancedCodeBlock (×N) | "CodeBlock" | Each code example |
+
+### Validation
+- Temporarily threw `Error` in `InteractiveDiagramInner` — fallback UI rendered with "Diagram failed to load" + error message + "Try again" button
+- Console showed `[ErrorBoundary:Diagram] Component crashed` via structured logger
+- Rest of chapter (tutorial, code blocks, quiz) continued rendering normally — no white screen
+- Production build passes with zero errors
+
+### Lessons Learned (T-920)
+- [T-920] React error boundaries MUST be class components — `getDerivedStateFromError` and `componentDidCatch` have no hooks equivalent. This is one of the few remaining class component use cases in modern React
+- [T-920] The `resetKey` pattern (incrementing a number to reset error state) is cleaner than unmounting/remounting the boundary — it lets the boundary keep its position in the tree while giving children a fresh render attempt
+- [T-920] Wrapping each `EnhancedCodeBlock` individually (rather than the whole code examples container) means a single broken code block doesn't take out all code examples — granular boundaries improve resilience
+- [T-920] The site uses custom `dark-*` tokens (always-dark themed) rather than Tailwind's `dark:` prefix — fallback UI uses `text-dark-50`, `text-dark-400`, `bg-red-500/5` which work in both modes without explicit dark variants
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
