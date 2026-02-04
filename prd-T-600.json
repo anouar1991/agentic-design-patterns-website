@@ -124,7 +124,7 @@
       "name": "Interactive features work in production build",
       "intent": "Confirm that all interactive learning features survive the production build minification and optimization",
       "description": "Test interactive diagrams, code highlighting, clickable terms, quizzes, and navigation in the production build to ensure minification hasn't broken functionality",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-600-400"
       ],
@@ -250,7 +250,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-600-500",
-    "history": ["T-600-100", "T-600-200", "T-600-300", "T-600-400"]
+    "recommendedNextStepId": "T-600-600",
+    "history": ["T-600-100", "T-600-200", "T-600-300", "T-600-400", "T-600-500"]
   }
 }
