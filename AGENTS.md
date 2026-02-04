@@ -1317,3 +1317,9 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1120] Fixed headers don't cause CLS when compacting because they're out of document flow — the `pt-16` spacer on `<main>` stays constant regardless of header height changes
 - [T-1120] CSS `transition` on a utility class (`.header-transition`) applied to multiple elements is cleaner than inline Tailwind transition classes — keeps transition timing consistent across logo, title, subtitle, and nav height
 - [T-1120] `@media (prefers-reduced-motion: reduce)` should disable header compact transitions for accessibility
+
+### Lessons Learned (T-1130)
+- [T-1130] Framer Motion's `layoutId` is ideal for sliding nav indicators — it automatically animates position/size between mount points without manual `getBoundingClientRect` calculations
+- [T-1130] Use CSS `::after` pseudo-elements for hover effects on non-active links separate from the `layoutId` active indicator — mixing both in React causes unnecessary re-renders
+- [T-1130] `useReducedMotion()` from framer-motion returns a boolean; pass `{ duration: 0 }` instead of spring config to instantly snap rather than animate
+- [T-1130] When conditionally constructing Framer Motion transition objects with `type: 'spring'`, TypeScript needs `as const` on the string literal to satisfy the `Transition` union type

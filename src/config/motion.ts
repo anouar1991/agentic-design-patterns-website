@@ -75,6 +75,8 @@ export const layoutIds = {
   progressBar: 'global-progress-bar',
   // Navigation active indicator
   navActive: 'nav-active',
+  // Navigation underline indicator
+  navUnderline: 'nav-underline',
 } as const;
 
 // Stagger container variants

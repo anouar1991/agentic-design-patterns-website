@@ -1802,7 +1802,7 @@
       "name": "Header navigation links enhanced: active state indicator with animated underline",
       "intent": "Make it immediately clear which section the user is viewing through the header nav",
       "description": "Enhance header navigation links with an animated underline indicator that slides to the active link. Include smooth hover effects on non-active links. The indicator should animate position when navigating between pages.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1110"
       ],
@@ -2127,9 +2127,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1120",
-    "completedAt": "2026-02-04T20:20:00Z",
-    "recommendedNextStepId": "T-1130",
+    "lastCompletedTaskId": "T-1130",
+    "completedAt": "2026-02-04T20:30:00Z",
+    "recommendedNextStepId": "T-1140",
     "history": [
       "T-780",
       "T-790",
@@ -2189,7 +2189,8 @@
       "T-1020",
       "T-1100",
       "T-1110",
-      "T-1120"
+      "T-1120",
+      "T-1130"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

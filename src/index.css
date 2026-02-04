@@ -459,9 +459,47 @@ html.light .glass-header.header-compact {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Nav link hover effects */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0.5rem;
+  right: 0.5rem;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, var(--color-primary-400), var(--color-accent-400));
+  opacity: 0;
+  transform: scaleX(0);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.nav-link:hover::after {
+  opacity: 0.4;
+  transform: scaleX(1);
+}
+
+/* Active underline glow effect */
+.nav-underline-glow {
+  background: linear-gradient(to right, var(--color-primary-400), var(--color-accent-400));
+  box-shadow: 0 0 8px var(--color-primary-500), 0 0 2px var(--color-accent-400);
+}
+
+html.light .nav-underline-glow {
+  background: linear-gradient(to right, var(--color-primary-500), var(--color-accent-500));
+  box-shadow: 0 0 6px var(--color-primary-400), 0 0 2px var(--color-accent-400);
+}
+
 /* Respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .header-transition {
+    transition: none;
+  }
+  .nav-link::after {
     transition: none;
   }
 }

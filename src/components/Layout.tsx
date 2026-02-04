@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import {
   BookOpen,
   Home,
@@ -47,6 +47,7 @@ export default function Layout() {
   const { t } = useTranslation()
   const { completedChapters, completionPercentage, lastVisited } = useProgress()
   const { isSearchOpen, openSearch, closeSearch } = useSearchShortcut()
+  const prefersReducedMotion = useReducedMotion()
   const hasProgress = completedChapters.length > 0 || !!lastVisited
   const navLinks = getNavLinks(t, hasProgress, lastVisited?.chapterId)
 
@@ -101,20 +102,23 @@ export default function Layout() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-0.5">
+            <div className="hidden md:flex items-center gap-0.5 relative">
               {navLinks.map((link) => {
                 const Icon = link.icon
                 const isActive = location.pathname === link.to
+                const springTransition = prefersReducedMotion
+                  ? { duration: 0 }
+                  : { type: 'spring' as const, stiffness: 500, damping: 30 }
                 return (
                   <Link
                     key={link.to}
                     to={link.to}
                     className={`
-                      relative px-4 py-2 rounded-lg flex items-center gap-2
+                      nav-link relative px-4 py-2 rounded-lg flex items-center gap-2
                       transition-all duration-200
                       ${isActive
                         ? 'text-dark-50'
-                        : 'text-dark-400 hover:text-dark-200 hover:bg-dark-800/50'
+                        : 'text-dark-400 hover:text-dark-100'
                       }
                     `}
                   >
@@ -123,20 +127,20 @@ export default function Layout() {
                         layoutId={layoutIds.navActive}
                         className="absolute inset-0 bg-dark-700/80 rounded-lg"
                         initial={false}
-                        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                        transition={springTransition}
                       />
                     )}
                     <span className="relative flex items-center gap-2">
-                      <Icon className="w-4 h-4" />
+                      <Icon className={`w-4 h-4 transition-transform duration-200 ${!isActive ? 'group-hover:scale-110' : ''}`} />
                       {link.label}
                     </span>
-                    {/* Active bottom indicator line */}
+                    {/* Active bottom indicator line with glow */}
                     {isActive && (
                       <motion.div
-                        layoutId="nav-underline"
-                        className="absolute -bottom-[1px] left-2 right-2 h-0.5 bg-gradient-to-r from-primary-400 to-accent-400 rounded-full"
+                        layoutId={layoutIds.navUnderline}
+                        className="absolute -bottom-[1px] left-2 right-2 h-0.5 nav-underline-glow rounded-full"
                         initial={false}
-                        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                        transition={springTransition}
                       />
                     )}
                   </Link>
