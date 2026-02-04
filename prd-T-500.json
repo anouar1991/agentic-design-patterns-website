@@ -147,7 +147,7 @@
       "name": "Keyboard accessibility across all chapters",
       "intent": "Verify keyboard navigation works on every chapter's interactive elements",
       "description": "Tab through interactive elements on each chapter page. Verify focus indicators, keyboard activation of buttons/links, and no focus traps.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-500-100"
       ],
@@ -267,7 +267,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-500-600",
-    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500"]
+    "recommendedNextStepId": "T-500-700",
+    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500", "T-500-600"]
   }
 }

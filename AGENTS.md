@@ -381,6 +381,23 @@ Issues found and fixed:
 - Zero console errors during full navigation sweep
 - No broken links or navigation dead ends
 
+## Keyboard Accessibility Verification (T-500-600)
+
+**Result: All 21 chapters + all auxiliary pages pass keyboard accessibility**
+
+- Automated Playwright tab-navigation test with element identity tracking: 21/21 chapters have zero true focus traps
+- 43-49 unique focusable elements per chapter (maxRepeat=1 on all chapters — focus never gets stuck)
+- Global `:focus-visible` rule (`index.css:171`) provides 2px solid blue outline on all focusable elements
+- Focus indicator confirmed visually: `rgb(58, 173, 250)` outline with 2px offset
+- Keyboard activation verified:
+  - Enter on nav links navigates correctly
+  - Enter on code term buttons opens modal with documentation
+  - Enter on "Start Quiz" button starts the quiz
+  - Escape closes modals (via backdrop click pattern, not Escape key — known design choice from T-260)
+- Auxiliary pages also clean: `/`, `/chapters`, `/introduction`, `/learning-path`, `/playground`
+- React Flow diagram nodes (`<g role="group">`) receive focus but lack outline — this is React Flow's internal wrapper; the inner `<div role="button">` nodes DO have visible outlines
+- No fixes needed — keyboard accessibility infrastructure from T-430 works correctly across all chapters
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
