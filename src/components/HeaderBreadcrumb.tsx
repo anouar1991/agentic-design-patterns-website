@@ -45,8 +45,8 @@ export default function HeaderBreadcrumb({ isCompact }: HeaderBreadcrumbProps) {
       <motion.nav
         key={chapterNum}
         aria-label="Chapter breadcrumb"
-        className={`hidden md:flex items-center gap-1 text-sm header-transition ${
-          isCompact ? 'max-w-[200px] lg:max-w-[280px]' : 'max-w-[260px] lg:max-w-[360px]'
+        className={`hidden md:flex items-center gap-1 text-sm header-transition flex-shrink-0 ${
+          isCompact ? 'max-w-[200px] lg:max-w-[280px]' : 'max-w-[220px] lg:max-w-[300px]'
         }`}
         {...animationProps}
       >

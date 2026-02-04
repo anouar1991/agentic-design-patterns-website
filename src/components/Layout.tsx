@@ -358,9 +358,9 @@ export default function Layout() {
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 glass-header header-transition ${isScrolled ? 'header-compact' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`flex items-center justify-between header-transition ${isScrolled ? 'h-12' : 'h-16'}`}>
+          <div className={`flex items-center justify-between header-transition overflow-hidden ${isScrolled ? 'h-12' : 'h-16'}`}>
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
+            <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
               <div className={`relative header-transition ${isScrolled ? 'scale-[0.85]' : 'scale-100'}`}>
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-white" />
@@ -377,7 +377,7 @@ export default function Layout() {
             <HeaderBreadcrumb isCompact={isScrolled} />
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-0.5 relative">
+            <div className="hidden md:flex items-center gap-0.5 relative min-w-0 flex-1 justify-center overflow-hidden">
               {navLinks.map((link) => {
                 const Icon = link.icon
                 const isActive = location.pathname === link.to
@@ -424,7 +424,7 @@ export default function Layout() {
             </div>
 
             {/* Search, User Menu, GitHub Link, Language Switcher & Mobile Menu */}
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               {/* Search trigger - prominent Spotlight-style bar */}
               <SearchBarTrigger onClick={openSearch} isCompact={isScrolled} />
 
@@ -482,10 +482,10 @@ export default function Layout() {
                 href="https://github.com/sarwarbeing-ai/Agentic_Design_Patterns"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors text-dark-300 hover:text-dark-50"
+                className="hidden sm:flex items-center justify-center w-9 h-9 rounded-lg bg-dark-800/50 light:bg-white/80 hover:bg-dark-700 light:hover:bg-gray-100 transition-colors text-dark-300 light:text-gray-600 hover:text-dark-50"
+                title={t('nav.github')}
               >
                 <Github className="w-4 h-4" />
-                <span className="text-sm">{t('nav.github')}</span>
               </a>
 
               {/* Mobile menu button - animated hamburger to X */}

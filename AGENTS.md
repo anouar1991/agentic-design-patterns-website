@@ -1348,3 +1348,9 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1170] `AnimatePresence mode="wait"` with `key={chapterNum}` triggers re-animation when navigating between chapters, not just appear/disappear — this gives each chapter transition a fresh slide-in effect
 - [T-1170] Breadcrumb compact mode uses shorter text (`Ch N` vs `Ch N: Title`) and tighter `max-w` constraints rather than hiding entirely — preserves wayfinding even when header is compact
 - [T-1170] Using `useNavigate()` for the back button (`navigate('/chapters')`) instead of `<Link>` gives a proper history entry; `useLocation().pathname` with regex match is the cleanest way to detect chapter routes without context/props
+
+### Lessons Learned (T-1180)
+- [T-1180] Header overflow bug: when `flex items-center justify-between` has 3-4 children with no shrink constraints, adding breadcrumb on chapter pages pushed right-side buttons (theme, language, GitHub) beyond viewport. Fix: `overflow-hidden` on flex row, `flex-1 min-w-0` on nav links (shrinkable center), `flex-shrink-0` on logo and right actions
+- [T-1180] GitHub link with text (100px) vs icon-only (36px) saves 64px in tight header layouts — use `title` attr for accessibility when removing visible text
+- [T-1180] Search bar trigger width is a significant contributor to header overflow — reducing from `w-56 lg:w-64` to `w-44 lg:w-52` freed ~48px without hurting usability (placeholder text truncates gracefully)
+- [T-1180] Supabase `ERR_CONNECTION_REFUSED` errors on leaderboard page are infrastructure-only (no local Supabase running) and should not block header verification — distinguish infrastructure errors from component errors during visual testing

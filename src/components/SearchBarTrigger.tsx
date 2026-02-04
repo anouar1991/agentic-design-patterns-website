@@ -42,8 +42,8 @@ const SearchBarTrigger = memo(function SearchBarTrigger({
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-900
         transition-all duration-200
         ${isCompact
-          ? 'gap-1.5 px-2.5 py-1 w-44'
-          : 'gap-2.5 px-3 py-1.5 w-56 lg:w-64'
+          ? 'gap-1.5 px-2.5 py-1 w-36'
+          : 'gap-2.5 px-3 py-1.5 w-44 lg:w-52'
         }
       `}
       aria-label={t('search.placeholder')}
