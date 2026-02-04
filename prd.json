@@ -292,7 +292,7 @@
       "validation": "Fresh page load: verify staggered card entrance, navigate to chapter via card click, verify nav updates smoothly, navigate back, verify no visual glitches. Test at 1440px and 375px widths.",
       "testLevel": "combination",
       "actions": [
-        "Full flow test: load → browse cards → click chapter → nav updates → back",
+        "Full flow test: load \u2192 browse cards \u2192 click chapter \u2192 nav updates \u2192 back",
         "Test at desktop and mobile widths",
         "Check for animation conflicts",
         "Verify consistent styling"
@@ -314,7 +314,7 @@
         "Diagrams enhanced"
       ],
       "guarantees": [
-        "Diagram node click → code scroll + highlight works",
+        "Diagram node click \u2192 code scroll + highlight works",
         "Code term click opens modal without breaking diagram state",
         "No interaction conflicts between code and diagram features"
       ],
@@ -324,7 +324,7 @@
         "Test diagram-to-code linking",
         "Test code term modals",
         "Verify no state conflicts",
-        "Test sequence: diagram click → code term click → diagram click"
+        "Test sequence: diagram click \u2192 code term click \u2192 diagram click"
       ]
     },
     {
@@ -539,7 +539,7 @@
         "No state conflicts between features",
         "Progress correctly saved after completing chapter"
       ],
-      "validation": "Full flow for one chapter: homepage → card click → tutorial read → click code terms → interact with diagram → diagram-to-code link → complete quiz → verify progress saved → return to homepage → verify completion badge.",
+      "validation": "Full flow for one chapter: homepage \u2192 card click \u2192 tutorial read \u2192 click code terms \u2192 interact with diagram \u2192 diagram-to-code link \u2192 complete quiz \u2192 verify progress saved \u2192 return to homepage \u2192 verify completion badge.",
       "testLevel": "integration",
       "actions": [
         "Execute full learning flow for chosen chapter",
@@ -795,7 +795,7 @@
         "Platform is ready for deployment",
         "User can experience the full incredible learning platform"
       ],
-      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation → chapter cards → tutorial → code terms → diagram → quiz → progress → dark mode → search → print preview. All features work in production.",
+      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation \u2192 chapter cards \u2192 tutorial \u2192 code terms \u2192 diagram \u2192 quiz \u2192 progress \u2192 dark mode \u2192 search \u2192 print preview. All features work in production.",
       "testLevel": "integration",
       "actions": [
         "Run npm run build",
@@ -1625,7 +1625,7 @@
       "id": "T-1010",
       "name": "Logging integration checkpoint: all logging and fixes verified together",
       "intent": "Verify that all logging enhancements and bug fixes work together without regressions",
-      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing → chapter selection → tutorial → quiz → completion. Verify clean console, proper logging, and no regressions.",
+      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing \u2192 chapter selection \u2192 tutorial \u2192 quiz \u2192 completion. Verify clean console, proper logging, and no regressions.",
       "pass": true,
       "dependencies": [
         "T-920",
@@ -1654,7 +1654,7 @@
         "No regressions in any existing feature",
         "Production build is clean with zero warnings"
       ],
-      "validation": "Navigate full flow (home → chapter 1 → tutorial → quiz → chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
+      "validation": "Navigate full flow (home \u2192 chapter 1 \u2192 tutorial \u2192 quiz \u2192 chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
       "testLevel": "integration",
       "actions": [
         "Start dev server",
@@ -2123,13 +2123,425 @@
         "Check console for errors",
         "Verify no flash of unstyled header on initial load"
       ]
+    },
+    {
+      "id": "T-1300",
+      "name": "Supabase credentials verified: creds.yml parsed and connection tested",
+      "intent": "Confirm Supabase project URL and keys from creds.yml are valid and the database is reachable",
+      "description": "Read creds.yml to extract Supabase project URL, anon key, and service role key. Verify the Supabase instance is reachable by testing the REST API health endpoint. Document the credential structure for downstream tasks.",
+      "pass": true,
+      "dependencies": [],
+      "complexity": 1,
+      "requires": [
+        "Project builds successfully"
+      ],
+      "guarantees": [
+        "Supabase URL and anon key extracted from creds.yml",
+        "Supabase instance is reachable and responds to health check",
+        "Credential structure documented for environment variable setup"
+      ],
+      "validation": "Read creds.yml, curl the Supabase REST endpoint with anon key, confirm 200 response",
+      "testLevel": "unit",
+      "actions": [
+        "Read creds.yml to extract Supabase credentials",
+        "Test Supabase REST API connectivity with anon key",
+        "Verify existing migrations match the database schema",
+        "Document credential mapping for .env file"
+      ]
+    },
+    {
+      "id": "T-1310",
+      "name": "Supabase client configured: environment variables and client singleton created",
+      "intent": "Set up the Supabase JS client as a reusable singleton with proper env var configuration",
+      "description": "Install @supabase/supabase-js, create environment variables (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY) from creds.yml values, and create a supabase client utility module that exports a singleton client instance. Add .env to .gitignore if not already there.",
+      "pass": false,
+      "dependencies": [
+        "T-1300"
+      ],
+      "complexity": 1,
+      "requires": [
+        "Supabase URL and anon key extracted from creds.yml",
+        "Supabase instance is reachable and responds to health check"
+      ],
+      "guarantees": [
+        "Supabase JS client installed and importable",
+        "Environment variables configured in .env",
+        ".env excluded from git",
+        "Supabase client singleton exported from utility module",
+        "Client connects successfully to Supabase instance"
+      ],
+      "validation": "Import supabase client in browser console, call supabase.from('user_progress').select().limit(1), confirm no connection error",
+      "testLevel": "unit",
+      "actions": [
+        "Install @supabase/supabase-js",
+        "Create .env with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY from creds.yml",
+        "Add .env to .gitignore",
+        "Create src/lib/supabase.ts with client singleton",
+        "Verify client initialization in dev server"
+      ]
+    },
+    {
+      "id": "T-1320",
+      "name": "Database schema verified: existing migrations match Supabase tables",
+      "intent": "Ensure the already-created migrations have been applied and tables exist in Supabase",
+      "description": "Check that the three existing migrations (initial schema, quiz attempts, progress update policy) have been applied to the Supabase instance. Verify tables exist: user_progress, quiz_attempts, and any related tables. If migrations haven't been applied, apply them.",
+      "pass": false,
+      "dependencies": [
+        "T-1310"
+      ],
+      "complexity": 1,
+      "requires": [
+        "Supabase client singleton exported from utility module",
+        "Client connects successfully to Supabase instance"
+      ],
+      "guarantees": [
+        "All migration tables exist in Supabase database",
+        "user_progress table is queryable",
+        "quiz_attempts table is queryable",
+        "Row Level Security policies are active",
+        "Schema matches migration files"
+      ],
+      "validation": "Query each table via supabase client, confirm no table-not-found errors",
+      "testLevel": "unit",
+      "actions": [
+        "Read existing migration files to understand schema",
+        "Query Supabase to check if tables exist",
+        "Apply migrations via supabase CLI if needed",
+        "Verify RLS policies are enabled",
+        "Test basic CRUD operations on each table"
+      ]
+    },
+    {
+      "id": "T-1330",
+      "name": "Auth UI integrated: sign-in/sign-up modal with Supabase Auth",
+      "intent": "Allow users to create accounts and sign in to persist their progress across devices",
+      "description": "Create an authentication modal component with email/password sign-in and sign-up. Add a user avatar/sign-in button to the header. Use Supabase Auth for all authentication. Handle auth state changes and persist session. Show user email or avatar when signed in.",
+      "pass": false,
+      "dependencies": [
+        "T-1310"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Supabase client singleton exported from utility module",
+        "Dark mode toggle visible in header",
+        "All header features work together without visual conflicts",
+        "Modal focus trapping works correctly"
+      ],
+      "guarantees": [
+        "Sign-in button visible in header",
+        "Auth modal opens with email/password form",
+        "User can sign up with email and password",
+        "User can sign in with existing credentials",
+        "Auth state persists across page reloads",
+        "User avatar or email shown when signed in",
+        "Sign-out button available when signed in",
+        "Auth modal works in dark mode",
+        "Auth modal is keyboard accessible"
+      ],
+      "validation": "Sign up with test email, sign out, sign back in, verify session persists after reload",
+      "testLevel": "integration",
+      "actions": [
+        "Create AuthModal component with sign-in/sign-up forms",
+        "Create useAuth hook for auth state management",
+        "Add sign-in button to header",
+        "Handle auth state changes via onAuthStateChange",
+        "Style for both light and dark modes",
+        "Add keyboard accessibility and focus management"
+      ]
+    },
+    {
+      "id": "T-1340",
+      "name": "Progress sync service created: bidirectional sync between localStorage and Supabase",
+      "intent": "Sync learning progress to Supabase when authenticated while maintaining localStorage fallback for anonymous users",
+      "description": "Create a progress sync service that writes chapter completion and quiz scores to both localStorage and Supabase when authenticated. On sign-in, merge local progress with server progress (keep the most complete data). On sign-out, keep local data intact. Anonymous users continue using localStorage only.",
+      "pass": false,
+      "dependencies": [
+        "T-1320",
+        "T-1330"
+      ],
+      "complexity": 3,
+      "requires": [
+        "All migration tables exist in Supabase database",
+        "user_progress table is queryable",
+        "Auth state persists across page reloads",
+        "Chapter completion persists across page reloads",
+        "Quiz scores are saved and shown",
+        "Features degrade gracefully: app works without persistence"
+      ],
+      "guarantees": [
+        "Authenticated users have progress saved to Supabase",
+        "Anonymous users continue using localStorage only",
+        "Sign-in merges local and server progress intelligently",
+        "Sign-out preserves local progress",
+        "Progress sync does not block UI interactions",
+        "Sync errors are logged but do not crash the app",
+        "Existing localStorage progress code continues working"
+      ],
+      "validation": "Complete a chapter anonymously, sign in, verify progress appears in Supabase, sign out and back in on different browser, verify progress is restored",
+      "testLevel": "integration",
+      "actions": [
+        "Create src/services/progressSync.ts with sync logic",
+        "Implement merge strategy: keep highest completion per chapter",
+        "Hook into existing progress update points",
+        "Add sync on auth state change",
+        "Handle network errors gracefully",
+        "Test anonymous to authenticated flow"
+      ]
+    },
+    {
+      "id": "T-1350",
+      "name": "Quiz scores persisted: quiz attempts saved to Supabase with history",
+      "intent": "Save quiz attempts to Supabase so users can track improvement over time",
+      "description": "When an authenticated user completes a quiz, save the attempt to the quiz_attempts table including: chapter, score, total questions, answers, and timestamp. Show quiz attempt history in a small panel below the quiz. Anonymous users see only current session scores.",
+      "pass": false,
+      "dependencies": [
+        "T-1340"
+      ],
+      "complexity": 2,
+      "requires": [
+        "quiz_attempts table is queryable",
+        "Authenticated users have progress saved to Supabase",
+        "Animated feedback on answers",
+        "Score tracking with visual progress"
+      ],
+      "guarantees": [
+        "Quiz attempts saved to Supabase for authenticated users",
+        "Quiz history panel shows past attempts per chapter",
+        "Best score highlighted in quiz history",
+        "Anonymous users see current session score only",
+        "Quiz history styled for both light and dark modes"
+      ],
+      "validation": "Complete quiz twice as authenticated user, verify both attempts in history panel with scores",
+      "testLevel": "integration",
+      "actions": [
+        "Add quiz attempt save logic to quiz completion handler",
+        "Create QuizHistory component showing past attempts",
+        "Query quiz_attempts on chapter load",
+        "Highlight best score",
+        "Style for both modes"
+      ]
+    },
+    {
+      "id": "T-1360",
+      "name": "Leaderboard page created: ranked users by total progress and quiz scores",
+      "intent": "Add social motivation by showing a leaderboard of top learners",
+      "description": "Create a /leaderboard route showing ranked users by overall completion percentage and average quiz scores. Use a Supabase database function or view to aggregate scores. Show username (or anonymized), chapters completed, average quiz score, and rank. Add leaderboard link to navigation.",
+      "pass": false,
+      "dependencies": [
+        "T-1350"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Quiz attempts saved to Supabase for authenticated users",
+        "Authenticated users have progress saved to Supabase",
+        "Active navigation link has a visible animated underline",
+        "Route-based code splitting implemented"
+      ],
+      "guarantees": [
+        "Leaderboard page accessible at /leaderboard",
+        "Leaderboard shows ranked users with progress data",
+        "Current user highlighted on leaderboard",
+        "Leaderboard link in navigation with active state",
+        "Leaderboard works in dark mode",
+        "Leaderboard loads with skeleton while fetching",
+        "Anonymous users can view but not appear on leaderboard"
+      ],
+      "validation": "Navigate to /leaderboard, verify ranked list appears with at least the current user's data",
+      "testLevel": "integration",
+      "actions": [
+        "Create Supabase database function for leaderboard aggregation",
+        "Create LeaderboardPage component with ranked table",
+        "Add /leaderboard route with lazy loading",
+        "Add navigation link",
+        "Style for both modes",
+        "Add loading skeleton"
+      ]
+    },
+    {
+      "id": "T-1370",
+      "name": "Auth + Progress checkpoint: authentication and sync verified end-to-end",
+      "intent": "Verify all Supabase features work together without regressions",
+      "description": "End-to-end verification that sign-up, sign-in, progress sync, quiz history, and leaderboard all work together. Verify no regressions in existing features. Test the anonymous-to-authenticated upgrade flow. Verify dark mode, mobile, and keyboard accessibility for all new components.",
+      "pass": false,
+      "dependencies": [
+        "T-1340",
+        "T-1350",
+        "T-1360"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Authenticated users have progress saved to Supabase",
+        "Quiz attempts saved to Supabase for authenticated users",
+        "Leaderboard shows ranked users with progress data",
+        "All features work across all chapters",
+        "Dark mode consistent everywhere"
+      ],
+      "guarantees": [
+        "Complete sign-up to leaderboard flow works",
+        "Anonymous usage works without errors",
+        "Progress syncs correctly on sign-in",
+        "No regressions in existing features",
+        "All new components work in dark mode",
+        "All new components are keyboard accessible",
+        "No console errors from Supabase integration"
+      ],
+      "validation": "Full flow: anonymous chapter completion \u2192 sign up \u2192 verify progress synced \u2192 complete quiz \u2192 check leaderboard \u2192 sign out \u2192 sign in \u2192 verify all data persisted",
+      "testLevel": "integration",
+      "actions": [
+        "Test anonymous user flow",
+        "Test sign-up and progress merge",
+        "Test quiz with history",
+        "Test leaderboard",
+        "Test dark mode for all new components",
+        "Test keyboard navigation for all new components",
+        "Check console for errors"
+      ]
+    },
+    {
+      "id": "T-1380",
+      "name": "User profile page: display name, avatar, and learning statistics",
+      "intent": "Give authenticated users a profile page showing their learning journey",
+      "description": "Create a /profile route showing user display name (editable), learning statistics (chapters completed, total quiz attempts, average score, time since first activity), and a visual progress map showing completion per chapter. Profile updates saved to Supabase user metadata.",
+      "pass": false,
+      "dependencies": [
+        "T-1370"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Complete sign-up to leaderboard flow works",
+        "Auth state persists across page reloads",
+        "Progress percentage calculated from completed chapters"
+      ],
+      "guarantees": [
+        "Profile page accessible at /profile",
+        "Display name editable and saved to Supabase",
+        "Learning statistics calculated and displayed",
+        "Chapter progress map shows visual completion status",
+        "Profile page works in dark mode",
+        "Unauthenticated users redirected to sign-in"
+      ],
+      "validation": "Sign in, navigate to /profile, update display name, verify it persists after reload, verify statistics match actual progress",
+      "testLevel": "integration",
+      "actions": [
+        "Create ProfilePage component",
+        "Add /profile route with auth guard",
+        "Implement display name editing with Supabase user metadata",
+        "Calculate and display learning statistics",
+        "Create visual chapter progress map",
+        "Style for both modes"
+      ]
+    },
+    {
+      "id": "T-1390",
+      "name": "Real-time presence: show active learners count on chapter pages",
+      "intent": "Add social presence to make the learning experience feel alive",
+      "description": "Use Supabase Realtime presence to show how many users are currently viewing each chapter. Display a subtle 'X learners here now' indicator on chapter pages. Show aggregated active learner counts on the homepage chapter cards.",
+      "pass": false,
+      "dependencies": [
+        "T-1370"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Complete sign-up to leaderboard flow works",
+        "Supabase client singleton exported from utility module",
+        "Cards have premium hover effects"
+      ],
+      "guarantees": [
+        "Active learner count shown on chapter pages",
+        "Chapter cards show current viewer count",
+        "Presence updates in real-time without page reload",
+        "Presence works for both authenticated and anonymous users",
+        "No performance impact from presence subscriptions",
+        "Graceful fallback if realtime connection fails"
+      ],
+      "validation": "Open same chapter in two browser tabs, verify learner count shows 2, close one tab, verify count decreases",
+      "testLevel": "integration",
+      "actions": [
+        "Set up Supabase Realtime presence channel per chapter",
+        "Create usePresence hook",
+        "Add learner count indicator to chapter pages",
+        "Add aggregated counts to homepage cards",
+        "Handle connection errors gracefully",
+        "Clean up subscriptions on unmount"
+      ]
+    },
+    {
+      "id": "T-1400",
+      "name": "Security hardened: RLS policies verified, API keys scoped, auth flows secured",
+      "intent": "Ensure all Supabase integration follows security best practices",
+      "description": "Audit and verify all Row Level Security policies. Ensure anon key only has access to intended operations. Verify auth flows handle edge cases (expired tokens, invalid credentials, rate limiting). Add CSRF protection to auth forms. Ensure no sensitive data leaks in client-side code.",
+      "pass": false,
+      "dependencies": [
+        "T-1370"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Row Level Security policies are active",
+        "Complete sign-up to leaderboard flow works"
+      ],
+      "guarantees": [
+        "RLS policies prevent unauthorized data access",
+        "Users can only read/write their own progress",
+        "Leaderboard uses aggregate view not raw user data",
+        "Auth error messages do not leak user existence",
+        "Expired tokens handled with re-auth prompt",
+        "No service role key exposed in client code"
+      ],
+      "validation": "Attempt to read another user's progress via Supabase client, verify RLS blocks it. Attempt to use expired token, verify re-auth prompt appears.",
+      "testLevel": "integration",
+      "actions": [
+        "Audit all RLS policies on user_progress and quiz_attempts",
+        "Create Supabase view for leaderboard aggregation",
+        "Test cross-user data access attempts",
+        "Verify error handling for auth edge cases",
+        "Check client bundle for sensitive keys",
+        "Add rate limiting awareness to auth forms"
+      ]
+    },
+    {
+      "id": "T-1410",
+      "name": "Production build verified: Supabase integration builds cleanly and works in production",
+      "intent": "Final verification that all Supabase features work in production build",
+      "description": "Build the project for production and verify all Supabase features work: auth, progress sync, quiz history, leaderboard, profile, and presence. Verify no console errors, no leaked credentials, and bundle size increase is reasonable.",
+      "pass": false,
+      "dependencies": [
+        "T-1380",
+        "T-1390",
+        "T-1400"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Profile page accessible at /profile",
+        "Active learner count shown on chapter pages",
+        "RLS policies prevent unauthorized data access",
+        "Production build succeeds with zero errors and zero warnings",
+        "Platform remains deployment-ready with enhanced header"
+      ],
+      "guarantees": [
+        "Production build succeeds with zero errors",
+        "All Supabase features work in production build",
+        "No console errors from Supabase in production",
+        "No credentials leaked in production bundle",
+        "Bundle size increase under 50KB gzipped for Supabase client",
+        "Platform remains deployment-ready with Supabase backend"
+      ],
+      "validation": "npm run build succeeds, serve production build, test full auth + progress + leaderboard flow, check console for errors, verify bundle size",
+      "testLevel": "integration",
+      "actions": [
+        "Run production build",
+        "Serve and test all Supabase features",
+        "Check console for errors",
+        "Verify no credentials in source maps",
+        "Measure bundle size impact",
+        "Document deployment requirements (env vars needed)"
+      ]
     }
   ],
   "ralph": {
     "currentTaskId": null,
     "lastCompletedTaskId": "T-1210",
     "completedAt": "2026-02-04T22:25:00Z",
-    "recommendedNextStepId": null,
+    "recommendedNextStepId": "T-1300",
     "history": [
       "T-780",
       "T-790",
@@ -2198,10 +2610,11 @@
       "T-1180",
       "T-1190",
       "T-1200",
-      "T-1210"
+      "T-1210",
+      "T-1300"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
-    "extendedAt": "2026-02-04T19:58:03Z"
+    "extendedAt": "2026-02-04T23:07:26Z"
   }
 }

@@ -1374,3 +1374,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1210] All header features verified in production build across 5 routes (home, chapter/1, chapters, playground, leaderboard): dark mode toggle, search bar with Ctrl+K hint, progress indicator (0/21), language switcher, skip-to-content link, nav with active highlighting
 - [T-1210] The only console error across all routes was `ERR_CONNECTION_REFUSED` for the Supabase leaderboard API at `127.0.0.1:54321` — this is expected when Supabase is not running locally and is unrelated to header components
 - [T-1210] PRD COMPLETE: All 68 tasks passed. Header enhancement series (T-1100 through T-1210) delivered: glass-morphism, sticky compact mode, animated nav underlines, search bar, progress indicator, mobile drawer, breadcrumb, accessibility, performance optimization, and production verification
+
+### Lessons Learned (T-1300)
+- [T-1300] Supabase cloud instance at `utpotgnwxnktknbcffzr.supabase.co` is reachable — REST API returns 200 with OpenAPI spec (PostgREST v14.1)
+- [T-1300] Tables from migration SQL files do NOT exist yet in remote DB — migrations are local-only and need `supabase db push` or SQL editor to apply (deferred to T-1320)
+- [T-1300] Credential mapping: `creds.yml` → `.env.local`: `supabase.project.url` → `VITE_SUPABASE_URL`, `supabase.project.anonkey` → `VITE_SUPABASE_ANON_KEY`
+- [T-1300] `.env.local` is git-ignored via `*.local` pattern in `.gitignore` — safe for storing credentials
+- [T-1300] The existing `supabase.ts` client uses graceful degradation: if credentials are missing, auth features disable automatically without console errors
