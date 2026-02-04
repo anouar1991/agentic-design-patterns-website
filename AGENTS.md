@@ -355,6 +355,16 @@ Issues found and fixed:
 - Zero console errors during search and navigation testing
 - Search also indexes 72 code terms and 10 concepts beyond chapter titles
 
+## Dark Mode Verification (T-500-300)
+
+**Result: All 21 chapters + all auxiliary pages consistent in dark mode**
+
+- Automated Playwright scan: all 21 chapters have `html.dark` class active, zero white-background elements detected
+- Deep scroll verification on chapters 1, 5, 10, 15, 21: checked every viewport-height section for unthemed elements — zero issues
+- Auxiliary pages verified: `/chapters`, `/introduction`, `/learning-path`, `/playground` — all clean
+- Visual inspection via screenshots: navigation bar, content cards, code blocks, tutorial sections, footer all properly themed
+- No fixes needed — dark mode styling is consistent across the entire platform
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
