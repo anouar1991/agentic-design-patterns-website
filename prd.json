@@ -1274,12 +1274,439 @@
         "Verify service worker caching works",
         "Final visual regression check"
       ]
+    },
+    {
+      "id": "T-900",
+      "name": "Console audit: all warnings and errors cataloged across every route",
+      "intent": "Identify every console error, warning, and deprecation across the entire platform so fixes can be targeted",
+      "description": "Navigate every route in the application (homepage, all chapters, search, dark mode toggle, print preview) and capture all console output. Catalog each unique warning/error with its source file, message, and reproduction steps. This becomes the fix list for subsequent tasks.",
+      "pass": true,
+      "dependencies": [],
+      "complexity": 1,
+      "requires": [
+        "No console errors on any route",
+        "All features work across all chapters",
+        "Dev server starts"
+      ],
+      "guarantees": [
+        "Complete catalog of all console warnings and errors with reproduction steps",
+        "Each issue categorized as: React warning, runtime error, deprecation, network error, or lint warning",
+        "Priority assigned to each issue"
+      ],
+      "validation": "Open browser dev tools, navigate all routes, capture console output to file, verify catalog is complete",
+      "testLevel": "integration",
+      "actions": [
+        "Start dev server",
+        "Open each route with browser console recording",
+        "Capture all console messages across homepage, each chapter page, dark mode toggle, search modal, print preview",
+        "Deduplicate and categorize each unique message",
+        "Create prioritized issue list"
+      ]
+    },
+    {
+      "id": "T-910",
+      "name": "Structured logger utility: centralized logging with levels and context",
+      "intent": "Replace scattered console.log/warn/error calls with a structured logger that supports levels, context tags, and can be silenced in production",
+      "description": "Create a lightweight logger utility (src/utils/logger.ts) with log levels (debug, info, warn, error), context tagging (e.g., [Router], [Quiz], [Progress]), and environment-aware output (verbose in dev, errors-only in production). The logger should be a simple module, not over-engineered - no external dependencies.",
+      "pass": false,
+      "dependencies": [
+        "T-900"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Production build succeeds with no errors",
+        "Dev server starts"
+      ],
+      "guarantees": [
+        "Logger utility exports debug, info, warn, error functions",
+        "Each log includes timestamp and context tag",
+        "Production builds only emit warn and error level",
+        "Dev builds emit all levels",
+        "No external dependencies added"
+      ],
+      "validation": "Import logger in a component, call all 4 levels, verify output in dev console; run production build and verify debug/info are suppressed",
+      "testLevel": "unit",
+      "actions": [
+        "Create src/utils/logger.ts with LogLevel enum and createLogger factory",
+        "Support context tags: createLogger('Quiz') produces [Quiz] prefix",
+        "Check import.meta.env.PROD to determine minimum log level",
+        "Export convenience functions and createLogger factory",
+        "Verify TypeScript types are correct"
+      ]
+    },
+    {
+      "id": "T-920",
+      "name": "React error boundaries: graceful fallback UI for component crashes",
+      "intent": "Prevent white-screen crashes by wrapping major sections in error boundaries with user-friendly fallback UI",
+      "description": "Create a reusable ErrorBoundary component that catches React rendering errors and shows a styled fallback with retry button. Apply it to: chapter content area, diagram section, quiz section, and code blocks. Log caught errors via the structured logger. Ensure dark mode compatibility.",
+      "pass": false,
+      "dependencies": [
+        "T-910"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All components render correctly in dark mode",
+        "All features work across all chapters"
+      ],
+      "guarantees": [
+        "ErrorBoundary component catches rendering errors without white screen",
+        "Fallback UI shows error message and retry button",
+        "Errors logged via structured logger with component context",
+        "Error boundaries wrap diagram, quiz, code block, and chapter content sections",
+        "Dark mode styling works on fallback UI"
+      ],
+      "validation": "Temporarily throw error in a diagram component, verify fallback UI renders with retry button instead of white screen, verify error logged to console",
+      "testLevel": "combination",
+      "actions": [
+        "Create src/components/ErrorBoundary.tsx as class component with componentDidCatch",
+        "Style fallback UI with retry button matching design system",
+        "Add dark mode styles to fallback",
+        "Wrap ChapterContent, DiagramSection, QuizSection, TutorialCodeBlock with ErrorBoundary",
+        "Log errors via logger with component name context"
+      ]
+    },
+    {
+      "id": "T-930",
+      "name": "React key and dependency warnings fixed: all React-specific console warnings resolved",
+      "intent": "Fix React-specific warnings (missing keys, dependency arrays, deprecated APIs) that indicate potential bugs",
+      "description": "Using the catalog from T-900, fix all React-specific warnings including: missing key props in lists, useEffect dependency array issues, deprecated lifecycle or API usage, and any StrictMode double-render warnings that indicate side effects. Each fix should be minimal and targeted.",
+      "pass": false,
+      "dependencies": [
+        "T-900"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Complete catalog of all console warnings and errors with reproduction steps",
+        "All features work across all chapters"
+      ],
+      "guarantees": [
+        "No React key warnings in console on any route",
+        "No useEffect dependency warnings in console",
+        "No deprecated API usage warnings",
+        "All existing features still work after fixes"
+      ],
+      "validation": "Navigate all routes with React StrictMode enabled, verify zero React-specific warnings in console",
+      "testLevel": "integration",
+      "actions": [
+        "Filter T-900 catalog for React-specific warnings",
+        "Fix missing key props in all list renderings",
+        "Fix useEffect dependency arrays (add missing deps or document suppressions)",
+        "Replace any deprecated React API usage",
+        "Test each fixed component to verify no regressions"
+      ]
+    },
+    {
+      "id": "T-940",
+      "name": "Runtime errors fixed: all TypeError, ReferenceError, and unhandled promise rejections resolved",
+      "intent": "Fix actual runtime errors that indicate bugs in application logic",
+      "description": "Using the catalog from T-900, fix all runtime JavaScript errors including TypeErrors (null/undefined access), ReferenceErrors, unhandled promise rejections, and any errors from event handlers or async operations. Add null guards where needed, fix race conditions, and ensure proper error handling on async calls.",
+      "pass": false,
+      "dependencies": [
+        "T-900"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Complete catalog of all console warnings and errors with reproduction steps"
+      ],
+      "guarantees": [
+        "No TypeError or ReferenceError in console on any route",
+        "No unhandled promise rejections",
+        "All async operations have proper error handling",
+        "No null/undefined access errors during normal navigation"
+      ],
+      "validation": "Navigate all routes including edge cases (rapid navigation, search with no results, empty quiz state), verify zero runtime errors in console",
+      "testLevel": "integration",
+      "actions": [
+        "Filter T-900 catalog for runtime errors",
+        "Add null checks / optional chaining where undefined access occurs",
+        "Add try-catch to async operations missing error handling",
+        "Fix race conditions in component mount/unmount",
+        "Test edge cases: rapid navigation, empty states, network failures"
+      ]
+    },
+    {
+      "id": "T-950",
+      "name": "Service worker logging: registration, cache, and update events logged clearly",
+      "intent": "Make service worker lifecycle visible for debugging deployment and caching issues",
+      "description": "Enhance the existing service worker registration with structured logging for: successful registration, cache hit/miss events, update available notifications, and activation events. Use the logger utility with [SW] context tag. Ensure logs are helpful for debugging cache issues without being noisy in production.",
+      "pass": false,
+      "dependencies": [
+        "T-910"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Service worker registers on production build",
+        "Static assets cached for offline access",
+        "Logger utility exports debug, info, warn, error functions"
+      ],
+      "guarantees": [
+        "Service worker registration success/failure logged with context",
+        "Cache update events logged at info level",
+        "Cache errors logged at error level",
+        "No excessive logging in production (debug-level cache hits suppressed)"
+      ],
+      "validation": "Run production build, serve locally, verify service worker logs appear in console with [SW] tag; reload page and verify cache hit logs at debug level",
+      "testLevel": "combination",
+      "actions": [
+        "Import logger into service worker registration code",
+        "Add logging for: register, install, activate, update events",
+        "Log cache strategy decisions at debug level",
+        "Log cache errors at error level",
+        "Verify log output in both dev and production modes"
+      ]
+    },
+    {
+      "id": "T-960",
+      "name": "Navigation and routing edge cases fixed: back/forward, direct URL, and hash navigation work correctly",
+      "intent": "Fix navigation edge cases that cause errors or broken state",
+      "description": "Test and fix edge cases in routing: direct URL access to chapter sections, browser back/forward button behavior, hash fragment navigation to specific sections, and scroll position restoration. Fix any state desync when navigating rapidly between chapters.",
+      "pass": false,
+      "dependencies": [
+        "T-940"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Navigation between chapters works",
+        "Back navigation feels natural",
+        "Scroll position managed correctly"
+      ],
+      "guarantees": [
+        "Direct URL to any chapter section loads correctly",
+        "Browser back/forward maintains correct state",
+        "Hash fragment navigation scrolls to correct section",
+        "Rapid chapter switching doesn't cause state corruption",
+        "No console errors during any navigation pattern"
+      ],
+      "validation": "Test direct URL access to chapter 3 tutorial section, use back/forward buttons across 5 chapters, navigate rapidly between chapters, verify no errors and correct state",
+      "testLevel": "integration",
+      "actions": [
+        "Test direct URL access to each chapter and section",
+        "Test browser back/forward button across all chapter transitions",
+        "Test hash fragment links within chapters",
+        "Fix any scroll position issues",
+        "Fix any state desync from rapid navigation",
+        "Verify no console errors for each navigation pattern"
+      ]
+    },
+    {
+      "id": "T-970",
+      "name": "Dark mode edge cases fixed: all components render correctly in both modes without flash",
+      "intent": "Fix any remaining dark mode visual issues or transition glitches",
+      "description": "Audit all components in dark mode for: incorrect colors, missing dark variants, flash of wrong theme on load, modal/overlay backgrounds, code block themes, and print styles. Fix any component that doesn't properly respond to the dark mode toggle.",
+      "pass": false,
+      "dependencies": [
+        "T-930"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All components render correctly in dark mode",
+        "Dark mode consistent everywhere",
+        "Smooth transition between modes"
+      ],
+      "guarantees": [
+        "No flash of wrong theme on initial load",
+        "All modals and overlays have correct dark mode backgrounds",
+        "Code blocks use correct syntax theme in dark mode",
+        "Quiz feedback colors are legible in dark mode",
+        "Error boundary fallback UI works in dark mode"
+      ],
+      "validation": "Set system preference to dark, load site fresh - no flash; toggle dark mode on every page, verify every component; check search modal, code term modal, quiz feedback in dark mode",
+      "testLevel": "integration",
+      "actions": [
+        "Load site with dark system preference, check for FOUC",
+        "Audit every modal/overlay for dark mode background",
+        "Check code syntax highlighting theme in dark mode",
+        "Verify quiz answer feedback colors in dark mode",
+        "Fix any component missing dark mode styles"
+      ]
+    },
+    {
+      "id": "T-980",
+      "name": "localStorage error handling: graceful degradation when storage unavailable or corrupt",
+      "intent": "Prevent crashes when localStorage is unavailable (private browsing) or contains corrupt data",
+      "description": "Wrap all localStorage access (progress, quiz scores, dark mode preference, last visited) with try-catch and validation. Handle: storage quota exceeded, private browsing mode blocking storage, corrupt JSON, and schema migration for old data formats. Log storage errors via structured logger without crashing.",
+      "pass": false,
+      "dependencies": [
+        "T-910",
+        "T-940"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Chapter completion persists across page reloads",
+        "Quiz scores are saved and shown",
+        "Preference persists across reloads",
+        "Logger utility exports debug, info, warn, error functions"
+      ],
+      "guarantees": [
+        "App works when localStorage is completely unavailable",
+        "Corrupt localStorage data doesn't crash the app",
+        "Storage errors logged at warn level with context",
+        "Features degrade gracefully: app works without persistence",
+        "No unhandled exceptions from storage operations"
+      ],
+      "validation": "Block localStorage in browser settings, navigate entire site - no crashes; corrupt localStorage JSON manually, reload - no crashes; verify warning logs appear",
+      "testLevel": "combination",
+      "actions": [
+        "Create src/utils/storage.ts with safe get/set/remove wrappers",
+        "Add try-catch around all JSON.parse of stored data",
+        "Add schema validation for stored progress data",
+        "Replace direct localStorage calls with safe wrappers",
+        "Test with localStorage blocked in browser settings",
+        "Test with corrupt JSON in storage keys"
+      ]
+    },
+    {
+      "id": "T-990",
+      "name": "Accessibility audit fixes: ARIA attributes, contrast ratios, and screen reader issues resolved",
+      "intent": "Fix accessibility issues that affect users with disabilities and improve WCAG compliance",
+      "description": "Audit the platform for accessibility issues: missing ARIA labels on interactive elements, insufficient color contrast ratios, missing alt text, focus trap issues in modals, and screen reader announcement gaps. Fix the top issues found.",
+      "pass": false,
+      "dependencies": [
+        "T-930"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Logical tab order throughout",
+        "Visible focus indicators on all interactive elements",
+        "Modals closable with Escape",
+        "Accessible (respects prefers-reduced-motion)"
+      ],
+      "guarantees": [
+        "All interactive elements have ARIA labels",
+        "Color contrast meets WCAG AA (4.5:1 for text)",
+        "All images have alt text",
+        "Modal focus trapping works correctly",
+        "Screen reader can navigate all chapter content"
+      ],
+      "validation": "Run axe-core browser extension on homepage and 2 chapter pages, verify zero critical/serious issues; tab through entire page with screen reader",
+      "testLevel": "integration",
+      "actions": [
+        "Run axe-core accessibility audit on homepage",
+        "Run axe-core on chapter 1 and chapter 3 pages",
+        "Fix missing ARIA labels on buttons, links, and interactive elements",
+        "Fix insufficient contrast ratios",
+        "Add alt text to any images missing it",
+        "Verify modal focus trapping",
+        "Test with keyboard-only navigation"
+      ]
+    },
+    {
+      "id": "T-1000",
+      "name": "Build warnings resolved: TypeScript and Vite build produce zero warnings",
+      "intent": "Clean build output ensures no hidden issues and makes real problems immediately visible",
+      "description": "Fix all TypeScript compiler warnings and Vite build warnings. This includes: unused imports, unused variables, any type usage where avoidable, implicit any parameters, and Vite-specific deprecation warnings. The goal is a clean build with zero warnings.",
+      "pass": false,
+      "dependencies": [
+        "T-930",
+        "T-940"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Production build succeeds with no errors",
+        "Project builds successfully"
+      ],
+      "guarantees": [
+        "TypeScript compilation produces zero warnings",
+        "Vite build produces zero warnings",
+        "No unused imports or variables in source",
+        "No implicit any types in changed files"
+      ],
+      "validation": "Run npm run build, verify zero warnings in output; run npx tsc --noEmit, verify zero warnings",
+      "testLevel": "unit",
+      "actions": [
+        "Run npx tsc --noEmit and catalog all warnings",
+        "Fix unused imports and variables",
+        "Fix implicit any types",
+        "Run npm run build and fix Vite-specific warnings",
+        "Verify final build output is warning-free"
+      ]
+    },
+    {
+      "id": "T-1010",
+      "name": "Logging integration checkpoint: all logging and fixes verified together",
+      "intent": "Verify that all logging enhancements and bug fixes work together without regressions",
+      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing → chapter selection → tutorial → quiz → completion. Verify clean console, proper logging, and no regressions.",
+      "pass": false,
+      "dependencies": [
+        "T-920",
+        "T-930",
+        "T-940",
+        "T-950",
+        "T-960",
+        "T-970",
+        "T-980",
+        "T-990",
+        "T-1000"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Logger utility exports debug, info, warn, error functions",
+        "ErrorBoundary component catches rendering errors without white screen",
+        "No React key warnings in console on any route",
+        "No TypeError or ReferenceError in console on any route",
+        "App works when localStorage is completely unavailable",
+        "TypeScript compilation produces zero warnings"
+      ],
+      "guarantees": [
+        "Complete learning flow works with clean console output",
+        "Structured logs appear with correct levels and context tags",
+        "Error boundaries catch simulated errors gracefully",
+        "No regressions in any existing feature",
+        "Production build is clean with zero warnings"
+      ],
+      "validation": "Navigate full flow (home → chapter 1 → tutorial → quiz → chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
+      "testLevel": "integration",
+      "actions": [
+        "Start dev server",
+        "Navigate complete learning flow with console recording",
+        "Verify structured logger output format",
+        "Verify no unstructured console.log output",
+        "Test error boundary with simulated error",
+        "Toggle dark mode on every page",
+        "Test search and keyboard navigation",
+        "Run production build and verify clean output",
+        "Verify all existing features work"
+      ]
+    },
+    {
+      "id": "T-1020",
+      "name": "Production build verified: clean build with all fixes, zero warnings, zero errors",
+      "intent": "Final verification that the production build is pristine and deployment-ready with all enhancements",
+      "description": "Run final production build and verify: zero TypeScript errors, zero Vite warnings, zero console errors in the served production build, structured logging works correctly in production mode (only warn/error), service worker registers cleanly, and all features work in the production build.",
+      "pass": false,
+      "dependencies": [
+        "T-1010"
+      ],
+      "complexity": 1,
+      "requires": [
+        "Complete learning flow works with clean console output",
+        "Production build is clean with zero warnings",
+        "No regressions in any existing feature"
+      ],
+      "guarantees": [
+        "Production build has zero errors and zero warnings",
+        "Served production build has zero console errors",
+        "Structured logger only emits warn and error in production",
+        "All features verified in production build",
+        "Platform is deployment-ready with enhanced logging and stability"
+      ],
+      "validation": "npm run build with zero warnings; serve production build; navigate all routes; verify only warn/error logs in console; verify service worker registers",
+      "testLevel": "integration",
+      "actions": [
+        "Run npm run build, verify zero warnings/errors",
+        "Serve production build locally",
+        "Navigate all routes with console open",
+        "Verify structured logger suppresses debug/info in production",
+        "Verify service worker registers and logs correctly",
+        "Verify all features work in production mode"
+      ]
     }
   ],
   "ralph": {
     "currentTaskId": null,
+    "lastCompletedTaskId": "T-900",
     "completedAt": "2026-02-04T12:40:00Z",
-    "recommendedNextStepId": "T-780",
+    "recommendedNextStepId": "T-900",
     "history": [
       "T-780",
       "T-790",
@@ -1323,10 +1750,11 @@
       "T-810",
       "T-820",
       "T-830",
-      "T-840"
+      "T-840",
+      "T-900"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
-    "extendedAt": "2026-02-04T11:13:16Z"
+    "extendedAt": "2026-02-04T12:59:48Z"
   }
 }

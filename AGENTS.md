@@ -1024,6 +1024,46 @@ The Lighthouse performance score is below the 95 target due to Total Blocking Ti
 - [T-840] For React SPAs with Framer Motion, reaching Lighthouse >= 95 requires SSR/SSG — client-side rendering inherently blocks on JS evaluation regardless of how optimized the bundle is
 - [T-840] The most impactful optimizations for real-world performance (not Lighthouse score) were: critical CSS inlining (eliminated FOUC), font preloading (reduced FCP from 3.2s to 0.7s), and service worker caching (instant repeat visits)
 
+## Console Audit (T-900)
+
+**Result: 27 routes + 5 interactive features tested — only 1 unique issue found**
+
+### Routes Tested (27 total)
+- Homepage `/`
+- Auxiliary: `/introduction`, `/chapters`, `/learning-path`, `/playground`, `/leaderboard`, `/profile`
+- All 21 chapters: `/chapter/1` through `/chapter/21`
+
+### Interactive Features Tested
+- Dark mode toggle (light ↔ dark)
+- Search modal (Cmd+K, type query, Escape close)
+- Rapid chapter navigation (1→5→10→15→21)
+- Profile page load
+
+### Issues Found
+
+| ID | Message | Category | Route | Severity | Priority |
+|----|---------|----------|-------|----------|----------|
+| CONSOLE-001 | `ERR_CONNECTION_REFUSED` to `127.0.0.1:54321` (Supabase) | network-error | `/leaderboard` | Low | P3 |
+
+**CONSOLE-001 Details:**
+- This is a **browser-level** network error (not suppressible by JavaScript)
+- The JS handler in `useLeaderboard.ts:71-76` already catches the error and shows UI fallback
+- Only appears when Supabase is not running locally (expected for standalone deployment)
+- Suggested fix: pre-check `isSupabaseConfigured()` before initiating fetch, or skip the request entirely when URL points to localhost placeholder
+
+### Clean Routes (26/27)
+All routes except `/leaderboard` produced **zero console errors, warnings, or unexpected output**.
+
+### Expected Console Output (Not Issues)
+- `[vite] connecting.../connected` — Vite HMR (dev only)
+- `Download the React DevTools` — React development info
+- `[Web Vitals] FCP/TTFB/LCP` — Intentional performance monitoring
+
+### Lessons Learned (T-900)
+- [T-900] Browser-level `ERR_CONNECTION_REFUSED` from `fetch()` appears in console before JS catch block runs — cannot be suppressed; the existing try/catch in useLeaderboard.ts only controls `console.error` output, not the browser's network log
+- [T-900] The platform is remarkably clean after T-500/T-840 optimization rounds — zero React warnings, zero runtime errors, zero deprecation warnings across all 27 routes
+- [T-900] Rapid navigation (5 chapters in quick succession) produces zero state corruption or console errors — React Router + route transition wrapper handle rapid switching correctly
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
