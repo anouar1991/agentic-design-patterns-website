@@ -1238,6 +1238,11 @@ This prevents `console.error` output when Supabase is simply not running (expect
 - [T-1010] `console.log` for non-critical info (quiz not saved) should become `log.debug()` (suppressed in prod), not `log.info()` — choose the right level based on production visibility needs
 - [T-1010] The only acceptable raw `console.*` calls in the codebase should be in `logger.ts` itself — grep for `console\.(log|warn|error|debug|info)` excluding logger.ts to verify
 
+### Lessons Learned (T-1020)
+- [T-1020] Vite's `import.meta.env.PROD` is resolved at build time, enabling dead-code elimination — `console.debug` and `console.info` calls inside the logger are completely tree-shaken from the production bundle (0 occurrences), while `console.warn`/`console.error` remain (5 occurrences)
+- [T-1020] Service worker activates correctly on production preview (`navigator.serviceWorker.controller.state === 'activated'`), confirming vite-plugin-pwa configuration is correct
+- [T-1020] Zero console warnings/errors verified across: homepage, chapters 1/7/14/21, chapters list, learning-path — dark mode toggle works cleanly in production
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
