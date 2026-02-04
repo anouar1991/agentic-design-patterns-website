@@ -1052,7 +1052,7 @@
       "name": "Service worker caching: offline-capable with runtime caching for static assets",
       "intent": "Enable instant repeat visits and offline access to previously viewed chapters",
       "description": "Add vite-plugin-pwa or workbox to implement a service worker. Cache static assets (JS, CSS, fonts) with cache-first strategy. Cache API/data responses with stale-while-revalidate. Add offline fallback page. Ensure cache invalidation works on new deployments.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-750",
         "T-760"
@@ -1280,6 +1280,7 @@
     "currentTaskId": null,
     "recommendedNextStepId": "T-780",
     "history": [
+      "T-780",
       "T-790",
       "T-770",
       "T-100",

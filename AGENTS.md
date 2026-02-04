@@ -906,6 +906,45 @@ Also removed corresponding light mode and print media overrides for deleted clas
 - [T-830] The 2 CSS warnings about `rtl\\:rotate-180` and `rtl\\:flip` pseudo-classes are harmless Tailwind RTL utility escaping artifacts — they don't affect rendering
 - [T-830] Total raw JS increased from ~918KB to ~1.5MB because vendor code (React, Framer Motion, i18n) is now in separate chunks instead of being hidden in the monolith — but gzipped/brotli transfer size is comparable due to compression
 
+## Service Worker Caching (T-780)
+
+**Result: PWA service worker with precaching + runtime caching — offline-capable**
+
+### Configuration
+- `vite-plugin-pwa` v1.2.0 with `generateSW` mode (Workbox auto-generates service worker)
+- `registerType: 'autoUpdate'` — `skipWaiting()` + `clientsClaim()` for immediate activation on deployment
+- 27 assets precached (1607 KiB) including all JS chunks, CSS, HTML, icons, and manifest
+
+### Caching Strategies
+| Resource | Strategy | Cache Name | Max Age |
+|----------|----------|-----------|---------|
+| JS/CSS/HTML (precached) | Precache | workbox-precache | Revision-based |
+| Google Fonts CSS | StaleWhileRevalidate | google-fonts-stylesheets | 1 year |
+| Google Fonts files | CacheFirst | google-fonts-webfonts | 1 year |
+| Images (png/jpg/svg/webp) | CacheFirst | images | 30 days |
+| API responses | StaleWhileRevalidate | api-data | 1 day |
+
+### PWA Manifest
+- Name: "Agentic Design Patterns"
+- Display: standalone
+- Theme/Background: `#0f172a` (dark slate)
+- Icons: 192×192 and 512×512 PNG (with maskable variant)
+
+### Validation
+- `dist/sw.js` and `dist/workbox-cf30f3da.js` generated on build
+- `dist/registerSW.js` registers service worker on page load
+- `dist/manifest.webmanifest` contains full PWA metadata
+- NavigationRoute serves cached `index.html` for all SPA routes (offline routing)
+- `cleanupOutdatedCaches()` removes stale precache entries on new deployments
+
+### Lessons Learned (T-780)
+
+- [T-780] `vite-plugin-pwa` with `generateSW` mode is ideal for static SPAs — it auto-generates the service worker from config without requiring custom SW code. `injectManifest` is only needed when you need custom fetch event handlers
+- [T-780] Hashed assets (e.g., `vendor-react-DN_ejfqU.js`) get `revision: null` in the precache manifest — Workbox uses the URL as the cache key since the hash already changes on content updates. Non-hashed files (index.html, registerSW.js) get explicit revision hashes
+- [T-780] `registerType: 'autoUpdate'` calls `skipWaiting()` + `clientsClaim()`, meaning new service workers activate immediately — this is the right choice for learning platforms where users might keep tabs open for hours
+- [T-780] `cleanupOutdatedCaches()` is essential for cache invalidation — without it, old precache entries persist alongside new ones, wasting storage
+- [T-780] The NavigationRoute (`createHandlerBoundToURL('index.html')`) serves the cached HTML shell for all navigation requests — this is what makes SPA client-side routing work offline
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
