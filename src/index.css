@@ -268,10 +268,6 @@ html.light .glow-primary {
   box-shadow: 0 0 15px rgba(13, 150, 230, 0.12), 0 0 45px rgba(13, 150, 230, 0.04);
 }
 
-html.light .glow-accent {
-  box-shadow: 0 0 15px rgba(171, 92, 247, 0.12), 0 0 45px rgba(171, 92, 247, 0.04);
-}
-
 /* Chapter card hover in light mode */
 html.light .chapter-card:hover {
   box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12),
@@ -282,19 +278,6 @@ html.light .chapter-card:hover {
 /* Gradient text in light mode - use darker gradient stops */
 html.light .gradient-text {
   background-image: linear-gradient(to right, var(--color-primary-600), var(--color-accent-600), var(--color-primary-600));
-}
-
-/* Text gradient subtle in light mode */
-html.light .text-gradient-subtle {
-  background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Divider gradient in light mode */
-html.light .divider-gradient {
-  background: linear-gradient(90deg, transparent, #e2e8f0 30%, #cbd5e1 50%, #e2e8f0 70%, transparent);
 }
 
 /* Node tooltip in light mode */
@@ -415,10 +398,6 @@ code {
   box-shadow: 0 0 15px rgba(13, 150, 230, 0.25), 0 0 45px rgba(13, 150, 230, 0.08);
 }
 
-.glow-accent {
-  box-shadow: 0 0 15px rgba(171, 92, 247, 0.25), 0 0 45px rgba(171, 92, 247, 0.08);
-}
-
 .glow-success {
   box-shadow: 0 0 15px rgba(34, 197, 94, 0.25), 0 0 45px rgba(34, 197, 94, 0.08);
 }
@@ -450,48 +429,6 @@ code {
 
 .react-flow__edge-path:hover {
   stroke: rgb(14, 165, 233);
-}
-
-/* Animated border - smoother flow */
-.animated-border {
-  position: relative;
-}
-
-.animated-border::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(90deg, #0d96e6, #ab5cf7, #0d96e6);
-  background-size: 200% 100%;
-  border-radius: inherit;
-  animation: border-flow 4s linear infinite;
-  z-index: -1;
-  opacity: 0.8;
-}
-
-@keyframes border-flow {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 200% 0%; }
-}
-
-/* Pulse animation for active elements */
-@keyframes pulse-glow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* Floating animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.float {
-  animation: float 3s ease-in-out infinite;
 }
 
 /* Pattern backgrounds */
@@ -684,22 +621,6 @@ code {
   overflow: hidden;
 }
 
-/* Confetti animation for celebrations */
-@keyframes confetti-fall {
-  0% {
-    transform: translateY(-100%) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(720deg);
-    opacity: 0;
-  }
-}
-
-.animate-confetti {
-  animation: confetti-fall 3s ease-out forwards;
-}
-
 /* Sparkle animation */
 @keyframes sparkle {
   0%, 100% {
@@ -714,46 +635,6 @@ code {
 
 .animate-sparkle {
   animation: sparkle 1.5s ease-in-out infinite;
-}
-
-/* Reading progress bar shimmer */
-@keyframes progress-shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.progress-shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: progress-shimmer 2s ease-in-out infinite;
-}
-
-/* Tooltip arrow */
-.tooltip-arrow {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: inherit;
-  border: inherit;
-  border-right: 0;
-  border-bottom: 0;
-  transform: rotate(45deg);
-}
-
-/* Focus mode - hides non-essential UI */
-.focus-mode .non-essential {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
 }
 
 /* Code highlight animation */
@@ -771,18 +652,6 @@ code {
 
 .animate-highlight {
   animation: highlight-flash 1s ease-out forwards;
-}
-
-/* Smooth reveal for content sections */
-.reveal-section {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.reveal-section.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* Enhanced diagram node hover */
@@ -899,23 +768,6 @@ code {
   border-radius: 3px;
 }
 
-/* Concept tooltip styling */
-.concept-highlight {
-  @apply relative cursor-help;
-}
-
-.concept-highlight::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary-400), var(--color-accent-400));
-  opacity: 0.5;
-  border-radius: 1px;
-}
-
 /* ============================================
    Premium Utility Classes
    ============================================ */
@@ -960,32 +812,6 @@ code {
 @keyframes shimmer-slide {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-/* Subtle text gradient for headings */
-.text-gradient-subtle {
-  background: linear-gradient(
-    135deg,
-    var(--color-dark-100) 0%,
-    var(--color-dark-200) 50%,
-    var(--color-dark-100) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Divider with gradient */
-.divider-gradient {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-dark-700) 30%,
-    var(--color-dark-600) 50%,
-    var(--color-dark-700) 70%,
-    transparent
-  );
 }
 
 /* ============================================
@@ -1053,12 +879,6 @@ html.rtl ::-webkit-scrollbar {
 /* RTL chapter card hover */
 html.rtl .chapter-card:hover {
   transform: translateY(-4px);
-}
-
-/* Language switcher specific styles */
-.lang-switch-ar {
-  font-family: var(--font-arabic);
-  font-weight: 600;
 }
 
 /* Print utility - hidden on screen, visible in print */
@@ -1142,13 +962,8 @@ html.rtl .chapter-card:hover {
   .pattern-dots,
   .pattern-grid,
   .ambient-bg,
-  .animated-border::before,
   .shimmer-hover::after,
-  .animate-confetti,
-  .animate-sparkle,
-  .progress-shimmer,
-  .pulse-glow,
-  .float {
+  .animate-sparkle {
     display: none !important;
     animation: none !important;
   }
@@ -1169,7 +984,6 @@ html.rtl .chapter-card:hover {
   }
 
   .glow-primary,
-  .glow-accent,
   .glow-success {
     box-shadow: none !important;
   }
@@ -1249,16 +1063,6 @@ html.rtl .chapter-card:hover {
     display: none !important;
   }
 
-  /* Clickable code terms - remove interactive styling */
-  .concept-highlight {
-    cursor: default !important;
-    text-decoration: none !important;
-  }
-
-  .concept-highlight::after {
-    display: none !important;
-  }
-
   /* ---- Page break rules ---- */
 
   /* Avoid breaking inside small elements */
@@ -1289,8 +1093,7 @@ html.rtl .chapter-card:hover {
 
   /* ---- Gradient text fix ---- */
 
-  .gradient-text,
-  .text-gradient-subtle {
+  .gradient-text {
     background: none !important;
     -webkit-background-clip: unset !important;
     background-clip: unset !important;

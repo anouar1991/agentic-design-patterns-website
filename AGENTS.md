@@ -783,6 +783,54 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-790] The `filter` option accepts a regex matched against output filenames — using `/\.(js|css|html|svg|json)$/i` is more precise than the default `threshold`-only approach, which would also compress binary files pointlessly
 - [T-790] Pre-compression at build time means zero runtime CPU cost for serving compressed assets — the web server (nginx, Caddy, CloudFront) simply serves the `.br`/`.gz` file when the client sends `Accept-Encoding: br, gzip`
 
+## CSS Optimization (T-800)
+
+**Result: Unused custom CSS rules removed — 3KB raw / 0.5KB brotli reduction**
+
+### Dead CSS Removed (13 class groups, ~120 lines)
+| Class | Lines | Reason Unused |
+|-------|-------|--------------|
+| `.animated-border` + `@keyframes border-flow` | 20 | Never referenced in any component |
+| `.pulse-glow` + `@keyframes pulse-glow` | 8 | Never referenced in any component |
+| `.float` + `@keyframes float` | 8 | Never referenced in any component |
+| `.animate-confetti` + `@keyframes confetti-fall` | 14 | ChapterCelebration uses sparkle, not confetti |
+| `.progress-shimmer` + `@keyframes progress-shimmer` | 19 | Never referenced in any component |
+| `.tooltip-arrow` | 10 | Never referenced in any component |
+| `.focus-mode` / `.non-essential` | 5 | Never referenced in any component |
+| `.reveal-section` / `.visible` | 10 | Never referenced in any component |
+| `.concept-highlight` + `::after` | 16 | Never referenced in any component |
+| `.glow-accent` | 4 | No tsx file uses glow-accent (glow-primary is used) |
+| `.text-gradient-subtle` | 11 | Never referenced in any component |
+| `.divider-gradient` | 10 | Never referenced in any component |
+| `.lang-switch-ar` | 4 | Never referenced in any component |
+
+Also removed corresponding light mode and print media overrides for deleted classes.
+
+### Dynamic Classes Preserved (Verified In-Use)
+- `.glass`, `.glass-elevated` — used in InteractiveDiagram, Chapters, Home
+- `.gradient-text` — used with animation keyframes
+- `.shimmer-hover` — used in Chapters, Home
+- `.glow-primary`, `.glow-success` — used in Home, LearningPath
+- `.chapter-card` + hover/active/completed — used in Home, Chapters
+- `.animate-sparkle`, `.animate-highlight` — used in ChapterCelebration, Chapter
+- `.hero-*` classes — used in HeroVisualization
+- All `html.light` overrides for preserved classes
+- All `@media print` rules for preserved elements
+- All RTL support classes
+
+### CSS Size Comparison
+| Metric | Before | After | Reduction |
+|--------|--------|-------|-----------|
+| index.css (raw) | 88.10 KB | 85.45 KB | 3.0% |
+| index.css (brotli) | 12.64 KB | 12.12 KB | 4.1% |
+
+### Lessons Learned (T-800)
+
+- [T-800] Tailwind CSS v4 (`@tailwindcss/vite`) automatically purges unused utility classes — no PurgeCSS configuration needed. The optimization opportunity is in custom CSS rules added to `index.css`, not in Tailwind utilities
+- [T-800] Custom CSS classes added speculatively during feature development (`.focus-mode`, `.reveal-section`, `.concept-highlight`, `.animated-border`) accumulate as dead code — periodic grep audits against `.tsx` files catch these
+- [T-800] Before removing a CSS class, check `.tsx`, `.ts` (data files may contain class names), and `.json` locale files — some classes could be applied dynamically from data. In this codebase, all dynamic class usage was in `.tsx` files
+- [T-800] Light mode overrides (`html.light .class`) and print media overrides (`@media print { .class }`) must be removed alongside the base class definition — orphaned overrides still add to CSS payload
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
