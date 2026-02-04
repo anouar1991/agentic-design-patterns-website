@@ -83,7 +83,11 @@ src/
 │   ├── supabase.ts        # Supabase client init
 │   └── database.types.ts  # Generated Supabase types
 ├── utils/
-│   └── progressMerge.ts   # Progress data merging utility
+│   ├── progressMerge.ts   # Progress data merging utility
+│   ├── logger.ts          # Structured logger with level suppression
+│   ├── webVitals.ts       # Core Web Vitals reporting
+│   ├── prefetch.ts        # Route prefetch on hover
+│   └── swRegister.ts      # Service worker registration with logging
 └── i18n/
     ├── index.ts           # i18n initialization
     └── locales/
@@ -1130,6 +1134,33 @@ All routes except `/leaderboard` produced **zero console errors, warnings, or un
 - [T-930] Codebase has zero React warnings — all 60+ `.map()` calls have proper `key` props, all `useEffect` hooks have correct dependency arrays, no deprecated APIs used. StrictMode enabled without triggering any warnings
 - [T-930] `const enum` is not compatible with TypeScript 5.9's `erasableSyntaxOnly` mode — use `as const` object pattern instead (e.g., `const LogLevel = { Debug: 0, Info: 1 } as const`)
 - [T-930] When auditing for React warnings, runtime browser console verification is essential — static code analysis alone can miss warnings that only appear during component rendering (StrictMode double-renders, race conditions)
+
+## Service Worker Logging (T-950)
+
+**Result: Structured logging for all SW lifecycle events via `src/utils/swRegister.ts`**
+
+### Implementation
+- Explicit `registerSW()` from `virtual:pwa-register` replaces auto-injected registration
+- Logger context: `[SW]` — lifecycle events logged via `createLogger('SW')`
+- Called from `main.tsx` after `createRoot().render()` and `reportWebVitals()`
+
+### Log Levels by Event
+| Event | Level | Visible in Prod? |
+|-------|-------|-----------------|
+| Registration success | info | No (suppressed) |
+| Scope/state detail | debug | No (suppressed) |
+| Offline ready | info | No (suppressed) |
+| Update available | warn | Yes |
+| Registration failure | error | Yes |
+| SW not supported | warn | Yes |
+
+### TypeScript Configuration
+- Added `"vite-plugin-pwa/client"` to `tsconfig.app.json` types — provides type declarations for `virtual:pwa-register` module
+
+### Lessons Learned (T-950)
+- [T-950] `vite-plugin-pwa` with `registerType: 'autoUpdate'` auto-injects SW registration, but importing `registerSW` from `virtual:pwa-register` manually gives access to lifecycle callbacks (`onRegisteredSW`, `onNeedRefresh`, `onOfflineReady`, `onRegisterError`) — the plugin is smart enough not to double-register
+- [T-950] The logger's `import.meta.env.PROD` check runs in the main thread bundle, not in the service worker itself (which is a separate Workbox-generated file) — lifecycle callbacks fire in the main thread, so the logger works correctly
+- [T-950] `vite-plugin-pwa/client` type declaration must be added to `tsconfig.app.json` `types` array — without it, TypeScript cannot resolve the `virtual:pwa-register` module import
 
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep

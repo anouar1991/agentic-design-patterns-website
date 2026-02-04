@@ -1429,7 +1429,7 @@
       "name": "Service worker logging: registration, cache, and update events logged clearly",
       "intent": "Make service worker lifecycle visible for debugging deployment and caching issues",
       "description": "Enhance the existing service worker registration with structured logging for: successful registration, cache hit/miss events, update available notifications, and activation events. Use the logger utility with [SW] context tag. Ensure logs are helpful for debugging cache issues without being noisy in production.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-910"
       ],
@@ -1704,8 +1704,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-930",
-    "completedAt": "2026-02-04T13:25:00Z",
+    "lastCompletedTaskId": "T-950",
+    "completedAt": "2026-02-04T13:45:00Z",
     "recommendedNextStepId": "T-940",
     "history": [
       "T-780",
@@ -1754,7 +1754,8 @@
       "T-900",
       "T-910",
       "T-920",
-      "T-930"
+      "T-930",
+      "T-950"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

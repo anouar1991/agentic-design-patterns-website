@@ -4,6 +4,7 @@ import './i18n' // Initialize i18n before App
 import './index.css'
 import App from './App.tsx'
 import { reportWebVitals } from './utils/webVitals'
+import { initServiceWorker } from './utils/swRegister'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -12,3 +13,4 @@ createRoot(document.getElementById('root')!).render(
 )
 
 reportWebVitals()
+initServiceWorker()
