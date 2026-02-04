@@ -1,4 +1,5 @@
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
+import { safeGetJSON, safeSetJSON } from './storage'
 
 /**
  * Merge localStorage progress with cloud progress on first login
@@ -156,15 +157,9 @@ interface StoredProgress {
 }
 
 export function getLocalProgress(): number[] {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (!stored) return []
-
-    const data: StoredProgress = JSON.parse(stored)
-    return data.completedChapters || []
-  } catch {
-    return []
-  }
+  const data = safeGetJSON<StoredProgress | null>(STORAGE_KEY, null)
+  if (!data) return []
+  return data.completedChapters || []
 }
 
 export function setLocalProgress(chapters: number[]): void {
@@ -172,5 +167,5 @@ export function setLocalProgress(chapters: number[]): void {
     completedChapters: chapters,
     lastUpdated: new Date().toISOString(),
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  safeSetJSON(STORAGE_KEY, data)
 }

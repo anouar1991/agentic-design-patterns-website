@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { safeGetItem, safeSetItem } from '../utils/storage'
 
 type ThemeMode = 'light' | 'dark' | 'auto'
 type ResolvedTheme = 'light' | 'dark'
@@ -28,7 +29,7 @@ function resolveTheme(mode: ThemeMode): ResolvedTheme {
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [mode, setModeState] = useState<ThemeMode>(() => {
     if (typeof window === 'undefined') return 'dark'
-    const stored = localStorage.getItem(STORAGE_KEY)
+    const stored = safeGetItem(STORAGE_KEY)
     if (stored === 'light' || stored === 'dark' || stored === 'auto') {
       return stored
     }
@@ -80,7 +81,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const setMode = (newMode: ThemeMode) => {
     setModeState(newMode)
-    localStorage.setItem(STORAGE_KEY, newMode)
+    safeSetItem(STORAGE_KEY, newMode)
   }
 
   return (

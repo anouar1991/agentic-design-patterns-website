@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import type { CourseProgress, QuizScore } from '../data/types'
 import { useAuth } from './AuthContext'
 import { mergeProgress, syncChapterToCloud, setLocalProgress, getLocalProgress } from '../utils/progressMerge'
+import { safeGetJSON, safeSetJSON } from '../utils/storage'
 
 const STORAGE_KEY = 'agentic-patterns-progress'
 const TOTAL_CHAPTERS = 21
@@ -33,31 +34,29 @@ interface ProgressContextType {
 
 const ProgressContext = createContext<ProgressContextType | null>(null)
 
+const DEFAULT_PROGRESS: CourseProgress = {
+  completedChapters: [],
+  quizScores: {},
+  lastUpdated: new Date().toISOString(),
+}
+
+function isProgressData(v: unknown): boolean {
+  return typeof v === 'object' && v !== null && 'completedChapters' in v
+}
+
 function loadProgress(): CourseProgress {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      const parsed = JSON.parse(stored)
-      // Backward compatibility: ensure new fields exist
-      return {
-        completedChapters: parsed.completedChapters || [],
-        quizScores: parsed.quizScores || {},
-        lastVisited: parsed.lastVisited || undefined,
-        lastUpdated: parsed.lastUpdated || new Date().toISOString(),
-      }
-    }
-  } catch (error) {
-    console.warn('Failed to load progress from localStorage:', error)
+  const parsed = safeGetJSON<CourseProgress | null>(STORAGE_KEY, null, isProgressData)
+  if (!parsed) return { ...DEFAULT_PROGRESS, lastUpdated: new Date().toISOString() }
+  return {
+    completedChapters: parsed.completedChapters || [],
+    quizScores: parsed.quizScores || {},
+    lastVisited: parsed.lastVisited || undefined,
+    lastUpdated: parsed.lastUpdated || new Date().toISOString(),
   }
-  return { completedChapters: [], quizScores: {}, lastUpdated: new Date().toISOString() }
 }
 
 function saveProgressToStorage(progress: CourseProgress): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
-  } catch (error) {
-    console.warn('Failed to save progress to localStorage:', error)
-  }
+  safeSetJSON(STORAGE_KEY, progress)
 }
 
 // Helper to build a full progress object for saving

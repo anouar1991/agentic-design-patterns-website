@@ -1223,6 +1223,12 @@ This prevents `console.error` output when Supabase is simply not running (expect
 - [T-970] `ring-offset-dark-900` in code block highlight becomes light-colored in light mode, breaking the visual — use a fixed color `ring-offset-[#1e293b]` instead
 - [T-970] Search modal `<mark>` used `text-primary-200` which is unreadable in light mode — `text-inherit font-semibold` adapts to both themes
 
+### Lessons Learned (T-980)
+- [T-980] ProgressContext already had try-catch around localStorage, but ThemeContext and progressMerge's `setLocalProgress` did not — inconsistent error handling is worse than none because it gives false confidence
+- [T-980] Caching localStorage availability once per session (via a module-level `available` variable) avoids repeated try-catch overhead on every read/write
+- [T-980] The `safeGetJSON` validate callback pattern lets consumers reject schema-invalid data without a full schema library — keeps the utility lightweight
+- [T-980] All 6 direct localStorage calls across 3 files were replaced; only `storage.ts` now touches localStorage directly
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
