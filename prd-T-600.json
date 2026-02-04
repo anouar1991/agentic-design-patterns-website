@@ -42,7 +42,7 @@
       "name": "Build output has no warnings that indicate runtime issues",
       "intent": "Ensure build warnings don't mask issues that would break features in production",
       "description": "Review build warnings for issues like missing dependencies, circular imports, or large chunks that could cause runtime failures. Fix critical warnings.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-600-100"
       ],
@@ -250,7 +250,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-600-200",
-    "history": ["T-600-100"]
+    "recommendedNextStepId": "T-600-300",
+    "history": ["T-600-100", "T-600-200"]
   }
 }

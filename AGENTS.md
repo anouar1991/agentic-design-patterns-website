@@ -522,6 +522,16 @@ Issues found and fixed:
 - [T-510] Lighthouse mobile scores are heavily penalized by 4x CPU throttling — a 920KB index chunk (258KB gzip) is acceptable for desktop but causes 2.4s TBT on mobile simulation
 - [T-510] The biggest performance win was switching from full Prism to PrismLight (92% reduction) — always check if a library offers a tree-shakeable or light build before accepting its full bundle
 
+## Build Warning Analysis (T-600-200)
+
+**Result: Zero critical warnings — only cosmetic CSS optimizer notes**
+
+Build warnings found:
+1. **CSS pseudo-class warnings** (2): RTL utility classes (`rtl\:rotate-180`, `rtl\:flip`) misidentified as pseudo-classes by the CSS optimizer — false positives from escaped Tailwind-style selectors. No runtime impact.
+2. **Chunk size advisory** (1): `index-*.js` at 918KB (257KB gzip) exceeds Vite's 500KB warning threshold — addressed by T-600-300 bundle analysis.
+
+Zero missing dependency, circular import, or unresolved module warnings.
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
