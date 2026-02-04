@@ -1126,6 +1126,11 @@ All routes except `/leaderboard` produced **zero console errors, warnings, or un
 - [T-920] Wrapping each `EnhancedCodeBlock` individually (rather than the whole code examples container) means a single broken code block doesn't take out all code examples — granular boundaries improve resilience
 - [T-920] The site uses custom `dark-*` tokens (always-dark themed) rather than Tailwind's `dark:` prefix — fallback UI uses `text-dark-50`, `text-dark-400`, `bg-red-500/5` which work in both modes without explicit dark variants
 
+### Lessons Learned (T-930)
+- [T-930] Codebase has zero React warnings — all 60+ `.map()` calls have proper `key` props, all `useEffect` hooks have correct dependency arrays, no deprecated APIs used. StrictMode enabled without triggering any warnings
+- [T-930] `const enum` is not compatible with TypeScript 5.9's `erasableSyntaxOnly` mode — use `as const` object pattern instead (e.g., `const LogLevel = { Debug: 0, Info: 1 } as const`)
+- [T-930] When auditing for React warnings, runtime browser console verification is essential — static code analysis alone can miss warnings that only appear during component rendering (StrictMode double-renders, race conditions)
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

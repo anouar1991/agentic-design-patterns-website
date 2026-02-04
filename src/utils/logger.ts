@@ -11,14 +11,14 @@
  *   log.error('route not found', path); // always emitted
  */
 
-const enum LogLevel {
-  Debug = 0,
-  Info = 1,
-  Warn = 2,
-  Error = 3,
-}
+const LogLevel = {
+  Debug: 0,
+  Info: 1,
+  Warn: 2,
+  Error: 3,
+} as const;
 
-const MIN_LEVEL: LogLevel = import.meta.env.PROD ? LogLevel.Warn : LogLevel.Debug;
+const MIN_LEVEL = import.meta.env.PROD ? LogLevel.Warn : LogLevel.Debug;
 
 function timestamp(): string {
   return new Date().toISOString().slice(11, 23); // HH:mm:ss.SSS
