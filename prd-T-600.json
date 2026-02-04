@@ -155,7 +155,7 @@
       "name": "SEO and meta tags present in production build",
       "intent": "Verify SEO optimizations from T-520 survive the build process and are present in served HTML",
       "description": "Check that dynamic titles, Open Graph tags, structured data, and meta descriptions are present in the production build output",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-600-400"
       ],
@@ -183,7 +183,7 @@
       "name": "Performance optimizations verified in production build",
       "intent": "Confirm that T-510 performance optimizations (code splitting, lazy loading) are active in the production build",
       "description": "Verify that code splitting produces separate chunks, lazy-loaded components load on demand, and PrismLight (or equivalent) is used instead of full Prism",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-600-300"
       ],
@@ -250,7 +250,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-600-600",
-    "history": ["T-600-100", "T-600-200", "T-600-300", "T-600-400", "T-600-500"]
+    "recommendedNextStepId": "T-600-800",
+    "history": ["T-600-100", "T-600-200", "T-600-300", "T-600-400", "T-600-500", "T-600-600", "T-600-700"]
   }
 }
