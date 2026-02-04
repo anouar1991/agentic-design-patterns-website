@@ -2154,7 +2154,7 @@
       "name": "Supabase client configured: environment variables and client singleton created",
       "intent": "Set up the Supabase JS client as a reusable singleton with proper env var configuration",
       "description": "Install @supabase/supabase-js, create environment variables (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY) from creds.yml values, and create a supabase client utility module that exports a singleton client instance. Add .env to .gitignore if not already there.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1300"
       ],
@@ -2539,9 +2539,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1210",
-    "completedAt": "2026-02-04T22:25:00Z",
-    "recommendedNextStepId": "T-1300",
+    "lastCompletedTaskId": "T-1310",
+    "completedAt": "2026-02-05T10:00:00Z",
+    "recommendedNextStepId": "T-1320",
     "history": [
       "T-780",
       "T-790",
@@ -2611,7 +2611,8 @@
       "T-1190",
       "T-1200",
       "T-1210",
-      "T-1300"
+      "T-1300",
+      "T-1310"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

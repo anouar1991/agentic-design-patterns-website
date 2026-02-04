@@ -1381,3 +1381,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1300] Credential mapping: `creds.yml` → `.env.local`: `supabase.project.url` → `VITE_SUPABASE_URL`, `supabase.project.anonkey` → `VITE_SUPABASE_ANON_KEY`
 - [T-1300] `.env.local` is git-ignored via `*.local` pattern in `.gitignore` — safe for storing credentials
 - [T-1300] The existing `supabase.ts` client uses graceful degradation: if credentials are missing, auth features disable automatically without console errors
+
+### Lessons Learned (T-1310)
+- [T-1310] `.env` file created with `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` — Vite exposes only `VITE_`-prefixed env vars to client code via `import.meta.env`
+- [T-1310] Added `.env` to `.gitignore` explicitly — `*.local` only covers `.env.local` variants, not `.env` itself
+- [T-1310] `src/lib/supabase.ts` already existed with singleton pattern, typed with `Database` generic, and graceful degradation — no code changes needed
+- [T-1310] Connection verified via REST API: `curl` to `/rest/v1/user_progress` returned PostgREST error (table not found, expected since migrations not applied yet) rather than connection error — proves connectivity works
+- [T-1310] `@supabase/supabase-js ^2.90.1` was already installed from a prior task — no `npm install` needed
