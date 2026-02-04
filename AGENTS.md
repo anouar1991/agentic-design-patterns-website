@@ -42,6 +42,7 @@ src/
 │   ├── LearningObjectives.tsx # Chapter learning objectives
 │   ├── ProgressiveContent.tsx # Progressive content reveal
 │   ├── ReadingProgressBar.tsx # Reading progress indicator
+│   ├── SearchModal.tsx        # Cmd+K search modal with fuzzy search
 │   ├── tutorial/
 │   │   ├── InteractiveTutorial.tsx # Main tutorial renderer
 │   │   ├── TutorialCodeBlock.tsx   # Code blocks with clickable terms
@@ -274,6 +275,13 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-440] Force light colors in print by redefining `--color-dark-*` tokens to their light equivalents inside `@media print` — same pattern used by `html.light` class
 - [T-440] `no-print` class hides elements only in print; `print-only` class shows elements only in print — both toggled by `@media print` block
 - [T-440] Gradient text (`-webkit-text-fill-color: transparent` with `background-clip: text`) must be explicitly reset in print — otherwise text becomes invisible on white paper
+
+- [T-350] Search index is built statically at module load time from `chapterDetails`, `codeTerms`, and `concepts` — no re-computation on keystroke since data is static imports
+- [T-350] Portal-based modal (`createPortal` to `document.body`) ensures search overlay renders above all z-index stacking contexts including the fixed nav and diagram panels
+- [T-350] Fuzzy search scoring uses a weighted cascade: exact title match (100) > starts-with (90) > title contains (70) > subtitle contains (40) > fuzzy char-order match (20) — no external library needed for ~150-item dataset
+- [T-350] `useSearchShortcut` hook uses `metaKey || ctrlKey` to handle both macOS Cmd+K and Windows/Linux Ctrl+K — prevents default browser behavior (address bar focus)
+- [T-350] Concept results navigate to the first chapter that introduces them (via `conceptsIntroduced` array) — fallback to `/chapters` if no chapter found
+- [T-350] `requestAnimationFrame` before `inputRef.current?.focus()` ensures the modal DOM is painted before attempting focus — prevents race condition with Framer Motion enter animation
 
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep

@@ -11,7 +11,9 @@ import {
   Sparkles,
   GraduationCap,
   Trophy,
-  CheckCircle2
+  CheckCircle2,
+  Search,
+  Command
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,6 +24,7 @@ import { ThemeSwitcher } from './ThemeSwitcher'
 import { UserMenu } from './UserMenu'
 import { layoutIds } from '../config/motion'
 import { useProgress } from '../contexts/ProgressContext'
+import SearchModal, { useSearchShortcut } from './SearchModal'
 
 const TOTAL_CHAPTERS = 21
 
@@ -43,6 +46,7 @@ export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { t } = useTranslation()
   const { completedChapters, completionPercentage, lastVisited } = useProgress()
+  const { isSearchOpen, openSearch, closeSearch } = useSearchShortcut()
   const hasProgress = completedChapters.length > 0 || !!lastVisited
   const navLinks = getNavLinks(t, hasProgress, lastVisited?.chapterId)
 
@@ -115,8 +119,21 @@ export default function Layout() {
               })}
             </div>
 
-            {/* User Menu, GitHub Link, Language Switcher & Mobile Menu */}
+            {/* Search, User Menu, GitHub Link, Language Switcher & Mobile Menu */}
             <div className="flex items-center gap-2 sm:gap-4">
+              {/* Search trigger */}
+              <button
+                onClick={openSearch}
+                className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-dark-800/80 border border-dark-700/50 text-dark-400 hover:text-dark-200 hover:border-dark-600 transition-all text-sm"
+                aria-label={t('search.placeholder')}
+              >
+                <Search className="w-3.5 h-3.5" />
+                <span className="text-xs">{t('search.trigger')}</span>
+                <kbd className="hidden lg:inline-flex items-center gap-0.5 ml-1 px-1.5 py-0.5 rounded bg-dark-700/60 border border-dark-600/40 text-[10px] text-dark-500">
+                  <Command className="w-2.5 h-2.5" />K
+                </kbd>
+              </button>
+
               {/* Progress indicator pill - shows when user has progress */}
               {hasProgress && (
                 <motion.div
@@ -298,6 +315,15 @@ export default function Layout() {
                   </motion.div>
                 )}
 
+                {/* Mobile search button */}
+                <button
+                  onClick={() => { setMobileMenuOpen(false); openSearch() }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-dark-400 hover:bg-dark-800 hover:text-dark-50 transition-colors w-full"
+                >
+                  <Search className="w-5 h-5" />
+                  {t('search.trigger')}
+                </button>
+
                 <a
                   href="https://github.com/sarwarbeing-ai/Agentic_Design_Patterns"
                   target="_blank"
@@ -320,6 +346,9 @@ export default function Layout() {
       <main className="flex-1 pt-16">
         <RouteTransitionWrapper />
       </main>
+
+      {/* Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={closeSearch} />
 
       {/* Footer */}
       <footer className="border-t border-dark-700/40 bg-dark-950/80 no-print">

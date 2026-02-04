@@ -356,6 +356,19 @@
     "implementation": "Implementation",
     "codeExamplesDescription": "Hands-on implementations using LangChain, LangGraph, and Google ADK."
   },
+  "search": {
+    "trigger": "Search",
+    "placeholder": "Search chapters, code terms, concepts...",
+    "noResults": "No results found",
+    "tryDifferent": "Try a different search term",
+    "hint": "Search across all chapters, code terms, and concepts",
+    "navigate": "Navigate",
+    "select": "Select",
+    "close": "Close",
+    "results": "results",
+    "result": "result",
+    "go": "go"
+  },
   "chapters": {
     "title": "All Chapters",
     "subtitle": "Explore the complete guide to agentic design patterns",

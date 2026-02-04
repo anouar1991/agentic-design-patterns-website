@@ -485,7 +485,7 @@
       "name": "Search functionality: instant search across chapters, code terms, and tutorial content",
       "intent": "As content grows, users need to find specific topics quickly",
       "description": "Add a search bar (Cmd+K shortcut) that searches across chapter titles, descriptions, code terms, and tutorial content. Show results in a modal with keyboard navigation and direct links to matched sections.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-300",
         "T-310"
@@ -808,7 +808,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-350",
+    "recommendedNextStepId": "T-400",
     "history": [
       "T-100",
       "T-101",
@@ -828,7 +828,8 @@
       "T-310",
       "T-420",
       "T-430",
-      "T-440"
+      "T-440",
+      "T-350"
     ],
     "startedAt": "2026-02-03T20:30:00Z"
   }

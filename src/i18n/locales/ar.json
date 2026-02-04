@@ -356,6 +356,19 @@
     "implementation": "التطبيق",
     "codeExamplesDescription": "تطبيقات عملية باستخدام LangChain و LangGraph و Google ADK."
   },
+  "search": {
+    "trigger": "بحث",
+    "placeholder": "ابحث في الفصول والمصطلحات والمفاهيم...",
+    "noResults": "لم يتم العثور على نتائج",
+    "tryDifferent": "جرب مصطلح بحث مختلف",
+    "hint": "ابحث في جميع الفصول ومصطلحات الكود والمفاهيم",
+    "navigate": "تصفح",
+    "select": "اختيار",
+    "close": "إغلاق",
+    "results": "نتائج",
+    "result": "نتيجة",
+    "go": "انتقل"
+  },
   "chapters": {
     "title": "جميع الفصول",
     "subtitle": "استكشف الدليل الشامل لأنماط التصميم الوكيلية",
