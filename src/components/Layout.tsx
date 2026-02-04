@@ -256,9 +256,9 @@ export default function Layout() {
                       </div>
                       <div className="h-1.5 bg-dark-700 rounded-full overflow-hidden">
                         <motion.div
-                          className="h-full rounded-full bg-gradient-to-r from-primary-500 to-accent-500"
-                          initial={{ width: 0 }}
-                          animate={{ width: `${completionPercentage}%` }}
+                          className="h-full rounded-full bg-gradient-to-r from-primary-500 to-accent-500 origin-left"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: completionPercentage / 100 }}
                           transition={{ type: 'spring', stiffness: 100, damping: 30, delay: 0.1 }}
                         />
                       </div>

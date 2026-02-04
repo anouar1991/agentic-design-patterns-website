@@ -692,6 +692,28 @@ Zero missing dependency, circular import, or unresolved module warnings.
 - [T-760] Dynamic `import()` in an event handler (onMouseEnter) fetches the chunk but doesn't execute it until React.lazy requests it — this is the lightest prefetch strategy, costing only a network fetch with no JS execution overhead
 - [T-760] A `Set`-based deduplication in the prefetch utility prevents redundant network requests when users hover over multiple cards — the first hover triggers the fetch, subsequent hovers are no-ops
 
+## Animation Performance Hardening (T-770)
+
+**Result: All layout-triggering animations replaced with GPU-composited equivalents**
+
+### Changes Made
+1. **Progress bars (7 instances)**: Replaced `animate={{ width: '${pct}%' }}` with `animate={{ scaleX: pct/100 }}` + `origin-left` class in:
+   - Home.tsx, Profile.tsx, Chapters.tsx, LearningPath.tsx, Layout.tsx (mobile nav), ChapterQuiz.tsx (2 instances)
+2. **Node ripple CSS**: Replaced `width/height: 0→200px` keyframe with `transform: scale(0→1)` at fixed 200×200px size
+3. **will-change hints**: Added to hero-node-core (opacity), hero-edge (opacity), hero-pulse (transform, opacity), node-ripple (transform, opacity), edge-animated (stroke-dashoffset)
+4. **Universal reduced-motion**: Replaced per-element `animation: none` with global `* { animation-duration: 0.01ms; transition-duration: 0.01ms; scroll-behavior: auto }` under `@media (prefers-reduced-motion: reduce)`
+
+### Remaining `height: 'auto'` in Layout.tsx
+- Mobile menu uses Framer Motion `animate={{ height: 'auto' }}` — this is Framer Motion's optimized FLIP technique for collapsible content, not a per-frame layout recalculation. Replacing it with max-height would be worse.
+
+### Lessons Learned (T-770)
+
+- [T-770] Framer Motion `animate={{ width }}` on progress bars triggers layout recalculation every frame — `scaleX` with `transform-origin: left` achieves the same visual effect entirely on the GPU compositor thread
+- [T-770] CSS keyframe `width/height` animations (like node ripple) should set final dimensions as static CSS and animate `transform: scale()` instead — the visual result is identical but avoids layout thrashing
+- [T-770] `will-change` should only be applied to elements with persistent/repeating animations (hero pulse, edge flow) — applying it to one-shot animations wastes GPU memory by keeping compositor layers alive unnecessarily
+- [T-770] `animation-duration: 0.01ms` (not `0s`) in reduced-motion media query ensures `animationend`/`transitionend` events still fire — some JavaScript logic depends on these callbacks
+- [T-770] Framer Motion's `<MotionConfig reducedMotion="user">` handles JS-driven animations, but CSS animations need a separate `@media (prefers-reduced-motion: reduce)` block — both layers must be covered for full accessibility
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

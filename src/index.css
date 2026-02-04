@@ -518,15 +518,18 @@ code {
 
 .hero-node-core {
   animation: hero-fade-in 0.8s var(--ease-smooth) forwards;
+  will-change: opacity;
 }
 
 .hero-edge {
   animation: hero-edge-in 1s var(--ease-smooth) forwards;
+  will-change: opacity;
 }
 
 .hero-pulse {
   transform-origin: center;
   animation: hero-ring-pulse 5s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes hero-fade-in {
@@ -553,10 +556,17 @@ code {
 
 /* Accessibility: no animation for reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
   .hero-node-core,
   .hero-edge,
   .hero-pulse {
-    animation: none !important;
     opacity: 0.4;
   }
   .hero-viz {
@@ -824,23 +834,22 @@ code {
 /* Node click ripple */
 .node-ripple {
   position: absolute;
-  width: 0;
-  height: 0;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0);
   pointer-events: none;
+  will-change: transform, opacity;
   animation: node-ripple-expand 0.5s var(--ease-out-expo) forwards;
 }
 
 @keyframes node-ripple-expand {
   from {
-    width: 0;
-    height: 0;
+    transform: translate(-50%, -50%) scale(0);
     opacity: 0.6;
   }
   to {
-    width: 200px;
-    height: 200px;
+    transform: translate(-50%, -50%) scale(1);
     opacity: 0;
   }
 }
@@ -854,6 +863,7 @@ code {
 .react-flow__edge-path.edge-animated {
   stroke-dasharray: 6 6;
   animation: edge-flow 1s linear infinite;
+  will-change: stroke-dashoffset;
 }
 
 /* Edge flow marker (arrowhead-like dash pulse) */

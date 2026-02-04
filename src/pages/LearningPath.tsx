@@ -159,9 +159,9 @@ export default function LearningPath() {
             <div className="h-3 bg-dark-700 rounded-full overflow-hidden">
               <motion.div
                 layoutId={layoutIds.progressBar}
-                className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: `${completionPercentage}%` }}
+                className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full origin-left"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: completionPercentage / 100 }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
               />
             </div>

@@ -546,7 +546,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                       className="flex-1 rounded-full overflow-hidden bg-dark-700"
                     >
                       <motion.div
-                        className="h-full rounded-full"
+                        className="h-full rounded-full origin-left"
                         style={{
                           backgroundColor:
                             idx < answers.length
@@ -557,8 +557,8 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                               ? chapterColor
                               : 'transparent',
                         }}
-                        initial={idx === currentQuestionIndex ? { width: '0%' } : undefined}
-                        animate={{ width: idx <= currentQuestionIndex ? '100%' : '0%' }}
+                        initial={idx === currentQuestionIndex ? { scaleX: 0 } : undefined}
+                        animate={{ scaleX: idx <= currentQuestionIndex ? 1 : 0 }}
                         transition={{ duration: 0.3 }}
                       />
                     </div>
@@ -623,7 +623,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                   {quiz.questions.map((_, idx) => (
                     <div key={idx} className="flex-1 rounded-full overflow-hidden bg-dark-700">
                       <motion.div
-                        className="h-full rounded-full"
+                        className="h-full rounded-full origin-left"
                         style={{
                           backgroundColor:
                             idx < answers.length
@@ -632,7 +632,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                                 : '#ef4444'
                               : 'transparent',
                         }}
-                        animate={{ width: idx < answers.length ? '100%' : '0%' }}
+                        animate={{ scaleX: idx < answers.length ? 1 : 0 }}
                       />
                     </div>
                   ))}

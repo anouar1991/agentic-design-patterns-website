@@ -1020,7 +1020,7 @@
       "name": "Animation performance hardened: GPU-accelerated transforms, will-change, and reduced motion",
       "intent": "Ensure all animations use compositor-friendly properties and don't cause jank or high CPU usage",
       "description": "Audit all CSS animations and Framer Motion animations. Replace any top/left/width/height animations with transform/opacity. Add will-change hints sparingly for known animated elements. Verify prefers-reduced-motion is respected everywhere. Ensure hero animation doesn't cause high GPU memory usage on mobile.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-730"
       ],
@@ -1280,6 +1280,7 @@
     "currentTaskId": null,
     "recommendedNextStepId": "T-750",
     "history": [
+      "T-770",
       "T-100",
       "T-101",
       "T-110",

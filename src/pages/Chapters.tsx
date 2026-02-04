@@ -197,9 +197,9 @@ export default function Chapters() {
                       {phaseProgress.completed > 0 && (
                         <div className="mt-2 h-1 rounded-full bg-dark-700 overflow-hidden">
                           <motion.div
-                            className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${phaseProgress.percentage}%` }}
+                            className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 origin-left"
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: phaseProgress.percentage / 100 }}
                             transition={{ duration: 0.6, ease: 'easeOut' }}
                           />
                         </div>
