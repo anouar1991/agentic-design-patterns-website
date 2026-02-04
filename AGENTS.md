@@ -860,6 +860,25 @@ Also removed corresponding light mode and print media overrides for deleted clas
 - [T-810] `lucide-react` is 45MB on disk but only 6.7KB brotli in the bundle — ES module tree-shaking eliminates unused icons effectively. The node_modules size is misleading for tree-shakeable packages
 - [T-810] `@types/*` packages in `dependencies` instead of `devDependencies` don't affect the production bundle (TypeScript types are erased at build time) but they signal incorrect dependency classification and may confuse auditing tools
 
+## Web Vitals Integration (T-820)
+
+**Result: Core Web Vitals measured on every page load via `web-vitals` library**
+
+### Implementation
+- Created `src/utils/webVitals.ts` — reporting utility with `sendToAnalytics` callback
+- Measures all 5 Core Web Vitals: CLS, INP, LCP, FCP, TTFB
+- Dynamic `import('web-vitals')` ensures the library loads in its own chunk (~2KB brotli)
+- Development: logs metrics to console with name, value, and rating
+- Production: `sendToAnalytics` hook ready for `navigator.sendBeacon()` or analytics endpoint
+- Called from `main.tsx` after `createRoot().render()` — fires once per page load
+
+### Lessons Learned (T-820)
+
+- [T-820] `web-vitals` uses dynamic `import()` internally for each metric observer — calling `onCLS`, `onINP`, etc. registers `PerformanceObserver` instances that fire asynchronously when the browser has finalized each metric
+- [T-820] INP (Interaction to Next Paint) replaced FID (First Input Delay) as Google's responsiveness metric — `onFID` is deprecated in web-vitals v4+; always use `onINP`
+- [T-820] CLS value is unitless (a score, not milliseconds) — format it with `toFixed(3)` not `Math.round()` for meaningful display
+- [T-820] Placing `reportWebVitals()` after `createRoot().render()` in `main.tsx` (not inside a React component) ensures metrics are captured even if React rendering fails or is slow
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

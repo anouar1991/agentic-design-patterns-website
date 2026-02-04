@@ -1171,7 +1171,7 @@
       "name": "Performance monitoring: Web Vitals reporting integrated",
       "intent": "Enable ongoing performance measurement after deployment so regressions are caught",
       "description": "Integrate web-vitals library to measure and report Core Web Vitals (LCP, FID/INP, CLS, FCP, TTFB) in production. Log metrics to console in development. Prepare reporting hook for analytics integration. Display performance badge in dev mode.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-700"
       ],
@@ -1278,7 +1278,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-780",
+    "recommendedNextStepId": "T-830",
     "history": [
       "T-790",
       "T-770",
@@ -1318,7 +1318,8 @@
       "T-770",
       "T-750",
       "T-800",
-      "T-810"
+      "T-810",
+      "T-820"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
