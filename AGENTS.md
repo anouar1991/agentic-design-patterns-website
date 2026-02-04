@@ -879,6 +879,33 @@ Also removed corresponding light mode and print media overrides for deleted clas
 - [T-820] CLS value is unitless (a score, not milliseconds) — format it with `toFixed(3)` not `Math.round()` for meaningful display
 - [T-820] Placing `reportWebVitals()` after `createRoot().render()` in `main.tsx` (not inside a React component) ensures metrics are captured even if React rendering fails or is slow
 
+## Rendering Checkpoint (T-830)
+
+**Result: All optimizations verified — zero regressions, zero console errors**
+
+### Verification Summary
+- Production build: succeeds (16s, 21 chunks + compressed variants)
+- Homepage: hero animation, chapter cards, navigation all render correctly
+- Chapter pages (tested Ch 1, Ch 7): tutorials, clickable code terms, diagrams, quizzes all functional
+- Dark mode: toggle works, theme persists, all components render in dark mode
+- Search (Ctrl+K): finds chapters and code terms, keyboard navigation works
+- Diagram interactions: node click opens detail panel with code linking
+- Quiz: starts, accepts answers, shows correct/incorrect feedback with explanations
+- Console errors: **0** across all tested pages
+
+### Bundle Comparison vs T-700 Baseline
+| Metric | T-700 Baseline | T-830 Current | Change |
+|--------|---------------|---------------|--------|
+| Largest chunk | 918KB (monolith) | 376KB (data-chapters) | -59% |
+| Chunk count | ~3 | 17+ | Split for caching |
+| CSS | 89KB (blocking) | 104KB (critical inlined) | FOUC eliminated |
+| Compression | None | Brotli + gzip | ~60-70% transfer reduction |
+
+### Lessons Learned (T-830)
+- [T-830] Playwright accessibility snapshots are more reliable than screenshots for automated feature validation — they capture interactive state (button labels, active states, dialog content) that screenshots miss
+- [T-830] The 2 CSS warnings about `rtl\\:rotate-180` and `rtl\\:flip` pseudo-classes are harmless Tailwind RTL utility escaping artifacts — they don't affect rendering
+- [T-830] Total raw JS increased from ~918KB to ~1.5MB because vendor code (React, Framer Motion, i18n) is now in separate chunks instead of being hidden in the monolith — but gzipped/brotli transfer size is comparable due to compression
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
