@@ -1368,3 +1368,9 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1200] `contain: layout style` on the fixed header isolates it from the rest of the paint tree, preventing backdrop-filter (glass-morphism) from causing paint storms in the main content area
 - [T-1200] CLS prevention requires: (1) fixed position header with explicit heights (`h-16`/`h-12`), (2) matching padding-top on main content (`pt-16`), (3) `overflow-hidden` during height transitions — verified CLS = 0 on both homepage and chapter pages
 - [T-1200] Lighthouse scores in constrained VM environments (headless Chrome with CPU throttling) produce artificially low scores (28-34) due to compounded CPU constraints — CLS and specific audit metrics are more reliable than the aggregate score in such environments
+
+### Lessons Learned (T-1210)
+- [T-1210] Production build (`tsc -b && vite build`) completed with zero errors and zero warnings — 3234 modules transformed, 23 chunks output with gzip+brotli compression
+- [T-1210] All header features verified in production build across 5 routes (home, chapter/1, chapters, playground, leaderboard): dark mode toggle, search bar with Ctrl+K hint, progress indicator (0/21), language switcher, skip-to-content link, nav with active highlighting
+- [T-1210] The only console error across all routes was `ERR_CONNECTION_REFUSED` for the Supabase leaderboard API at `127.0.0.1:54321` — this is expected when Supabase is not running locally and is unrelated to header components
+- [T-1210] PRD COMPLETE: All 68 tasks passed. Header enhancement series (T-1100 through T-1210) delivered: glass-morphism, sticky compact mode, animated nav underlines, search bar, progress indicator, mobile drawer, breadcrumb, accessibility, performance optimization, and production verification
