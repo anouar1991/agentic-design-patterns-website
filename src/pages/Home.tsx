@@ -198,7 +198,7 @@ export default function Home() {
                 className="group flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold hover:shadow-lg hover:shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] glow-primary"
               >
                 {t('home.startLearning')}
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" />
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl-rotate-180 transition-transform" />
               </Link>
               <Link
                 to="/learning-path"
@@ -457,7 +457,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors"
             >
               {t('home.viewAllChapters')}
-              <ChevronRight className="w-4 h-4 rtl:rotate-180" />
+              <ChevronRight className="w-4 h-4 rtl-rotate-180" />
             </Link>
           </div>
         </div>
@@ -570,7 +570,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold hover:shadow-lg hover:shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] glow-primary"
             >
               {t('home.ctaButton')}
-              <ArrowRight className="w-5 h-5 rtl:rotate-180" />
+              <ArrowRight className="w-5 h-5 rtl-rotate-180" />
             </Link>
           </motion.div>
         </div>

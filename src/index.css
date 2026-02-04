@@ -857,11 +857,11 @@ html.rtl .gradient-text {
 }
 
 /* Flip icons that have directional meaning in RTL */
-html.rtl .rtl\\:rotate-180 {
+html.rtl .rtl-rotate-180 {
   transform: rotate(180deg);
 }
 
-html.rtl .rtl\\:flip {
+html.rtl .rtl-flip {
   transform: scaleX(-1);
 }
 

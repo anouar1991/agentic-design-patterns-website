@@ -287,7 +287,7 @@ export default function Chapters() {
                             )}
                           </div>
                           <ChevronRight
-                            className="w-5 h-5 text-dark-600 group-hover:text-primary-400 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-all"
+                            className="w-5 h-5 text-dark-600 group-hover:text-primary-400 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl-rotate-180 transition-all"
                           />
                         </div>
                       </Link>

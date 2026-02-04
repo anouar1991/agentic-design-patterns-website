@@ -1229,6 +1229,10 @@ This prevents `console.error` output when Supabase is simply not running (expect
 - [T-980] The `safeGetJSON` validate callback pattern lets consumers reject schema-invalid data without a full schema library — keeps the utility lightweight
 - [T-980] All 6 direct localStorage calls across 3 files were replaced; only `storage.ts` now touches localStorage directly
 
+### Lessons Learned (T-1000)
+- [T-1000] Vite 7's Lightning CSS minifier treats escaped colon selectors (`.rtl\:rotate-180`) as pseudo-class names and warns — use hyphenated class names (`rtl-rotate-180`) instead
+- [T-1000] TypeScript had zero warnings; the only build warnings were CSS optimization warnings from RTL utility class naming
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
