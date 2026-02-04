@@ -227,6 +227,11 @@ export default function TutorialCodeBlock({
     [code, highlightTerms]
   );
 
+  const hasClickableTerms = useMemo(
+    () => tokenizedLines.some(line => line.some(t => t.type === 'term' || t.type === 'operator')),
+    [tokenizedLines]
+  );
+
   const handleTermClick = useCallback((termId: string) => {
     const term = codeTerms[termId];
     if (term) {
@@ -337,10 +342,12 @@ export default function TutorialCodeBlock({
             >
               {language}
             </span>
-            <span className="text-xs text-dark-500 flex items-center gap-1">
-              <HelpCircle className="w-3 h-3" />
-              Click highlighted terms for explanations
-            </span>
+            {hasClickableTerms && (
+              <span className="text-xs text-dark-500 flex items-center gap-1">
+                <HelpCircle className="w-3 h-3" />
+                Click highlighted terms for explanations
+              </span>
+            )}
           </div>
           <button
             onClick={handleCopy}

@@ -414,6 +414,49 @@ Issues found and fixed:
 - Print CSS in `index.css:1041-1374` covers: page setup, color inversion, element hiding, code blocks, page breaks, gradient text fix, link URLs, and utility classes
 - No fixes needed — print styles from T-440 work correctly across all chapters
 
+## Interactive Features Verification (T-500-800)
+
+**Result: All 21 chapters' interactive features work correctly**
+
+### Diagrams
+- All 21 chapters have ReactFlow `[role="application"]` diagrams
+- Node click → detail panel with description, "About this step", "How it works", related concepts
+- "View in Code" button scrolls to and highlights relevant code section
+- Verified on chapters 1, 10, 18: 12 clickable nodes each, detail panel opens, View in Code works
+
+### Code Term Modals
+- 17/21 chapters have clickable "Learn about" code term buttons (range: 2-27 per chapter)
+- 4 chapters (9, 11, 20, 21) have no code terms defined for their code patterns
+- Clicking term opens modal with: description, syntax, parameters, return types, pro tips, official docs link
+- **Fixed:** "Click highlighted terms for explanations" hint was showing on ALL code blocks, including those with no clickable terms. Made hint conditional on `hasClickableTerms` computed from tokenized output.
+
+### Quizzes
+- All 21 chapters have "Start Quiz" button
+- Quiz start → question display → answer selection → submit → correct/incorrect feedback with explanation → next question
+- Score tracking (X/Y) updates in real-time
+- Question types: multiple-choice, true/false, ordering (drag-and-drop)
+- Verified scoring on chapters 1 and 18
+
+### Tutorials
+- All 21 chapters have "Hands-On Tutorial" sections
+- Step types verified: narrative, code, tip, warning, exercise, checkpoint
+- Tutorial progression works with numbered steps
+
+### Code Term Coverage by Chapter
+| Chapters | "Learn about" Buttons | Notes |
+|----------|----------------------|-------|
+| 1-4 | 18-27 | Rich LangChain/LCEL terms |
+| 5-8 | 7-10 | Tool use, planning, memory terms |
+| 9, 11, 20, 21 | 0 | No matching terms in codeTerms.ts |
+| 10, 12-19 | 2-13 | Mixed coverage |
+
+## Lessons Learned (T-500-800)
+
+- [T-500-800] `TutorialCodeBlock.tsx` shows "Click highlighted terms" hint on all code blocks regardless of whether any terms are matched — fixed by computing `hasClickableTerms` from tokenized output
+- [T-500-800] ReactFlow diagram nodes use `div[role="button"][tabindex="0"]` not `<button>` elements — Playwright locators must target this pattern, not `button` tag
+- [T-500-800] Diagram nodes have `animate-pulse-subtle` CSS causing Playwright "element is not stable" — use `force: true` on click (consistent with T-240 finding)
+- [T-500-800] Duplicate diagram nodes appear in DOM because of dual rendering (inline + sticky sidebar) — `count / 2` gives actual unique node count
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt

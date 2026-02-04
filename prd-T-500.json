@@ -201,7 +201,7 @@
       "name": "Chapter-specific interactive features verified",
       "intent": "Verify chapter-specific features like diagrams, code blocks, quizzes, and tutorials work on every chapter that has them",
       "description": "Test interactive elements unique to each chapter: clickable diagram nodes, code term modals, quiz functionality, and tutorial step navigation. Fix any chapter-specific bugs.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-500-200"
       ],
@@ -267,7 +267,7 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "recommendedNextStepId": "T-500-800",
-    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500", "T-500-600", "T-500-700"]
+    "recommendedNextStepId": "T-500-900",
+    "history": ["T-500-100", "T-500-200", "T-500-400", "T-500-300", "T-500-500", "T-500-600", "T-500-700", "T-500-800"]
   }
 }
