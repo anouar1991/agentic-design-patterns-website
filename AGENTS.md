@@ -1624,3 +1624,57 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1630] **Quiz Section**: Identical structure — "Test Your Knowledge" h2, Learning Objectives list, quiz card with question count and 75% threshold. Ch1 has 6 questions with 3 types (MC, T/F, Ordering), Ch5 and Ch11 have 4 questions each — content volume differs but UI consistent.
 - [T-1630] **Footer/Navigation**: Previous/Next chapter links correct per position. "All Chapters" link present in all. Footer book attribution and external links identical.
 - [T-1630] **Overall**: No critical or major visual inconsistencies. One minor content gap (Ch11 missing clickable code terms in tutorial). All structural elements, color theming, and interactive components are consistent across the three representative chapters.
+
+## Visual Audit Discrepancy Report (T-1640)
+
+Consolidated findings from all visual audit tasks (T-1510 through T-1630).
+
+### Critical Issues (Layout Breaks)
+
+_None found._ No layout breaks, overflow issues, or rendering failures detected across any viewport, theme, or page.
+
+### Major Issues (Functional Bugs)
+
+| # | Issue | Source Task | Component / File | Severity | Fix Recommendation | Priority |
+|---|-------|-------------|------------------|----------|-------------------|----------|
+| 1 | **Nav link overflow at 1440px**: "Home" link hidden behind logo, "Continue Learning" clipped at right edge | T-1510, T-1560, T-1580 | `src/components/Layout.tsx` (header nav section) | Major | Add responsive text truncation or reduce nav item count at 1440px. Consider `overflow-hidden` with `text-ellipsis` or a breakpoint-aware nav layout that collapses earlier. | P1 |
+| 2 | **TypeError in quiz ordering keyboard handler**: Console error at `ChapterQuiz.tsx:121` when interacting with ordering-type questions | T-1610 | `src/components/ChapterQuiz.tsx:121` | Major | Add null/bounds check in the keyboard event handler for ordering questions. The handler likely accesses an array index without checking if the element exists. | P2 |
+
+### Minor Issues (Visual Polish / Content Gaps)
+
+| # | Issue | Source Task | Component / File | Severity | Fix Recommendation | Priority |
+|---|-------|-------------|------------------|----------|-------------------|----------|
+| 3 | **Learning Path section title wraps to two lines** at certain viewport widths | T-1510 | `src/pages/Home.tsx` (Learning Path section heading) | Minor | Adjust font size or use `whitespace-nowrap` on the section heading. Alternatively, shorten the heading text. | P3 |
+| 4 | **Progress tracker color semantics**: Progress indicator colors may not clearly distinguish completed vs in-progress states | T-1510 | `src/components/ReadingProgressBar.tsx` or progress-related component | Minor | Review color choices for completed (green), in-progress (amber), and not-started (gray) states to ensure clear visual differentiation. | P4 |
+| 5 | **Chapter 11 missing clickable code terms** in tutorial code blocks | T-1630 | `src/data/codeTerms.ts` (missing Ch11 terms), `src/data/chapters.ts` (Ch11 tutorial) | Minor | Add code term definitions for Ch11's key classes/methods to `codeTerms.ts` and add pattern matching in tutorial code blocks. This is a content gap, not a component bug. | P3 |
+| 6 | **6 non-critical React Flow warnings** in console on chapter pages | T-1550 | `@xyflow/react` library (external) | Minor | These are upstream library warnings, not application bugs. Suppress with React Flow configuration or wait for library update. | P5 |
+
+### Summary
+
+| Severity | Count | Status |
+|----------|-------|--------|
+| Critical (layout break) | 0 | - |
+| Major (functional bug) | 2 | Fix recommended |
+| Minor (polish/content) | 4 | Polish recommended |
+| **Total** | **6** | |
+
+### Pages/Features With No Issues
+
+The following were audited and found to have zero discrepancies:
+- Homepage dark mode (T-1520)
+- Mobile viewport 375px/768px responsive layout (T-1530)
+- Mobile drawer navigation (T-1540)
+- Chapter page content rendering - light and dark (T-1550, excluding React Flow warnings)
+- Auth modal - sign-in and sign-up forms (T-1570)
+- Profile page with progress map and achievements (T-1590)
+- Search modal with keyboard shortcuts and results (T-1600)
+- Error boundary fallback UI with retry (T-1620)
+
+### Remediation Priority Order
+
+1. **P1 - Nav link overflow** (Major, affects all pages at 1440px): `Layout.tsx`
+2. **P2 - Quiz TypeError** (Major, affects quiz interaction): `ChapterQuiz.tsx:121`
+3. **P3 - Ch11 clickable terms** (Minor, content gap): `codeTerms.ts`
+4. **P3 - Learning Path heading wrap** (Minor, cosmetic): `Home.tsx`
+5. **P4 - Progress color semantics** (Minor, UX clarity): Progress component
+6. **P5 - React Flow warnings** (Minor, external library): No action needed
