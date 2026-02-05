@@ -2868,7 +2868,7 @@
       "name": "Profile page audit: layout, stats display, and chapter progress map verified",
       "intent": "Verify the profile page renders correctly for authenticated and unauthenticated states",
       "description": "Navigate to /profile and screenshot both the unauthenticated redirect/prompt state and the profile page layout. Verify: display name field, learning statistics cards, chapter progress map visual, overall styling consistency, dark mode rendering.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1500"
       ],
@@ -3087,9 +3087,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1580",
-    "completedAt": "2026-02-05T03:30:00Z",
-    "recommendedNextStepId": "T-1590",
+    "lastCompletedTaskId": "T-1590",
+    "completedAt": "2026-02-05T04:00:00Z",
+    "recommendedNextStepId": "T-1600",
     "history": [
       "T-780",
       "T-790",
@@ -3179,7 +3179,8 @@
       "T-1550",
       "T-1570",
       "T-1560",
-      "T-1580"
+      "T-1580",
+      "T-1590"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
