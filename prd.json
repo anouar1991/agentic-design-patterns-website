@@ -292,7 +292,7 @@
       "validation": "Fresh page load: verify staggered card entrance, navigate to chapter via card click, verify nav updates smoothly, navigate back, verify no visual glitches. Test at 1440px and 375px widths.",
       "testLevel": "combination",
       "actions": [
-        "Full flow test: load \u2192 browse cards \u2192 click chapter \u2192 nav updates \u2192 back",
+        "Full flow test: load → browse cards → click chapter → nav updates → back",
         "Test at desktop and mobile widths",
         "Check for animation conflicts",
         "Verify consistent styling"
@@ -314,7 +314,7 @@
         "Diagrams enhanced"
       ],
       "guarantees": [
-        "Diagram node click \u2192 code scroll + highlight works",
+        "Diagram node click → code scroll + highlight works",
         "Code term click opens modal without breaking diagram state",
         "No interaction conflicts between code and diagram features"
       ],
@@ -324,7 +324,7 @@
         "Test diagram-to-code linking",
         "Test code term modals",
         "Verify no state conflicts",
-        "Test sequence: diagram click \u2192 code term click \u2192 diagram click"
+        "Test sequence: diagram click → code term click → diagram click"
       ]
     },
     {
@@ -539,7 +539,7 @@
         "No state conflicts between features",
         "Progress correctly saved after completing chapter"
       ],
-      "validation": "Full flow for one chapter: homepage \u2192 card click \u2192 tutorial read \u2192 click code terms \u2192 interact with diagram \u2192 diagram-to-code link \u2192 complete quiz \u2192 verify progress saved \u2192 return to homepage \u2192 verify completion badge.",
+      "validation": "Full flow for one chapter: homepage → card click → tutorial read → click code terms → interact with diagram → diagram-to-code link → complete quiz → verify progress saved → return to homepage → verify completion badge.",
       "testLevel": "integration",
       "actions": [
         "Execute full learning flow for chosen chapter",
@@ -795,7 +795,7 @@
         "Platform is ready for deployment",
         "User can experience the full incredible learning platform"
       ],
-      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation \u2192 chapter cards \u2192 tutorial \u2192 code terms \u2192 diagram \u2192 quiz \u2192 progress \u2192 dark mode \u2192 search \u2192 print preview. All features work in production.",
+      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation → chapter cards → tutorial → code terms → diagram → quiz → progress → dark mode → search → print preview. All features work in production.",
       "testLevel": "integration",
       "actions": [
         "Run npm run build",
@@ -1625,7 +1625,7 @@
       "id": "T-1010",
       "name": "Logging integration checkpoint: all logging and fixes verified together",
       "intent": "Verify that all logging enhancements and bug fixes work together without regressions",
-      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing \u2192 chapter selection \u2192 tutorial \u2192 quiz \u2192 completion. Verify clean console, proper logging, and no regressions.",
+      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing → chapter selection → tutorial → quiz → completion. Verify clean console, proper logging, and no regressions.",
       "pass": true,
       "dependencies": [
         "T-920",
@@ -1654,7 +1654,7 @@
         "No regressions in any existing feature",
         "Production build is clean with zero warnings"
       ],
-      "validation": "Navigate full flow (home \u2192 chapter 1 \u2192 tutorial \u2192 quiz \u2192 chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
+      "validation": "Navigate full flow (home → chapter 1 → tutorial → quiz → chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
       "testLevel": "integration",
       "actions": [
         "Start dev server",
@@ -2385,7 +2385,7 @@
         "All new components are keyboard accessible",
         "No console errors from Supabase integration"
       ],
-      "validation": "Full flow: anonymous chapter completion \u2192 sign up \u2192 verify progress synced \u2192 complete quiz \u2192 check leaderboard \u2192 sign out \u2192 sign in \u2192 verify all data persisted",
+      "validation": "Full flow: anonymous chapter completion → sign up → verify progress synced → complete quiz → check leaderboard → sign out → sign in → verify all data persisted",
       "testLevel": "integration",
       "actions": [
         "Test anonymous user flow",
@@ -2535,13 +2535,561 @@
         "Measure bundle size impact",
         "Document deployment requirements (env vars needed)"
       ]
+    },
+    {
+      "id": "T-1500",
+      "name": "Dev server running: homepage loads and is screenshottable",
+      "intent": "Establish baseline access to the running application for all subsequent screenshot tasks",
+      "description": "Start the dev server and verify the homepage loads correctly in the browser automation tool. Take an initial screenshot to confirm the pipeline works.",
+      "pass": true,
+      "dependencies": [],
+      "complexity": 1,
+      "requires": [
+        "Dev server starts",
+        "Homepage loads in browser"
+      ],
+      "guarantees": [
+        "Dev server is accessible at localhost",
+        "Browser automation can navigate to and screenshot the app",
+        "Initial homepage screenshot captured for reference"
+      ],
+      "validation": "Navigate to localhost dev server URL, take screenshot, verify non-empty image returned",
+      "testLevel": "unit",
+      "actions": [
+        "Start dev server if not running",
+        "Navigate browser to homepage",
+        "Take full-page screenshot",
+        "Verify page content is visible"
+      ]
+    },
+    {
+      "id": "T-1510",
+      "name": "Homepage light mode audit: hero, chapter cards, navigation verified visually",
+      "intent": "Capture and analyze the primary landing experience in light mode for visual discrepancies",
+      "description": "Take screenshots of the homepage in light mode at desktop viewport (1440x900). Analyze hero section animation area, chapter cards grid, navigation header with glass-morphism, progress bar, search trigger, and footer. Check for: consistent spacing, typography hierarchy, card hover state styling, color palette coherence, and alignment issues.",
+      "pass": false,
+      "dependencies": [
+        "T-1500"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Dev server is accessible at localhost",
+        "Browser automation can navigate to and screenshot the app"
+      ],
+      "guarantees": [
+        "Homepage light mode desktop screenshot captured and analyzed",
+        "Hero section visual state documented",
+        "Chapter cards layout and spacing verified",
+        "Header glass-morphism and navigation links verified",
+        "Any visual discrepancies cataloged with descriptions"
+      ],
+      "validation": "Screenshot homepage at 1440x900 in light mode, analyze all visible sections for discrepancies",
+      "testLevel": "unit",
+      "actions": [
+        "Navigate to homepage",
+        "Ensure light mode is active",
+        "Set viewport to 1440x900",
+        "Take full-page screenshot",
+        "Take viewport-only screenshot of header area",
+        "Take viewport-only screenshot of hero section",
+        "Scroll to chapter cards and screenshot",
+        "Analyze each screenshot for spacing, alignment, color, typography issues",
+        "Document all findings"
+      ]
+    },
+    {
+      "id": "T-1520",
+      "name": "Homepage dark mode audit: all elements verified for dark theme consistency",
+      "intent": "Verify dark mode rendering doesn't have contrast issues, wrong backgrounds, or missed theme elements",
+      "description": "Toggle to dark mode and take the same homepage screenshots. Analyze for: elements still showing light backgrounds, insufficient contrast, glass-morphism effect in dark mode, progress bar visibility, card borders/shadows in dark, and search bar styling. Compare against light mode for intentional vs unintentional differences.",
+      "pass": false,
+      "dependencies": [
+        "T-1510"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Homepage light mode desktop screenshot captured and analyzed",
+        "Dark mode toggle visible in header",
+        "Smooth transition between modes"
+      ],
+      "guarantees": [
+        "Homepage dark mode desktop screenshot captured and analyzed",
+        "Dark mode glass-morphism header verified",
+        "Dark mode chapter cards verified for contrast and readability",
+        "Dark mode hero section verified",
+        "Any dark-mode-specific discrepancies cataloged"
+      ],
+      "validation": "Toggle dark mode, screenshot homepage at 1440x900, analyze all sections for dark mode issues",
+      "testLevel": "unit",
+      "actions": [
+        "Toggle dark mode via header button",
+        "Take full-page screenshot",
+        "Screenshot header area specifically",
+        "Screenshot hero section",
+        "Screenshot chapter cards area",
+        "Analyze contrast ratios visually",
+        "Check for light-mode remnants (white backgrounds, light borders)",
+        "Document all findings"
+      ]
+    },
+    {
+      "id": "T-1530",
+      "name": "Mobile viewport audit: homepage at 375px and 768px in both modes",
+      "intent": "Verify responsive design doesn't break layout at common mobile and tablet breakpoints",
+      "description": "Resize viewport to 375x812 (iPhone) and 768x1024 (iPad) and screenshot the homepage in both light and dark modes. Check for: hamburger menu visibility, hero section scaling, chapter cards stacking, text overflow/truncation, touch target sizes, and horizontal scrolling issues.",
+      "pass": false,
+      "dependencies": [
+        "T-1510",
+        "T-1520"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Homepage light mode desktop screenshot captured and analyzed",
+        "Homepage dark mode desktop screenshot captured and analyzed",
+        "Mobile navigation works smoothly",
+        "Responsive on mobile (simplified animation)"
+      ],
+      "guarantees": [
+        "Mobile 375px screenshots captured in both modes",
+        "Tablet 768px screenshots captured in both modes",
+        "Hamburger menu visibility verified at mobile breakpoint",
+        "Chapter cards responsive stacking verified",
+        "No horizontal overflow detected",
+        "Any responsive discrepancies cataloged"
+      ],
+      "validation": "Resize to 375x812 and 768x1024, screenshot in both modes, check for layout breaks",
+      "testLevel": "unit",
+      "actions": [
+        "Resize to 375x812",
+        "Screenshot light mode homepage full-page",
+        "Toggle dark mode and screenshot",
+        "Resize to 768x1024",
+        "Screenshot light mode homepage",
+        "Screenshot dark mode homepage",
+        "Analyze all 4 screenshots for responsive issues",
+        "Check for horizontal scrolling",
+        "Verify hamburger menu appears at mobile size",
+        "Document all findings"
+      ]
+    },
+    {
+      "id": "T-1540",
+      "name": "Mobile drawer audit: hamburger menu open state and drawer contents verified",
+      "intent": "Verify the mobile navigation drawer renders correctly with all expected elements",
+      "description": "At mobile viewport (375px), open the hamburger menu and screenshot the drawer. Verify: drawer slides in from right, contains all nav links, search trigger, dark mode toggle, progress indicator, backdrop overlay dims content, hamburger animates to X. Test in both light and dark modes.",
+      "pass": false,
+      "dependencies": [
+        "T-1530"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Hamburger icon animates to X when menu opens",
+        "Navigation drawer slides in from the right with smooth animation",
+        "Drawer contains all nav links, search trigger, dark mode toggle, and progress",
+        "Backdrop overlay dims content when drawer is open"
+      ],
+      "guarantees": [
+        "Mobile drawer light mode screenshot captured and analyzed",
+        "Mobile drawer dark mode screenshot captured and analyzed",
+        "Drawer contents completeness verified (nav links, search, toggle, progress)",
+        "Backdrop overlay rendering verified",
+        "Any drawer visual discrepancies cataloged"
+      ],
+      "validation": "Open mobile drawer at 375px viewport, screenshot in both modes, verify all expected elements present",
+      "testLevel": "unit",
+      "actions": [
+        "Set viewport to 375x812",
+        "Click hamburger menu",
+        "Screenshot drawer open state in light mode",
+        "Verify all expected elements visible",
+        "Close drawer, toggle dark mode",
+        "Open drawer again",
+        "Screenshot dark mode drawer",
+        "Analyze both screenshots",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1550",
+      "name": "Chapter page audit: chapter 1 content, diagram, code blocks in both modes",
+      "intent": "Verify a representative chapter page renders all interactive elements correctly",
+      "description": "Navigate to Chapter 1 and take comprehensive screenshots. Verify: breadcrumb with chapter icon, sticky header in compact mode after scrolling, tutorial sections with correct step type styling (narrative, code, tip, warning, exercise, checkpoint), code blocks with line numbers and language badges, diagram rendering with nodes and edges, active learner presence count. Check in both light and dark modes.",
+      "pass": false,
+      "dependencies": [
+        "T-1500"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Dev server is accessible at localhost",
+        "All code blocks have line numbers",
+        "Language badge shows on each block",
+        "Breadcrumb shows chapter icon and name when inside a chapter",
+        "Active learner count shown on chapter pages"
+      ],
+      "guarantees": [
+        "Chapter 1 light mode full-page screenshot captured",
+        "Chapter 1 dark mode full-page screenshot captured",
+        "Breadcrumb rendering verified",
+        "Code block styling verified (line numbers, badges, copy button)",
+        "Tutorial step type styling verified",
+        "Diagram rendering verified",
+        "Compact header state after scroll verified",
+        "Any chapter page discrepancies cataloged"
+      ],
+      "validation": "Navigate to chapter 1, screenshot full page and key sections in both modes, analyze all interactive elements",
+      "testLevel": "combination",
+      "actions": [
+        "Navigate to chapter 1",
+        "Screenshot top of page (breadcrumb, header)",
+        "Scroll down to tutorial content and screenshot",
+        "Screenshot a code block closely",
+        "Screenshot the diagram section",
+        "Scroll to trigger compact header and screenshot",
+        "Toggle dark mode and repeat key screenshots",
+        "Analyze all screenshots for styling consistency",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1560",
+      "name": "Header states audit: full, compact, and breadcrumb transitions verified",
+      "intent": "Verify header behavior across scroll states and navigation contexts",
+      "description": "Systematically screenshot the header in all its states: full size on homepage, compact after scrolling, with breadcrumb on chapter pages, and during transition. Verify glass-morphism effect, navigation underline active state, search bar adaptation, and progress bar visibility in all states and both modes.",
+      "pass": false,
+      "dependencies": [
+        "T-1510",
+        "T-1550"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Header has glass-morphism backdrop effect in both modes",
+        "Header compacts smoothly when user scrolls past threshold",
+        "Active navigation link has a visible animated underline",
+        "Search bar adapts to compact header on scroll",
+        "Thin progress bar visible at bottom of header"
+      ],
+      "guarantees": [
+        "Header full state screenshot in both modes captured",
+        "Header compact state screenshot in both modes captured",
+        "Header breadcrumb state on chapter page captured",
+        "Navigation active underline verified on correct link",
+        "Progress bar visibility verified in all header states",
+        "Search bar adaptation verified in compact state",
+        "Any header state discrepancies cataloged"
+      ],
+      "validation": "Screenshot header in full, compact, and breadcrumb states in both modes",
+      "testLevel": "combination",
+      "actions": [
+        "Screenshot header at top of homepage (full state, light)",
+        "Scroll down and screenshot compact state",
+        "Navigate to chapters page, verify active underline",
+        "Navigate to chapter 1, verify breadcrumb state",
+        "Toggle dark mode and repeat all header state screenshots",
+        "Verify progress bar visible in all states",
+        "Verify search bar in compact state",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1570",
+      "name": "Auth modal audit: sign-in and sign-up forms verified in both modes",
+      "intent": "Verify authentication UI renders correctly and is visually consistent",
+      "description": "Open the auth modal from the header sign-in button. Screenshot the sign-in form and sign-up form in both light and dark modes. Verify: form field styling, button prominence, error state styling (try submitting empty), modal backdrop, close button, and keyboard focus indicators.",
+      "pass": false,
+      "dependencies": [
+        "T-1500"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Sign-in button visible in header",
+        "Auth modal opens with email/password form",
+        "Auth modal works in dark mode",
+        "Auth modal is keyboard accessible"
+      ],
+      "guarantees": [
+        "Auth modal sign-in form screenshot in both modes captured",
+        "Auth modal sign-up form screenshot in both modes captured",
+        "Form field styling verified for consistency",
+        "Modal backdrop and close button verified",
+        "Any auth modal discrepancies cataloged"
+      ],
+      "validation": "Open auth modal, screenshot sign-in and sign-up states in both modes",
+      "testLevel": "unit",
+      "actions": [
+        "Click sign-in button in header",
+        "Screenshot auth modal in light mode",
+        "Switch to sign-up tab/form if available and screenshot",
+        "Close modal, toggle dark mode",
+        "Reopen modal and screenshot dark mode sign-in",
+        "Screenshot dark mode sign-up",
+        "Analyze form styling, contrast, button visibility",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1580",
+      "name": "Leaderboard page audit: layout, ranking display, and skeleton loading verified",
+      "intent": "Verify the leaderboard page renders correctly with proper styling",
+      "description": "Navigate to the leaderboard page and screenshot in both modes at desktop and mobile viewports. Verify: ranking table/list layout, user highlight styling, navigation active state on leaderboard link, skeleton loading state if visible, and overall page consistency with the rest of the app.",
+      "pass": false,
+      "dependencies": [
+        "T-1500"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Leaderboard page accessible at /leaderboard",
+        "Leaderboard works in dark mode",
+        "Leaderboard link in navigation with active state",
+        "Leaderboard loads with skeleton while fetching"
+      ],
+      "guarantees": [
+        "Leaderboard desktop light mode screenshot captured",
+        "Leaderboard desktop dark mode screenshot captured",
+        "Leaderboard mobile viewport screenshot captured",
+        "Navigation active state on leaderboard link verified",
+        "Ranking display layout verified",
+        "Any leaderboard discrepancies cataloged"
+      ],
+      "validation": "Navigate to /leaderboard, screenshot in both modes at desktop and mobile viewports",
+      "testLevel": "unit",
+      "actions": [
+        "Navigate to /leaderboard",
+        "Screenshot at 1440x900 light mode",
+        "Toggle dark mode and screenshot",
+        "Resize to 375x812 and screenshot",
+        "Verify navigation shows leaderboard as active",
+        "Analyze ranking display layout",
+        "Check for text truncation or overflow",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1590",
+      "name": "Profile page audit: layout, stats display, and chapter progress map verified",
+      "intent": "Verify the profile page renders correctly for authenticated and unauthenticated states",
+      "description": "Navigate to /profile and screenshot both the unauthenticated redirect/prompt state and the profile page layout. Verify: display name field, learning statistics cards, chapter progress map visual, overall styling consistency, dark mode rendering.",
+      "pass": false,
+      "dependencies": [
+        "T-1500"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Profile page accessible at /profile",
+        "Profile page works in dark mode",
+        "Chapter progress map shows visual completion status",
+        "Unauthenticated users redirected to sign-in"
+      ],
+      "guarantees": [
+        "Profile page unauthenticated state screenshot captured",
+        "Profile page layout screenshot in light mode captured",
+        "Profile page dark mode screenshot captured",
+        "Chapter progress map rendering verified",
+        "Any profile page discrepancies cataloged"
+      ],
+      "validation": "Navigate to /profile, screenshot unauthenticated and page layout in both modes",
+      "testLevel": "unit",
+      "actions": [
+        "Navigate to /profile without auth",
+        "Screenshot unauthenticated state/redirect",
+        "Screenshot profile page layout in light mode",
+        "Toggle dark mode and screenshot",
+        "Analyze chapter progress map visual",
+        "Check stats display cards alignment",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1600",
+      "name": "Search modal audit: search UI, results display, and keyboard hint verified",
+      "intent": "Verify the search modal renders correctly and displays results properly",
+      "description": "Open the search modal via Cmd+K or clicking the search bar. Screenshot the empty state, type a query and screenshot results. Verify: keyboard shortcut hint display, result list styling, highlighted matches, keyboard navigation indicators, modal backdrop, dark mode rendering.",
+      "pass": false,
+      "dependencies": [
+        "T-1500"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Search modal opens with Cmd+K",
+        "Keyboard shortcut hint (Cmd+K / Ctrl+K) displayed in search bar",
+        "Results link directly to matched section",
+        "Search bar styled correctly in both light and dark modes"
+      ],
+      "guarantees": [
+        "Search modal empty state screenshot captured in both modes",
+        "Search modal with results screenshot captured in both modes",
+        "Keyboard shortcut hint visibility verified",
+        "Result list styling verified",
+        "Any search modal discrepancies cataloged"
+      ],
+      "validation": "Open search modal, screenshot empty and with results in both modes",
+      "testLevel": "unit",
+      "actions": [
+        "Click search bar or use Cmd+K",
+        "Screenshot empty search modal light mode",
+        "Type a search query (e.g., 'agent')",
+        "Screenshot results state",
+        "Close, toggle dark mode, reopen",
+        "Screenshot dark mode empty and results states",
+        "Verify keyboard hint visible",
+        "Analyze result styling",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1610",
+      "name": "Quiz section audit: question types, feedback states, and score display verified",
+      "intent": "Verify quiz interactive elements render correctly across answer states",
+      "description": "Navigate to a chapter with a quiz and screenshot the quiz section. Answer questions to capture: unanswered state, correct answer feedback (green), wrong answer feedback with explanation, and score summary. Verify in both modes.",
+      "pass": false,
+      "dependencies": [
+        "T-1550"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Multiple question types supported",
+        "Animated feedback on answers",
+        "Score tracking with visual progress",
+        "Wrong answers show explanations",
+        "Quiz feedback colors are legible in dark mode"
+      ],
+      "guarantees": [
+        "Quiz unanswered state screenshot captured",
+        "Quiz correct answer feedback screenshot captured",
+        "Quiz wrong answer feedback screenshot captured",
+        "Quiz score display verified",
+        "Quiz dark mode rendering verified",
+        "Any quiz visual discrepancies cataloged"
+      ],
+      "validation": "Navigate to chapter quiz, screenshot all answer states in both modes",
+      "testLevel": "combination",
+      "actions": [
+        "Navigate to chapter 1 quiz section",
+        "Screenshot unanswered question state",
+        "Select correct answer and screenshot feedback",
+        "Select wrong answer on next question and screenshot",
+        "Screenshot score summary area",
+        "Toggle dark mode and repeat key screenshots",
+        "Verify feedback colors are legible",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1620",
+      "name": "Error boundary audit: fallback UI verified for simulated component crash",
+      "intent": "Verify error boundary fallback renders correctly and is visually appropriate",
+      "description": "Trigger an error boundary by navigating to a scenario that causes a component error, or use browser console to verify error boundary rendering. Screenshot the fallback UI in both modes. Verify: error message display, retry button styling, dark mode fallback, overall visual consistency.",
+      "pass": false,
+      "dependencies": [
+        "T-1500"
+      ],
+      "complexity": 2,
+      "requires": [
+        "ErrorBoundary component catches rendering errors without white screen",
+        "Fallback UI shows error message and retry button",
+        "Error boundary fallback UI works in dark mode"
+      ],
+      "guarantees": [
+        "Error boundary fallback UI screenshot captured in light mode",
+        "Error boundary fallback UI screenshot captured in dark mode",
+        "Retry button styling verified",
+        "Fallback UI visual consistency verified",
+        "Any error boundary discrepancies cataloged"
+      ],
+      "validation": "Trigger error boundary, screenshot fallback UI in both modes",
+      "testLevel": "unit",
+      "actions": [
+        "Use browser evaluate to simulate component error or navigate to trigger",
+        "Screenshot fallback UI in light mode",
+        "Toggle dark mode and screenshot",
+        "Verify retry button is visible and styled",
+        "Analyze visual consistency with app theme",
+        "Document findings"
+      ]
+    },
+    {
+      "id": "T-1630",
+      "name": "Cross-chapter consistency audit: chapters 1, 5, and 11 compared for visual consistency",
+      "intent": "Verify that different chapters maintain consistent styling despite different content",
+      "description": "Navigate to chapters 1, 5, and 11 (representing beginning, middle, end) and take comparable screenshots. Compare: header behavior, breadcrumb styling, tutorial section layout, code block rendering, diagram styling, and footer/navigation consistency. Verify each chapter's accent color is applied consistently.",
+      "pass": false,
+      "dependencies": [
+        "T-1550"
+      ],
+      "complexity": 3,
+      "requires": [
+        "All features work across all chapters",
+        "No chapter-specific bugs",
+        "Dark mode consistent everywhere"
+      ],
+      "guarantees": [
+        "Three representative chapters screenshotted for comparison",
+        "Chapter accent color consistency verified",
+        "Tutorial section styling consistency verified across chapters",
+        "Code block rendering consistency verified across chapters",
+        "Any cross-chapter inconsistencies cataloged"
+      ],
+      "validation": "Screenshot chapters 1, 5, and 11 at same viewport and compare key sections",
+      "testLevel": "integration",
+      "actions": [
+        "Navigate to chapter 1, screenshot key sections",
+        "Navigate to chapter 5, screenshot same sections",
+        "Navigate to chapter 11, screenshot same sections",
+        "Compare header/breadcrumb styling across all three",
+        "Compare code block rendering",
+        "Compare tutorial section type styling",
+        "Verify accent colors are correctly applied per chapter",
+        "Document any inconsistencies"
+      ]
+    },
+    {
+      "id": "T-1640",
+      "name": "Discrepancy report compiled: all findings prioritized with fix recommendations",
+      "intent": "Consolidate all visual audit findings into an actionable report",
+      "description": "Compile all discrepancies found across T-1510 through T-1630 into a structured report. Categorize by severity (critical: broken layout, major: visual inconsistency, minor: cosmetic polish). Prioritize fixes and provide specific component/file references for each issue.",
+      "pass": false,
+      "dependencies": [
+        "T-1510",
+        "T-1520",
+        "T-1530",
+        "T-1540",
+        "T-1550",
+        "T-1560",
+        "T-1570",
+        "T-1580",
+        "T-1590",
+        "T-1600",
+        "T-1610",
+        "T-1620",
+        "T-1630"
+      ],
+      "complexity": 2,
+      "requires": [
+        "All screenshot audit tasks completed with documented findings"
+      ],
+      "guarantees": [
+        "Complete discrepancy report with all findings",
+        "Each issue categorized by severity (critical/major/minor)",
+        "Each issue has specific component and file reference",
+        "Fix recommendations provided for each issue",
+        "Priority order established for remediation"
+      ],
+      "validation": "Report contains all findings from audit tasks, categorized and prioritized",
+      "testLevel": "integration",
+      "actions": [
+        "Collect all findings from T-1510 through T-1630",
+        "Categorize each by severity",
+        "Identify affected components and source files",
+        "Write fix recommendation for each issue",
+        "Prioritize by impact and effort",
+        "Output structured report"
+      ]
     }
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1410",
-    "completedAt": "2026-02-05T01:05:00Z",
-    "recommendedNextStepId": null,
+    "lastCompletedTaskId": "T-1500",
+    "completedAt": "2026-02-05T01:15:00Z",
+    "recommendedNextStepId": "T-1510",
     "history": [
       "T-780",
       "T-790",
@@ -2622,10 +3170,11 @@
       "T-1380",
       "T-1400",
       "T-1390",
-      "T-1410"
+      "T-1410",
+      "T-1500"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
-    "extendedAt": "2026-02-04T23:07:26Z"
+    "extendedAt": "2026-02-05T01:09:44Z"
   }
 }
