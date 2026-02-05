@@ -1576,3 +1576,14 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1590] **Minor observation**: In light mode, stat cards and chapter tiles use `bg-dark-800` which creates dark containers on the light glass surface. This is an intentional design choice for the glass morphism aesthetic but differs from typical light-mode patterns.
 - [T-1590] **Auth testing note**: Supabase cloud requires email confirmation for new signups. Visual audit was performed by temporarily bypassing auth redirect to render profile page with local progress data (1 chapter completed). Profile page correctly reads from both `useAuth()` (user/profile data) and `useProgress()` (local completedChapters) contexts.
 - [T-1590] **No critical discrepancies found** — profile page renders consistently in both modes with proper component hierarchy and data display
+
+### Lessons Learned (T-1600)
+- [T-1600] Search modal audit — empty state, results display, keyboard shortcuts, and styling verified in both light/dark modes
+- [T-1600] **Empty state (light)**: White modal with search icon, blue-ringed input, placeholder "Search chapters, code terms, concepts...", esc button, description text "Search across all chapters, code terms, and concepts", keyboard hints (↑↓ Navigate, ↵ Select, esc Close). Background blurred behind modal.
+- [T-1600] **Empty state (dark)**: Same structure with dark background. Input has proper dark styling with cyan/blue focus ring. All text legible against dark surface.
+- [T-1600] **Results state (light)**: Query "agent" returns 12 results. Match highlights use teal/cyan background on matched text within titles and descriptions. Each result shows bold title, description, and a "Code" or "Chapter" badge. First result has arrow icon indicating keyboard selection. Bottom bar shows "12 results" count and "↑↓ navigate ↵ go" hints.
+- [T-1600] **Results state (dark)**: Identical result structure, teal highlights visible and legible against dark backgrounds. "Code" badges properly styled with teal/green color. All text readable.
+- [T-1600] **Keyboard shortcut (Ctrl+K)**: Verified working — opens search modal from homepage. Header search bar trigger displays "Ctrl + K" hint badge (OS-aware: shows Cmd+K on Mac).
+- [T-1600] **Esc key**: Properly closes the modal in both modes. Also available as a button in top-right of search input.
+- [T-1600] **Result types**: Both code terms (Agent, AgentCard, AgentExecutor, etc. with "Code" badge) and chapters (Ch.7 Multi-Agent, Ch.15 Inter-Agent Communication with "Chapter" badge) appear in results.
+- [T-1600] **No discrepancies found** — search modal is well-implemented with consistent styling, proper highlights, and full keyboard support in both themes
