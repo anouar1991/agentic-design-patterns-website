@@ -1419,3 +1419,9 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1350] Best score highlighting matches by `attempt_number + chapter_id` since the `user_best_quiz_scores` view returns the attempt_number of the best attempt
 - [T-1350] QuizHistory shows on both intro and results screens — intro helps users see past performance before retaking, results shows the newly saved attempt in context
 - [T-1350] Anonymous user guard is simple: `{user && pastAttempts.length > 0 && <QuizHistory />}` — anonymous users see only the current session score via localStorage/ProgressContext
+
+### Lessons Learned (T-1360)
+- [T-1360] Leaderboard was fully pre-built across previous iterations: `leaderboard_cache` materialized view (T-1320 schema), `useLeaderboard` hook, `LeaderboardPage` component, route in App.tsx, and nav link in Layout.tsx
+- [T-1360] The materialized view pattern (`REFRESH MATERIALIZED VIEW CONCURRENTLY`) requires a unique index on the view — the `idx_leaderboard_cache_user_id` index enables concurrent refresh without blocking reads
+- [T-1360] Country filtering is implemented client-side via Supabase query `.eq('country_code', filter)` on the materialized view, with `COUNTRIES` array from `CountrySelect` providing flag emojis
+- [T-1360] User rank card shows separately when current user is outside top 50: `{user && userRank && !userInList && <LeaderboardRow />}` — ensures user always sees their position

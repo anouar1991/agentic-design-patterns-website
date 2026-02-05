@@ -2326,7 +2326,7 @@
       "name": "Leaderboard page created: ranked users by total progress and quiz scores",
       "intent": "Add social motivation by showing a leaderboard of top learners",
       "description": "Create a /leaderboard route showing ranked users by overall completion percentage and average quiz scores. Use a Supabase database function or view to aggregate scores. Show username (or anonymized), chapters completed, average quiz score, and rank. Add leaderboard link to navigation.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1350"
       ],
@@ -2539,9 +2539,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1350",
-    "completedAt": "2026-02-06T01:00:00Z",
-    "recommendedNextStepId": "T-1360",
+    "lastCompletedTaskId": "T-1360",
+    "completedAt": "2026-02-06T01:30:00Z",
+    "recommendedNextStepId": "T-1370",
     "history": [
       "T-780",
       "T-790",
@@ -2616,7 +2616,8 @@
       "T-1320",
       "T-1330",
       "T-1340",
-      "T-1350"
+      "T-1350",
+      "T-1360"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
