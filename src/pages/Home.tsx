@@ -37,6 +37,7 @@ import { chapterDetails } from '../data/chapters';
 import { Clock, BarChart2 } from 'lucide-react';
 import HeroVisualization from '../components/HeroVisualization';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { useAggregatedPresence } from '../hooks/usePresence';
 import { prefetchRoute } from '../utils/prefetch';
 
 const difficultyConfig = {
@@ -132,6 +133,8 @@ export default function Home() {
   const { t } = useTranslation();
   const stats = getStats(t);
   const features = getFeatures(t);
+  const chapterIds = chapters.map(c => c.num);
+  const { getCount } = useAggregatedPresence(chapterIds);
 
   useDocumentMeta({
     title: 'Agentic Design Patterns - Interactive Learning',
@@ -374,6 +377,7 @@ export default function Home() {
               const readingMeta = detail?.readingMeta;
               const difficulty = readingMeta?.difficulty;
               const diffInfo = difficulty ? difficultyConfig[difficulty] : null;
+              const viewerCount = getCount(chapter.num);
 
               return (
                 <motion.div
@@ -427,24 +431,32 @@ export default function Home() {
                       {chapter.title}
                     </div>
 
-                    {/* Metadata: reading time + difficulty */}
-                    {readingMeta && (
-                      <div className="mt-2 flex items-center justify-center gap-2 text-[10px] text-dark-500">
-                        <span className="inline-flex items-center gap-0.5">
-                          <Clock className="w-2.5 h-2.5" />
-                          {readingMeta.estimatedMinutes}m
-                        </span>
-                        {diffInfo && (
-                          <span
-                            className="inline-flex items-center gap-0.5"
-                            style={{ color: diffInfo.color }}
-                          >
-                            <BarChart2 className="w-2.5 h-2.5" />
-                            {diffInfo.label.charAt(0)}
+                    {/* Metadata: reading time + difficulty + active viewers */}
+                    <div className="mt-2 flex items-center justify-center gap-2 text-[10px] text-dark-500">
+                      {readingMeta && (
+                        <>
+                          <span className="inline-flex items-center gap-0.5">
+                            <Clock className="w-2.5 h-2.5" />
+                            {readingMeta.estimatedMinutes}m
                           </span>
-                        )}
-                      </div>
-                    )}
+                          {diffInfo && (
+                            <span
+                              className="inline-flex items-center gap-0.5"
+                              style={{ color: diffInfo.color }}
+                            >
+                              <BarChart2 className="w-2.5 h-2.5" />
+                              {diffInfo.label.charAt(0)}
+                            </span>
+                          )}
+                        </>
+                      )}
+                      {viewerCount > 0 && (
+                        <span className="inline-flex items-center gap-0.5 text-primary-400">
+                          <Users className="w-2.5 h-2.5" />
+                          {viewerCount}
+                        </span>
+                      )}
+                    </div>
                   </Link>
                 </motion.div>
               );

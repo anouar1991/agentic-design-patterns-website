@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useProgress } from '../contexts/ProgressContext';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { prefetchRoute } from '../utils/prefetch';
+import { useAggregatedPresence } from '../hooks/usePresence';
 
 import {
   BookOpen,
@@ -122,6 +123,8 @@ const parts: Part[] = [
 export default function Chapters() {
   const { t } = useTranslation();
   const { isChapterCompleted, getPhaseProgress, getQuizScore } = useProgress();
+  const allChapterIds = parts.flatMap(p => p.chapters.map(c => c.num));
+  const { getCount } = useAggregatedPresence(allChapterIds);
 
   useDocumentMeta({
     title: 'All Chapters',
@@ -215,6 +218,7 @@ export default function Chapters() {
                   const Icon = iconMap[chapter.icon] || Zap;
                   const completed = isChapterCompleted(chapter.num);
                   const quizScore = getQuizScore(chapter.num);
+                  const viewerCount = getCount(chapter.num);
                   // Use global chapter number for sequential animation across all parts
                   const globalDelay = (chapter.num - 1) * 0.04;
                   return (
@@ -283,6 +287,12 @@ export default function Chapters() {
                               }`}>
                                 <Trophy className="w-3.5 h-3.5" />
                                 {quizScore.score}/{quizScore.totalQuestions}
+                              </span>
+                            )}
+                            {viewerCount > 0 && (
+                              <span className="inline-flex items-center gap-1 text-primary-400">
+                                <Users className="w-3.5 h-3.5" />
+                                {viewerCount}
                               </span>
                             )}
                           </div>

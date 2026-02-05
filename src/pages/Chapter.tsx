@@ -16,6 +16,7 @@ import {
   Circle,
   Clock,
   Sparkles,
+  Users,
 } from 'lucide-react';
 import { getChapterIcon } from '../utils/chapterIcons';
 import { chapterDetails } from '../data/chapters';
@@ -24,6 +25,7 @@ import { useProgress } from '../contexts/ProgressContext';
 import { DiagramProvider, useDiagram } from '../contexts/DiagramContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { usePresence, usePresenceHeartbeat } from '../hooks/usePresence';
 import LearningObjectives from '../components/LearningObjectives';
 import ChapterQuiz from '../components/ChapterQuiz';
 import { InteractiveDiagram } from '../components/diagram';
@@ -61,6 +63,8 @@ function ChapterContent() {
   const chapter = chapterDetails[chapterNum];
   const isCompleted = isChapterCompleted(chapterNum);
   const [showCelebration, setShowCelebration] = useState(false);
+  const { count: activeLearnersCount } = usePresence(chapterNum);
+  usePresenceHeartbeat(chapterNum);
 
   // SEO: dynamic meta tags per chapter
   const structuredData = useMemo(() => chapter ? ({
@@ -255,6 +259,12 @@ function ChapterContent() {
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">
                       <CheckCircle2 className="w-3 h-3" />
                       {t('chapter.done')}
+                    </span>
+                  )}
+                  {activeLearnersCount > 0 && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-500/10 text-primary-400 text-xs font-medium">
+                      <Users className="w-3 h-3" />
+                      {activeLearnersCount} {t('chapter.learnersHere', { defaultValue: activeLearnersCount === 1 ? 'learner here' : 'learners here' })}
                     </span>
                   )}
                 </div>

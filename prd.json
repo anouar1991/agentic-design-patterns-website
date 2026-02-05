@@ -2436,7 +2436,7 @@
       "name": "Real-time presence: show active learners count on chapter pages",
       "intent": "Add social presence to make the learning experience feel alive",
       "description": "Use Supabase Realtime presence to show how many users are currently viewing each chapter. Display a subtle 'X learners here now' indicator on chapter pages. Show aggregated active learner counts on the homepage chapter cards.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1370"
       ],
@@ -2539,9 +2539,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1400",
-    "completedAt": "2026-02-06T04:00:00Z",
-    "recommendedNextStepId": "T-1390",
+    "lastCompletedTaskId": "T-1390",
+    "completedAt": "2026-02-06T05:00:00Z",
+    "recommendedNextStepId": "T-1410",
     "history": [
       "T-780",
       "T-790",
@@ -2620,7 +2620,8 @@
       "T-1360",
       "T-1370",
       "T-1380",
-      "T-1400"
+      "T-1400",
+      "T-1390"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

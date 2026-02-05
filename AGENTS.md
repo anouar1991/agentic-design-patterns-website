@@ -1443,3 +1443,7 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1400] Supabase anon key is safe to expose in client bundles — it's a public key scoped by RLS. The bundle contains admin SDK method paths (e.g., "regenerate_secret") as inert strings from the Supabase JS client, not actual secrets
 - [T-1400] Auth error sanitization prevents user enumeration: "User already registered" and "Invalid login credentials" are mapped to generic messages that don't reveal account existence
 - [T-1400] Client-side rate limiting (2s cooldown) on auth forms provides defense-in-depth alongside Supabase's server-side rate limiting
+- [T-1390] Supabase Realtime Presence is per-channel scoped — all participants must share the same channel name to see each other. Channel names must be unique per `supabase.channel()` call in the same client
+- [T-1390] For aggregated presence across pages, use broadcast (heartbeat pattern) instead of per-channel presence subscriptions — avoids opening 21 presence channels simultaneously and sidesteps channel name conflicts
+- [T-1390] `sessionStorage` for user keys persists within a tab's lifetime (including SPA navigations) but creates unique keys per tab — accurately counting concurrent viewers across browser tabs
+- [T-1390] Presence indicators that show count 0 should be hidden entirely (conditional render on `count > 0`) rather than showing "0 learners here" which looks broken
