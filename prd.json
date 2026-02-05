@@ -292,7 +292,7 @@
       "validation": "Fresh page load: verify staggered card entrance, navigate to chapter via card click, verify nav updates smoothly, navigate back, verify no visual glitches. Test at 1440px and 375px widths.",
       "testLevel": "combination",
       "actions": [
-        "Full flow test: load → browse cards → click chapter → nav updates → back",
+        "Full flow test: load \u2192 browse cards \u2192 click chapter \u2192 nav updates \u2192 back",
         "Test at desktop and mobile widths",
         "Check for animation conflicts",
         "Verify consistent styling"
@@ -314,7 +314,7 @@
         "Diagrams enhanced"
       ],
       "guarantees": [
-        "Diagram node click → code scroll + highlight works",
+        "Diagram node click \u2192 code scroll + highlight works",
         "Code term click opens modal without breaking diagram state",
         "No interaction conflicts between code and diagram features"
       ],
@@ -324,7 +324,7 @@
         "Test diagram-to-code linking",
         "Test code term modals",
         "Verify no state conflicts",
-        "Test sequence: diagram click → code term click → diagram click"
+        "Test sequence: diagram click \u2192 code term click \u2192 diagram click"
       ]
     },
     {
@@ -539,7 +539,7 @@
         "No state conflicts between features",
         "Progress correctly saved after completing chapter"
       ],
-      "validation": "Full flow for one chapter: homepage → card click → tutorial read → click code terms → interact with diagram → diagram-to-code link → complete quiz → verify progress saved → return to homepage → verify completion badge.",
+      "validation": "Full flow for one chapter: homepage \u2192 card click \u2192 tutorial read \u2192 click code terms \u2192 interact with diagram \u2192 diagram-to-code link \u2192 complete quiz \u2192 verify progress saved \u2192 return to homepage \u2192 verify completion badge.",
       "testLevel": "integration",
       "actions": [
         "Execute full learning flow for chosen chapter",
@@ -795,7 +795,7 @@
         "Platform is ready for deployment",
         "User can experience the full incredible learning platform"
       ],
-      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation → chapter cards → tutorial → code terms → diagram → quiz → progress → dark mode → search → print preview. All features work in production.",
+      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation \u2192 chapter cards \u2192 tutorial \u2192 code terms \u2192 diagram \u2192 quiz \u2192 progress \u2192 dark mode \u2192 search \u2192 print preview. All features work in production.",
       "testLevel": "integration",
       "actions": [
         "Run npm run build",
@@ -1625,7 +1625,7 @@
       "id": "T-1010",
       "name": "Logging integration checkpoint: all logging and fixes verified together",
       "intent": "Verify that all logging enhancements and bug fixes work together without regressions",
-      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing → chapter selection → tutorial → quiz → completion. Verify clean console, proper logging, and no regressions.",
+      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing \u2192 chapter selection \u2192 tutorial \u2192 quiz \u2192 completion. Verify clean console, proper logging, and no regressions.",
       "pass": true,
       "dependencies": [
         "T-920",
@@ -1654,7 +1654,7 @@
         "No regressions in any existing feature",
         "Production build is clean with zero warnings"
       ],
-      "validation": "Navigate full flow (home → chapter 1 → tutorial → quiz → chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
+      "validation": "Navigate full flow (home \u2192 chapter 1 \u2192 tutorial \u2192 quiz \u2192 chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
       "testLevel": "integration",
       "actions": [
         "Start dev server",
@@ -2385,7 +2385,7 @@
         "All new components are keyboard accessible",
         "No console errors from Supabase integration"
       ],
-      "validation": "Full flow: anonymous chapter completion → sign up → verify progress synced → complete quiz → check leaderboard → sign out → sign in → verify all data persisted",
+      "validation": "Full flow: anonymous chapter completion \u2192 sign up \u2192 verify progress synced \u2192 complete quiz \u2192 check leaderboard \u2192 sign out \u2192 sign in \u2192 verify all data persisted",
       "testLevel": "integration",
       "actions": [
         "Test anonymous user flow",
@@ -2567,7 +2567,7 @@
       "name": "Homepage light mode audit: hero, chapter cards, navigation verified visually",
       "intent": "Capture and analyze the primary landing experience in light mode for visual discrepancies",
       "description": "Take screenshots of the homepage in light mode at desktop viewport (1440x900). Analyze hero section animation area, chapter cards grid, navigation header with glass-morphism, progress bar, search trigger, and footer. Check for: consistent spacing, typography hierarchy, card hover state styling, color palette coherence, and alignment issues.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1500"
       ],
@@ -3171,7 +3171,8 @@
       "T-1400",
       "T-1390",
       "T-1410",
-      "T-1500"
+      "T-1500",
+      "T-1510"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

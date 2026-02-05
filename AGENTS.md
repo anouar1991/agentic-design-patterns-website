@@ -1454,3 +1454,15 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1410] Graceful degradation verified: without Supabase env vars, the platform works as a fully static site. The leaderboard fires one failed network request to localhost:54321 (fallback URL) — harmless, UI shows empty state
 - [T-1410] Deployment requires two env vars: `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Both must be set at BUILD TIME (not runtime) since Vite statically replaces `import.meta.env` references
 - [T-1410] The `.env` file is gitignored. For CI/CD, set these as build environment variables. The anon key is safe for client bundles (public key, RLS-scoped)
+
+### Lessons Learned (T-1510)
+- [T-1510] Homepage light mode audit at 1440x900 desktop viewport. Overall the design is polished with good visual hierarchy
+- [T-1510] **FINDING: Nav overlap** — The "Home" nav link (x=165-264) overlaps with the logo area (x=107-279). The "Home" text is partially hidden behind the logo. This is likely intentional (logo = home link) but "Continue" text appears truncated as "ontinue" in screenshots, suggesting z-index or overflow issue at the boundary
+- [T-1510] **FINDING: Learning Path nav wrapping** — The "Learning Path" nav link has height 70px vs 43px for other items, and top: -11px. The two-line text ("Learning" / "Path") breaks the single-line alignment of other nav items
+- [T-1510] **FINDING: Visual progress tracker colors** — The chapter grid in the "Structured Learning Path" section uses brown/dark colors for chapters 11-15 and red for 16-20. Red typically implies errors/danger in UI design. Consider using the learning path phase colors consistently instead
+- [T-1510] Hero section: Clean gradient background with animated neural network dots. Typography hierarchy is clear — "Based on Antonio Gulli" badge, then large title with gradient text, descriptive subtitle, and CTA buttons. Stats row (21 Chapters, 61+ Code Examples, 5+ Frameworks, 424 Pages) is well-spaced in card layout
+- [T-1510] Chapter cards grid: 7-column layout with consistent card sizing. Each card has icon, chapter number, title, reading time, and difficulty level. Hover state shows subtle elevation/shadow. Ch 1 shows green completion badge. Color-coded difficulty indicators (B=Beginner blue, I=Intermediate orange, A=Advanced red) are readable
+- [T-1510] Footer: Clean and minimal. Book attribution with "Save the Children" donation note, plus "Get the Book" and "Source Code" links. Good contrast against light gradient background
+- [T-1510] CTA section: "Ready to Build Intelligent Agents?" with gradient "Begin Your Journey" button. Clean spacing, good visual weight
+- [T-1510] No console errors or warnings detected. Zero JavaScript issues in light mode homepage
+- [T-1510] Glass-morphism header works well in light mode — the semi-transparent backdrop with blur creates nice depth against the gradient hero background
