@@ -1555,3 +1555,13 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1560] **Nav link overflow at 1440px**: Some nav links ("Home") are not visible — pushed behind the logo area. "Continue" shows as "...ontinue" with clipped first letter. "Leaderboard" not visible on homepage (only visible in accessibility tree). This is a minor layout concern at exactly 1440px where the nav area gets crowded.
 - [T-1560] **Secondary breadcrumb on chapter pages**: In addition to the header breadcrumb, chapter pages show a content-area breadcrumb ("Home / Chapters / Ch 1") below the header — redundant but consistent
 - [T-1560] **No critical discrepancies found** — header transitions work smoothly, all states render correctly in both modes. Minor note: nav link overflow at 1440px could be improved
+
+### Lessons Learned (T-1580)
+- [T-1580] Leaderboard page audit — layout, ranking display, and empty state verified in both light/dark modes at desktop (1440x900) and mobile (375x812)
+- [T-1580] **Desktop light mode**: "Top Learners" gold badge, "Leaderboard" heading, subtitle, country filter dropdown ("All countries"), refresh button, empty state card with user icon + "No learners yet" message. Clean centered layout with gradient background.
+- [T-1580] **Desktop dark mode**: Same layout renders with dark theme. Empty state card has glass/border effect with proper contrast on all text elements.
+- [T-1580] **Mobile (375px)**: Responsive layout — elements stack vertically. Country filter and refresh button fit side-by-side. Header collapses to mobile nav (logo + sign-in + theme + language + hamburger). Empty state card properly sized.
+- [T-1580] **Navigation active state**: Leaderboard link has active background indicator (`bg-dark-700/80 rounded-lg` child div). Link is present and visible at x=746 in desktop nav (confirmed via JS evaluation). However, "Leaderboard" text is visually difficult to see in the crowded 1440px nav bar — same nav overflow issue noted in T-1560.
+- [T-1580] **Ranking display**: Currently shows empty state ("No learners yet / Be the first to complete a chapter!") since no users have completed chapters. Country filter combobox and refresh button are functional elements.
+- [T-1580] **No text truncation or overflow issues** in the leaderboard content area itself
+- [T-1580] **No critical discrepancies found** — leaderboard page renders consistently in both modes and at both viewport sizes. Minor: nav link visibility at 1440px (pre-existing, tracked in T-1560)

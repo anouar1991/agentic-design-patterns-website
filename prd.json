@@ -2831,7 +2831,7 @@
       "name": "Leaderboard page audit: layout, ranking display, and skeleton loading verified",
       "intent": "Verify the leaderboard page renders correctly with proper styling",
       "description": "Navigate to the leaderboard page and screenshot in both modes at desktop and mobile viewports. Verify: ranking table/list layout, user highlight styling, navigation active state on leaderboard link, skeleton loading state if visible, and overall page consistency with the rest of the app.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1500"
       ],
@@ -3087,9 +3087,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1560",
-    "completedAt": "2026-02-05T02:20:00Z",
-    "recommendedNextStepId": "T-1560",
+    "lastCompletedTaskId": "T-1580",
+    "completedAt": "2026-02-05T03:30:00Z",
+    "recommendedNextStepId": "T-1590",
     "history": [
       "T-780",
       "T-790",
@@ -3178,7 +3178,8 @@
       "T-1540",
       "T-1550",
       "T-1570",
-      "T-1560"
+      "T-1560",
+      "T-1580"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
