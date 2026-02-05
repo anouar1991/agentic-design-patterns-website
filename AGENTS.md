@@ -36,7 +36,8 @@ src/
 │   ├── ThemeSwitcher.tsx    # Dark/light mode toggle
 │   ├── LanguageSwitcher.tsx # EN/AR language toggle
 │   ├── UserMenu.tsx         # Auth user menu
-│   ├── ChapterQuiz.tsx      # Quiz component
+│   ├── ChapterQuiz.tsx      # Quiz component with attempt persistence
+│   ├── QuizHistory.tsx      # Quiz attempt history panel (auth users only)
 │   ├── ChapterCelebration.tsx # Completion celebration
 │   ├── ConceptTooltip.tsx   # Concept hover tooltips
 │   ├── LearningObjectives.tsx # Chapter learning objectives
@@ -1411,3 +1412,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1340] `mergeAllProgress` fetches cloud chapters and quiz scores in parallel (`Promise.all`) for faster sign-in merge — cloud pushes are fire-and-forget to avoid blocking UI
 - [T-1340] The `user_best_quiz_scores` view provides per-chapter best scores from `quiz_attempts` table — used for merge comparison instead of raw attempts
 - [T-1340] `mergeQuizScores` is a pure function (local + cloud → merged) keeping the higher score per chapter — makes the merge strategy testable independently
+
+### Lessons Learned (T-1350)
+- [T-1350] Most of T-1350's infrastructure was already built by T-1340 — the `useQuizAttempts` hook already fetches `attempts` array and `bestScore`, but no UI displayed them
+- [T-1350] Created `QuizHistory` component that reuses the existing `attempts` data from `useQuizAttempts` hook — no new Supabase queries needed
+- [T-1350] Best score highlighting matches by `attempt_number + chapter_id` since the `user_best_quiz_scores` view returns the attempt_number of the best attempt
+- [T-1350] QuizHistory shows on both intro and results screens — intro helps users see past performance before retaking, results shows the newly saved attempt in context
+- [T-1350] Anonymous user guard is simple: `{user && pastAttempts.length > 0 && <QuizHistory />}` — anonymous users see only the current session score via localStorage/ProgressContext

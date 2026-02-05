@@ -19,6 +19,7 @@ import type { ChapterQuiz as ChapterQuizType, QuizQuestion, QuizQuestionType } f
 import { useQuizAttempts, formatQuizScore } from '../hooks/useQuizAttempts';
 import { useAuth } from '../contexts/AuthContext';
 import { useProgress } from '../contexts/ProgressContext';
+import QuizHistory from './QuizHistory';
 
 interface ChapterQuizProps {
   quiz: ChapterQuizType;
@@ -287,7 +288,7 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
 
   // Auth and quiz persistence
   const { user } = useAuth();
-  const { bestScore, attemptCount, saveAttempt, saving } = useQuizAttempts(chapterId);
+  const { attempts: pastAttempts, bestScore, attemptCount, loading: attemptsLoading, saveAttempt, saving } = useQuizAttempts(chapterId);
   const { saveQuizScore } = useProgress();
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
@@ -526,6 +527,18 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                 {attemptCount > 0 ? 'Retake Quiz' : 'Start Quiz'}
                 <ChevronRight className="w-5 h-5" />
               </button>
+
+              {/* Quiz history on intro screen for authenticated users */}
+              {user && pastAttempts.length > 0 && (
+                <div className="max-w-sm mx-auto w-full">
+                  <QuizHistory
+                    attempts={pastAttempts}
+                    bestScore={bestScore}
+                    loading={attemptsLoading}
+                    chapterColor={chapterColor}
+                  />
+                </div>
+              )}
             </motion.div>
           )}
 
@@ -846,6 +859,16 @@ export default function ChapterQuiz({ quiz, chapterColor, chapterId, onPass }: C
                 <RotateCcw className="w-5 h-5" />
                 {passed ? 'Retake Quiz' : 'Try Again'}
               </button>
+
+              {/* Quiz history for authenticated users */}
+              {user && pastAttempts.length > 0 && (
+                <QuizHistory
+                  attempts={pastAttempts}
+                  bestScore={bestScore}
+                  loading={attemptsLoading}
+                  chapterColor={chapterColor}
+                />
+              )}
             </motion.div>
           )}
         </AnimatePresence>

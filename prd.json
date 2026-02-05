@@ -2293,7 +2293,7 @@
       "name": "Quiz scores persisted: quiz attempts saved to Supabase with history",
       "intent": "Save quiz attempts to Supabase so users can track improvement over time",
       "description": "When an authenticated user completes a quiz, save the attempt to the quiz_attempts table including: chapter, score, total questions, answers, and timestamp. Show quiz attempt history in a small panel below the quiz. Anonymous users see only current session scores.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1340"
       ],
@@ -2539,9 +2539,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1340",
-    "completedAt": "2026-02-06T00:10:00Z",
-    "recommendedNextStepId": "T-1350",
+    "lastCompletedTaskId": "T-1350",
+    "completedAt": "2026-02-06T01:00:00Z",
+    "recommendedNextStepId": "T-1360",
     "history": [
       "T-780",
       "T-790",
@@ -2615,7 +2615,8 @@
       "T-1310",
       "T-1320",
       "T-1330",
-      "T-1340"
+      "T-1340",
+      "T-1350"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
