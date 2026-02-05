@@ -1490,3 +1490,19 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1530] **Both themes consistent** — Light and dark modes render identically at both breakpoints with no theme-specific layout breaks
 - [T-1530] **Breakpoint transition** is between 375-768px where hamburger switches to full nav bar — responsive breakpoints properly configured
 - [T-1530] No responsive discrepancies found — layout adapts cleanly across all tested viewport/mode combinations
+
+### Lessons Learned (T-1540)
+- [T-1540] Mobile drawer audit at 375x812 — hamburger open state and drawer contents verified in both light and dark modes
+- [T-1540] **Drawer slides from right** — Framer Motion `x: '100%' → 0` with spring animation (stiffness: 400, damping: 35)
+- [T-1540] **Backdrop overlay** renders with `bg-black/50 backdrop-blur-sm`, properly dims and blurs background content
+- [T-1540] **Hamburger button** changes label from "Open menu" to "Close menu" with `aria-expanded` attribute toggling
+- [T-1540] **All 6 nav links present**: Home, Continue, Chapters, Learning Path, Playground, Leaderboard — each with icon
+- [T-1540] **Active nav link** (Home) shows blue gradient highlight background and dot indicator
+- [T-1540] **Progress section** displays progress bar (1/21), chapter count, and green checkmark for completed chapters
+- [T-1540] **Search trigger** button with icon and label text present in bottom section
+- [T-1540] **Three-mode theme toggle** (Light/Dark/Auto) with active state highlighting — mode switches work within drawer
+- [T-1540] **GitHub link** present at bottom with icon and "View on GitHub" label
+- [T-1540] **Swipe hint** "Swipe right to close" text rendered at bottom of drawer
+- [T-1540] **Accessibility**: focus trap, Escape to close, body scroll lock, `aria-modal`, `role="dialog"` all implemented
+- [T-1540] **Z-index layering**: hamburger (behind drawer at z-50) is intercepted by drawer (z-70) — close via X button inside drawer
+- [T-1540] No visual discrepancies found — drawer renders cleanly in both light and dark modes at mobile viewport
