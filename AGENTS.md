@@ -1478,3 +1478,15 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1520] **CTA and footer verified** — "Begin Your Journey" gradient button prominent. Footer text readable with proper dark background
 - [T-1520] **Same nav issues from T-1510 persist** — "Continue" truncation and "Learning Path" two-line wrapping are present in dark mode too (as expected, these are layout issues not theme-specific)
 - [T-1520] No additional dark-mode-specific discrepancies found. The dark theme implementation is thorough
+
+### Lessons Learned (T-1530)
+- [T-1530] Mobile viewport audit at 375x812 (iPhone) and 768x1024 (iPad) in both light and dark modes
+- [T-1530] **No horizontal overflow** at either breakpoint — scrollWidth equals clientWidth at both 375px and 768px
+- [T-1530] **Hamburger menu visible at 375px** — "Open menu" button appears, full nav links hidden behind mobile drawer
+- [T-1530] **Full nav bar at 768px** — All nav links (Home, Continue, Chapters, Learning Path, Playground, Leaderboard) display as horizontal bar
+- [T-1530] **Chapter cards stack responsively** — Compact 3-column grid at 375px, wider ~7-column grid at 768px
+- [T-1530] **Hero section scales well** — Text wraps naturally, CTAs stack vertically at mobile, stats row wraps to 2x2 at 375px
+- [T-1530] **Features section adapts** — Single column at 375px, 2x2 grid at 768px
+- [T-1530] **Both themes consistent** — Light and dark modes render identically at both breakpoints with no theme-specific layout breaks
+- [T-1530] **Breakpoint transition** is between 375-768px where hamburger switches to full nav bar — responsive breakpoints properly configured
+- [T-1530] No responsive discrepancies found — layout adapts cleanly across all tested viewport/mode combinations

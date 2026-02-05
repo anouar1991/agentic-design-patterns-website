@@ -2637,7 +2637,7 @@
       "name": "Mobile viewport audit: homepage at 375px and 768px in both modes",
       "intent": "Verify responsive design doesn't break layout at common mobile and tablet breakpoints",
       "description": "Resize viewport to 375x812 (iPhone) and 768x1024 (iPad) and screenshot the homepage in both light and dark modes. Check for: hamburger menu visibility, hero section scaling, chapter cards stacking, text overflow/truncation, touch target sizes, and horizontal scrolling issues.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1510",
         "T-1520"
@@ -3087,9 +3087,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1520",
-    "completedAt": "2026-02-05T01:30:00Z",
-    "recommendedNextStepId": "T-1530",
+    "lastCompletedTaskId": "T-1530",
+    "completedAt": "2026-02-05T01:45:00Z",
+    "recommendedNextStepId": "T-1540",
     "history": [
       "T-780",
       "T-790",
@@ -3173,7 +3173,8 @@
       "T-1410",
       "T-1500",
       "T-1510",
-      "T-1520"
+      "T-1520",
+      "T-1530"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
