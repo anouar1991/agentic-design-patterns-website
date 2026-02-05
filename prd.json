@@ -2714,7 +2714,7 @@
       "name": "Chapter page audit: chapter 1 content, diagram, code blocks in both modes",
       "intent": "Verify a representative chapter page renders all interactive elements correctly",
       "description": "Navigate to Chapter 1 and take comprehensive screenshots. Verify: breadcrumb with chapter icon, sticky header in compact mode after scrolling, tutorial sections with correct step type styling (narrative, code, tip, warning, exercise, checkpoint), code blocks with line numbers and language badges, diagram rendering with nodes and edges, active learner presence count. Check in both light and dark modes.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1500"
       ],
@@ -3087,9 +3087,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1540",
-    "completedAt": "2026-02-05T02:15:00Z",
-    "recommendedNextStepId": "T-1550",
+    "lastCompletedTaskId": "T-1550",
+    "completedAt": "2026-02-05T02:00:00Z",
+    "recommendedNextStepId": "T-1570",
     "history": [
       "T-780",
       "T-790",
@@ -3175,7 +3175,8 @@
       "T-1510",
       "T-1520",
       "T-1530",
-      "T-1540"
+      "T-1540",
+      "T-1550"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

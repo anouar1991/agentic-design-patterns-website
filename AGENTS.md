@@ -1506,3 +1506,21 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1540] **Accessibility**: focus trap, Escape to close, body scroll lock, `aria-modal`, `role="dialog"` all implemented
 - [T-1540] **Z-index layering**: hamburger (behind drawer at z-50) is intercepted by drawer (z-70) — close via X button inside drawer
 - [T-1540] No visual discrepancies found — drawer renders cleanly in both light and dark modes at mobile viewport
+
+### Lessons Learned (T-1550)
+- [T-1550] Chapter 1 page audit at 1280x720 — all interactive elements verified in both light and dark modes
+- [T-1550] **Breadcrumb**: Header shows "Chapters > Ch 1: Chain..." with chapter icon; page-level breadcrumb shows "Home / Chapters / Ch 1"
+- [T-1550] **Chapter metadata**: "Ch 1 · 8 min · Done · 1 learner here" — active learner presence count confirmed
+- [T-1550] **Tutorial sections**: 4 numbered sections (Key Concepts, Tutorial, Complete Code, Validate Your Learning) with pill-style tabs
+- [T-1550] **9 tutorial steps** within Tutorial section, each numbered with heading and subtitle description
+- [T-1550] **Step type styling verified**: Pro Tip (green/teal), Watch Out (amber/orange), Checkpoint (blue), Try It Yourself (purple) — each with distinct icon
+- [T-1550] **Code blocks**: Language badge (PYTHON/BASH) top-left, Copy button top-right, line numbers, monospace font, dark background in both modes
+- [T-1550] **Clickable code terms**: `langchain_openai`, `ChatOpenAI`, `ChatPromptTemplate`, `StrOutputParser`, `.invoke`, `|` etc. — dashed orange underline indicating interactivity
+- [T-1550] **"Click highlighted terms for explanations"** hint text with info icon displayed on code blocks with clickable terms
+- [T-1550] **Diagram**: React Flow renders 5 nodes (Input → Step 1: Extract → Step 2: Process → Step 3: Generate → Output) with edges and "Click to see code" hints
+- [T-1550] **Diagram controls**: Zoom in/out, 100% indicator, fit-to-view button, fullscreen toggle
+- [T-1550] **Compact header**: Triggers on scroll — single row with breadcrumb simplified to "Ch 1", glass-morphism backdrop, progress bar at bottom
+- [T-1550] **Quiz section**: "Start Quiz" button, 6 questions, 75% to pass, question types (Multiple Choice, True/False, Put in Order)
+- [T-1550] **Chapter completion**: "Chapter Completed" button with checkmark, "All Chapters" and "Next Ch 2" navigation links at bottom
+- [T-1550] **Console**: 0 errors, only 6 React Flow parent container warnings (non-critical, cosmetic)
+- [T-1550] **No visual discrepancies found** — chapter page renders cleanly in both light and dark modes
