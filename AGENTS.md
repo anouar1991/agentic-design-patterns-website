@@ -1436,3 +1436,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1370] Auth modal properly implements both sign-in and sign-up forms with OAuth (Google/GitHub) + email/password, dark mode support, and keyboard accessibility (Escape to close, Tab focus trapping with 8 focusable elements, Enter to activate)
 - [T-1370] Supabase integration produces zero errors in anonymous mode — all Supabase hooks gracefully handle unauthenticated state without throwing or logging errors
 - [T-1370] Dark mode is consistent across all new components: leaderboard, auth modal, header sign-in button — all verified via screenshots in both light and dark themes
+
+### Lessons Learned (T-1400)
+- [T-1400] RLS policies audit confirmed: progress/quiz_attempts tables correctly enforce `auth.uid() = user_id` for all operations; profiles allow public SELECT (needed for leaderboard) but restrict UPDATE to owner
+- [T-1400] Materialized views (leaderboard_cache) don't support RLS in PostgreSQL, but contain only public aggregate data. Defense-in-depth: revoke EXECUTE on SECURITY DEFINER functions (refresh_leaderboard_cache, handle_new_user) to prevent user-callable execution
+- [T-1400] Supabase anon key is safe to expose in client bundles — it's a public key scoped by RLS. The bundle contains admin SDK method paths (e.g., "regenerate_secret") as inert strings from the Supabase JS client, not actual secrets
+- [T-1400] Auth error sanitization prevents user enumeration: "User already registered" and "Invalid login credentials" are mapped to generic messages that don't reveal account existence
+- [T-1400] Client-side rate limiting (2s cooldown) on auth forms provides defense-in-depth alongside Supabase's server-side rate limiting

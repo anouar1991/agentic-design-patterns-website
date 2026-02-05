@@ -84,7 +84,7 @@ export default memo(function QuizHistory({ attempts, bestScore, loading, chapter
 
       <div className="space-y-2">
         <AnimatePresence initial={false}>
-          {visibleAttempts.map((attempt, idx) => {
+          {visibleAttempts.map((attempt) => {
             const isBest = bestScore && attempt.id === findBestAttemptId(attempts, bestScore);
             const percentage = Math.round((attempt.score / attempt.total_questions) * 100);
             // For trend, compare with the next item (which is the previous attempt chronologically)

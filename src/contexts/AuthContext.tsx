@@ -88,13 +88,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false)
     })
 
-    // Listen for auth changes
+    // Listen for auth changes (including token refresh failures)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event, session) => {
         setSession(session)
         setUser(session?.user ?? null)
 
-        if (session?.user) {
+        if (event === 'TOKEN_REFRESHED' && !session) {
+          // Token refresh failed — session expired, user needs to re-authenticate
+          log.warn('Session expired — token refresh failed')
+          setProfile(null)
+        } else if (event === 'SIGNED_OUT') {
+          setProfile(null)
+        } else if (session?.user) {
           await fetchProfile(session.user.id)
         } else {
           setProfile(null)

@@ -1,7 +1,8 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useRef, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
+import { sanitizeAuthError, createAuthRateLimiter } from '../../utils/authErrors'
 
 interface LoginFormProps {
   onSuccess?: () => void
@@ -17,16 +18,24 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const rateLimiter = useRef(createAuthRateLimiter())
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+
+    if (!rateLimiter.current.canAttempt()) {
+      setError(t('auth.rateLimited', 'Please wait a moment before trying again.'))
+      return
+    }
+
     setLoading(true)
     setError(null)
+    rateLimiter.current.recordAttempt()
 
     const { error } = await signInWithEmail(email, password)
 
     if (error) {
-      setError(error.message)
+      setError(sanitizeAuthError(error.message))
       setLoading(false)
     } else {
       onSuccess?.()

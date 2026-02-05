@@ -2470,7 +2470,7 @@
       "name": "Security hardened: RLS policies verified, API keys scoped, auth flows secured",
       "intent": "Ensure all Supabase integration follows security best practices",
       "description": "Audit and verify all Row Level Security policies. Ensure anon key only has access to intended operations. Verify auth flows handle edge cases (expired tokens, invalid credentials, rate limiting). Add CSRF protection to auth forms. Ensure no sensitive data leaks in client-side code.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1370"
       ],
@@ -2539,8 +2539,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1380",
-    "completedAt": "2026-02-06T03:00:00Z",
+    "lastCompletedTaskId": "T-1400",
+    "completedAt": "2026-02-06T04:00:00Z",
     "recommendedNextStepId": "T-1390",
     "history": [
       "T-780",
@@ -2619,7 +2619,8 @@
       "T-1350",
       "T-1360",
       "T-1370",
-      "T-1380"
+      "T-1380",
+      "T-1400"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
