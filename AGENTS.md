@@ -1524,3 +1524,20 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1550] **Chapter completion**: "Chapter Completed" button with checkmark, "All Chapters" and "Next Ch 2" navigation links at bottom
 - [T-1550] **Console**: 0 errors, only 6 React Flow parent container warnings (non-critical, cosmetic)
 - [T-1550] **No visual discrepancies found** — chapter page renders cleanly in both light and dark modes
+
+### Lessons Learned (T-1570)
+- [T-1570] Auth modal audit — sign-in and sign-up forms verified in both light and dark modes at 1440x900
+- [T-1570] **Sign-in form (light)**: "Welcome back" heading, Google/GitHub social auth buttons, email/password fields with icon prefixes, blue "Sign in" CTA, "Don't have an account? Sign up" toggle
+- [T-1570] **Sign-up form (light)**: "Create your account" heading, same social auth, Display name (optional), Email, Password, Confirm password fields, blue "Create account" CTA, "Already have an account? Sign in" toggle
+- [T-1570] **Sign-in form (dark)**: Dark modal background (`bg-dark-900`), white text, dark input borders, same layout as light — consistent contrast
+- [T-1570] **Sign-up form (dark)**: All fields render correctly, footer has `bg-dark-800/50` subtle separation
+- [T-1570] **Modal backdrop**: `bg-black/50 backdrop-blur-sm` — blurs background content in both modes
+- [T-1570] **Close button (X)**: Top-right corner, properly accessible with `aria-label="Close dialog"`
+- [T-1570] **Keyboard accessibility**: Escape key closes modal (verified), `role="dialog"` and `aria-modal="true"` attributes present
+- [T-1570] **Body scroll prevention**: `document.body.style.overflow = 'hidden'` when modal opens, restored on close
+- [T-1570] **Form field icons**: Mail icon for email, lock icon for password, user icon for display name — all rendering correctly
+- [T-1570] **Password visibility toggle**: Eye icon button to show/hide password, present on password field
+- [T-1570] **Terms footer**: "By continuing, you agree to our Terms of Service and Privacy Policy" — displayed in both modes
+- [T-1570] **UserMenu component**: Sign-in button visible in header when user not authenticated; hidden when Supabase not configured (`isConfigured` check)
+- [T-1570] **Console**: `autoComplete` warnings on input fields (non-blocking, cosmetic only)
+- [T-1570] **No visual discrepancies found** — auth modal renders cleanly and consistently in both light and dark modes

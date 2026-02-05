@@ -2795,7 +2795,7 @@
       "name": "Auth modal audit: sign-in and sign-up forms verified in both modes",
       "intent": "Verify authentication UI renders correctly and is visually consistent",
       "description": "Open the auth modal from the header sign-in button. Screenshot the sign-in form and sign-up form in both light and dark modes. Verify: form field styling, button prominence, error state styling (try submitting empty), modal backdrop, close button, and keyboard focus indicators.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1500"
       ],
@@ -3087,9 +3087,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1550",
-    "completedAt": "2026-02-05T02:00:00Z",
-    "recommendedNextStepId": "T-1570",
+    "lastCompletedTaskId": "T-1570",
+    "completedAt": "2026-02-05T02:05:00Z",
+    "recommendedNextStepId": "T-1560",
     "history": [
       "T-780",
       "T-790",
@@ -3176,7 +3176,8 @@
       "T-1520",
       "T-1530",
       "T-1540",
-      "T-1550"
+      "T-1550",
+      "T-1570"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
