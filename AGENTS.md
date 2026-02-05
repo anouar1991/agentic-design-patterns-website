@@ -1425,3 +1425,9 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1360] The materialized view pattern (`REFRESH MATERIALIZED VIEW CONCURRENTLY`) requires a unique index on the view — the `idx_leaderboard_cache_user_id` index enables concurrent refresh without blocking reads
 - [T-1360] Country filtering is implemented client-side via Supabase query `.eq('country_code', filter)` on the materialized view, with `COUNTRIES` array from `CountrySelect` providing flag emojis
 - [T-1360] User rank card shows separately when current user is outside top 50: `{user && userRank && !userInList && <LeaderboardRow />}` — ensures user always sees their position
+
+### Lessons Learned (T-1370)
+- [T-1370] End-to-end checkpoint verified: production build succeeds, anonymous user can navigate all pages (home, chapters, learning path, leaderboard) with zero console errors
+- [T-1370] Auth modal properly implements both sign-in and sign-up forms with OAuth (Google/GitHub) + email/password, dark mode support, and keyboard accessibility (Escape to close, Tab focus trapping with 8 focusable elements, Enter to activate)
+- [T-1370] Supabase integration produces zero errors in anonymous mode — all Supabase hooks gracefully handle unauthenticated state without throwing or logging errors
+- [T-1370] Dark mode is consistent across all new components: leaderboard, auth modal, header sign-in button — all verified via screenshots in both light and dark themes

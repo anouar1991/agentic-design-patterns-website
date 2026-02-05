@@ -2362,7 +2362,7 @@
       "name": "Auth + Progress checkpoint: authentication and sync verified end-to-end",
       "intent": "Verify all Supabase features work together without regressions",
       "description": "End-to-end verification that sign-up, sign-in, progress sync, quiz history, and leaderboard all work together. Verify no regressions in existing features. Test the anonymous-to-authenticated upgrade flow. Verify dark mode, mobile, and keyboard accessibility for all new components.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1340",
         "T-1350",
@@ -2539,9 +2539,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1360",
-    "completedAt": "2026-02-06T01:30:00Z",
-    "recommendedNextStepId": "T-1370",
+    "lastCompletedTaskId": "T-1370",
+    "completedAt": "2026-02-06T02:30:00Z",
+    "recommendedNextStepId": "T-1380",
     "history": [
       "T-780",
       "T-790",
@@ -2617,7 +2617,8 @@
       "T-1330",
       "T-1340",
       "T-1350",
-      "T-1360"
+      "T-1360",
+      "T-1370"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
