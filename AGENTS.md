@@ -1587,3 +1587,18 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1600] **Esc key**: Properly closes the modal in both modes. Also available as a button in top-right of search input.
 - [T-1600] **Result types**: Both code terms (Agent, AgentCard, AgentExecutor, etc. with "Code" badge) and chapters (Ch.7 Multi-Agent, Ch.15 Inter-Agent Communication with "Chapter" badge) appear in results.
 - [T-1600] **No discrepancies found** — search modal is well-implemented with consistent styling, proper highlights, and full keyboard support in both themes
+
+### Lessons Learned (T-1610)
+- [T-1610] Quiz section audit — all three question types, feedback states, and score display verified in both light/dark modes
+- [T-1610] **Quiz intro state**: Shows quiz title, description, question count (6), passing score (75%), question type badges (Multiple Choice, True/False, Put in Order), and "Start Quiz" button. Clean rendering in both dark and light modes.
+- [T-1610] **Multiple Choice question**: Badge "Multiple Choice", progress bar with 6 segments, 4 answer option buttons, disabled "Submit Answer" until selection. Running score counter (e.g., "1/1 Q1/6") in header.
+- [T-1610] **True/False question**: Badge "True / False", two side-by-side buttons with checkmark/X icons. Compact and clear in both modes.
+- [T-1610] **Ordering question**: Badge "Put in Order", numbered draggable items with grip handles. Instructions "Drag to reorder or use arrow keys". Items numbered with chapter accent color.
+- [T-1610] **Correct feedback (dark)**: Emerald green background with CheckCircle icon and "Correct!" text with sparkle animation. Explanation section with lightbulb icon. Green progress segment. Fully legible.
+- [T-1610] **Correct feedback (light)**: Light green tinted background, same icons and structure. Green text and icons maintain good contrast against white/light backgrounds.
+- [T-1610] **Wrong feedback (dark)**: Red background with XCircle icon and "Not quite" text. Shows correct answer in emerald text. Explanation section below. Red progress segment. Fully legible.
+- [T-1610] **Wrong feedback (light)**: Light pink/red tinted background. Red text for "Not quite", emerald text for correct answer. All text readable with good contrast.
+- [T-1610] **Score results (dark)**: Award icon (green for pass, red for fail), "Congratulations!" heading, percentage (83%), "5 of 6 correct", segmented color bar (green/red per question), per-question check/X icons, "Retake Quiz" button.
+- [T-1610] **Score results (light)**: Same structure, rendered cleanly on light background. Score card has subtle glass effect. All elements legible.
+- [T-1610] **Bug found (minor)**: `TypeError: Cannot read properties of null` at `ChapterQuiz.tsx:121` when using keyboard ArrowUp/ArrowDown to reorder items in ordering questions. The `parentElement?.querySelectorAll` call in `handleItemKeyDown` returns null when the Reorder component restructures DOM during keyboard reorder. Does not break functionality — reordering still works correctly despite the console error.
+- [T-1610] **No visual discrepancies found** — quiz renders consistently across both themes with proper feedback colors, animations, and legibility

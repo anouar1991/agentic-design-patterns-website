@@ -2940,7 +2940,7 @@
       "name": "Quiz section audit: question types, feedback states, and score display verified",
       "intent": "Verify quiz interactive elements render correctly across answer states",
       "description": "Navigate to a chapter with a quiz and screenshot the quiz section. Answer questions to capture: unanswered state, correct answer feedback (green), wrong answer feedback with explanation, and score summary. Verify in both modes.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1550"
       ],
@@ -3087,9 +3087,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1590",
-    "completedAt": "2026-02-05T04:00:00Z",
-    "recommendedNextStepId": "T-1610",
+    "lastCompletedTaskId": "T-1610",
+    "completedAt": "2026-02-05T04:50:00Z",
+    "recommendedNextStepId": "T-1620",
     "history": [
       "T-780",
       "T-790",
@@ -3181,7 +3181,8 @@
       "T-1560",
       "T-1580",
       "T-1590",
-      "T-1600"
+      "T-1600",
+      "T-1610"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
