@@ -1466,3 +1466,15 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1510] CTA section: "Ready to Build Intelligent Agents?" with gradient "Begin Your Journey" button. Clean spacing, good visual weight
 - [T-1510] No console errors or warnings detected. Zero JavaScript issues in light mode homepage
 - [T-1510] Glass-morphism header works well in light mode — the semi-transparent backdrop with blur creates nice depth against the gradient hero background
+
+### Lessons Learned (T-1520)
+- [T-1520] Homepage dark mode audit at 1440x900 desktop viewport. Dark theme is consistent across all sections with no light-mode remnants
+- [T-1520] **Glass-morphism header verified** — Dark semi-transparent header with backdrop blur works well. Nav links, search bar, progress counter, and theme toggle all properly styled for dark mode
+- [T-1520] **Hero section verified** — Purple-to-blue gradient text on "Agentic Design Patterns" renders beautifully against dark background. "Based on Antonio Gulli" badge has proper dark background. CTA buttons have good contrast
+- [T-1520] **Chapter cards verified** — All 21 cards have dark backgrounds (#1a1a2e style) with colored chapter icons. Text is readable with good contrast. Completion badge (green checkmark on Ch 1) visible. Time/difficulty labels legible
+- [T-1520] **Stats cards verified** — Dark card backgrounds with subtle borders/glow. Numbers and labels clearly readable against dark surface
+- [T-1520] **Features section verified** — Four cards with dark backgrounds, colored icons (green, blue, pink, green), white headings, and gray description text
+- [T-1520] **Learning path section verified** — Numbered phase circles with colored backgrounds. Visual progress tracker grid shows colorful tiles against dark background
+- [T-1520] **CTA and footer verified** — "Begin Your Journey" gradient button prominent. Footer text readable with proper dark background
+- [T-1520] **Same nav issues from T-1510 persist** — "Continue" truncation and "Learning Path" two-line wrapping are present in dark mode too (as expected, these are layout issues not theme-specific)
+- [T-1520] No additional dark-mode-specific discrepancies found. The dark theme implementation is thorough

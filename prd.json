@@ -2602,7 +2602,7 @@
       "name": "Homepage dark mode audit: all elements verified for dark theme consistency",
       "intent": "Verify dark mode rendering doesn't have contrast issues, wrong backgrounds, or missed theme elements",
       "description": "Toggle to dark mode and take the same homepage screenshots. Analyze for: elements still showing light backgrounds, insufficient contrast, glass-morphism effect in dark mode, progress bar visibility, card borders/shadows in dark, and search bar styling. Compare against light mode for intentional vs unintentional differences.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1510"
       ],
@@ -3087,9 +3087,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1500",
-    "completedAt": "2026-02-05T01:15:00Z",
-    "recommendedNextStepId": "T-1510",
+    "lastCompletedTaskId": "T-1520",
+    "completedAt": "2026-02-05T01:30:00Z",
+    "recommendedNextStepId": "T-1530",
     "history": [
       "T-780",
       "T-790",
@@ -3172,7 +3172,8 @@
       "T-1390",
       "T-1410",
       "T-1500",
-      "T-1510"
+      "T-1510",
+      "T-1520"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
