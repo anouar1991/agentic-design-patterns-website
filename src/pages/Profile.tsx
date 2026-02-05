@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link, Navigate } from 'react-router-dom'
 import {
@@ -13,11 +14,17 @@ import {
   TrendingUp,
   Medal,
   Crown,
-  Sparkles
+  Sparkles,
+  Pencil,
+  Check,
+  X,
+  MapPin
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import { useProgress } from '../contexts/ProgressContext'
 import { useProfileStats } from '../hooks/useProfileStats'
 import { CountrySelect, type CountryCode, countryNames, countryFlags } from '../components/auth/CountrySelect'
+import { chapterDetails } from '../data/chapters'
 
 const achievementConfig: Record<string, { icon: React.ElementType; title: string; description: string; color: string }> = {
   first_chapter: {
@@ -88,9 +95,20 @@ const achievementConfig: Record<string, { icon: React.ElementType; title: string
   }
 }
 
+// Chapter short names for the progress map
+const CHAPTER_SHORT_NAMES: Record<number, string> = Object.fromEntries(
+  Object.entries(chapterDetails).map(([id, ch]) => [Number(id), ch.shortTitle || ch.title])
+)
+
 export default function Profile() {
   const { user, profile, loading: authLoading, updateProfile } = useAuth()
   const { stats, loading: statsLoading } = useProfileStats()
+  const { completedChapters, isChapterCompleted } = useProgress()
+
+  // Display name editing state
+  const [isEditingName, setIsEditingName] = useState(false)
+  const [editName, setEditName] = useState('')
+  const [savingName, setSavingName] = useState(false)
 
   // Redirect if not logged in
   if (!authLoading && !user) {
@@ -108,6 +126,28 @@ export default function Profile() {
   const countryCode = profile?.country_code as CountryCode
 
   const progressPercentage = Math.round((stats.chaptersCompleted / 21) * 100)
+
+  const handleStartEditing = () => {
+    setEditName(displayName)
+    setIsEditingName(true)
+  }
+
+  const handleCancelEditing = () => {
+    setIsEditingName(false)
+    setEditName('')
+  }
+
+  const handleSaveName = async () => {
+    const trimmed = editName.trim()
+    if (!trimmed || trimmed === displayName) {
+      handleCancelEditing()
+      return
+    }
+    setSavingName(true)
+    await updateProfile({ display_name: trimmed })
+    setSavingName(false)
+    setIsEditingName(false)
+  }
 
   return (
     <div className="min-h-screen py-12">
@@ -144,7 +184,50 @@ export default function Profile() {
 
             {/* User Info */}
             <div className="text-center md:text-left flex-1">
-              <h1 className="text-2xl font-bold text-dark-50 mb-2">{displayName}</h1>
+              {isEditingName ? (
+                <div className="flex items-center gap-2 mb-2">
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={e => setEditName(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter') handleSaveName()
+                      if (e.key === 'Escape') handleCancelEditing()
+                    }}
+                    className="text-2xl font-bold bg-dark-800 text-dark-50 border border-dark-600 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full max-w-xs"
+                    autoFocus
+                    maxLength={40}
+                    disabled={savingName}
+                  />
+                  <button
+                    onClick={handleSaveName}
+                    disabled={savingName}
+                    className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors disabled:opacity-50"
+                    title="Save"
+                  >
+                    <Check className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={handleCancelEditing}
+                    disabled={savingName}
+                    className="p-1.5 rounded-lg bg-dark-700 text-dark-400 hover:bg-dark-600 transition-colors disabled:opacity-50"
+                    title="Cancel"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 mb-2">
+                  <h1 className="text-2xl font-bold text-dark-50">{displayName}</h1>
+                  <button
+                    onClick={handleStartEditing}
+                    className="p-1.5 rounded-lg text-dark-500 hover:text-dark-300 hover:bg-dark-700 transition-colors"
+                    title="Edit display name"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
               <p className="text-dark-400 mb-3">{user?.email}</p>
               <div className="flex flex-wrap justify-center md:justify-start gap-3">
                 {countryCode && (
@@ -239,6 +322,59 @@ export default function Profile() {
           <p className="text-sm text-dark-500">
             {21 - stats.chaptersCompleted} chapters remaining
           </p>
+        </motion.div>
+
+        {/* Chapter Progress Map */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="glass rounded-2xl p-6 mb-8"
+        >
+          <h2 className="text-lg font-semibold text-dark-50 mb-4 flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-accent-400" />
+            Chapter Progress Map
+          </h2>
+
+          <div className="grid grid-cols-3 sm:grid-cols-7 gap-2">
+            {Array.from({ length: 21 }, (_, i) => i + 1).map(chapterId => {
+              const completed = isChapterCompleted(chapterId)
+              const name = CHAPTER_SHORT_NAMES[chapterId] || `Ch ${chapterId}`
+              return (
+                <Link
+                  key={chapterId}
+                  to={`/chapter/${chapterId}`}
+                  className={`relative group p-2 rounded-lg text-center transition-all ${
+                    completed
+                      ? 'bg-emerald-500/20 border border-emerald-500/30 hover:bg-emerald-500/30'
+                      : 'bg-dark-800 border border-dark-700 hover:border-dark-500'
+                  }`}
+                  title={`Chapter ${chapterId}: ${name}`}
+                >
+                  <div className={`text-xs font-bold mb-0.5 ${completed ? 'text-emerald-400' : 'text-dark-500'}`}>
+                    {chapterId}
+                  </div>
+                  <div className={`text-[10px] leading-tight truncate ${completed ? 'text-emerald-300' : 'text-dark-600'}`}>
+                    {name}
+                  </div>
+                  {completed && (
+                    <CheckCircle2 className="w-3 h-3 text-emerald-500 absolute -top-1 -right-1" />
+                  )}
+                </Link>
+              )
+            })}
+          </div>
+
+          <div className="mt-4 flex items-center gap-4 text-xs text-dark-500">
+            <span className="flex items-center gap-1">
+              <span className="w-3 h-3 rounded bg-emerald-500/20 border border-emerald-500/30 inline-block" />
+              Completed ({completedChapters.length})
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-3 h-3 rounded bg-dark-800 border border-dark-700 inline-block" />
+              Remaining ({21 - completedChapters.length})
+            </span>
+          </div>
         </motion.div>
 
         {/* Achievements Section */}

@@ -151,6 +151,11 @@ All 21 chapters (1-21) are defined in `chapters.ts` with:
 - [T-120] All 21 chapters have complete content (tutorials, quizzes, diagrams) - enhancement focus should be on interactivity and polish, not content creation
 - [T-120] Leaderboard/Playground require backend (Supabase) - need graceful degradation for standalone use
 
+- [T-1380] Profile page already had most infrastructure from prior tasks; main gaps were display name editing UI and per-chapter progress map
+- [T-1380] `updateProfile` in AuthContext handles Supabase update + profile cache refresh in one call - no extra API logic needed in page
+- [T-1380] Chapter progress map uses `isChapterCompleted` from ProgressContext which merges local+cloud state
+- [T-1380] The `dark-*` color tokens in Tailwind CSS swap values between light/dark via CSS custom properties, so same classes work in both modes
+
 ## UX Gaps Audit (T-120)
 
 ### VISUAL - Contrast & Readability Issues

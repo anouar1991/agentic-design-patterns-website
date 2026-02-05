@@ -2402,7 +2402,7 @@
       "name": "User profile page: display name, avatar, and learning statistics",
       "intent": "Give authenticated users a profile page showing their learning journey",
       "description": "Create a /profile route showing user display name (editable), learning statistics (chapters completed, total quiz attempts, average score, time since first activity), and a visual progress map showing completion per chapter. Profile updates saved to Supabase user metadata.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1370"
       ],
@@ -2539,9 +2539,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1370",
-    "completedAt": "2026-02-06T02:30:00Z",
-    "recommendedNextStepId": "T-1380",
+    "lastCompletedTaskId": "T-1380",
+    "completedAt": "2026-02-06T03:00:00Z",
+    "recommendedNextStepId": "T-1390",
     "history": [
       "T-780",
       "T-790",
@@ -2618,7 +2618,8 @@
       "T-1340",
       "T-1350",
       "T-1360",
-      "T-1370"
+      "T-1370",
+      "T-1380"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
