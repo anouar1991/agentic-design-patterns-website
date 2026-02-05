@@ -1447,3 +1447,10 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1390] For aggregated presence across pages, use broadcast (heartbeat pattern) instead of per-channel presence subscriptions — avoids opening 21 presence channels simultaneously and sidesteps channel name conflicts
 - [T-1390] `sessionStorage` for user keys persists within a tab's lifetime (including SPA navigations) but creates unique keys per tab — accurately counting concurrent viewers across browser tabs
 - [T-1390] Presence indicators that show count 0 should be hidden entirely (conditional render on `count > 0`) rather than showing "0 learners here" which looks broken
+
+### Lessons Learned (T-1410)
+- [T-1410] Production build succeeds with zero errors/warnings. Total bundle: 2.7MB uncompressed, ~500KB gzipped. Supabase client (@supabase/supabase-js@2.90.1) adds ~30-40KB gzipped to index.js (264KB raw / 70.4KB gzipped total)
+- [T-1410] No credentials leaked in production bundle: Supabase URL and anon key are injected via `import.meta.env` at build time. When env vars are absent, Vite inlines `undefined` and `isSupabaseConfigured()` disables all cloud features
+- [T-1410] Graceful degradation verified: without Supabase env vars, the platform works as a fully static site. The leaderboard fires one failed network request to localhost:54321 (fallback URL) — harmless, UI shows empty state
+- [T-1410] Deployment requires two env vars: `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Both must be set at BUILD TIME (not runtime) since Vite statically replaces `import.meta.env` references
+- [T-1410] The `.env` file is gitignored. For CI/CD, set these as build environment variables. The anon key is safe for client bundles (public key, RLS-scoped)
