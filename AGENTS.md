@@ -1602,3 +1602,13 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1610] **Score results (light)**: Same structure, rendered cleanly on light background. Score card has subtle glass effect. All elements legible.
 - [T-1610] **Bug found (minor)**: `TypeError: Cannot read properties of null` at `ChapterQuiz.tsx:121` when using keyboard ArrowUp/ArrowDown to reorder items in ordering questions. The `parentElement?.querySelectorAll` call in `handleItemKeyDown` returns null when the Reorder component restructures DOM during keyboard reorder. Does not break functionality — reordering still works correctly despite the console error.
 - [T-1610] **No visual discrepancies found** — quiz renders consistently across both themes with proper feedback colors, animations, and legibility
+
+### Lessons Learned (T-1620)
+- [T-1620] Error boundary audit — fallback UI verified for all 6 ErrorBoundary instances (Tutorial, CodeBlock x2, Diagram x2, Quiz) in both light and dark modes
+- [T-1620] **Triggering method**: Used React fiber tree traversal via `__reactContainer` key to find ErrorBoundary class instances and call `setState({ error })` directly. Key: React 18 uses `__reactContainer` prefix (not `__reactFiber`) on the root element.
+- [T-1620] **Light mode**: Fallback renders with red-tinted background (`bg-red-500/5`), red border (`border-red-500/20`), AlertTriangle icon in `text-red-400`, heading in `text-dark-50` (appears dark on light bg), message in `text-dark-400` (medium gray), "Try again" button with `bg-red-500/10` hover state. All elements readable and properly styled.
+- [T-1620] **Dark mode**: Same component renders correctly — `text-dark-50` appears as light/white text on dark bg, `text-dark-400` as muted gray, red accents visible against dark surface. No contrast issues detected.
+- [T-1620] **Retry button**: Clicking "Try again" successfully resets the ErrorBoundary via `handleReset()` which clears error state and increments `resetKey`. Each boundary resets independently — clicking retry on Tutorial restored it while Diagram stayed in error state.
+- [T-1620] **Context-aware messaging**: The `context` prop correctly appears in heading (e.g., "Tutorial failed to load", "Diagram failed to load", "Quiz failed to load"). Without context, falls back to "Something went wrong".
+- [T-1620] **Accessibility**: Fallback uses `role="alert"` for screen reader announcement. Button is focusable with visible focus ring (`focus:ring-2 focus:ring-red-500/40`).
+- [T-1620] **No visual discrepancies found** — error boundary fallback UI is visually consistent across all contexts and both themes
