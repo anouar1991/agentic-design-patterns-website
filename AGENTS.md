@@ -1541,3 +1541,17 @@ Sub-components consume: `useTheme`, `useLanguage`, `useAuth`.
 - [T-1570] **UserMenu component**: Sign-in button visible in header when user not authenticated; hidden when Supabase not configured (`isConfigured` check)
 - [T-1570] **Console**: `autoComplete` warnings on input fields (non-blocking, cosmetic only)
 - [T-1570] **No visual discrepancies found** — auth modal renders cleanly and consistently in both light and dark modes
+
+### Lessons Learned (T-1560)
+- [T-1560] Header states audit — full, compact, and breadcrumb transitions verified in both light and dark modes at 1440x900
+- [T-1560] **Full state (light)**: Logo + "Agentic Patterns / Interactive Learning" branding, nav links (Home, Continue, Chapters, Learning Path, Playground, Leaderboard), search bar with Ctrl+K, progress counter (1/21), Sign in, theme/language toggles, GitHub link
+- [T-1560] **Full state (dark)**: Same layout with dark glass-morphism background, all elements render with proper contrast
+- [T-1560] **Compact state**: Triggers at `scrollY > 32` — header height reduces from `h-16` to `h-12`, logo scales to `scale-[0.85]`, "Interactive Learning" subtitle hides (`opacity-0 h-0`), breadcrumb text shortens (e.g., "Ch 1: Chaining" → "Ch 1")
+- [T-1560] **Breadcrumb state (chapter pages)**: Shows "Chapters > Ch 1: Chaining" navigation, replaces main nav links in the breadcrumb area, back button to chapters list
+- [T-1560] **Navigation active underline**: Blue highlighted box/underline on active link (verified on Chapters page in both light and dark modes)
+- [T-1560] **Progress bar**: Thin gradient progress bar (`progressbar "Course progress: 5%"`) visible at bottom of header in all states and both modes
+- [T-1560] **Search bar**: Shows search icon, "Search..." placeholder, and Ctrl+K hint in both full and compact states; slightly smaller in compact mode via `isCompact` prop
+- [T-1560] **Glass-morphism**: `glass-header` CSS class applied; more visible in dark mode with semi-transparent dark background, subtle in light mode with white/translucent
+- [T-1560] **Nav link overflow at 1440px**: Some nav links ("Home") are not visible — pushed behind the logo area. "Continue" shows as "...ontinue" with clipped first letter. "Leaderboard" not visible on homepage (only visible in accessibility tree). This is a minor layout concern at exactly 1440px where the nav area gets crowded.
+- [T-1560] **Secondary breadcrumb on chapter pages**: In addition to the header breadcrumb, chapter pages show a content-area breadcrumb ("Home / Chapters / Ch 1") below the header — redundant but consistent
+- [T-1560] **No critical discrepancies found** — header transitions work smoothly, all states render correctly in both modes. Minor note: nav link overflow at 1440px could be improved

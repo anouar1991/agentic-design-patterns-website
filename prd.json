@@ -2755,7 +2755,7 @@
       "name": "Header states audit: full, compact, and breadcrumb transitions verified",
       "intent": "Verify header behavior across scroll states and navigation contexts",
       "description": "Systematically screenshot the header in all its states: full size on homepage, compact after scrolling, with breadcrumb on chapter pages, and during transition. Verify glass-morphism effect, navigation underline active state, search bar adaptation, and progress bar visibility in all states and both modes.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1510",
         "T-1550"
@@ -3087,8 +3087,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1570",
-    "completedAt": "2026-02-05T02:05:00Z",
+    "lastCompletedTaskId": "T-1560",
+    "completedAt": "2026-02-05T02:20:00Z",
     "recommendedNextStepId": "T-1560",
     "history": [
       "T-780",
@@ -3177,7 +3177,8 @@
       "T-1530",
       "T-1540",
       "T-1550",
-      "T-1570"
+      "T-1570",
+      "T-1560"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
