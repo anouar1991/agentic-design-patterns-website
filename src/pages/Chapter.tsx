@@ -25,6 +25,7 @@ import { useProgress } from '../contexts/ProgressContext';
 import { DiagramProvider, useDiagram } from '../contexts/DiagramContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { pageUrl } from '../config/site';
 import { usePresence, usePresenceHeartbeat } from '../hooks/usePresence';
 import LearningObjectives from '../components/LearningObjectives';
 import ChapterQuiz from '../components/ChapterQuiz';
@@ -67,17 +68,21 @@ function ChapterContent() {
   usePresenceHeartbeat(chapterNum);
 
   // SEO: dynamic meta tags per chapter
+  const chapterUrl = chapter ? pageUrl(`/chapters/${chapter.number}`) : undefined;
+
   const structuredData = useMemo(() => chapter ? ({
     '@context': 'https://schema.org',
     '@type': 'LearningResource',
     name: `Chapter ${chapter.number}: ${chapter.title}`,
     description: chapter.description,
+    url: pageUrl(`/chapters/${chapter.number}`),
     educationalLevel: chapter.readingMeta?.difficulty || 'intermediate',
     teaches: chapter.keyConcepts?.slice(0, 5).join(', '),
     isPartOf: {
       '@type': 'Course',
       name: 'Agentic Design Patterns',
       description: 'Master 21 essential patterns for building intelligent AI systems',
+      url: pageUrl('/'),
       provider: { '@type': 'Person', name: 'Antonio Gulli' },
     },
     timeRequired: chapter.readingMeta
@@ -95,6 +100,8 @@ function ChapterContent() {
       : undefined,
     ogDescription: chapter?.description,
     ogType: 'article',
+    ogUrl: chapterUrl,
+    canonicalUrl: chapterUrl,
     keywords: chapter
       ? `${chapter.title}, ${chapter.keyConcepts?.slice(0, 3).join(', ')}, AI agents, design patterns`
       : undefined,

@@ -3345,7 +3345,7 @@
       "name": "Meta tags updated: Open Graph and canonical URLs use GitHub Pages domain",
       "intent": "SEO and social sharing meta tags must reference the actual deployed URL, not localhost, for proper link previews and search indexing",
       "description": "Update the Open Graph tags, canonical URL, and any hardcoded URLs to use the GitHub Pages domain. This should be configurable via an environment variable (VITE_SITE_URL) with a sensible default pointing to the GitHub Pages URL. Update the structured data (JSON-LD) if present.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1700"
       ],
@@ -3479,8 +3479,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1760",
-    "completedAt": "2026-02-06T16:30:00Z",
+    "lastCompletedTaskId": "T-1780",
+    "completedAt": "2026-02-06T17:30:00Z",
     "recommendedNextStepId": "T-1740",
     "history": [
       "T-780",
@@ -3582,7 +3582,8 @@
       "T-1710",
       "T-1720",
       "T-1730",
-      "T-1760"
+      "T-1760",
+      "T-1780"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

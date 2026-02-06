@@ -7,6 +7,7 @@ interface DocumentMeta {
   ogDescription?: string;
   ogType?: string;
   ogUrl?: string;
+  canonicalUrl?: string;
   keywords?: string;
   /** JSON-LD structured data object */
   structuredData?: Record<string, unknown>;
@@ -65,6 +66,18 @@ export function useDocumentMeta(meta: DocumentMeta) {
       setMeta('property', 'og:url', meta.ogUrl);
     }
 
+    // --- canonical link ---
+    let canonicalEl: HTMLLinkElement | null = null;
+    if (meta.canonicalUrl) {
+      canonicalEl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+      if (!canonicalEl) {
+        canonicalEl = document.createElement('link');
+        canonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalEl);
+      }
+      canonicalEl.setAttribute('href', meta.canonicalUrl);
+    }
+
     // --- JSON-LD structured data ---
     let scriptEl: HTMLScriptElement | null = null;
     if (meta.structuredData) {
@@ -100,6 +113,7 @@ export function useDocumentMeta(meta: DocumentMeta) {
     meta.ogDescription,
     meta.ogType,
     meta.ogUrl,
+    meta.canonicalUrl,
     meta.keywords,
     meta.structuredData,
   ]);

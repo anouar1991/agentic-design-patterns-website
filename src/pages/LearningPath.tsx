@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { layoutIds } from '../config/motion';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { pageUrl } from '../config/site';
 import {
   Map,
   ArrowRight,
@@ -106,6 +107,8 @@ export default function LearningPath() {
     title: 'Learning Path',
     description: 'Follow a structured 5-phase learning path through 21 agentic design patterns. Progress from foundations through advanced systems with guided chapters.',
     ogType: 'website',
+    ogUrl: pageUrl('/learning-path'),
+    canonicalUrl: pageUrl('/learning-path'),
     keywords: 'learning path, AI agents, structured learning, design patterns curriculum',
   });
 

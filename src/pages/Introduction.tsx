@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { pageUrl } from '../config/site';
 import {
   BookOpen,
   ArrowRight,
@@ -28,6 +29,8 @@ export default function Introduction() {
     title: 'Introduction to AI Agents',
     description: 'Learn the fundamentals of AI agents and agentic design patterns. Understand what makes AI agents different from simple LLMs and why design patterns matter.',
     ogType: 'article',
+    ogUrl: pageUrl('/introduction'),
+    canonicalUrl: pageUrl('/introduction'),
     keywords: 'AI agents, introduction, LLM, agentic systems, design patterns fundamentals',
   });
 
