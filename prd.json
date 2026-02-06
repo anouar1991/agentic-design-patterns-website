@@ -3378,7 +3378,7 @@
       "name": "robots.txt and sitemap: search engine discoverability configured for GitHub Pages",
       "intent": "A sitemap and robots.txt help search engines discover and index the learning platform content, improving discoverability",
       "description": "Create a robots.txt in public/ that allows all crawlers and references the sitemap. Generate a sitemap.xml in public/ (or as a build step) listing all chapter pages and the homepage with their canonical URLs using the GitHub Pages domain.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1780"
       ],
@@ -3479,9 +3479,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1740",
-    "completedAt": "2026-02-06T18:00:00Z",
-    "recommendedNextStepId": "T-1790",
+    "lastCompletedTaskId": "T-1790",
+    "completedAt": "2026-02-06T19:00:00Z",
+    "recommendedNextStepId": "T-1750",
     "history": [
       "T-780",
       "T-790",
@@ -3584,7 +3584,8 @@
       "T-1730",
       "T-1760",
       "T-1780",
-      "T-1740"
+      "T-1740",
+      "T-1790"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

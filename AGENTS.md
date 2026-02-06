@@ -1717,3 +1717,8 @@ The following were audited and found to have zero discrepancies:
 - [T-1780] Centralizing the site URL in `src/config/site.ts` with a `pageUrl()` helper prevents scattered `import.meta.env.VITE_SITE_URL` references and ensures consistent URL construction (trailing slash handling, path joining).
 - [T-1780] Canonical URLs in `<link rel="canonical">` need dynamic updates per page — the hook creates or reuses the existing `link[rel=canonical]` element rather than creating duplicates, by first querying `document.querySelector('link[rel="canonical"]')`.
 - [T-1780] JSON-LD structured data `url` fields in both `Course` (Home page) and `LearningResource` (Chapter pages) must reference the deployed domain. The `isPartOf.url` on chapter structured data links back to the parent course page for proper schema.org relationships.
+
+### Lessons Learned (T-1790)
+- [T-1790] Static files in `public/` (robots.txt, sitemap.xml) are copied verbatim to `dist/` root by Vite. They cannot use `import.meta.env` since they're not processed through the JS build pipeline — use hardcoded URLs matching the `site.ts` default.
+- [T-1790] The `/profile` route is intentionally excluded from sitemap.xml because it's an authenticated user-specific page. Search engines should not index pages that require login and show per-user content.
+- [T-1790] The `Sitemap:` directive in robots.txt must use a fully qualified URL including the base path (e.g., `/Agentic_Design_Patterns/sitemap.xml`), not just `/sitemap.xml`, since the deployment is under a subpath on GitHub Pages.
