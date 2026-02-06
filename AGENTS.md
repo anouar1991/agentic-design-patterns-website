@@ -1722,3 +1722,7 @@ The following were audited and found to have zero discrepancies:
 - [T-1790] Static files in `public/` (robots.txt, sitemap.xml) are copied verbatim to `dist/` root by Vite. They cannot use `import.meta.env` since they're not processed through the JS build pipeline — use hardcoded URLs matching the `site.ts` default.
 - [T-1790] The `/profile` route is intentionally excluded from sitemap.xml because it's an authenticated user-specific page. Search engines should not index pages that require login and show per-user content.
 - [T-1790] The `Sitemap:` directive in robots.txt must use a fully qualified URL including the base path (e.g., `/Agentic_Design_Patterns/sitemap.xml`), not just `/sitemap.xml`, since the deployment is under a subpath on GitHub Pages.
+
+### Lessons Learned (T-1750)
+- [T-1750] When replacing a default Vite README with project-specific documentation, the custom domain setup should document both the CNAME file placement (in `public/` so it persists across builds) and the DNS configuration (CNAME for subdomains, A records for apex domains).
+- [T-1750] The `VITE_SITE_URL` environment variable is configurable as a GitHub repository **variable** (not secret), since it's not sensitive. Supabase keys use **secrets** since they're credentials. This distinction matters for the docs.

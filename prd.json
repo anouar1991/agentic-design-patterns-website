@@ -3243,7 +3243,7 @@
       "name": "CNAME and custom domain support: optional custom domain configuration documented",
       "intent": "If the user wants a custom domain, the CNAME file must persist through deployments. Even without a custom domain, the setup should be documented for future use",
       "description": "Add a CNAME file to public/ if a custom domain is desired (it will be copied to dist/ on build). Document in README.md how to configure a custom domain with GitHub Pages, including DNS setup. If no custom domain is needed, ensure the default github.io URL works correctly.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1740"
       ],
@@ -3479,9 +3479,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1790",
-    "completedAt": "2026-02-06T19:00:00Z",
-    "recommendedNextStepId": "T-1750",
+    "lastCompletedTaskId": "T-1750",
+    "completedAt": "2026-02-06T19:30:00Z",
+    "recommendedNextStepId": "T-1770",
     "history": [
       "T-780",
       "T-790",
@@ -3585,7 +3585,8 @@
       "T-1760",
       "T-1780",
       "T-1740",
-      "T-1790"
+      "T-1790",
+      "T-1750"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
