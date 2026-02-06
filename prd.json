@@ -3270,7 +3270,7 @@
       "name": "Build output verified: dist/ contains all required files with correct paths",
       "intent": "Before deploying, verify the build output is complete and all paths are correct - catching issues locally is cheaper than debugging a broken deployment",
       "description": "Run the production build and verify: index.html exists with correct base path references, 404.html exists with redirect script, all JS/CSS chunks are present, asset paths are relative to the base, compressed files exist (gz/br), and the service worker is at the correct location.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1700",
         "T-1710",
@@ -3479,8 +3479,8 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1730",
-    "completedAt": "2026-02-06T15:30:00Z",
+    "lastCompletedTaskId": "T-1760",
+    "completedAt": "2026-02-06T16:30:00Z",
     "recommendedNextStepId": "T-1740",
     "history": [
       "T-780",
@@ -3581,7 +3581,8 @@
       "T-1700",
       "T-1710",
       "T-1720",
-      "T-1730"
+      "T-1730",
+      "T-1760"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
