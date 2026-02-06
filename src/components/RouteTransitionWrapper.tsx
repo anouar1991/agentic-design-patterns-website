@@ -24,6 +24,7 @@ export default function RouteTransitionWrapper() {
   const [phase, setPhase] = useState<'visible' | 'exiting' | 'entering'>('visible');
   const [direction, setDirection] = useState<'forward' | 'back'>('forward');
   const prevPathRef = useRef(location.pathname);
+  const prevHashRef = useRef(location.hash);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Save current scroll position before navigating away
@@ -57,6 +58,17 @@ export default function RouteTransitionWrapper() {
         // Restore saved position for back navigation
         const savedPosition = scrollPositions.get(location.pathname) ?? 0;
         window.scrollTo(0, savedPosition);
+      } else if (location.hash) {
+        // Hash fragment present: defer to browser's native scroll-to-anchor
+        // after a brief delay to let the target element render
+        requestAnimationFrame(() => {
+          const el = document.getElementById(location.hash.slice(1));
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else {
+            window.scrollTo(0, 0);
+          }
+        });
       } else {
         // Scroll to top for forward navigation
         window.scrollTo(0, 0);
@@ -74,7 +86,18 @@ export default function RouteTransitionWrapper() {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [location.pathname, navigationType, setRouteTransitioning, saveScrollPosition, reducedMotion]);
+  }, [location.pathname, location.hash, navigationType, setRouteTransitioning, saveScrollPosition, reducedMotion]);
+
+  // Same-page hash navigation: scroll to target without transition
+  useEffect(() => {
+    if (location.hash && prevPathRef.current === location.pathname && prevHashRef.current !== location.hash) {
+      const el = document.getElementById(location.hash.slice(1));
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    prevHashRef.current = location.hash;
+  }, [location.hash, location.pathname]);
 
   // Compute transform and opacity based on phase and direction
   const getTransitionStyle = (): React.CSSProperties => {

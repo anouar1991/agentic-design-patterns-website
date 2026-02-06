@@ -26,3 +26,12 @@ supabase/.temp
 *.njsproj
 *.sln
 *.sw?
+# Sensitive/generated files
+creds.yml
+.playwright-mcp/
+
+# Screenshots/test artifacts (root level only, not public/)
+/*.png
+/*.jpeg
+/prd-*.json
+.task-started

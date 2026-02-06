@@ -41,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!isConfigured) return
 
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabase!
         .from('profiles')
         .select('*')
         .eq('id', userId)
@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase!.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
       if (session?.user) {
@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
 
     // Listen for auth changes (including token refresh failures)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = supabase!.auth.onAuthStateChange(
       async (event, session) => {
         setSession(session)
         setUser(session?.user ?? null)
@@ -119,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error: { message: 'Supabase not configured' } as AuthError }
     }
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase!.auth.signInWithPassword({
       email,
       password,
     })
@@ -132,7 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error: { message: 'Supabase not configured' } as AuthError }
     }
 
-    const { error } = await supabase.auth.signUp({
+    const { error } = await supabase!.auth.signUp({
       email,
       password,
       options: {
@@ -150,7 +150,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error: { message: 'Supabase not configured' } as AuthError }
     }
 
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase!.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/`,
@@ -165,7 +165,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error: { message: 'Supabase not configured' } as AuthError }
     }
 
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase!.auth.signInWithOAuth({
       provider: 'github',
       options: {
         redirectTo: `${window.location.origin}/`,
@@ -178,7 +178,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     if (!isConfigured) return
 
-    await supabase.auth.signOut()
+    await supabase!.auth.signOut()
     setProfile(null)
   }
 
@@ -188,7 +188,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error: new Error('Not authenticated') }
     }
 
-    const { error } = await supabase
+    const { error } = await supabase!
       .from('profiles')
       .update({ ...updates, updated_at: new Date().toISOString() })
       .eq('id', user.id)
