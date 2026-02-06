@@ -3178,7 +3178,7 @@
       "name": "Service worker paths updated: SW registration uses correct scope for GitHub Pages subpath",
       "intent": "The service worker scope must match the GitHub Pages base path, otherwise caching and offline features will fail silently",
       "description": "Update the service worker registration to use the correct scope based on the Vite base path. Ensure the service worker file is output at the correct location in the dist/ directory and that its fetch handler correctly resolves cached asset paths relative to the subpath.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1700"
       ],
@@ -3479,9 +3479,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1720",
-    "completedAt": "2026-02-06T15:00:00Z",
-    "recommendedNextStepId": "T-1730",
+    "lastCompletedTaskId": "T-1730",
+    "completedAt": "2026-02-06T15:30:00Z",
+    "recommendedNextStepId": "T-1740",
     "history": [
       "T-780",
       "T-790",
@@ -3580,7 +3580,8 @@
       "T-1640",
       "T-1700",
       "T-1710",
-      "T-1720"
+      "T-1720",
+      "T-1730"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

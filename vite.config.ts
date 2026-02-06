@@ -17,6 +17,10 @@ export default defineConfig({
       workbox: {
         // Precache all built assets (JS, CSS, HTML)
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        // SPA fallback: serve index.html for all navigation requests
+        navigateFallback: 'index.html',
+        // Only apply navigation fallback within our app scope
+        navigateFallbackAllowlist: [/^\/Agentic_Design_Patterns\//],
         // Runtime caching strategies
         runtimeCaching: [
           {
