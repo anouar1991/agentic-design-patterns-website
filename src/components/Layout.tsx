@@ -427,7 +427,7 @@ export default function Layout() {
             <HeaderBreadcrumb isCompact={isScrolled} />
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-0.5 lg:gap-1 relative min-w-0 flex-1 justify-center overflow-hidden">
+            <div className="hidden md:flex items-center gap-0.5 xl:gap-1 relative min-w-0 flex-1 justify-center overflow-hidden">
               {navLinks.map((link) => {
                 const Icon = link.icon
                 const isActive = location.pathname === link.to
@@ -439,7 +439,7 @@ export default function Layout() {
                     key={link.to}
                     to={link.to}
                     className={`
-                      nav-link relative px-2 lg:px-4 py-2 rounded-lg flex items-center gap-2
+                      nav-link relative px-2 xl:px-4 py-2 rounded-lg flex items-center gap-2
                       transition-all duration-200
                       ${isActive
                         ? 'text-dark-50'
@@ -458,7 +458,7 @@ export default function Layout() {
                     )}
                     <span className="relative flex items-center gap-2">
                       <Icon className={`w-4 h-4 transition-transform duration-200 ${!isActive ? 'group-hover:scale-110' : ''}`} />
-                      <span className="hidden lg:inline">{link.label}</span>
+                      <span className="hidden xl:inline">{link.label}</span>
                     </span>
                     {/* Active bottom indicator line with glow */}
                     {isActive && (
