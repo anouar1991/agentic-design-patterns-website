@@ -1250,6 +1250,12 @@ This prevents `console.error` output when Supabase is simply not running (expect
 - [T-1020] Service worker activates correctly on production preview (`navigator.serviceWorker.controller.state === 'activated'`), confirming vite-plugin-pwa configuration is correct
 - [T-1020] Zero console warnings/errors verified across: homepage, chapters 1/7/14/21, chapters list, learning-path — dark mode toggle works cleanly in production
 
+### Lessons Learned (T-1740)
+- [T-1740] `peaceiris/actions-gh-pages@v4` handles gh-pages branch creation automatically — no need to manually create the branch beforehand
+- [T-1740] `npm ci` is preferred over `npm install` in CI: it's faster, uses exact lockfile versions, and fails on lockfile mismatch instead of silently updating
+- [T-1740] Vite env vars (`VITE_*`) must be passed as `env:` in the build step, not as repository secrets alone — Vite reads them at build time via `import.meta.env`
+- [T-1740] GitHub Actions `vars.*` (repository variables) are for non-sensitive config like URLs; `secrets.*` are for sensitive values like API keys — using the right type prevents accidental exposure in logs
+
 ## Gotchas & Warnings
 - `chapters.ts` is too large to read at once (425KB) - use offset/limit or grep
 - Light theme uses CSS custom property inversion (T-340) plus custom `html.light` overrides — `text-white` on non-colored backgrounds should be `text-dark-50` to adapt
