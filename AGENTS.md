@@ -1678,3 +1678,9 @@ The following were audited and found to have zero discrepancies:
 4. **P3 - Learning Path heading wrap** (Minor, cosmetic): `Home.tsx`
 5. **P4 - Progress color semantics** (Minor, UX clarity): Progress component
 6. **P5 - React Flow warnings** (Minor, external library): No action needed
+
+### Lessons Learned (T-1700)
+- [T-1700] Vite's `base` option must be set to `/repo-name/` for GitHub Pages deployment under a subpath. Without it, all asset paths in the built HTML use root-relative URLs (`/assets/...`) which 404 under `username.github.io/repo-name/`.
+- [T-1700] PWA manifest `scope` and `start_url` must also be updated to include the base path, otherwise the service worker caches under the wrong scope.
+- [T-1700] `vite-plugin-pwa` does NOT auto-rewrite icon `src` paths with the Vite `base` prefix. Icon paths should be relative (e.g., `pwa-192x192.png` without leading `/`) so they resolve correctly relative to the manifest's URL location.
+- [T-1700] After setting `base`, all `<script src>`, `<link href>`, and `<link rel="modulepreload" href>` in dist/index.html correctly include the `/Agentic_Design_Patterns/` prefix.

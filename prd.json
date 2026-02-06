@@ -292,7 +292,7 @@
       "validation": "Fresh page load: verify staggered card entrance, navigate to chapter via card click, verify nav updates smoothly, navigate back, verify no visual glitches. Test at 1440px and 375px widths.",
       "testLevel": "combination",
       "actions": [
-        "Full flow test: load \u2192 browse cards \u2192 click chapter \u2192 nav updates \u2192 back",
+        "Full flow test: load → browse cards → click chapter → nav updates → back",
         "Test at desktop and mobile widths",
         "Check for animation conflicts",
         "Verify consistent styling"
@@ -314,7 +314,7 @@
         "Diagrams enhanced"
       ],
       "guarantees": [
-        "Diagram node click \u2192 code scroll + highlight works",
+        "Diagram node click → code scroll + highlight works",
         "Code term click opens modal without breaking diagram state",
         "No interaction conflicts between code and diagram features"
       ],
@@ -324,7 +324,7 @@
         "Test diagram-to-code linking",
         "Test code term modals",
         "Verify no state conflicts",
-        "Test sequence: diagram click \u2192 code term click \u2192 diagram click"
+        "Test sequence: diagram click → code term click → diagram click"
       ]
     },
     {
@@ -539,7 +539,7 @@
         "No state conflicts between features",
         "Progress correctly saved after completing chapter"
       ],
-      "validation": "Full flow for one chapter: homepage \u2192 card click \u2192 tutorial read \u2192 click code terms \u2192 interact with diagram \u2192 diagram-to-code link \u2192 complete quiz \u2192 verify progress saved \u2192 return to homepage \u2192 verify completion badge.",
+      "validation": "Full flow for one chapter: homepage → card click → tutorial read → click code terms → interact with diagram → diagram-to-code link → complete quiz → verify progress saved → return to homepage → verify completion badge.",
       "testLevel": "integration",
       "actions": [
         "Execute full learning flow for chosen chapter",
@@ -795,7 +795,7 @@
         "Platform is ready for deployment",
         "User can experience the full incredible learning platform"
       ],
-      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation \u2192 chapter cards \u2192 tutorial \u2192 code terms \u2192 diagram \u2192 quiz \u2192 progress \u2192 dark mode \u2192 search \u2192 print preview. All features work in production.",
+      "validation": "Run npm run build, verify 0 errors. Serve production build, navigate full platform: hero animation → chapter cards → tutorial → code terms → diagram → quiz → progress → dark mode → search → print preview. All features work in production.",
       "testLevel": "integration",
       "actions": [
         "Run npm run build",
@@ -1625,7 +1625,7 @@
       "id": "T-1010",
       "name": "Logging integration checkpoint: all logging and fixes verified together",
       "intent": "Verify that all logging enhancements and bug fixes work together without regressions",
-      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing \u2192 chapter selection \u2192 tutorial \u2192 quiz \u2192 completion. Verify clean console, proper logging, and no regressions.",
+      "description": "End-to-end verification that the structured logger, error boundaries, console fixes, and storage hardening all work together. Navigate the complete platform flow: landing → chapter selection → tutorial → quiz → completion. Verify clean console, proper logging, and no regressions.",
       "pass": true,
       "dependencies": [
         "T-920",
@@ -1654,7 +1654,7 @@
         "No regressions in any existing feature",
         "Production build is clean with zero warnings"
       ],
-      "validation": "Navigate full flow (home \u2192 chapter 1 \u2192 tutorial \u2192 quiz \u2192 chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
+      "validation": "Navigate full flow (home → chapter 1 → tutorial → quiz → chapter 2) with console open; verify only structured logs appear; toggle dark mode; test search; verify zero unstructured console output",
       "testLevel": "integration",
       "actions": [
         "Start dev server",
@@ -2385,7 +2385,7 @@
         "All new components are keyboard accessible",
         "No console errors from Supabase integration"
       ],
-      "validation": "Full flow: anonymous chapter completion \u2192 sign up \u2192 verify progress synced \u2192 complete quiz \u2192 check leaderboard \u2192 sign out \u2192 sign in \u2192 verify all data persisted",
+      "validation": "Full flow: anonymous chapter completion → sign up → verify progress synced → complete quiz → check leaderboard → sign out → sign in → verify all data persisted",
       "testLevel": "integration",
       "actions": [
         "Test anonymous user flow",
@@ -3083,13 +3083,405 @@
         "Prioritize by impact and effort",
         "Output structured report"
       ]
+    },
+    {
+      "id": "T-1700",
+      "name": "Base path configured: Vite builds with correct asset paths for GitHub Pages",
+      "intent": "GitHub Pages serves from a subpath (e.g., /repo-name/), so all asset URLs must be relative or use the correct base path to avoid 404s on JS, CSS, and images",
+      "description": "Configure Vite's `base` option in vite.config.ts to use the correct GitHub Pages subpath. This is typically the repository name (e.g., '/Agentic_Design_Patterns/' or a custom name). Also ensure the React Router is configured for hash-based routing or has a 404.html fallback, since GitHub Pages doesn't support SPA client-side routing natively.",
+      "pass": true,
+      "dependencies": [],
+      "complexity": 2,
+      "requires": [
+        "Project builds successfully",
+        "Production build succeeds with zero errors and zero warnings"
+      ],
+      "guarantees": [
+        "Vite base path configured for GitHub Pages subpath",
+        "All asset URLs resolve correctly under the subpath",
+        "Production build succeeds with the new base path"
+      ],
+      "validation": "npm run build && grep -r 'base' vite.config.ts && ls dist/index.html && grep -o 'src=\"[^\"]*\"' dist/index.html | head -5",
+      "testLevel": "unit",
+      "actions": [
+        "Read vite.config.ts to understand current configuration",
+        "Determine the GitHub repository name for the base path",
+        "Set base option in vite.config.ts to the repository subpath",
+        "Run production build and verify asset paths in dist/index.html reference the correct base"
+      ]
+    },
+    {
+      "id": "T-1710",
+      "name": "SPA routing handled: 404.html redirect enables client-side routing on GitHub Pages",
+      "intent": "GitHub Pages returns 404 for any direct URL that isn't index.html. A 404.html with redirect script ensures deep links and browser refresh work correctly with React Router",
+      "description": "Create a 404.html in the public/ directory that captures the current URL path and redirects to index.html with the path encoded as a query parameter. Add a corresponding script in index.html that reads the query parameter and uses replaceState to restore the intended route. This is the standard SPA-on-GitHub-Pages technique.",
+      "pass": false,
+      "dependencies": [
+        "T-1700"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Vite base path configured for GitHub Pages subpath",
+        "Direct URL to any chapter section loads correctly",
+        "Hash fragment navigation scrolls to correct section"
+      ],
+      "guarantees": [
+        "404.html exists in build output with redirect script",
+        "Direct URLs to chapter pages work after redirect",
+        "Browser refresh on any route returns to correct page",
+        "Hash fragment navigation preserved through redirect"
+      ],
+      "validation": "npm run build && cat dist/404.html && cat dist/index.html | grep -c 'redirect'",
+      "testLevel": "unit",
+      "actions": [
+        "Create public/404.html with path-to-query redirect script",
+        "Add query-to-path restoration script to index.html (or entry point)",
+        "Build and verify 404.html appears in dist/",
+        "Verify the redirect script handles the base path correctly"
+      ]
+    },
+    {
+      "id": "T-1720",
+      "name": "Environment variables handled: Supabase config works in both dev and GitHub Pages contexts",
+      "intent": "The .env file with Supabase credentials is gitignored and won't be available on GitHub Pages. The app must handle missing Supabase config gracefully, falling back to localStorage-only mode",
+      "description": "Ensure the Supabase client initialization gracefully handles missing environment variables. When deployed to GitHub Pages without Supabase credentials, the app should work in anonymous/localStorage-only mode without console errors or crashes. Add build-time environment variable injection via Vite's define or envPrefix, and document how to set up GitHub secrets for Supabase if desired.",
+      "pass": false,
+      "dependencies": [
+        "T-1700"
+      ],
+      "complexity": 2,
+      "requires": [
+        "App works when localStorage is completely unavailable",
+        "Anonymous users continue using localStorage only",
+        "Features degrade gracefully: app works without persistence",
+        "Supabase client singleton exported from utility module",
+        ".env excluded from git"
+      ],
+      "guarantees": [
+        "App loads without errors when Supabase env vars are missing",
+        "Anonymous/localStorage mode works fully without Supabase",
+        "No console errors from missing Supabase configuration",
+        "Build succeeds without .env file present"
+      ],
+      "validation": "env -i npm run build 2>&1 | tail -5 && echo 'Build without env vars succeeded'",
+      "testLevel": "unit",
+      "actions": [
+        "Read the Supabase client initialization code",
+        "Add null checks for missing VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY",
+        "Ensure createClient is only called when both env vars are present",
+        "Test build without .env file to confirm no errors",
+        "Verify app runs in anonymous mode when Supabase is unavailable"
+      ]
+    },
+    {
+      "id": "T-1730",
+      "name": "Service worker paths updated: SW registration uses correct scope for GitHub Pages subpath",
+      "intent": "The service worker scope must match the GitHub Pages base path, otherwise caching and offline features will fail silently",
+      "description": "Update the service worker registration to use the correct scope based on the Vite base path. Ensure the service worker file is output at the correct location in the dist/ directory and that its fetch handler correctly resolves cached asset paths relative to the subpath.",
+      "pass": false,
+      "dependencies": [
+        "T-1700"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Service worker registers on production build",
+        "Static assets cached for offline access",
+        "Service worker registration success/failure logged with context"
+      ],
+      "guarantees": [
+        "Service worker registers with correct scope on GitHub Pages",
+        "Cached assets resolve correctly under the subpath",
+        "Service worker registration does not fail due to scope mismatch"
+      ],
+      "validation": "npm run build && grep -r 'register' dist/ --include='*.js' | grep -i 'service' | head -3",
+      "testLevel": "unit",
+      "actions": [
+        "Read current service worker registration code",
+        "Update scope to use import.meta.env.BASE_URL or equivalent",
+        "Verify SW file output location in dist/",
+        "Ensure precache manifest paths include the base path prefix"
+      ]
+    },
+    {
+      "id": "T-1740",
+      "name": "GitHub Actions workflow created: automated build and deploy to gh-pages branch on push",
+      "intent": "Automate deployment so every push to main triggers a build and deploys to GitHub Pages without manual intervention",
+      "description": "Create a .github/workflows/deploy.yml GitHub Actions workflow that: checks out the code, installs dependencies, builds the production bundle, and deploys the dist/ directory to the gh-pages branch using the peaceiris/actions-gh-pages or equivalent action. The workflow should trigger on pushes to the main branch.",
+      "pass": false,
+      "dependencies": [
+        "T-1700",
+        "T-1710",
+        "T-1720",
+        "T-1730"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Production build succeeds with zero errors and zero warnings",
+        "Vite base path configured for GitHub Pages subpath",
+        "404.html exists in build output with redirect script",
+        "Build succeeds without .env file present"
+      ],
+      "guarantees": [
+        "GitHub Actions workflow file exists at .github/workflows/deploy.yml",
+        "Workflow triggers on push to main branch",
+        "Workflow installs dependencies and runs production build",
+        "Workflow deploys dist/ contents to gh-pages branch",
+        "Workflow uses Node.js version matching project requirements"
+      ],
+      "validation": "cat .github/workflows/deploy.yml && yamllint .github/workflows/deploy.yml 2>/dev/null || python3 -c \"import yaml; yaml.safe_load(open('.github/workflows/deploy.yml'))\" && echo 'Valid YAML'",
+      "testLevel": "unit",
+      "actions": [
+        "Create .github/workflows/ directory structure",
+        "Write deploy.yml with checkout, setup-node, install, build, and deploy steps",
+        "Configure the deploy action to push to gh-pages branch",
+        "Set correct Node.js version from package.json engines or .nvmrc",
+        "Add GITHUB_TOKEN permissions for deployment"
+      ]
+    },
+    {
+      "id": "T-1750",
+      "name": "CNAME and custom domain support: optional custom domain configuration documented",
+      "intent": "If the user wants a custom domain, the CNAME file must persist through deployments. Even without a custom domain, the setup should be documented for future use",
+      "description": "Add a CNAME file to public/ if a custom domain is desired (it will be copied to dist/ on build). Document in README.md how to configure a custom domain with GitHub Pages, including DNS setup. If no custom domain is needed, ensure the default github.io URL works correctly.",
+      "pass": false,
+      "dependencies": [
+        "T-1740"
+      ],
+      "complexity": 1,
+      "requires": [
+        "GitHub Actions workflow file exists at .github/workflows/deploy.yml"
+      ],
+      "guarantees": [
+        "README documents GitHub Pages deployment instructions",
+        "README documents custom domain setup steps",
+        "Default github.io URL documented as fallback"
+      ],
+      "validation": "grep -i 'github pages' README.md && grep -i 'deploy' README.md",
+      "testLevel": "unit",
+      "actions": [
+        "Read existing README.md",
+        "Add deployment section with GitHub Pages instructions",
+        "Document how to add CNAME for custom domain",
+        "Document the default github.io URL pattern"
+      ]
+    },
+    {
+      "id": "T-1760",
+      "name": "Build output verified: dist/ contains all required files with correct paths",
+      "intent": "Before deploying, verify the build output is complete and all paths are correct - catching issues locally is cheaper than debugging a broken deployment",
+      "description": "Run the production build and verify: index.html exists with correct base path references, 404.html exists with redirect script, all JS/CSS chunks are present, asset paths are relative to the base, compressed files exist (gz/br), and the service worker is at the correct location.",
+      "pass": false,
+      "dependencies": [
+        "T-1700",
+        "T-1710",
+        "T-1720",
+        "T-1730"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Vite base path configured for GitHub Pages subpath",
+        "404.html exists in build output with redirect script",
+        "Build succeeds without .env file present",
+        "Service worker registers with correct scope on GitHub Pages",
+        "Brotli-compressed files generated for all JS/CSS",
+        "Gzip-compressed files generated as fallback"
+      ],
+      "guarantees": [
+        "dist/index.html contains correct base path in all asset references",
+        "dist/404.html exists and contains redirect script",
+        "All JS and CSS chunks present in dist/assets/",
+        "Compressed .gz and .br files present alongside originals",
+        "No broken asset references in the build output"
+      ],
+      "validation": "npm run build && ls dist/index.html dist/404.html && ls dist/assets/*.js | head -5 && ls dist/assets/*.css | head -3",
+      "testLevel": "combination",
+      "actions": [
+        "Run npm run build",
+        "Verify dist/index.html has correct asset paths",
+        "Verify dist/404.html exists",
+        "Check dist/assets/ for JS and CSS chunks",
+        "Verify compressed files exist",
+        "Check for any hardcoded localhost or absolute paths"
+      ]
+    },
+    {
+      "id": "T-1770",
+      "name": "Local preview server verified: production build serves correctly with base path simulation",
+      "intent": "Simulate the GitHub Pages environment locally to catch routing and asset path issues before pushing to production",
+      "description": "Use Vite's preview mode or a simple HTTP server to serve the dist/ directory and verify all pages load correctly. Test: homepage loads, chapter navigation works, direct URL access works (via 404.html redirect simulation), dark mode persists, search works, and no console errors appear. Add a preview npm script if one doesn't exist.",
+      "pass": false,
+      "dependencies": [
+        "T-1760"
+      ],
+      "complexity": 3,
+      "requires": [
+        "dist/index.html contains correct base path in all asset references",
+        "dist/404.html exists and contains redirect script",
+        "All JS and CSS chunks present in dist/assets/",
+        "All features work in production build"
+      ],
+      "guarantees": [
+        "Production build serves locally without errors",
+        "Homepage loads with correct styling and assets",
+        "Chapter navigation works in production preview",
+        "Dark mode toggle works in production preview",
+        "No console errors in production preview",
+        "npm preview script available for local testing"
+      ],
+      "validation": "npm run preview -- --port 4173 & sleep 3 && curl -s http://localhost:4173/ | grep -c '<title>' && kill %1",
+      "testLevel": "integration",
+      "actions": [
+        "Add or verify preview script in package.json",
+        "Run npm run preview",
+        "Open browser and verify homepage loads",
+        "Navigate to a chapter page and verify content loads",
+        "Toggle dark mode and verify persistence",
+        "Check browser console for errors",
+        "Kill the preview server"
+      ]
+    },
+    {
+      "id": "T-1780",
+      "name": "Meta tags updated: Open Graph and canonical URLs use GitHub Pages domain",
+      "intent": "SEO and social sharing meta tags must reference the actual deployed URL, not localhost, for proper link previews and search indexing",
+      "description": "Update the Open Graph tags, canonical URL, and any hardcoded URLs to use the GitHub Pages domain. This should be configurable via an environment variable (VITE_SITE_URL) with a sensible default pointing to the GitHub Pages URL. Update the structured data (JSON-LD) if present.",
+      "pass": false,
+      "dependencies": [
+        "T-1700"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Each page has unique title",
+        "Meta descriptions set per chapter",
+        "Open Graph tags for social sharing",
+        "Structured data for educational content"
+      ],
+      "guarantees": [
+        "Open Graph URLs reference the deployed GitHub Pages domain",
+        "Canonical URLs reference the deployed domain",
+        "Site URL is configurable via VITE_SITE_URL environment variable",
+        "Structured data URLs reference the deployed domain"
+      ],
+      "validation": "npm run build && grep -o 'og:url[^<]*' dist/index.html | head -3",
+      "testLevel": "unit",
+      "actions": [
+        "Find all hardcoded URL references in meta tags",
+        "Add VITE_SITE_URL to environment configuration with GitHub Pages default",
+        "Update Open Graph meta tag generation to use VITE_SITE_URL",
+        "Update canonical link generation",
+        "Update JSON-LD structured data URLs if present",
+        "Verify in build output"
+      ]
+    },
+    {
+      "id": "T-1790",
+      "name": "robots.txt and sitemap: search engine discoverability configured for GitHub Pages",
+      "intent": "A sitemap and robots.txt help search engines discover and index the learning platform content, improving discoverability",
+      "description": "Create a robots.txt in public/ that allows all crawlers and references the sitemap. Generate a sitemap.xml in public/ (or as a build step) listing all chapter pages and the homepage with their canonical URLs using the GitHub Pages domain.",
+      "pass": false,
+      "dependencies": [
+        "T-1780"
+      ],
+      "complexity": 2,
+      "requires": [
+        "Open Graph URLs reference the deployed GitHub Pages domain",
+        "Site URL is configurable via VITE_SITE_URL environment variable"
+      ],
+      "guarantees": [
+        "robots.txt exists in build output allowing crawlers",
+        "sitemap.xml lists all chapter pages with correct URLs",
+        "Sitemap references the GitHub Pages domain"
+      ],
+      "validation": "npm run build && cat dist/robots.txt && cat dist/sitemap.xml | head -20",
+      "testLevel": "unit",
+      "actions": [
+        "Create public/robots.txt with Allow: / and Sitemap reference",
+        "Create public/sitemap.xml or a build script to generate it",
+        "List all chapter routes in the sitemap",
+        "Use the VITE_SITE_URL for all URLs in the sitemap",
+        "Verify both files appear in dist/ after build"
+      ]
+    },
+    {
+      "id": "T-1800",
+      "name": "GitHub Pages deployment checkpoint: build, preview, and workflow all verified together",
+      "intent": "Verify all deployment pieces work together before the actual push to GitHub - build output, routing, asset paths, meta tags, and the CI workflow",
+      "description": "Run the complete build, serve locally, and verify: all pages accessible, all assets load, 404 redirect works, dark mode works, search works, meta tags correct, robots.txt and sitemap accessible, service worker registers, no console errors. Also verify the GitHub Actions workflow YAML is valid and complete.",
+      "pass": false,
+      "dependencies": [
+        "T-1740",
+        "T-1760",
+        "T-1770",
+        "T-1780",
+        "T-1790"
+      ],
+      "complexity": 3,
+      "requires": [
+        "Production build serves locally without errors",
+        "Homepage loads with correct styling and assets",
+        "Chapter navigation works in production preview",
+        "No console errors in production preview",
+        "GitHub Actions workflow file exists at .github/workflows/deploy.yml",
+        "robots.txt exists in build output allowing crawlers",
+        "sitemap.xml lists all chapter pages with correct URLs",
+        "Open Graph URLs reference the deployed GitHub Pages domain"
+      ],
+      "guarantees": [
+        "All deployment artifacts verified and correct",
+        "Local preview matches expected production behavior",
+        "GitHub Actions workflow is valid and ready to execute",
+        "Platform is ready for GitHub Pages deployment",
+        "No manual steps required beyond git push to main"
+      ],
+      "validation": "npm run build && ls dist/index.html dist/404.html dist/robots.txt dist/sitemap.xml && cat .github/workflows/deploy.yml | head -5 && echo 'All deployment artifacts present'",
+      "testLevel": "integration",
+      "actions": [
+        "Run full production build",
+        "Verify all expected files in dist/",
+        "Start preview server and test all routes",
+        "Verify 404 redirect works for deep links",
+        "Check console for errors during navigation",
+        "Validate GitHub Actions workflow YAML syntax",
+        "Document any remaining manual setup steps (GitHub repo settings)"
+      ]
+    },
+    {
+      "id": "T-1810",
+      "name": "GitHub Pages repo settings documented: step-by-step activation guide for GitHub Pages",
+      "intent": "The GitHub Actions workflow deploys to gh-pages branch, but GitHub Pages must be manually enabled in repo settings. Clear documentation prevents deployment confusion",
+      "description": "Add a comprehensive deployment guide to README.md covering: 1) How to enable GitHub Pages in repo Settings → Pages, 2) Select gh-pages branch as source, 3) How to verify deployment at the github.io URL, 4) How to add optional Supabase environment variables as GitHub Secrets, 5) Troubleshooting common issues (blank page, 404s, missing assets).",
+      "pass": false,
+      "dependencies": [
+        "T-1800"
+      ],
+      "complexity": 1,
+      "requires": [
+        "All deployment artifacts verified and correct",
+        "Platform is ready for GitHub Pages deployment",
+        "README documents GitHub Pages deployment instructions"
+      ],
+      "guarantees": [
+        "README contains step-by-step GitHub Pages activation guide",
+        "README documents GitHub Secrets setup for Supabase (optional)",
+        "README includes troubleshooting section for common deployment issues",
+        "README includes the expected live URL after deployment"
+      ],
+      "validation": "grep -c 'GitHub Pages' README.md && grep -c 'gh-pages' README.md && grep -c 'Settings' README.md",
+      "testLevel": "unit",
+      "actions": [
+        "Update README.md deployment section with step-by-step guide",
+        "Add screenshots or clear descriptions of GitHub repo settings",
+        "Document optional Supabase GitHub Secrets configuration",
+        "Add troubleshooting FAQ for blank page, 404, and asset issues",
+        "Include the expected github.io URL"
+      ]
     }
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1640",
-    "completedAt": "2026-02-05T04:00:00Z",
-    "recommendedNextStepId": null,
+    "lastCompletedTaskId": "T-1700",
+    "completedAt": "2026-02-06T12:00:00Z",
+    "recommendedNextStepId": "T-1710",
     "history": [
       "T-780",
       "T-790",
@@ -3185,10 +3577,11 @@
       "T-1610",
       "T-1620",
       "T-1630",
-      "T-1640"
+      "T-1640",
+      "T-1700"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],
-    "extendedAt": "2026-02-05T01:09:44Z"
+    "extendedAt": "2026-02-06T01:09:37Z"
   }
 }
