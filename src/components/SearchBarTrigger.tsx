@@ -43,7 +43,7 @@ const SearchBarTrigger = memo(function SearchBarTrigger({
         transition-all duration-200
         ${isCompact
           ? 'gap-1.5 px-2.5 py-1 w-36'
-          : 'gap-2.5 px-3 py-1.5 w-44 lg:w-52'
+          : 'gap-2.5 px-3 py-1.5 w-36 lg:w-44 xl:w-52'
         }
       `}
       aria-label={t('search.placeholder')}
