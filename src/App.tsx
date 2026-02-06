@@ -25,7 +25,7 @@ function App() {
         <MotionProvider>
           <AuthProvider>
             <ProgressProvider>
-            <BrowserRouter basename={import.meta.env.BASE_URL}>
+            <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/+$/, '')}>
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />

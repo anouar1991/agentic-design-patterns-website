@@ -1726,3 +1726,8 @@ The following were audited and found to have zero discrepancies:
 ### Lessons Learned (T-1750)
 - [T-1750] When replacing a default Vite README with project-specific documentation, the custom domain setup should document both the CNAME file placement (in `public/` so it persists across builds) and the DNS configuration (CNAME for subdomains, A records for apex domains).
 - [T-1750] The `VITE_SITE_URL` environment variable is configurable as a GitHub repository **variable** (not secret), since it's not sensitive. Supabase keys use **secrets** since they're credentials. This distinction matters for the docs.
+
+### Lessons Learned (T-1770)
+- [T-1770] **React Router basename trailing slash**: Vite's `import.meta.env.BASE_URL` always includes a trailing slash (e.g., `/Agentic_Design_Patterns/`), but React Router v7's `basename` prop requires the path **without** a trailing slash. The fix is `.replace(/\/+$/, '')` on the BASE_URL before passing it to `BrowserRouter`. Without this, the app renders blank at the base path with only a "No routes matched" warning — no error is thrown.
+- [T-1770] When debugging blank React pages in production builds, check the `#root` element's `innerHTML` — if it's empty string, the issue is in routing (no route matched), not in component rendering. The console warning "No routes matched location" is the key diagnostic.
+- [T-1770] The `vite preview` command serves the `dist/` directory at the configured `base` path, making it a reliable simulation of GitHub Pages subpath serving before deployment.
