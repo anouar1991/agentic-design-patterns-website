@@ -3,7 +3,7 @@
  * Uses VITE_SITE_URL env var with a sensible GitHub Pages default.
  */
 
-const rawUrl = import.meta.env.VITE_SITE_URL || 'https://anouar1991.github.io/Agentic_Design_Patterns';
+const rawUrl = import.meta.env.VITE_SITE_URL || 'https://anouar1991.github.io/agentic-design-patterns-website';
 
 // Remove trailing slash for consistent URL building
 export const SITE_URL = rawUrl.replace(/\/+$/, '');

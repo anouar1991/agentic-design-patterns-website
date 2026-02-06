@@ -28,7 +28,7 @@ jobs:
       - name: Build production bundle
         run: npm run build
         env:
-          VITE_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://noreddine.github.io/Agentic_Design_Patterns' }}
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL || 'https://anouar1991.github.io/agentic-design-patterns-website' }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || '' }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || '' }}
 

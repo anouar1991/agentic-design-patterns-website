@@ -2,7 +2,7 @@
 
 An interactive learning platform for exploring agentic AI design patterns through visualizations, clickable code examples, interactive diagrams, and quizzes. Built with React, TypeScript, and Vite.
 
-**Live site:** https://noreddine.github.io/Agentic_Design_Patterns/
+**Live site:** https://anouar1991.github.io/agentic-design-patterns-website/
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173/Agentic_Design_Patterns/ in your browser.
+Open http://localhost:5173/agentic-design-patterns-website/ in your browser.
 
 ### Production Build
 
@@ -27,7 +27,7 @@ npm run build
 npm run preview
 ```
 
-The `preview` command serves the production build locally at http://localhost:4173/Agentic_Design_Patterns/.
+The `preview` command serves the production build locally at http://localhost:4173/agentic-design-patterns-website/.
 
 ## Deployment to GitHub Pages
 
@@ -57,10 +57,10 @@ If the `gh-pages` branch does not exist yet, push to `main` first to trigger the
 Once deployed, the site is available at:
 
 ```
-https://<username>.github.io/Agentic_Design_Patterns/
+https://<username>.github.io/agentic-design-patterns-website/
 ```
 
-For this repository: https://noreddine.github.io/Agentic_Design_Patterns/
+For this repository: https://anouar1991.github.io/agentic-design-patterns-website/
 
 To verify:
 
@@ -111,14 +111,14 @@ To use a custom domain instead of `github.io`:
    - Under "Custom domain", enter your domain and save
    - Check "Enforce HTTPS" once the certificate is provisioned
 
-4. **Update the site URL** by setting the `VITE_SITE_URL` repository variable to your custom domain URL (e.g., `https://learn.yourdomain.com/Agentic_Design_Patterns`). This updates meta tags, sitemap, and canonical URLs.
+4. **Update the site URL** by setting the `VITE_SITE_URL` repository variable to your custom domain URL (e.g., `https://learn.yourdomain.com/agentic-design-patterns-website`). This updates meta tags, sitemap, and canonical URLs.
 
 ### Troubleshooting
 
 **Blank page after deployment**
 - Confirm GitHub Pages is enabled in Settings > Pages with `gh-pages` branch selected
 - Check the Actions tab to ensure the latest workflow run completed successfully
-- Verify the `base` path in `vite.config.ts` matches your repository name (`/Agentic_Design_Patterns/`)
+- Verify the `base` path in `vite.config.ts` matches your repository name (`/agentic-design-patterns-website/`)
 
 **404 on page refresh or direct URL access**
 - This is expected for SPAs on GitHub Pages. The project includes a `404.html` that redirects to the SPA router. If it's missing from the `gh-pages` branch, check that `public/404.html` exists in your source

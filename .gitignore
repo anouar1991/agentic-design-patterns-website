@@ -29,9 +29,12 @@ supabase/.temp
 # Sensitive/generated files
 creds.yml
 .playwright-mcp/
+AGENTS.md
 
 # Screenshots/test artifacts (root level only, not public/)
 /*.png
 /*.jpeg
 /prd-*.json
+/prd.json
 .task-started
+src/data/website_data.json

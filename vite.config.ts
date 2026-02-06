@@ -7,7 +7,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/Agentic_Design_Patterns/',
+  base: '/agentic-design-patterns-website/',
   plugins: [
     react(),
     tailwindcss(),
@@ -20,7 +20,7 @@ export default defineConfig({
         // SPA fallback: serve index.html for all navigation requests
         navigateFallback: 'index.html',
         // Only apply navigation fallback within our app scope
-        navigateFallbackAllowlist: [/^\/Agentic_Design_Patterns\//],
+        navigateFallbackAllowlist: [/^\/agentic-design-patterns-website\//],
         // Runtime caching strategies
         runtimeCaching: [
           {
@@ -69,8 +69,8 @@ export default defineConfig({
         theme_color: '#0f172a',
         background_color: '#0f172a',
         display: 'standalone',
-        scope: '/Agentic_Design_Patterns/',
-        start_url: '/Agentic_Design_Patterns/',
+        scope: '/agentic-design-patterns-website/',
+        start_url: '/agentic-design-patterns-website/',
         icons: [
           {
             src: 'pwa-192x192.png',
