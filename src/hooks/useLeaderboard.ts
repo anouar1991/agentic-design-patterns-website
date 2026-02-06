@@ -38,7 +38,7 @@ export function useLeaderboard({
     setError(null)
 
     try {
-      let query = supabase
+      let query = supabase!
         .from('leaderboard_cache')
         .select('*')
         .order('global_rank', { ascending: true })
@@ -101,7 +101,7 @@ export async function getUserRank(userId: string): Promise<LeaderboardEntry | nu
   if (!isSupabaseConfigured()) return null
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('leaderboard_cache')
       .select('*')
       .eq('user_id', userId)

@@ -20,7 +20,7 @@ export function usePresence(chapterId: number | null) {
     if (chapterId === null || !isSupabaseConfigured()) return
 
     const channelName = `chapter-presence-${chapterId}`
-    const channel = supabase.channel(channelName, {
+    const channel = supabase!.channel(channelName, {
       config: { presence: { key: userKeyRef.current } },
     })
 
@@ -43,7 +43,7 @@ export function usePresence(chapterId: number | null) {
 
     return () => {
       channel.untrack()
-      supabase.removeChannel(channel)
+      supabase!.removeChannel(channel)
       channelRef.current = null
       setIsConnected(false)
     }
@@ -71,7 +71,7 @@ export function useAggregatedPresence(chapterIds: number[]) {
   useEffect(() => {
     if (!isSupabaseConfigured() || chapterIds.length === 0) return
 
-    const channel = supabase.channel('chapter-activity')
+    const channel = supabase!.channel('chapter-activity')
 
     channel
       .on('broadcast', { event: 'heartbeat' }, ({ payload }) => {
@@ -108,7 +108,7 @@ export function useAggregatedPresence(chapterIds: number[]) {
 
     return () => {
       if (channelRef.current) {
-        supabase.removeChannel(channelRef.current)
+        supabase!.removeChannel(channelRef.current)
         channelRef.current = null
       }
       if (intervalRef.current) {
@@ -139,7 +139,7 @@ export function usePresenceHeartbeat(chapterId: number | null) {
   useEffect(() => {
     if (chapterId === null || !isSupabaseConfigured()) return
 
-    const channel = supabase.channel('chapter-activity')
+    const channel = supabase!.channel('chapter-activity')
 
     channel.subscribe(async (status) => {
       if (status === 'SUBSCRIBED') {
@@ -169,7 +169,7 @@ export function usePresenceHeartbeat(chapterId: number | null) {
         intervalRef.current = null
       }
       if (channelRef.current) {
-        supabase.removeChannel(channelRef.current)
+        supabase!.removeChannel(channelRef.current)
         channelRef.current = null
       }
     }

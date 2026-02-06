@@ -3145,7 +3145,7 @@
       "name": "Environment variables handled: Supabase config works in both dev and GitHub Pages contexts",
       "intent": "The .env file with Supabase credentials is gitignored and won't be available on GitHub Pages. The app must handle missing Supabase config gracefully, falling back to localStorage-only mode",
       "description": "Ensure the Supabase client initialization gracefully handles missing environment variables. When deployed to GitHub Pages without Supabase credentials, the app should work in anonymous/localStorage-only mode without console errors or crashes. Add build-time environment variable injection via Vite's define or envPrefix, and document how to set up GitHub secrets for Supabase if desired.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1700"
       ],
@@ -3479,9 +3479,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1710",
-    "completedAt": "2026-02-06T14:30:00Z",
-    "recommendedNextStepId": "T-1720",
+    "lastCompletedTaskId": "T-1720",
+    "completedAt": "2026-02-06T15:00:00Z",
+    "recommendedNextStepId": "T-1730",
     "history": [
       "T-780",
       "T-790",
@@ -3579,7 +3579,8 @@
       "T-1630",
       "T-1640",
       "T-1700",
-      "T-1710"
+      "T-1710",
+      "T-1720"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

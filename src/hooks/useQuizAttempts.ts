@@ -55,7 +55,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
     setError(null)
 
     try {
-      const { data, error: fetchError } = await supabase
+      const { data, error: fetchError } = await supabase!
         .from('quiz_attempts')
         .select('*')
         .eq('user_id', user.id)
@@ -85,7 +85,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
     }
 
     try {
-      const { data, error: fetchError } = await supabase
+      const { data, error: fetchError } = await supabase!
         .from('user_best_quiz_scores')
         .select('*')
         .eq('user_id', user.id)
@@ -131,7 +131,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
 
     try {
       // Get next attempt number
-      const { data: attemptNum, error: rpcError } = await supabase
+      const { data: attemptNum, error: rpcError } = await supabase!
         .rpc('get_next_attempt_number', {
           p_user_id: user.id,
           p_chapter_id: data.chapterId,
@@ -144,7 +144,7 @@ export function useQuizAttempts(chapterId?: number): UseQuizAttemptsResult {
       const attemptNumber = attemptNum || 1
 
       // Insert the attempt
-      const { data: insertedAttempt, error: insertError } = await supabase
+      const { data: insertedAttempt, error: insertError } = await supabase!
         .from('quiz_attempts')
         .insert({
           user_id: user.id,

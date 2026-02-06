@@ -126,7 +126,7 @@ export function useProfileStats() {
       setError(null)
 
       // Fetch progress data
-      const { data: progressData, error: progressError } = await supabase
+      const { data: progressData, error: progressError } = await supabase!
         .from('progress')
         .select('chapter_id, completed_at')
         .eq('user_id', user.id)
@@ -135,7 +135,7 @@ export function useProfileStats() {
       if (progressError) throw progressError
 
       // Fetch quiz attempts
-      const { data: quizData, error: quizError } = await supabase
+      const { data: quizData, error: quizError } = await supabase!
         .from('quiz_attempts')
         .select('score, total_questions, passed')
         .eq('user_id', user.id)

@@ -44,7 +44,7 @@ export async function mergeChapterProgress(userId: string): Promise<number[]> {
   }
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('progress')
       .select('chapter_id')
       .eq('user_id', userId)
@@ -75,7 +75,7 @@ export async function pushChaptersToCloud(
   if (toSync.length === 0) return
 
   try {
-    const { error } = await supabase
+    const { error } = await supabase!
       .from('progress')
       .insert(toSync.map(chapter_id => ({ user_id: userId, chapter_id })))
 
@@ -97,7 +97,7 @@ export async function syncChapterToCloud(
 
   try {
     if (completed) {
-      const { error } = await supabase
+      const { error } = await supabase!
         .from('progress')
         .upsert(
           { user_id: userId, chapter_id: chapterId },
@@ -105,7 +105,7 @@ export async function syncChapterToCloud(
         )
       if (error) logIfReal('Error syncing chapter to cloud:', error)
     } else {
-      const { error } = await supabase
+      const { error } = await supabase!
         .from('progress')
         .delete()
         .eq('user_id', userId)
@@ -129,7 +129,7 @@ export async function fetchCloudQuizScores(
   if (!isSupabaseConfigured()) return {}
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('user_best_quiz_scores')
       .select('*')
       .eq('user_id', userId)
@@ -193,7 +193,7 @@ export async function syncQuizScoreToCloud(
 
   try {
     // Get next attempt number using the database function
-    const { data: attemptNum, error: fnError } = await supabase
+    const { data: attemptNum, error: fnError } = await supabase!
       .rpc('get_next_attempt_number', {
         p_user_id: userId,
         p_chapter_id: chapterId,
@@ -204,7 +204,7 @@ export async function syncQuizScoreToCloud(
       return
     }
 
-    const { error } = await supabase
+    const { error } = await supabase!
       .from('quiz_attempts')
       .insert({
         user_id: userId,

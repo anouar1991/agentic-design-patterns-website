@@ -24,7 +24,7 @@ export async function mergeProgress(userId: string): Promise<number[]> {
     const localChapters = getLocalProgress()
 
     // Get cloud progress
-    const { data: cloudData, error } = await supabase
+    const { data: cloudData, error } = await supabase!
       .from('progress')
       .select('chapter_id')
       .eq('user_id', userId)
@@ -52,7 +52,7 @@ export async function mergeProgress(userId: string): Promise<number[]> {
         chapter_id,
       }))
 
-      const { error: insertError } = await supabase
+      const { error: insertError } = await supabase!
         .from('progress')
         .insert(insertData)
 
@@ -87,7 +87,7 @@ export async function syncChapterToCloud(
   try {
     if (completed) {
       // Insert progress record
-      const { error } = await supabase
+      const { error } = await supabase!
         .from('progress')
         .upsert({
           user_id: userId,
@@ -104,7 +104,7 @@ export async function syncChapterToCloud(
       }
     } else {
       // Delete progress record
-      const { error } = await supabase
+      const { error } = await supabase!
         .from('progress')
         .delete()
         .eq('user_id', userId)
@@ -131,7 +131,7 @@ export async function fetchCloudProgress(userId: string): Promise<number[]> {
   }
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('progress')
       .select('chapter_id')
       .eq('user_id', userId)
