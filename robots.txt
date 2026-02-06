@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anouar1991.github.io/agentic-design-patterns-website/sitemap.xml
