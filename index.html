@@ -41,6 +41,21 @@
     </script>
   </head>
   <body>
+    <!-- SPA redirect restoration: reads the encoded path from 404.html redirect and restores the URL -->
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var redirect = params.get('spa-redirect');
+        if (redirect) {
+          params.delete('spa-redirect');
+          var remaining = params.toString();
+          // Prepend base path since 404.html stripped it before encoding
+          var basePath = '/Agentic_Design_Patterns';
+          var newUrl = basePath + redirect + (remaining ? (redirect.indexOf('?') !== -1 ? '&' : '?') + remaining : '');
+          window.history.replaceState(null, '', newUrl);
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

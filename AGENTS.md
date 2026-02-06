@@ -1684,3 +1684,9 @@ The following were audited and found to have zero discrepancies:
 - [T-1700] PWA manifest `scope` and `start_url` must also be updated to include the base path, otherwise the service worker caches under the wrong scope.
 - [T-1700] `vite-plugin-pwa` does NOT auto-rewrite icon `src` paths with the Vite `base` prefix. Icon paths should be relative (e.g., `pwa-192x192.png` without leading `/`) so they resolve correctly relative to the manifest's URL location.
 - [T-1700] After setting `base`, all `<script src>`, `<link href>`, and `<link rel="modulepreload" href>` in dist/index.html correctly include the `/Agentic_Design_Patterns/` prefix.
+
+### Lessons Learned (T-1710)
+- [T-1710] GitHub Pages SPA routing requires two scripts: (1) `404.html` that encodes the path as a query param and redirects to `index.html`, and (2) a restoration script in `index.html` that reads the param and calls `history.replaceState()` before React mounts.
+- [T-1710] The restoration script must prepend the base path back to the decoded path. `404.html` strips the base to keep the encoded value clean, but `BrowserRouter` with `basename` expects the full URL (including base path) in `window.location.pathname`.
+- [T-1710] `BrowserRouter` requires `basename={import.meta.env.BASE_URL}` when deploying to a subpath. Without it, route matching fails because React Router tries to match `/Agentic_Design_Patterns/chapter/1` against route definitions like `/chapter/:id`.
+- [T-1710] Hash fragments survive the redirect because `encodeURIComponent('#')` produces `%23` which stays in the query string. When decoded by `URLSearchParams.get()`, it becomes `#` again, and `replaceState` interprets it as a hash fragment.

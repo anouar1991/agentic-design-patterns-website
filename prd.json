@@ -3115,7 +3115,7 @@
       "name": "SPA routing handled: 404.html redirect enables client-side routing on GitHub Pages",
       "intent": "GitHub Pages returns 404 for any direct URL that isn't index.html. A 404.html with redirect script ensures deep links and browser refresh work correctly with React Router",
       "description": "Create a 404.html in the public/ directory that captures the current URL path and redirects to index.html with the path encoded as a query parameter. Add a corresponding script in index.html that reads the query parameter and uses replaceState to restore the intended route. This is the standard SPA-on-GitHub-Pages technique.",
-      "pass": false,
+      "pass": true,
       "dependencies": [
         "T-1700"
       ],
@@ -3479,9 +3479,9 @@
   ],
   "ralph": {
     "currentTaskId": null,
-    "lastCompletedTaskId": "T-1700",
-    "completedAt": "2026-02-06T12:00:00Z",
-    "recommendedNextStepId": "T-1710",
+    "lastCompletedTaskId": "T-1710",
+    "completedAt": "2026-02-06T14:30:00Z",
+    "recommendedNextStepId": "T-1720",
     "history": [
       "T-780",
       "T-790",
@@ -3578,7 +3578,8 @@
       "T-1620",
       "T-1630",
       "T-1640",
-      "T-1700"
+      "T-1700",
+      "T-1710"
     ],
     "startedAt": "2026-02-03T20:30:00Z",
     "prdStack": [],

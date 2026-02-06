@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Agentic Design Patterns</title>
+    <script>
+      // SPA redirect for GitHub Pages
+      // Captures the current path+query+hash and redirects to index.html
+      // with the path encoded as a query parameter so the SPA can restore it.
+      (function () {
+        var basePath = '/Agentic_Design_Patterns';
+        var pathWithoutBase = window.location.pathname;
+
+        // Strip the base path prefix if present
+        if (pathWithoutBase.indexOf(basePath) === 0) {
+          pathWithoutBase = pathWithoutBase.slice(basePath.length);
+        }
+
+        // Encode the remaining path + search + hash into a single query param
+        var redirectUrl = basePath + '/?spa-redirect=' +
+          encodeURIComponent(pathWithoutBase + window.location.search + window.location.hash);
+
+        window.location.replace(redirectUrl);
+      })();
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
